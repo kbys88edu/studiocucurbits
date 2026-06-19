@@ -50,11 +50,7 @@ a {
 .site-shell {
   width: min(var(--max), calc(100% - 48px));
   margin: 32px auto;
-  background:
-    linear-gradient(90deg, transparent calc(25% - 0.5px), rgba(7, 7, 7, 0.16) 25%, transparent calc(25% + 0.5px)),
-    linear-gradient(90deg, transparent calc(50% - 0.5px), rgba(7, 7, 7, 0.16) 50%, transparent calc(50% + 0.5px)),
-    linear-gradient(90deg, transparent calc(75% - 0.5px), rgba(7, 7, 7, 0.16) 75%, transparent calc(75% + 0.5px)),
-    var(--paper);
+  background: var(--paper);
   border: 2px solid var(--line);
   border-radius: 14px;
   overflow: hidden;
