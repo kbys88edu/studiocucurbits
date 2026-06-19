@@ -65,7 +65,8 @@ a {
 }
 
 .site-shell[data-lang="ja"] .language-block-ja,
-.site-shell[data-lang="en"] .language-block-en {
+.site-shell[data-lang="en"] .language-block-en,
+.site-shell[data-lang="fr"] .language-block-fr {
   display: block;
 }
 
@@ -136,7 +137,7 @@ a {
 
 .topbar-actions {
   display: grid;
-  grid-template-columns: 54px 54px 130px;
+  grid-template-columns: 54px 54px 54px 130px;
 }
 
 .lang-button,
@@ -759,7 +760,7 @@ p {
 
   .topbar-actions {
     grid-column: 1;
-    grid-template-columns: 1fr 1fr 1.5fr;
+    grid-template-columns: 1fr 1fr 1fr 1.5fr;
     justify-self: stretch;
   }
 

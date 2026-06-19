@@ -4,10 +4,19 @@
 
   var buttons = root.querySelectorAll("[data-set-lang]");
   var html = document.documentElement;
+  var htmlLangByKey = {
+    ja: "ja",
+    en: "en",
+    fr: "fr"
+  };
 
   function setLanguage(lang) {
+    if (!htmlLangByKey[lang]) {
+      lang = "ja";
+    }
+
     root.setAttribute("data-lang", lang);
-    html.setAttribute("lang", lang === "ja" ? "ja" : "en");
+    html.setAttribute("lang", htmlLangByKey[lang]);
 
     for (var i = 0; i < buttons.length; i += 1) {
       var isActive = buttons[i].getAttribute("data-set-lang") === lang;
@@ -36,7 +45,7 @@
     initialLanguage = "ja";
   }
 
-  if (initialLanguage !== "ja" && initialLanguage !== "en") {
+  if (!htmlLangByKey[initialLanguage]) {
     initialLanguage = "ja";
   }
 

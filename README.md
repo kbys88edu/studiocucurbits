@@ -6,7 +6,7 @@ This folder contains a static, standalone-ready version of the Studio Cucurbits.
 
 - `index.html` - page structure, bilingual copy, SEO/Open Graph metadata, and schema data.
 - `styles.css` - responsive visual design.
-- `script.js` - Japanese/English language toggle with local preference storage.
+- `script.js` - Japanese/English/French language toggle with local preference storage.
 
 ## Source basis
 
