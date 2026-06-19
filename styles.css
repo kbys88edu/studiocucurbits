@@ -156,17 +156,29 @@ a {
 }
 
 .hero-grid {
+  position: relative;
   display: grid;
   grid-template-columns: 190px 1fr 310px;
   grid-template-rows: minmax(390px, auto) 230px 104px;
   border-bottom: var(--hairline);
 }
 
+.hero-grid::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 190px;
+  width: 1px;
+  background: var(--line);
+  pointer-events: none;
+  z-index: 2;
+}
+
 .hero-label {
   grid-row: 1 / 4;
   display: grid;
   grid-template-rows: repeat(4, 1fr);
-  border-right: var(--hairline);
 }
 
 .hero-label span {
@@ -267,6 +279,9 @@ a {
 .statement-strip {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  background:
+    linear-gradient(90deg, transparent calc(33.333% - 0.5px), var(--line) calc(33.333% - 0.5px), var(--line) calc(33.333% + 0.5px), transparent calc(33.333% + 0.5px)),
+    linear-gradient(90deg, transparent calc(66.666% - 0.5px), var(--line) calc(66.666% - 0.5px), var(--line) calc(66.666% + 0.5px), transparent calc(66.666% + 0.5px));
   border-bottom: var(--hairline);
 }
 
@@ -274,15 +289,10 @@ a {
   min-height: 122px;
   margin: 0;
   padding: 14px;
-  border-right: var(--hairline);
   font-size: 2.7rem;
   font-weight: 900;
   line-height: 0.98;
   text-transform: uppercase;
-}
-
-.statement-strip p:last-child {
-  border-right: 0;
 }
 
 .section {
@@ -658,6 +668,10 @@ p {
     grid-template-rows: auto 260px auto auto;
   }
 
+  .hero-grid::before {
+    left: 160px;
+  }
+
   .hero-label {
     grid-row: 1 / 5;
   }
@@ -687,6 +701,11 @@ p {
   .service-grid,
   .context-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .statement-strip {
+    background:
+      linear-gradient(90deg, transparent calc(50% - 0.5px), var(--line) calc(50% - 0.5px), var(--line) calc(50% + 0.5px), transparent calc(50% + 0.5px));
   }
 
   .service-cell,
@@ -773,8 +792,11 @@ p {
     grid-row: auto;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: auto;
-    border-right: 0;
     border-bottom: var(--hairline);
+  }
+
+  .hero-grid::before {
+    display: none;
   }
 
   .hero-label span {
@@ -849,6 +871,10 @@ p {
     grid-template-columns: 1fr;
   }
 
+  .statement-strip {
+    background: transparent;
+  }
+
   .media-pair,
   .wide-media,
   .service-grid,
@@ -862,7 +888,6 @@ p {
   .statement-strip p,
   .service-cell,
   .context-grid article {
-    border-right: 0;
     border-bottom: var(--hairline);
   }
 
