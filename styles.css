@@ -931,3 +931,48 @@ p {
     margin-bottom: 22px;
   }
 }
+
+.hero-system {
+  width: min(440px, 100%);
+  height: 170px;
+  margin: clamp(8px, 2vw, 24px) 0 0;
+}
+
+.hero-system img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  opacity: 0.62;
+  mix-blend-mode: multiply;
+}
+
+@media (max-width: 680px) {
+  .hero-system {
+    height: 116px;
+    overflow: visible;
+  }
+}
+
+
+
+.hero-system {
+  width: min(260px, 100%);
+  height: 260px;
+}
+
+.hero-system img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  opacity: 0.82;
+  mix-blend-mode: multiply;
+}
+
+@media (max-width: 680px) {
+  .hero-system {
+    width: min(210px, 72vw);
+    height: min(210px, 72vw);
+  }
+}
