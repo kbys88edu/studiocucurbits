@@ -124,6 +124,62 @@
     try { window.localStorage.setItem('studio-cucurbits-language', language); } catch (error) {}
   }
 
+  function setupScrollReveal() {
+    var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var revealTargets = document.querySelectorAll('.site-shell > main > section, .hero-inner, .service-list article, .person-card, .work-grid article, .process-list li, .overview-column, .practice-main figure, .ai-section article, .work-wide');
+    var lastScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+
+    if (!revealTargets.length || reducedMotion) {
+      for (var i = 0; i < revealTargets.length; i += 1) {
+        revealTargets[i].classList.add('is-revealed');
+        revealTargets[i].style.setProperty('--reveal-duration', '1s');
+      }
+      return;
+    }
+
+    for (var i = 0; i < revealTargets.length; i += 1) {
+      var target = revealTargets[i];
+      var isHeroElement = target.classList.contains('hero-inner');
+      var isWideWork = target.classList.contains('work-wide');
+      var delayGroup = i;
+
+      target.classList.add('reveal-on-scroll');
+      target.style.setProperty('--reveal-delay', String(delayGroup * 45) + 'ms');
+
+      if (!isHeroElement && !isWideWork && i % 2 === 0) {
+        target.classList.add('reveal-from-left');
+      } else if (!isHeroElement && !isWideWork) {
+        target.classList.add('reveal-from-right');
+      }
+    }
+
+    var io = new IntersectionObserver(function (entries, observer) {
+      for (var j = 0; j < entries.length; j += 1) {
+        var entry = entries[j];
+        var target = entry.target;
+        if (entry.isIntersecting) {
+          target.style.setProperty('--reveal-duration', '1s');
+          entry.target.classList.add('is-revealed');
+        } else {
+          if (window.scrollY < lastScrollY) {
+            target.style.setProperty('--reveal-duration', '320ms');
+          } else {
+            target.style.setProperty('--reveal-duration', '1s');
+          }
+          target.classList.remove('is-revealed');
+        }
+      }
+      lastScrollY = window.scrollY;
+    }, {
+      threshold: 0.16,
+      rootMargin: '0px 0px -10% 0px'
+    });
+
+    for (var k = 0; k < revealTargets.length; k += 1) {
+      io.observe(revealTargets[k]);
+    }
+  }
+
   toggle.addEventListener('click', function () {
     var open = nav.classList.toggle('is-open');
     toggle.setAttribute('aria-expanded', String(open));
@@ -141,4 +197,5 @@
   var saved = 'ja';
   try { saved = window.localStorage.getItem('studio-cucurbits-language') || saved; } catch (error) {}
   setLanguage(saved);
+  setupScrollReveal();
 })();
