@@ -64,6 +64,8 @@ img { display: block; max-width: 100%; }
 .section { display: grid; grid-template-columns: minmax(240px, 3fr) minmax(0, 9fr); border-bottom: 1px solid var(--line); }
 .section-label { padding: var(--pad); border-right: 1px solid var(--line); }
 .section-label h2 { margin: 30px 0 0; font-size: clamp(2.1rem, 4vw, 4.4rem); font-weight: 400; line-height: .9; letter-spacing: 0; }
+.section-label h2 { overflow-wrap: anywhere; word-break: normal; }
+.services .section-label h2 { font-size: clamp(1.95rem, 3.6vw, 3.4rem); }
 .overview-content { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 5vw, 80px); padding: var(--pad) var(--pad) 38px; }
 .overview-column { min-width: 0; }
 .overview-column p { margin: 0 0 25px; color: var(--muted); font-size: .92rem; overflow-wrap: anywhere; }
