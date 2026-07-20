@@ -20,7 +20,7 @@ const ready = status === 'ready' && source;
   </video>
 ) : poster ? (
   <figure class="media-placeholder">
-    <img src={poster} alt="" loading="lazy" decoding="async" />
+    <img src={poster} alt="" width="3072" height="2304" loading="lazy" decoding="async" />
     <figcaption>Demonstration video in production</figcaption>
   </figure>
 ) : <p class="media-placeholder">Demonstration video in production</p>}

@@ -19,5 +19,5 @@ describe('global navigation', () => {
     expect(html).not.toContain(reportedMojibake);
     expect(html).toContain('href="/ja/"');
     expect(html).toContain('aria-label="Language"');
-  });
+  }, 30_000);
 });

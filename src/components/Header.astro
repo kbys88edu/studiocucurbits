@@ -20,8 +20,9 @@ const navigation = [
 ---
 
 <header class="site-header">
-  <a class="brand" href={localizedPath('/', locale)} aria-label="Studio Cucurbits home">Studio Cucurbits.</a>
-  <nav class="primary-nav" aria-label="Primary navigation">
+  <a class="brand" href={localizedPath('/', locale)} aria-label="Studio Cucurbits home">Studio Cucurbits<span class="brand-dot" data-decorative-animation aria-hidden="true">.</span></a>
+  <button class="menu-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false">Menu</button>
+  <nav id="primary-navigation" class="primary-nav" aria-label="Primary navigation">
     {navigation.map((item) => <a href={localizedPath(item.href, locale)}>{item.label}</a>)}
   </nav>
   <div class="header-tools">
@@ -29,3 +30,14 @@ const navigation = [
     <LanguageSwitch locale={locale} path={canonicalPath} />
   </div>
 </header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('.site-header');
+  const toggle = header?.querySelector<HTMLButtonElement>('.menu-toggle');
+
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') !== 'true';
+    toggle.setAttribute('aria-expanded', String(open));
+    header?.classList.toggle('menu-open', open);
+  });
+</script>
