@@ -3,9 +3,10 @@ interface Props {
   title: string;
   description: string;
   canonical: URL;
+  locale: 'en' | 'ja';
 }
 
-const { title, description, canonical } = Astro.props;
+const { title, description, canonical, locale } = Astro.props;
 ---
 
 <title>{title}</title>
@@ -15,3 +16,4 @@ const { title, description, canonical } = Astro.props;
 <meta property="og:description" content={description} />
 <meta property="og:type" content="website" />
 <meta property="og:url" content={canonical.toString()} />
+<meta property="og:locale" content={locale === 'ja' ? 'ja_JP' : 'en_US'} />

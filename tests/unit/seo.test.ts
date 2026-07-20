@@ -12,6 +12,7 @@ const availableProduct = {
 describe('product structured data', () => {
   it('publishes an offer only for an available product with a valid HTTPS checkout URL', () => {
     expect(getProductOffer({ ...availableProduct, checkoutUrlUSD: 'not-a-url' })).toBeNull();
+    expect(getProductOffer({ ...availableProduct, checkoutUrlUSD: 'http://checkout.example.com/suspended' })).toBeNull();
     expect(getProductOffer({ ...availableProduct, checkoutUrlUSD: 'mailto:orders@example.com' })).toBeNull();
     expect(getProductOffer(availableProduct)).toMatchObject({
       '@type': 'Offer',

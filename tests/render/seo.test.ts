@@ -61,6 +61,16 @@ describe('production SEO', () => {
     }
   });
 
+  it('publishes the correct Open Graph locale and breadcrumb root label for each language', () => {
+    const english = renderedPage('/about');
+    const japanese = renderedPage('/ja/about');
+
+    expect(english).toContain('<meta property="og:locale" content="en_US">');
+    expect(english).toContain('"position":1,"name":"Home","item":"https://www.studiocucurbits.com/"');
+    expect(japanese).toContain('<meta property="og:locale" content="ja_JP">');
+    expect(japanese).toContain('"position":1,"name":"ホーム","item":"https://www.studiocucurbits.com/ja/"');
+  });
+
   it('publishes a sitemap of English and Japanese public routes without hidden records', () => {
     const sitemap = builtFile('/sitemap-index.xml');
 

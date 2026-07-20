@@ -20,7 +20,7 @@ const canonical = new URL(canonicalPath, Astro.site);
 const segments = canonicalPath.split('/').filter(Boolean).slice(locale === 'ja' ? 1 : 0);
 const breadcrumbRoot = locale === 'ja' ? '/ja/' : '/';
 const breadcrumbItems = [
-  { '@type': 'ListItem', position: 1, name: 'Home', item: new URL(breadcrumbRoot, Astro.site).toString() },
+  { '@type': 'ListItem', position: 1, name: locale === 'ja' ? 'ホーム' : 'Home', item: new URL(breadcrumbRoot, Astro.site).toString() },
   ...segments.map((segment, index) => ({
     '@type': 'ListItem',
     position: index + 2,
@@ -41,7 +41,7 @@ const structuredData = [
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <Seo title={title} description={description} canonical={canonical} />
+    <Seo title={title} description={description} canonical={canonical} locale={locale} />
     {structuredData.map((data) => <script is:inline type="application/ld+json" set:html={JSON.stringify(data)} />)}
   </head>
   <body>

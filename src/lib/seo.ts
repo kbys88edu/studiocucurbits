@@ -8,7 +8,7 @@ export function getProductOffer(product: Product) {
 
   try {
     const url = new URL(checkoutUrl);
-    if (!['http:', 'https:'].includes(url.protocol)) return null;
+    if (url.protocol !== 'https:') return null;
 
     return { '@type': 'Offer', price: product.regularPriceUSD, priceCurrency: 'USD', url: url.toString(), availability: 'https://schema.org/InStock' };
   } catch {
