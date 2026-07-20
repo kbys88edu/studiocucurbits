@@ -5,6 +5,15 @@ export interface BusinessArea {
   href: string;
 }
 
+export interface LatestItem {
+  type: 'instrument' | 'studio' | 'work';
+  title: string;
+  summary: string;
+  href: string;
+  status: string | null;
+  image: string | null;
+}
+
 export interface SiteData {
   name: string;
   businessAreas: BusinessArea[];
@@ -23,4 +32,13 @@ export const site: SiteData = {
   supportEmail: null,
   pressEmail: null,
   socialLinks: [],
+};
+
+export const latestItem: LatestItem = {
+  type: 'instrument',
+  title: 'SC Suspended',
+  summary: 'A held sound that appears motionless while time continues to move inside it.',
+  href: '/products/suspended/',
+  status: 'coming soon',
+  image: null,
 };

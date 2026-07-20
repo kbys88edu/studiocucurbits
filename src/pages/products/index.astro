@@ -1,0 +1,27 @@
+---
+import ProductCard from '../../components/ProductCard.astro';
+import { products } from '../../data/products';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const visibleProducts = products.filter((product) => product.status !== 'hidden');
+---
+
+<BaseLayout
+  title="Audio Instruments | Studio Cucurbits."
+  description="Audio Instruments, a Studio Cucurbits area for sound materials and instruments."
+  canonicalPath="/products/"
+>
+  <section class="page-intro" aria-labelledby="products-title">
+    <p class="eyebrow">Studio Cucurbits / Audio Instruments</p>
+    <h1 id="products-title">Audio Instruments</h1>
+    <p class="lead">Sound materials and instruments from Studio Cucurbits.</p>
+  </section>
+
+  <section class="section" aria-labelledby="instruments-title">
+    <p class="eyebrow">Catalogue</p>
+    <h2 id="instruments-title">Current instruments</h2>
+    <div class="catalogue-list">
+      {visibleProducts.map((product) => <ProductCard product={product} />)}
+    </div>
+  </section>
+</BaseLayout>

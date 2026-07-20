@@ -37,6 +37,14 @@ h3 { font-size: 1.1rem; }
 .area-grid, .people-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
 .area-card, .person-card { padding: 1rem; border: 1px solid var(--rule); }
 .area-card h3 { margin: 0; }
+.latest-item, .catalogue-card { display: grid; gap: .75rem; max-width: 48rem; padding-block: 1.5rem; border-top: 1px solid var(--rule); }
+.latest-item h3, .catalogue-card h2 { margin: 0; }
+.latest-item h3 { font-size: clamp(1.5rem, 3vw, 2.5rem); line-height: 1; letter-spacing: -.04em; }
+.latest-item p, .catalogue-card p { margin: 0; }
+.media-placeholder { aspect-ratio: 3 / 2; background: #efefec; border: 1px solid var(--rule); }
+.status-label { color: var(--muted); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; }
+.catalogue-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--space); }
+.catalogue-card { max-width: none; }
 .copy-block { max-width: 70rem; }
 .copy-block p { max-width: 48rem; }
 .person-card p { color: var(--muted); font-size: .875rem; }
@@ -47,7 +55,7 @@ h3 { font-size: 1.1rem; }
   .site-header { grid-template-columns: 1fr; }
   .header-tools { text-align: left; }
   .language-switch { justify-content: start; }
-  .area-grid, .people-grid, .work-boundary { grid-template-columns: 1fr; }
+  .area-grid, .people-grid, .work-boundary, .catalogue-list { grid-template-columns: 1fr; }
   .site-footer { flex-direction: column; }
 }
 

@@ -1,0 +1,26 @@
+---
+import { getDictionary } from '../i18n';
+import type { CollectionStatus, ProductStatus } from '../data/products';
+import type { Locale } from '../lib/locale';
+
+interface Props {
+  status: string | null;
+  locale?: Locale;
+}
+
+const { status, locale = 'en' } = Astro.props;
+const dictionary = getDictionary(locale);
+const normalized = status === 'coming soon' ? 'coming-soon' : status;
+const collectionLabels = {
+  forthcoming: locale === 'ja' ? '公開予定' : 'Forthcoming',
+  available: locale === 'ja' ? '公開中' : 'Available',
+  archived: locale === 'ja' ? 'アーカイブ' : 'Archived',
+} as const;
+const label = normalized && (normalized in dictionary.productStatus
+  ? dictionary.productStatus[normalized as ProductStatus]
+  : normalized in collectionLabels
+    ? collectionLabels[normalized as CollectionStatus]
+    : null);
+---
+
+{label && <p class="status-label">{label}</p>}

@@ -1,0 +1,20 @@
+---
+import type { Product } from '../data/products';
+import StatusLabel from './StatusLabel.astro';
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+const href = `/products/${product.slug}/`;
+const summary = product.editorial.en.shortDescription;
+---
+
+<article class="catalogue-card">
+  {product.media.heroImage ? <img src={product.media.heroImage} alt={product.name} width="1200" height="800" loading="lazy" decoding="async" /> : <div class="media-placeholder" aria-hidden="true" />}
+  <StatusLabel status={product.status} />
+  {product.productType && <p class="eyebrow">{product.productType}</p>}
+  <h2><a href={href}>{product.name}</a></h2>
+  {summary && <p>{summary}</p>}
+</article>

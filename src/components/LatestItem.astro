@@ -1,0 +1,19 @@
+---
+import type { LatestItem as LatestItemModel } from '../data/site';
+import StatusLabel from './StatusLabel.astro';
+
+interface Props {
+  item: LatestItemModel;
+}
+
+const { item } = Astro.props;
+const href = item.href.trim();
+---
+
+<article class="latest-item">
+  {item.image ? <img src={item.image} alt="" loading="lazy" decoding="async" /> : <div class="media-placeholder" aria-hidden="true" />}
+  <p class="eyebrow">{item.type === 'instrument' ? 'Audio Instruments' : item.type}</p>
+  <StatusLabel status={item.status} />
+  <h3>{href ? <a href={href}>{item.title}</a> : item.title}</h3>
+  <p>{item.summary}</p>
+</article>

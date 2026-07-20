@@ -124,6 +124,7 @@ const tracesPrice = { regularPriceJPY: 4400, regularPriceUSD: 29, introPriceJPY:
 const tendrilPrice = { regularPriceJPY: 4400, regularPriceUSD: 29, introPriceJPY: 2900, introPriceUSD: 19 };
 
 export const products: Product[] = [
+  product('hidden-prototype', 'Hidden prototype', null, 'hidden'),
   product('palimpsest', 'SC Palimpsest', 'traces', 'hidden', tracesPrice),
   product('suspended', 'SC Suspended', 'traces', 'coming-soon', tracesPrice),
   product('refraction', 'SC Refraction', 'traces', 'hidden', tracesPrice),
@@ -134,7 +135,10 @@ export const products: Product[] = [
   product('trumpet', 'SC Trumpet', 'tendril', 'hidden', tendrilPrice),
   product('violin', 'SC Violin', 'tendril', 'hidden', { regularPriceJPY: 5900, regularPriceUSD: 39, introPriceJPY: 3900, introPriceUSD: 25 }),
   product('cello', 'SC Cello', 'tendril', 'hidden', { regularPriceJPY: 5900, regularPriceUSD: 39, introPriceJPY: 3900, introPriceUSD: 25 }),
-  product('vitreous', 'SC Vitreous', null, 'announcement', { regularPriceJPY: 5900, regularPriceUSD: 39, introPriceJPY: 3900, introPriceUSD: 25 }),
+  {
+    ...product('vitreous', 'SC Vitreous', null, 'announcement', { regularPriceJPY: 5900, regularPriceUSD: 39, introPriceJPY: 3900, introPriceUSD: 25 }),
+    productType: 'Material Studies',
+  },
 ];
 
 function collection(

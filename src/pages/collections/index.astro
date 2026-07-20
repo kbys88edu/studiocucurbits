@@ -1,0 +1,27 @@
+---
+import CollectionCard from '../../components/CollectionCard.astro';
+import { collections } from '../../data/products';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const visibleCollections = collections.filter((collection) => collection.status !== 'archived');
+---
+
+<BaseLayout
+  title="Collections | Audio Instruments | Studio Cucurbits."
+  description="Audio Instruments collections from Studio Cucurbits."
+  canonicalPath="/collections/"
+>
+  <section class="page-intro" aria-labelledby="collections-title">
+    <p class="eyebrow">Studio Cucurbits / Audio Instruments</p>
+    <h1 id="collections-title">Collections</h1>
+    <p class="lead">Instrument collections from the Studio Cucurbits Audio Instruments catalogue.</p>
+  </section>
+
+  <section class="section" aria-labelledby="collection-list-title">
+    <p class="eyebrow">Catalogue</p>
+    <h2 id="collection-list-title">Traces and Tendril</h2>
+    <div class="catalogue-list">
+      {visibleCollections.map((collection) => <CollectionCard collection={collection} />)}
+    </div>
+  </section>
+</BaseLayout>
