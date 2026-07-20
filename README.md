@@ -1,12 +1,13 @@
-# Studio Cucurbits. standalone page
+# Studio Cucurbits
 
-This folder contains a static, standalone-ready version of the Studio Cucurbits. page.
+This folder contains the static Studio Cucurbits site, built with Astro.
 
 ## Files
 
-- `index.html` - page structure, bilingual copy, SEO/Open Graph metadata, and schema data.
-- `styles.css` - responsive visual design.
-- `script.js` - Japanese/English/French language toggle with local preference storage.
+- `src/` - Astro source files and TypeScript declarations.
+- `public/` - static assets and the custom-domain CNAME file.
+- `astro.config.mjs` - static build and site configuration.
+- `package.json` - Astro scripts and dependencies.
 
 ## Source basis
 
@@ -21,9 +22,9 @@ Public links referenced in the page:
 - https://ressources.ircam.fr/en/media/x56d2a9_day-0-trans-instrumentalism-sachie-kobayas
 - https://www.lefresnoy.net/en/exposition/2207/oeuvre/2256/
 
-## Deployment note
+## Deployment
 
-This can be uploaded as a normal static site. For a future independent domain, update the `url` field in the JSON-LD block and the Open Graph metadata in `index.html`.
+Build the site with `npm run build` and deploy the generated `dist/` directory. The custom domain is retained at `public/CNAME`.
 
 ## Asset migration
 
