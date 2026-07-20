@@ -2,36 +2,61 @@ import type { Currency, Product } from '../data/products';
 import type { Locale } from './locale';
 
 export interface ProductCta {
-  label: 'buy' | 'buy-intro' | 'demo' | 'notify';
+  label: 'buy' | 'buy-intro' | 'demo' | 'apply' | 'download' | 'notify';
   href: string;
   disabled: false;
 }
 
-export function getProductCta(product: Product, _today: Date): ProductCta | null {
+function configuredUrl(value: string | null | undefined): string | null {
+  return value?.trim() || null;
+}
+
+function checkoutUrlFor(product: Product, currency: Currency): string | null {
+  return configuredUrl(currency === 'JPY' ? product.checkoutUrlJPY : product.checkoutUrlUSD);
+}
+
+export function getProductCta(product: Product, _today: Date, currency: Currency = 'USD', newsletterPath = '/newsletter/'): ProductCta | null {
   if (product.status === 'hidden' || product.status === 'discontinued') return null;
   if (product.status === 'announcement' || product.status === 'coming-soon') {
-    return { label: 'notify', href: '/newsletter/', disabled: false };
+    return { label: 'notify', href: newsletterPath, disabled: false };
   }
 
-  const checkoutUrl = product.checkoutUrlUSD?.trim();
-  if ((product.status === 'available' || product.status === 'intro-sale') && checkoutUrl) {
-    return { label: product.status === 'intro-sale' ? 'buy-intro' : 'buy', href: checkoutUrl, disabled: false };
+  if (product.status === 'beta') {
+    const applicationUrl = configuredUrl(product.applicationUrl);
+    if (applicationUrl) return { label: 'apply', href: applicationUrl, disabled: false };
+
+    const downloadUrl = configuredUrl(product.downloadUrl);
+    return downloadUrl
+      ? { label: 'download', href: downloadUrl, disabled: false }
+      : { label: 'notify', href: newsletterPath, disabled: false };
   }
 
-  const demoUrl = product.demoUrl?.trim();
-  return demoUrl
-    ? { label: 'demo', href: demoUrl, disabled: false }
-    : { label: 'notify', href: '/newsletter/', disabled: false };
+  if (product.status === 'demo-available') {
+    const demoUrl = configuredUrl(product.demoUrl);
+    return demoUrl
+      ? { label: 'demo', href: demoUrl, disabled: false }
+      : { label: 'notify', href: newsletterPath, disabled: false };
+  }
+
+  const checkoutUrl = checkoutUrlFor(product, currency);
+  return checkoutUrl
+    ? { label: product.status === 'intro-sale' ? 'buy-intro' : 'buy', href: checkoutUrl, disabled: false }
+    : { label: 'notify', href: newsletterPath, disabled: false };
 }
 
 export function getDisplayPrice(product: Product, today: Date, currency: Currency) {
   if (!product.publicPrice) return null;
 
-  const introEnd = product.introSaleEndDate ? new Date(`${product.introSaleEndDate}T23:59:59Z`) : null;
-  const introActive = product.status === 'intro-sale' && introEnd !== null && today <= introEnd;
+  const regularAmount = currency === 'JPY' ? product.regularPriceJPY : product.regularPriceUSD;
+  if (product.status !== 'intro-sale') return regularAmount === null ? null : { amount: regularAmount, kind: 'regular' as const };
+
+  const introEnd = product.introSaleEndDate && new Date(`${product.introSaleEndDate}T23:59:59Z`);
+  if (!introEnd || Number.isNaN(introEnd.valueOf())) return null;
+
+  const introActive = today <= introEnd;
   const amount = introActive
     ? currency === 'JPY' ? product.introPriceJPY : product.introPriceUSD
-    : currency === 'JPY' ? product.regularPriceJPY : product.regularPriceUSD;
+    : regularAmount;
 
   return amount === null ? null : { amount, kind: introActive ? 'intro' as const : 'regular' as const };
 }

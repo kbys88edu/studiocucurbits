@@ -43,6 +43,9 @@ h3 { font-size: 1.1rem; }
 .latest-item p, .catalogue-card p { margin: 0; }
 .media-placeholder { aspect-ratio: 3 / 2; background: #efefec; border: 1px solid var(--rule); }
 .status-label { color: var(--muted); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; }
+.price { display: flex; gap: .5rem; margin: 1.5rem 0 0; }
+.price dt { color: var(--muted); }
+.price dd { margin: 0; font-weight: 700; }
 .catalogue-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--space); }
 .catalogue-card { max-width: none; }
 .copy-block { max-width: 70rem; }

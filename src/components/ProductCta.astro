@@ -1,0 +1,31 @@
+---
+import type { Product } from '../data/products';
+import { getDictionary } from '../i18n';
+import { localizedPath, type Locale } from '../lib/locale';
+import { getProductCta } from '../lib/product';
+
+interface Props {
+  product: Product;
+  locale: Locale;
+}
+
+const { product, locale } = Astro.props;
+const currency = locale === 'ja' ? 'JPY' : 'USD';
+const hasCheckout = Boolean(product.checkoutUrlJPY?.trim() || product.checkoutUrlUSD?.trim());
+if (import.meta.env.DEV && (product.status === 'available' || product.status === 'intro-sale') && !hasCheckout) {
+  console.warn(`Missing checkout URL for ${product.slug}`);
+}
+
+const cta = getProductCta(product, new Date(), currency, localizedPath('/newsletter/', locale));
+const copy = getDictionary(locale).cta;
+const labels = {
+  buy: copy.buy,
+  'buy-intro': copy.buyIntro,
+  demo: copy.demo,
+  apply: copy.apply,
+  download: copy.download,
+  notify: copy.notify,
+};
+---
+
+{cta && <a class="button product-cta" href={cta.href}>{labels[cta.label]}</a>}

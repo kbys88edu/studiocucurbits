@@ -53,6 +53,8 @@ export interface Product extends PriceData {
   supportedPlatforms: string[];
   compatibilityNotes: string | null;
   demoUrl: string | null;
+  applicationUrl: string | null;
+  downloadUrl: string | null;
   manualUrl: string | null;
   checkoutUrlJPY: string | null;
   checkoutUrlUSD: string | null;
@@ -110,6 +112,8 @@ function product(
     supportedPlatforms: [],
     compatibilityNotes: null,
     demoUrl: null,
+    applicationUrl: null,
+    downloadUrl: null,
     manualUrl: null,
     checkoutUrlJPY: null,
     checkoutUrlUSD: null,

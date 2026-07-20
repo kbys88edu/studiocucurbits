@@ -1,6 +1,8 @@
 ---
 import type { Product } from '../data/products';
 import type { Locale } from '../lib/locale';
+import PriceBlock from './PriceBlock.astro';
+import ProductCta from './ProductCta.astro';
 import StatusLabel from './StatusLabel.astro';
 
 interface Props {
@@ -17,4 +19,6 @@ const editorial = product.editorial[locale].shortDescription ? product.editorial
   <StatusLabel status={product.status} locale={locale} />
   <h1 id="product-title">{product.name}</h1>
   {editorial.shortDescription && <p class="lead">{editorial.shortDescription}</p>}
+  <PriceBlock product={product} locale={locale} />
+  <ProductCta product={product} locale={locale} />
 </section>

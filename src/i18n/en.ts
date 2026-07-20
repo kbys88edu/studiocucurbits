@@ -10,6 +10,8 @@ export const en = {
     buy: 'Buy',
     buyIntro: 'Buy at intro price',
     demo: 'Try demo',
+    apply: 'Apply for beta',
+    download: 'Download beta',
     notify: 'Notify me',
   },
   productStatus: {

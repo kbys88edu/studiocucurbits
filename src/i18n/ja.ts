@@ -10,6 +10,8 @@ export const ja = {
     buy: '購入する',
     buyIntro: 'イントロ価格で購入',
     demo: 'デモを試す',
+    apply: 'ベータに申し込む',
+    download: 'ベータをダウンロード',
     notify: 'お知らせを受け取る',
   },
   productStatus: {
