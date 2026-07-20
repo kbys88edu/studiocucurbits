@@ -61,18 +61,21 @@ describe('collection, support, and legal content pages', () => {
     expect(support).toContain('\u30a4\u30f3\u30b9\u30c8\u30fc\u30eb\u3068\u30d7\u30e9\u30b0\u30a4\u30f3\u306e\u30b9\u30ad\u30e3\u30f3');
     expect(support).toContain('\u3088\u304f\u3042\u308b\u8cea\u554f');
     expect(support).toContain('\u4e00\u822c\u7684\u306aVST3\u306e\u5834\u6240');
+    expect(support).toContain('<p class="eyebrow">\u30aa\u30fc\u30c7\u30a3\u30aa\u30fb\u30a4\u30f3\u30b9\u30c8\u30a5\u30eb\u30e1\u30f3\u30c4</p>');
     expect(support).not.toContain('Installation and plugin scanning');
     expect(support).not.toContain('Frequently asked questions');
+    expect(support).not.toContain('<p class="eyebrow">Audio Instruments</p>');
 
     for (const html of collections) {
       expect(html).toContain('\u30b3\u30ec\u30af\u30b7\u30e7\u30f3\u306e\u30e1\u30c7\u30a3\u30a2');
       expect(html).toContain('\u542b\u307e\u308c\u308b\u88fd\u54c1');
-      expect(html).toContain('/ \u30b3\u30ec\u30af\u30b7\u30e7\u30f3</p>');
+      expect(html).toContain('Studio Cucurbits / \u30aa\u30fc\u30c7\u30a3\u30aa\u30fb\u30a4\u30f3\u30b9\u30c8\u30a5\u30eb\u30e1\u30f3\u30c4 / \u30b3\u30ec\u30af\u30b7\u30e7\u30f3</p>');
       expect(html).not.toContain('Media preview in production');
       expect(html).not.toContain('Included instruments');
       expect(html).not.toContain('Included products');
       expect(html).not.toContain('Any future introductory price');
       expect(html).not.toContain('/ Collection</p>');
+      expect(html).not.toContain('Studio Cucurbits / Audio Instruments /');
     }
   });
 }, 30_000);
