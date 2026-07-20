@@ -2,12 +2,12 @@
 import ProductDetails from '../../../components/ProductDetails.astro';
 import ProductHero from '../../../components/ProductHero.astro';
 import RelatedProducts from '../../../components/RelatedProducts.astro';
-import { getProductBySlug, products } from '../../../data/products';
+import { getProductBySlug, isVisibleProduct, products } from '../../../data/products';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 
 export function getStaticPaths() {
   return products
-    .filter((product) => product.status !== 'hidden')
+    .filter(isVisibleProduct)
     .map((product) => ({ params: { slug: product.slug } }));
 }
 
@@ -17,7 +17,7 @@ if (!product || product.status === 'hidden') return Astro.redirect('/ja/products
 const locale = 'ja' as const;
 const relatedProducts = product.relatedProductSlugs
   .map(getProductBySlug)
-  .filter((related): related is NonNullable<typeof related> => Boolean(related && related.status !== 'hidden'))
+  .filter((related): related is NonNullable<typeof related> => Boolean(related && isVisibleProduct(related)))
   .slice(0, 3);
 const editorial = product.editorial[locale].shortDescription ? product.editorial[locale] : product.editorial.en;
 ---
@@ -25,8 +25,10 @@ const editorial = product.editorial[locale].shortDescription ? product.editorial
 <BaseLayout
   title={product.seo.title ?? `${product.name} | Audio Instruments | Studio Cucurbits.`}
   description={product.seo.description ?? editorial.shortDescription ?? 'Audio Instrument from Studio Cucurbits.'}
-  canonicalPath={`/products/${product.slug}/`}
+  canonicalPath={`/ja/products/${product.slug}/`}
   locale={locale}
+  product={product}
+  breadcrumbLabel={product.name}
 >
   <ProductHero product={product} locale={locale} />
   <ProductDetails product={product} locale={locale} />

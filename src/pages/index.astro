@@ -5,12 +5,13 @@ import { latestItem, site } from '../data/site';
 import { getLocale, localizedPath } from '../lib/locale';
 
 const locale = getLocale(new URL(Astro.request.url));
+const canonicalPath = locale === 'ja' ? '/ja/' : '/';
 ---
 
 <BaseLayout
   title="Studio Cucurbits. | Music and Creative Technology"
   description="Studio Cucurbits. is a music and creative technology studio."
-  canonicalPath="/"
+  canonicalPath={canonicalPath}
   locale={locale}
 >
   <section class="hero" aria-labelledby="hero-title">

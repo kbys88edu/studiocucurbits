@@ -31,8 +31,9 @@ const copy = {
 <BaseLayout
   title={collection.seo.title ?? `${collection.name} | Audio Instruments | Studio Cucurbits.`}
   description={collection.seo.description ?? editorial.shortDescription ?? 'Audio Instruments collection from Studio Cucurbits.'}
-  canonicalPath={`/collections/${collection.slug}/`}
+  canonicalPath={`/ja/collections/${collection.slug}/`}
   locale={locale}
+  breadcrumbLabel={collection.name}
 >
   <CollectionHero collection={collection} locale={locale} />
   <section class="section" aria-label={copy.mediaLabel}>

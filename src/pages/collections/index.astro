@@ -6,12 +6,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const visibleCollections = collections.filter(isVisibleCollection);
 const locale = getLocale(new URL(Astro.request.url));
+const canonicalPath = locale === 'ja' ? '/ja/collections/' : '/collections/';
 ---
 
 <BaseLayout
   title="Collections | Audio Instruments | Studio Cucurbits."
   description="Audio Instruments collections from Studio Cucurbits."
-  canonicalPath="/collections/"
+  canonicalPath={canonicalPath}
   locale={locale}
 >
   <section class="page-intro" aria-labelledby="collections-title">

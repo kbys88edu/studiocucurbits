@@ -27,6 +27,7 @@ const editorial = collection.editorial[locale].shortDescription ? collection.edi
   description={collection.seo.description ?? editorial.shortDescription ?? 'Audio Instruments collection from Studio Cucurbits.'}
   canonicalPath={`/collections/${collection.slug}/`}
   locale={locale}
+  breadcrumbLabel={collection.name}
 >
   <CollectionHero collection={collection} locale={locale} />
   <section class="section" aria-label="Collection media">

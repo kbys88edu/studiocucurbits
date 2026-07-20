@@ -24,7 +24,7 @@ Public links referenced in the page:
 
 ## Deployment
 
-Build the site with `npm run build` and deploy the generated `dist/` directory. The custom domain is retained at `public/CNAME`.
+Pushes to `main` run `check`, tests, and a production build before deploying `dist/` to GitHub Pages. The custom domain is retained at `public/CNAME`; do not remove it from the deployment artifact. Run the same gate locally with `npm run verify`.
 
 ## Asset migration
 

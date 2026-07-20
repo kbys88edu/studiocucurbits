@@ -3,16 +3,37 @@ import '../styles/global.css';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import Seo from '../components/Seo.astro';
+import type { Product } from '../data/products';
+import { getProductOffer } from '../lib/seo';
 
 interface Props {
   title: string;
   description: string;
   canonicalPath: string;
   locale?: 'en' | 'ja';
+  product?: Product;
+  breadcrumbLabel?: string;
 }
 
-const { title, description, canonicalPath, locale = 'en' } = Astro.props;
+const { title, description, canonicalPath, locale = 'en', product, breadcrumbLabel } = Astro.props;
 const canonical = new URL(canonicalPath, Astro.site);
+const segments = canonicalPath.split('/').filter(Boolean).slice(locale === 'ja' ? 1 : 0);
+const breadcrumbRoot = locale === 'ja' ? '/ja/' : '/';
+const breadcrumbItems = [
+  { '@type': 'ListItem', position: 1, name: 'Home', item: new URL(breadcrumbRoot, Astro.site).toString() },
+  ...segments.map((segment, index) => ({
+    '@type': 'ListItem',
+    position: index + 2,
+    name: index === segments.length - 1 && breadcrumbLabel ? breadcrumbLabel : segment.replace(/-/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase()),
+    item: new URL(`${breadcrumbRoot}${segments.slice(0, index + 1).join('/')}/`, Astro.site).toString(),
+  })),
+];
+const offer = product ? getProductOffer(product) : null;
+const structuredData = [
+  { '@context': 'https://schema.org', '@type': 'Organization', name: 'Studio Cucurbits.', url: new URL('/', Astro.site).toString() },
+  { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: breadcrumbItems },
+  ...(offer && product ? [{ '@context': 'https://schema.org', '@type': 'Product', name: product.name, description, url: canonical.toString(), offers: offer }] : []),
+];
 ---
 
 <!doctype html>
@@ -21,6 +42,7 @@ const canonical = new URL(canonicalPath, Astro.site);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <Seo title={title} description={description} canonical={canonical} />
+    {structuredData.map((data) => <script is:inline type="application/ld+json" set:html={JSON.stringify(data)} />)}
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>

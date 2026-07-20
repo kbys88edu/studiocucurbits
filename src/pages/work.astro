@@ -1,11 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const { locale = 'en' } = Astro.props;
 ---
 
 <BaseLayout
   title="Work | Studio Cucurbits."
   description="An editable index for Studio Cucurbits work."
-  canonicalPath="/work/"
+  canonicalPath={locale === 'ja' ? '/ja/work/' : '/work/'}
+  locale={locale}
 >
   <section class="page-intro" aria-labelledby="work-title">
     <p class="eyebrow">Work</p>

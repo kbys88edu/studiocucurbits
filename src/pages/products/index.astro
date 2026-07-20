@@ -1,17 +1,18 @@
 ---
 import ProductCard from '../../components/ProductCard.astro';
-import { products } from '../../data/products';
+import { isVisibleProduct, products } from '../../data/products';
 import { getLocale } from '../../lib/locale';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-const visibleProducts = products.filter((product) => product.status !== 'hidden');
+const visibleProducts = products.filter(isVisibleProduct);
 const locale = getLocale(new URL(Astro.request.url));
+const canonicalPath = locale === 'ja' ? '/ja/products/' : '/products/';
 ---
 
 <BaseLayout
   title="Audio Instruments | Studio Cucurbits."
   description="Audio Instruments, a Studio Cucurbits area for sound materials and instruments."
-  canonicalPath="/products/"
+  canonicalPath={canonicalPath}
   locale={locale}
 >
   <section class="page-intro" aria-labelledby="products-title">

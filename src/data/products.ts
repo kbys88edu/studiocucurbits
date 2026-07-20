@@ -219,6 +219,10 @@ export function getProductBySlug(slug: string): Product | undefined {
   return products.find((product) => product.slug === slug);
 }
 
+export function isVisibleProduct(product: Product): boolean {
+  return product.status !== 'hidden';
+}
+
 export function isVisibleCollection(collection: Collection): boolean {
   return collection.status !== 'archived' && Boolean(collection.editorial.en.shortDescription);
 }
