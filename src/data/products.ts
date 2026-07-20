@@ -1,0 +1,172 @@
+export type ProductStatus =
+  | 'hidden'
+  | 'announcement'
+  | 'coming-soon'
+  | 'beta'
+  | 'demo-available'
+  | 'intro-sale'
+  | 'available'
+  | 'discontinued';
+
+export type Currency = 'JPY' | 'USD';
+export type CollectionStatus = 'forthcoming' | 'available' | 'archived';
+
+export interface PriceData {
+  regularPriceJPY: number | null;
+  regularPriceUSD: number | null;
+  introPriceJPY: number | null;
+  introPriceUSD: number | null;
+  introSaleEndDate: string | null;
+  publicPrice: boolean;
+}
+
+export interface EditorialContent {
+  shortDescription: string | null;
+  description: string | null;
+  features: string[];
+}
+
+export interface ProductMedia {
+  heroImage: string | null;
+  gallery: string[];
+  video: {
+    status: 'in-production' | 'ready' | null;
+    poster: string | null;
+    mp4: string | null;
+    webm: string | null;
+    captions: string | null;
+  };
+  audioExamples: string[];
+}
+
+export interface Product extends PriceData {
+  slug: string;
+  name: string;
+  collection: string | null;
+  productType: string | null;
+  status: ProductStatus;
+  announcementDate: string | null;
+  releaseDate: string | null;
+  editorial: { en: EditorialContent; ja: EditorialContent };
+  media: ProductMedia;
+  supportedFormats: string[];
+  supportedPlatforms: string[];
+  compatibilityNotes: string | null;
+  demoUrl: string | null;
+  manualUrl: string | null;
+  checkoutUrlJPY: string | null;
+  checkoutUrlUSD: string | null;
+  license: { name: string | null; url: string | null };
+  support: { url: string | null; email: string | null };
+  relatedProductSlugs: string[];
+  seo: { title: string | null; description: string | null; image: string | null; keywords: string[] };
+}
+
+export interface Collection extends PriceData {
+  slug: string;
+  name: string;
+  status: CollectionStatus;
+  productSlugs: string[];
+  includedCollectionSlugs: string[];
+  releaseDate: string | null;
+  editorial: { en: EditorialContent; ja: EditorialContent };
+  heroImage: string | null;
+  checkoutUrlJPY: string | null;
+  checkoutUrlUSD: string | null;
+  seo: { title: string | null; description: string | null; image: string | null; keywords: string[] };
+}
+
+const emptyEditorial = (): EditorialContent => ({ shortDescription: null, description: null, features: [] });
+const emptySeo = () => ({ title: null, description: null, image: null, keywords: [] });
+const noPrice: PriceData = {
+  regularPriceJPY: null,
+  regularPriceUSD: null,
+  introPriceJPY: null,
+  introPriceUSD: null,
+  introSaleEndDate: null,
+  publicPrice: false,
+};
+
+function product(
+  slug: string,
+  name: string,
+  collection: string | null,
+  status: ProductStatus,
+  prices: Partial<PriceData> = {},
+): Product {
+  return {
+    slug,
+    name,
+    collection,
+    productType: null,
+    status,
+    announcementDate: null,
+    releaseDate: null,
+    editorial: { en: emptyEditorial(), ja: emptyEditorial() },
+    ...noPrice,
+    ...prices,
+    media: { heroImage: null, gallery: [], video: { status: null, poster: null, mp4: null, webm: null, captions: null }, audioExamples: [] },
+    supportedFormats: [],
+    supportedPlatforms: [],
+    compatibilityNotes: null,
+    demoUrl: null,
+    manualUrl: null,
+    checkoutUrlJPY: null,
+    checkoutUrlUSD: null,
+    license: { name: null, url: null },
+    support: { url: null, email: null },
+    relatedProductSlugs: [],
+    seo: emptySeo(),
+  };
+}
+
+const tracesPrice = { regularPriceJPY: 4400, regularPriceUSD: 29, introPriceJPY: 2900, introPriceUSD: 19 };
+const tendrilPrice = { regularPriceJPY: 4400, regularPriceUSD: 29, introPriceJPY: 2900, introPriceUSD: 19 };
+
+export const products: Product[] = [
+  product('palimpsest', 'SC Palimpsest', 'traces', 'hidden', tracesPrice),
+  product('suspended', 'SC Suspended', 'traces', 'coming-soon', tracesPrice),
+  product('refraction', 'SC Refraction', 'traces', 'hidden', tracesPrice),
+  product('piano-string', 'SC Piano String', 'tendril', 'hidden', { regularPriceJPY: 2800, regularPriceUSD: 19, introPriceJPY: 1800, introPriceUSD: 12 }),
+  product('gong', 'SC Gong', 'tendril', 'hidden'),
+  product('flute', 'SC Flute', 'tendril', 'hidden', tendrilPrice),
+  product('clarinet', 'SC Clarinet', 'tendril', 'hidden', tendrilPrice),
+  product('trumpet', 'SC Trumpet', 'tendril', 'hidden', tendrilPrice),
+  product('violin', 'SC Violin', 'tendril', 'hidden', { regularPriceJPY: 5900, regularPriceUSD: 39, introPriceJPY: 3900, introPriceUSD: 25 }),
+  product('cello', 'SC Cello', 'tendril', 'hidden', { regularPriceJPY: 5900, regularPriceUSD: 39, introPriceJPY: 3900, introPriceUSD: 25 }),
+  product('vitreous', 'SC Vitreous', null, 'announcement', { regularPriceJPY: 5900, regularPriceUSD: 39, introPriceJPY: 3900, introPriceUSD: 25 }),
+];
+
+function collection(
+  slug: string,
+  name: string,
+  productSlugs: string[],
+  prices: Partial<PriceData>,
+  includedCollectionSlugs: string[] = [],
+): Collection {
+  return {
+    slug,
+    name,
+    status: 'forthcoming',
+    productSlugs,
+    includedCollectionSlugs,
+    releaseDate: null,
+    editorial: { en: emptyEditorial(), ja: emptyEditorial() },
+    ...noPrice,
+    ...prices,
+    heroImage: null,
+    checkoutUrlJPY: null,
+    checkoutUrlUSD: null,
+    seo: emptySeo(),
+  };
+}
+
+export const collections: Collection[] = [
+  collection('traces', 'Traces', ['palimpsest', 'suspended', 'refraction'], { regularPriceJPY: 9800, regularPriceUSD: 69, introPriceJPY: 6900, introPriceUSD: 49 }),
+  collection('tendril', 'Tendril', ['piano-string', 'gong', 'flute', 'clarinet', 'trumpet', 'violin', 'cello'], { regularPriceJPY: 19800, regularPriceUSD: 139, introPriceJPY: 13800, introPriceUSD: 99 }),
+  collection('future-artist-collection', 'Future Artist Collection', [], { regularPriceJPY: 24800, regularPriceUSD: 169, introPriceJPY: 17800, introPriceUSD: 119 }, ['traces', 'tendril']),
+];
+
+export function getProductBySlug(slug: string): Product | undefined {
+  return products.find((product) => product.slug === slug);
+}
