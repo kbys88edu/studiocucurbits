@@ -129,19 +129,25 @@ const tendrilPrice = { regularPriceJPY: 4400, regularPriceUSD: 29, introPriceJPY
 
 export const products: Product[] = [
   product('hidden-prototype', 'Hidden prototype', null, 'hidden'),
-  product('palimpsest', 'SC Palimpsest', 'traces', 'hidden', tracesPrice),
+  {
+    ...product('palimpsest', 'SC Palimpsest', 'traces', 'hidden', tracesPrice),
+    editorial: { en: { shortDescription: 'Sounds remain as overwritten spectral traces.', description: null, features: [] }, ja: emptyEditorial() },
+  },
   {
     ...product('suspended', 'SC Suspended', 'traces', 'coming-soon', tracesPrice),
     editorial: {
       en: {
-        shortDescription: 'A held sound that appears motionless while time continues to move inside it.',
+        shortDescription: 'A held sound continues to move internally.',
         description: 'Capture a sound and hold it in suspension. Grain size, density and internal movement remain active inside the frozen material.',
         features: [],
       },
       ja: emptyEditorial(),
     },
   },
-  product('refraction', 'SC Refraction', 'traces', 'hidden', tracesPrice),
+  {
+    ...product('refraction', 'SC Refraction', 'traces', 'hidden', tracesPrice),
+    editorial: { en: { shortDescription: 'Coherent spectral regions bend into new relationships.', description: null, features: [] }, ja: emptyEditorial() },
+  },
   product('piano-string', 'SC Piano String', 'tendril', 'hidden', { regularPriceJPY: 2800, regularPriceUSD: 19, introPriceJPY: 1800, introPriceUSD: 12 }),
   product('gong', 'SC Gong', 'tendril', 'hidden'),
   product('flute', 'SC Flute', 'tendril', 'hidden', tendrilPrice),

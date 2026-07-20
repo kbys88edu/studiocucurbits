@@ -1,0 +1,20 @@
+---
+import Faq from '../components/Faq.astro';
+import SupportGuide from '../components/SupportGuide.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const faq = [
+  { question: 'My plug-in is not listed.', answer: 'Restart the host application and use its plug-in scan or rescan command. Check the common locations below if the installer supplied a format-specific file.' },
+  { question: 'What should I include in a bug report?', answer: 'Include the product name and version, host name and version, operating system, plug-in format, steps to reproduce, and any error text or screenshots you can share.' },
+];
+---
+
+<BaseLayout title="Support | Studio Cucurbits." description="Editable installation and support guidance." canonicalPath="/support/">
+  <section class="page-intro" aria-labelledby="support-title">
+    <p class="eyebrow">Audio Instruments</p>
+    <h1 id="support-title">Support</h1>
+    <p class="lead">Generic installation and troubleshooting guidance. Product-specific compatibility is published only when supplied.</p>
+  </section>
+  <SupportGuide />
+  <Faq items={faq} />
+</BaseLayout>

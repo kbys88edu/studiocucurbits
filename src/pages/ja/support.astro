@@ -1,0 +1,20 @@
+---
+import Faq from '../../components/Faq.astro';
+import SupportGuide from '../../components/SupportGuide.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const faq = [
+  { question: 'プラグインが一覧に表示されません。', answer: 'ホストアプリケーションを再起動し、プラグインのスキャンまたは再スキャンを実行してください。' },
+  { question: '不具合報告には何を含めますか？', answer: '製品名とバージョン、ホスト名とバージョン、OS、プラグイン形式、再現手順、エラー文またはスクリーンショットをお知らせください。' },
+];
+---
+
+<BaseLayout title="サポート | Studio Cucurbits." description="編集可能なインストールとサポートの案内。" canonicalPath="/ja/support/" locale="ja">
+  <section class="page-intro" aria-labelledby="support-title">
+    <p class="eyebrow">Audio Instruments</p>
+    <h1 id="support-title">サポート</h1>
+    <p class="lead">一般的なインストールとトラブルシューティングの案内です。製品固有の互換性は、提供された情報のみを公開します。</p>
+  </section>
+  <SupportGuide />
+  <Faq items={faq} />
+</BaseLayout>

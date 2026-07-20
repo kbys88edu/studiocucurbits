@@ -1,6 +1,5 @@
 ---
 import CollectionHero from '../../components/CollectionHero.astro';
-import ProductCard from '../../components/ProductCard.astro';
 import { collections, isVisibleCollection, products } from '../../data/products';
 import { getLocale } from '../../lib/locale';
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -19,7 +18,7 @@ if (!collection) return Astro.redirect('/collections/');
 const locale = getLocale(new URL(Astro.request.url));
 const includedProducts = collection.productSlugs
   .map((slug) => products.find((product) => product.slug === slug))
-  .filter((product): product is NonNullable<typeof product> => Boolean(product && product.status !== 'hidden'));
+  .filter((product): product is NonNullable<typeof product> => Boolean(product));
 const editorial = collection.editorial[locale].shortDescription ? collection.editorial[locale] : collection.editorial.en;
 ---
 
@@ -30,13 +29,18 @@ const editorial = collection.editorial[locale].shortDescription ? collection.edi
   locale={locale}
 >
   <CollectionHero collection={collection} locale={locale} />
+  <section class="section" aria-label="Collection media">
+    <div class="media-placeholder">Media preview in production</div>
+    <p>Video and audio previews will be published when supplied.</p>
+  </section>
+  <section class="section" aria-label="Introductory offer">
+    <p>Any future introductory price will be available for 14 days after release.</p>
+  </section>
   {includedProducts.length > 0 && (
     <section class="section" aria-labelledby="included-products-title">
       <p class="eyebrow">Included instruments</p>
       <h2 id="included-products-title">Included products</h2>
-      <div class="catalogue-list">
-        {includedProducts.map((product) => <ProductCard product={product} locale={locale} />)}
-      </div>
+      <ul>{includedProducts.map((product) => <li>{product.name}</li>)}</ul>
     </section>
   )}
 </BaseLayout>

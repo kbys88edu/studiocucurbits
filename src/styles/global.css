@@ -60,6 +60,8 @@ h3 { font-size: 1.1rem; }
 .newsletter-form span, [data-newsletter-status] { color: var(--muted); }
 .honeypot { position: absolute; left: -9999px; }
 .audio-comparison { display: grid; gap: 1rem; margin-top: 2rem; }
+.draft-notice { max-width: 48rem; padding: 1rem; border: 2px solid var(--ink); background: #fff4cf; }
+.draft-notice p { margin: .5rem 0 0; }
 
 @media (max-width: 760px) {
   .site-header { grid-template-columns: 1fr; }
