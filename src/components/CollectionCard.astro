@@ -1,19 +1,21 @@
 ---
 import type { Collection } from '../data/products';
+import type { Locale } from '../lib/locale';
 import StatusLabel from './StatusLabel.astro';
 
 interface Props {
   collection: Collection;
+  locale: Locale;
 }
 
-const { collection } = Astro.props;
+const { collection, locale } = Astro.props;
 const href = `/collections/${collection.slug}/`;
 const summary = collection.editorial.en.shortDescription;
 ---
 
 <article class="catalogue-card">
   {collection.heroImage ? <img src={collection.heroImage} alt={collection.name} width="1200" height="800" loading="lazy" decoding="async" /> : <div class="media-placeholder" aria-hidden="true" />}
-  <StatusLabel status={collection.status} />
+  <StatusLabel status={collection.status} locale={locale} />
   <h2><a href={href}>{collection.name}</a></h2>
   {summary && <p>{summary}</p>}
 </article>

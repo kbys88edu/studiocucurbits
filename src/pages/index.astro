@@ -2,12 +2,16 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LatestItem from '../components/LatestItem.astro';
 import { latestItem, site } from '../data/site';
+import { getLocale } from '../lib/locale';
+
+const locale = getLocale(new URL(Astro.request.url));
 ---
 
 <BaseLayout
   title="Studio Cucurbits. | Music and Creative Technology"
   description="Studio Cucurbits. is a music and creative technology studio."
   canonicalPath="/"
+  locale={locale}
 >
   <section class="hero" aria-labelledby="hero-title">
     <p class="eyebrow">Music / Sound / AI / Creative Technology</p>
@@ -18,7 +22,7 @@ import { latestItem, site } from '../data/site';
   <section class="section latest" aria-labelledby="latest-title">
     <p class="eyebrow">Latest</p>
     <h2 id="latest-title">Current studio updates</h2>
-    <LatestItem item={latestItem} />
+    <LatestItem item={latestItem} locale={locale} />
   </section>
 
   <section class="section" aria-labelledby="areas-title">

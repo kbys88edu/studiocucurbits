@@ -1,15 +1,18 @@
 ---
 import CollectionCard from '../../components/CollectionCard.astro';
 import { collections } from '../../data/products';
+import { getLocale } from '../../lib/locale';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const visibleCollections = collections.filter((collection) => collection.status !== 'archived');
+const locale = getLocale(new URL(Astro.request.url));
 ---
 
 <BaseLayout
   title="Collections | Audio Instruments | Studio Cucurbits."
   description="Audio Instruments collections from Studio Cucurbits."
   canonicalPath="/collections/"
+  locale={locale}
 >
   <section class="page-intro" aria-labelledby="collections-title">
     <p class="eyebrow">Studio Cucurbits / Audio Instruments</p>
@@ -21,7 +24,7 @@ const visibleCollections = collections.filter((collection) => collection.status 
     <p class="eyebrow">Catalogue</p>
     <h2 id="collection-list-title">Traces and Tendril</h2>
     <div class="catalogue-list">
-      {visibleCollections.map((collection) => <CollectionCard collection={collection} />)}
+      {visibleCollections.map((collection) => <CollectionCard collection={collection} locale={locale} />)}
     </div>
   </section>
 </BaseLayout>

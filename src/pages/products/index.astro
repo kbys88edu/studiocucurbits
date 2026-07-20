@@ -1,15 +1,18 @@
 ---
 import ProductCard from '../../components/ProductCard.astro';
 import { products } from '../../data/products';
+import { getLocale } from '../../lib/locale';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const visibleProducts = products.filter((product) => product.status !== 'hidden');
+const locale = getLocale(new URL(Astro.request.url));
 ---
 
 <BaseLayout
   title="Audio Instruments | Studio Cucurbits."
   description="Audio Instruments, a Studio Cucurbits area for sound materials and instruments."
   canonicalPath="/products/"
+  locale={locale}
 >
   <section class="page-intro" aria-labelledby="products-title">
     <p class="eyebrow">Studio Cucurbits / Audio Instruments</p>
@@ -21,7 +24,7 @@ const visibleProducts = products.filter((product) => product.status !== 'hidden'
     <p class="eyebrow">Catalogue</p>
     <h2 id="instruments-title">Current instruments</h2>
     <div class="catalogue-list">
-      {visibleProducts.map((product) => <ProductCard product={product} />)}
+      {visibleProducts.map((product) => <ProductCard product={product} locale={locale} />)}
     </div>
   </section>
 </BaseLayout>
