@@ -3,6 +3,7 @@ import { expect, test } from '@playwright/test';
 
 const siteUrl = 'http://127.0.0.1:49284';
 const viewports = [360, 390, 768, 1024, 1440, 1920];
+const mobileViewports = new Set([360, 390]);
 
 for (const width of viewports) {
   test(`the studio home remains usable at ${width}px`, async ({ page }) => {
@@ -10,6 +11,24 @@ for (const width of viewports) {
     await page.goto(`${siteUrl}/`);
     await expect(page.getByRole('main')).toBeVisible();
     await expect(page.getByRole('link', { name: 'Studio Cucurbits home' })).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+
+    const header = page.getByRole('banner');
+    const toggle = header.getByRole('button', { name: 'Menu', exact: true });
+    const navigation = header.getByRole('navigation', { name: 'Primary navigation' });
+
+    if (mobileViewports.has(width)) {
+      await expect(toggle).toBeVisible();
+      const bounds = await toggle.boundingBox();
+      expect(bounds?.width).toBeGreaterThanOrEqual(44);
+      expect(bounds?.height).toBeGreaterThanOrEqual(44);
+      await expect(navigation).toBeHidden();
+      await toggle.click();
+      await expect(navigation).toBeVisible();
+    } else {
+      await expect(navigation).toBeVisible();
+      await expect(toggle).toBeHidden();
+    }
   });
 }
 

@@ -18,3 +18,10 @@
 ## Notes
 
 - Build-backed commands require execution outside the filesystem sandbox in this environment because the sandbox prevents the bundler from traversing an installed dependency directory. The same commands passed outside the sandbox.
+
+## P2 follow-up
+
+- Strengthened the required-width Playwright coverage to assert no document horizontal overflow.
+- At 360px and 390px, the test now verifies the unique app menu button is at least 44 by 44 pixels and that the primary navigation remains hidden until it opens.
+- At 768px, 1024px, 1440px, and 1920px, the test verifies desktop navigation is visible and the mobile control is hidden.
+- Re-ran verification: browser 11 passed; unit/render 39 passed; `astro check` clean; production build generated 36 pages.
