@@ -1,0 +1,19 @@
+---
+import AudioComparison from '../components/AudioComparison.astro';
+import NewsletterForm from '../components/NewsletterForm.astro';
+import VideoSlot from '../components/VideoSlot.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Newsletter | Studio Cucurbits." description="Receive occasional Studio Cucurbits updates." canonicalPath="/newsletter/">
+  <section class="page-intro" aria-labelledby="newsletter-title">
+    <p class="eyebrow">Studio updates</p>
+    <h1 id="newsletter-title">Newsletter</h1>
+    <p class="lead">Occasional news about instruments, work, and performances.</p>
+    <NewsletterForm />
+  </section>
+  <section class="section">
+    <VideoSlot poster="/images/studio/projection-performance.jpg" />
+    <AudioComparison />
+  </section>
+</BaseLayout>

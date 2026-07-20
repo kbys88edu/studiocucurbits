@@ -1,0 +1,26 @@
+---
+interface Props {
+  status?: 'ready' | 'in-production';
+  poster?: string;
+  mp4?: string;
+  webm?: string;
+  captions?: string;
+  title?: string;
+}
+
+const { status = 'in-production', poster, mp4, webm, captions, title = 'Demonstration video' } = Astro.props;
+const source = mp4 || webm;
+const ready = status === 'ready' && source;
+---
+
+{ready ? (
+  <video controls preload="metadata" poster={poster} aria-label={title}>
+    <source src={source} />
+    {captions && <track kind="captions" src={captions} srclang="en" label="English" />}
+  </video>
+) : poster ? (
+  <figure class="media-placeholder">
+    <img src={poster} alt="" loading="lazy" decoding="async" />
+    <figcaption>Demonstration video in production</figcaption>
+  </figure>
+) : <p class="media-placeholder">Demonstration video in production</p>}

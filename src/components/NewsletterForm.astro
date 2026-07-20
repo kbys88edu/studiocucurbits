@@ -1,0 +1,44 @@
+---
+import { getDictionary } from '../i18n';
+import type { Locale } from '../lib/locale';
+import { newsletterState } from '../scripts/newsletter';
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = 'en' } = Astro.props;
+const copy = getDictionary(locale).newsletter;
+const endpoint = import.meta.env.NEWSLETTER_API_ENDPOINT?.trim() || import.meta.env.NEWSLETTER_FORM_ACTION?.trim();
+const state = newsletterState(endpoint);
+---
+
+<form class="newsletter-form" data-newsletter-form data-endpoint={endpoint || undefined} aria-describedby="newsletter-status">
+  <label for="newsletter-email">Email</label>
+  <input id="newsletter-email" name="email" type="email" autocomplete="email" required />
+
+  <label for="newsletter-language">Language <span>(optional)</span></label>
+  <select id="newsletter-language" name="language">
+    <option value="">No preference</option>
+    <option value="en">English</option>
+    <option value="ja">Japanese</option>
+  </select>
+
+  <label for="newsletter-interest">Interest <span>(optional)</span></label>
+  <select id="newsletter-interest" name="interest">
+    <option value="">Studio updates</option>
+    <option value="instruments">Audio instruments</option>
+    <option value="work">Studio work</option>
+  </select>
+
+  <label class="honeypot" aria-hidden="true">Leave this field empty <input name="website" tabindex="-1" autocomplete="off" /></label>
+  <label><input name="consent" type="checkbox" required /> I agree to the <a href="/privacy/">privacy notice</a>.</label>
+  <button type="submit" disabled={state.status === 'unavailable'}>{copy.subscribe}</button>
+  <p id="newsletter-status" data-newsletter-status aria-live="polite" role="status">{state.message}</p>
+</form>
+
+<script>
+  import { initNewsletterForms } from '../scripts/newsletter';
+
+  initNewsletterForms();
+</script>

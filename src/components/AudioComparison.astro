@@ -1,0 +1,31 @@
+---
+interface Props {
+  drySrc?: string;
+  wetSrc?: string;
+}
+
+const { drySrc, wetSrc } = Astro.props;
+const samples = [
+  { id: 'dry', label: 'dry', src: drySrc },
+  { id: 'wet', label: 'wet', src: wetSrc },
+].filter((sample): sample is { id: string; label: string; src: string } => Boolean(sample.src));
+---
+
+{samples.length ? (
+  <section class="audio-comparison" aria-label="Audio comparison">
+    <p data-audio-loading aria-live="polite">Loading audio…</p>
+    {samples.map(({ id, label, src }) => (
+      <div>
+        <audio id={`audio-${id}`} data-audio-comparison preload="metadata"><source src={src} /></audio>
+        <button type="button" data-audio-toggle data-audio-id={`audio-${id}`}>Play {label}</button>
+        <button type="button" data-audio-stop data-audio-id={`audio-${id}`}>Stop {label}</button>
+      </div>
+    ))}
+  </section>
+) : <p class="media-placeholder">Audio comparison in production</p>}
+
+<script>
+  import { initAudioComparisons } from '../scripts/audio-comparison';
+
+  initAudioComparisons();
+</script>
