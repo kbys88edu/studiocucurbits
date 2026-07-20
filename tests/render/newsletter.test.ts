@@ -26,6 +26,12 @@ describe('newsletter announcement route', () => {
     expect(html).toContain('aria-live="polite"');
     expect(html).toContain('Newsletter signup is not configured yet.');
     expect(html).toMatch(/data-newsletter-status[^>]*>Newsletter signup is not configured yet\.<\/p>/);
+    expect(html).toContain('href="/privacy/"');
+  });
+
+  it('provides a live privacy route for newsletter consent', () => {
+    expect(renderedPage('/privacy')).toContain('Draft content requiring final review before publication.');
+    expect(renderedPage('/ja/privacy')).toContain('Draft content requiring final review before publication.');
   });
 
   it('renders production video copy without a broken play control', () => {

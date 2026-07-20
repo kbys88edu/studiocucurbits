@@ -1,6 +1,7 @@
 ---
 import { getDictionary } from '../i18n';
 import type { Locale } from '../lib/locale';
+import { localizedPath } from '../lib/locale';
 import { newsletterState } from '../scripts/newsletter';
 
 interface Props {
@@ -11,6 +12,7 @@ const { locale = 'en' } = Astro.props;
 const copy = getDictionary(locale).newsletter;
 const endpoint = import.meta.env.NEWSLETTER_API_ENDPOINT?.trim() || import.meta.env.NEWSLETTER_FORM_ACTION?.trim();
 const state = newsletterState(endpoint);
+const privacyPath = localizedPath('/privacy/', locale);
 ---
 
 <form class="newsletter-form" data-newsletter-form data-endpoint={endpoint || undefined} aria-describedby="newsletter-status">
@@ -32,7 +34,7 @@ const state = newsletterState(endpoint);
   </select>
 
   <label class="honeypot" aria-hidden="true">Leave this field empty <input name="website" tabindex="-1" autocomplete="off" /></label>
-  <label><input name="consent" type="checkbox" required /> I agree to the <a href="/privacy/">privacy notice</a>.</label>
+  <label><input name="consent" type="checkbox" required /> I agree to the <a href={privacyPath}>privacy notice</a>.</label>
   <button type="submit" disabled={state.status === 'unavailable'}>{copy.subscribe}</button>
   <p id="newsletter-status" data-newsletter-status aria-live="polite" role="status">{state.message}</p>
 </form>

@@ -1,3 +1,5 @@
+import { trackEvent } from '../lib/analytics';
+
 export function pauseOtherAudio(active: HTMLAudioElement, audios: Iterable<HTMLAudioElement>) {
   for (const audio of audios) if (audio !== active) audio.pause();
 }
@@ -11,17 +13,20 @@ export function initAudioComparisons(root: ParentNode = document) {
 
   root.querySelectorAll<HTMLButtonElement>('[data-audio-toggle], [data-audio-stop]').forEach((button) => {
     button.addEventListener('click', () => {
-      const audio = root.querySelector<HTMLAudioElement>(`#${button.dataset.audioId}`);
+      const audio = button.closest<HTMLElement>('[data-audio-control]')?.querySelector<HTMLAudioElement>('audio');
       if (!audio) return;
       if (button.hasAttribute('data-audio-stop')) audio.pause();
-      else if (audio.paused) void audio.play();
+      else if (audio.paused) {
+        void audio.play();
+        trackEvent('audio_comparison_played', { variant: button.dataset.audioVariant ?? '' });
+      }
       else audio.pause();
     });
   });
 
   root.querySelectorAll<HTMLAudioElement>('[data-audio-comparison]').forEach((audio) => {
     audio.addEventListener('canplay', () => {
-      const loading = audio.closest<HTMLElement>('[data-audio-comparison]')?.parentElement?.querySelector<HTMLElement>('[data-audio-loading]');
+      const loading = audio.closest<HTMLElement>('[data-audio-comparison-root]')?.querySelector<HTMLElement>('[data-audio-loading]');
       if (loading) loading.textContent = 'Audio ready.';
     }, { once: true });
   });

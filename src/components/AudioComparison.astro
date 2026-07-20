@@ -12,13 +12,13 @@ const samples = [
 ---
 
 {samples.length ? (
-  <section class="audio-comparison" aria-label="Audio comparison">
+  <section class="audio-comparison" data-audio-comparison-root aria-label="Audio comparison">
     <p data-audio-loading aria-live="polite">Loading audio…</p>
     {samples.map(({ id, label, src }) => (
-      <div>
-        <audio id={`audio-${id}`} data-audio-comparison preload="metadata"><source src={src} /></audio>
-        <button type="button" data-audio-toggle data-audio-id={`audio-${id}`}>Play {label}</button>
-        <button type="button" data-audio-stop data-audio-id={`audio-${id}`}>Stop {label}</button>
+      <div data-audio-control>
+        <audio data-audio-comparison preload="metadata"><source src={src} /></audio>
+        <button type="button" data-audio-toggle data-audio-variant={id}>Play {label}</button>
+        <button type="button" data-audio-stop>Stop {label}</button>
       </div>
     ))}
   </section>
