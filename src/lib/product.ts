@@ -15,7 +15,7 @@ function checkoutUrlFor(product: Product, currency: Currency): string | null {
   return configuredUrl(currency === 'JPY' ? product.checkoutUrlJPY : product.checkoutUrlUSD);
 }
 
-export function getProductCta(product: Product, _today: Date, currency: Currency = 'USD', newsletterPath = '/newsletter/'): ProductCta | null {
+export function getProductCta(product: Product, today: Date, currency: Currency = 'USD', newsletterPath = '/newsletter/'): ProductCta | null {
   if (product.status === 'hidden' || product.status === 'discontinued') return null;
   if (product.status === 'announcement' || product.status === 'coming-soon') {
     return { label: 'notify', href: newsletterPath, disabled: false };
@@ -40,7 +40,7 @@ export function getProductCta(product: Product, _today: Date, currency: Currency
 
   const checkoutUrl = checkoutUrlFor(product, currency);
   return checkoutUrl
-    ? { label: product.status === 'intro-sale' ? 'buy-intro' : 'buy', href: checkoutUrl, disabled: false }
+    ? { label: getDisplayPrice(product, today, currency)?.kind === 'intro' ? 'buy-intro' : 'buy', href: checkoutUrl, disabled: false }
     : { label: 'notify', href: newsletterPath, disabled: false };
 }
 

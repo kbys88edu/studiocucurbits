@@ -47,6 +47,13 @@ describe('status-driven CTAs', () => {
     }
   });
 
+  it('uses the intro CTA label only while the configured intro price is eligible', () => {
+    const product = { ...introProduct, checkoutUrlUSD: 'https://example.com/checkout' } as Product;
+
+    expect(getProductCta(product, new Date('2026-08-15T23:59:59Z'))).toMatchObject({ label: 'buy-intro' });
+    expect(getProductCta(product, new Date('2026-08-16T00:00:00Z'))).toMatchObject({ label: 'buy' });
+  });
+
   it('uses the checkout URL configured for the selected currency', () => {
     const product = { status: 'available', checkoutUrlJPY: 'https://example.com/jpy', checkoutUrlUSD: 'https://example.com/usd' } as Product;
 
