@@ -1,14 +1,20 @@
 ---
+import type { Locale } from '../lib/locale';
+
 interface Props {
   items: { question: string; answer: string }[];
+  locale: Locale;
 }
 
-const { items } = Astro.props;
+const { items, locale } = Astro.props;
+const copy = locale === 'ja'
+  ? { eyebrow: '\u30b5\u30dd\u30fc\u30c8', title: '\u3088\u304f\u3042\u308b\u8cea\u554f' }
+  : { eyebrow: 'Support', title: 'Frequently asked questions' };
 ---
 
 <section class="section" aria-labelledby="faq-title">
-  <p class="eyebrow">Support</p>
-  <h2 id="faq-title">Frequently asked questions</h2>
+  <p class="eyebrow">{copy.eyebrow}</p>
+  <h2 id="faq-title">{copy.title}</h2>
   {items.map(({ question, answer }) => (
     <details>
       <summary>{question}</summary>

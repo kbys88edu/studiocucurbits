@@ -17,6 +17,15 @@ const includedProducts = collection.productSlugs
   .map((slug) => products.find((product) => product.slug === slug))
   .filter((product): product is NonNullable<typeof product> => Boolean(product));
 const editorial = collection.editorial[locale].shortDescription ? collection.editorial[locale] : collection.editorial.en;
+const copy = {
+  mediaLabel: '\u30b3\u30ec\u30af\u30b7\u30e7\u30f3\u306e\u30e1\u30c7\u30a3\u30a2',
+  mediaPlaceholder: '\u30e1\u30c7\u30a3\u30a2\u30d7\u30ec\u30d3\u30e5\u30fc\u3092\u5236\u4f5c\u4e2d\u3067\u3059\u3002',
+  mediaDescription: '\u52d5\u753b\u3068\u97f3\u58f0\u306e\u30d7\u30ec\u30d3\u30e5\u30fc\u306f\u3001\u63d0\u4f9b\u5f8c\u306b\u516c\u958b\u3057\u307e\u3059\u3002',
+  offerLabel: '\u5c0e\u5165\u4fa1\u683c',
+  offerDescription: '\u4eca\u5f8c\u306e\u5c0e\u5165\u4fa1\u683c\u306f\u3001\u516c\u958b\u5f8c14\u65e5\u9593\u3054\u5229\u7528\u3044\u305f\u3060\u3051\u307e\u3059\u3002',
+  productsEyebrow: '\u53ce\u9332\u30a4\u30f3\u30b9\u30c8\u30a5\u30eb\u30e1\u30f3\u30c8',
+  productsTitle: '\u542b\u307e\u308c\u308b\u88fd\u54c1',
+};
 ---
 
 <BaseLayout
@@ -26,17 +35,17 @@ const editorial = collection.editorial[locale].shortDescription ? collection.edi
   locale={locale}
 >
   <CollectionHero collection={collection} locale={locale} />
-  <section class="section" aria-label="Collection media">
-    <div class="media-placeholder">Media preview in production</div>
-    <p>Video and audio previews will be published when supplied.</p>
+  <section class="section" aria-label={copy.mediaLabel}>
+    <div class="media-placeholder">{copy.mediaPlaceholder}</div>
+    <p>{copy.mediaDescription}</p>
   </section>
-  <section class="section" aria-label="Introductory offer">
-    <p>Any future introductory price will be available for 14 days after release.</p>
+  <section class="section" aria-label={copy.offerLabel}>
+    <p>{copy.offerDescription}</p>
   </section>
   {includedProducts.length > 0 && (
     <section class="section" aria-labelledby="included-products-title">
-      <p class="eyebrow">Included instruments</p>
-      <h2 id="included-products-title">Included products</h2>
+      <p class="eyebrow">{copy.productsEyebrow}</p>
+      <h2 id="included-products-title">{copy.productsTitle}</h2>
       <ul>{includedProducts.map((product) => <li>{product.name}</li>)}</ul>
     </section>
   )}
