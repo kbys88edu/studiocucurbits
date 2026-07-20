@@ -1,0 +1,20 @@
+---
+import type { Product } from '../data/products';
+import type { Locale } from '../lib/locale';
+import StatusLabel from './StatusLabel.astro';
+
+interface Props {
+  product: Product;
+  locale: Locale;
+}
+
+const { product, locale } = Astro.props;
+const editorial = product.editorial[locale].shortDescription ? product.editorial[locale] : product.editorial.en;
+---
+
+<section class="hero" aria-labelledby="product-title">
+  <p class="eyebrow">Studio Cucurbits / Audio Instruments{product.productType && ` / ${product.productType}`}</p>
+  <StatusLabel status={product.status} locale={locale} />
+  <h1 id="product-title">{product.name}</h1>
+  {editorial.shortDescription && <p class="lead">{editorial.shortDescription}</p>}
+</section>

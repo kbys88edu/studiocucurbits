@@ -1,0 +1,21 @@
+---
+import type { Collection } from '../data/products';
+import type { Locale } from '../lib/locale';
+import StatusLabel from './StatusLabel.astro';
+
+interface Props {
+  collection: Collection;
+  locale: Locale;
+}
+
+const { collection, locale } = Astro.props;
+const editorial = collection.editorial[locale].shortDescription ? collection.editorial[locale] : collection.editorial.en;
+---
+
+<section class="hero" aria-labelledby="collection-title">
+  <p class="eyebrow">Studio Cucurbits / Audio Instruments / Collection</p>
+  <StatusLabel status={collection.status} locale={locale} />
+  <h1 id="collection-title">{collection.name}</h1>
+  {editorial.shortDescription && <p class="lead">{editorial.shortDescription}</p>}
+  {editorial.description && <p>{editorial.description}</p>}
+</section>

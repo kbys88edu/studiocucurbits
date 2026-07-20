@@ -1,0 +1,19 @@
+---
+import type { Product } from '../data/products';
+
+interface Props {
+  products: Product[];
+}
+
+const { products } = Astro.props;
+---
+
+{products.length > 0 && (
+  <section class="section" aria-labelledby="related-products-title">
+    <p class="eyebrow">Audio Instruments</p>
+    <h2 id="related-products-title">Related instruments</h2>
+    <ul>
+      {products.map((product) => <li><a href={`/products/${product.slug}/`}>{product.name}</a></li>)}
+    </ul>
+  </section>
+)}

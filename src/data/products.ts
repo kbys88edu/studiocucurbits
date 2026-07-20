@@ -126,7 +126,17 @@ const tendrilPrice = { regularPriceJPY: 4400, regularPriceUSD: 29, introPriceJPY
 export const products: Product[] = [
   product('hidden-prototype', 'Hidden prototype', null, 'hidden'),
   product('palimpsest', 'SC Palimpsest', 'traces', 'hidden', tracesPrice),
-  product('suspended', 'SC Suspended', 'traces', 'coming-soon', tracesPrice),
+  {
+    ...product('suspended', 'SC Suspended', 'traces', 'coming-soon', tracesPrice),
+    editorial: {
+      en: {
+        shortDescription: 'A held sound that appears motionless while time continues to move inside it.',
+        description: 'Capture a sound and hold it in suspension. Grain size, density and internal movement remain active inside the frozen material.',
+        features: [],
+      },
+      ja: emptyEditorial(),
+    },
+  },
   product('refraction', 'SC Refraction', 'traces', 'hidden', tracesPrice),
   product('piano-string', 'SC Piano String', 'tendril', 'hidden', { regularPriceJPY: 2800, regularPriceUSD: 19, introPriceJPY: 1800, introPriceUSD: 12 }),
   product('gong', 'SC Gong', 'tendril', 'hidden'),
@@ -138,6 +148,14 @@ export const products: Product[] = [
   {
     ...product('vitreous', 'SC Vitreous', null, 'announcement', { regularPriceJPY: 5900, regularPriceUSD: 39, introPriceJPY: 3900, introPriceUSD: 25 }),
     productType: 'Material Studies',
+    editorial: {
+      en: {
+        shortDescription: 'Turn dynamics and spectrum into impact, shards and luminous debris.',
+        description: 'Input-derived fracture synthesizer',
+        features: ['Procedural synthesis', 'No prerecorded glass samples', 'No AI or cloud processing', 'Input-derived fracture events'],
+      },
+      ja: emptyEditorial(),
+    },
   },
 ];
 
@@ -166,11 +184,31 @@ function collection(
 }
 
 export const collections: Collection[] = [
-  collection('traces', 'Traces', ['palimpsest', 'suspended', 'refraction'], { regularPriceJPY: 9800, regularPriceUSD: 69, introPriceJPY: 6900, introPriceUSD: 49 }),
-  collection('tendril', 'Tendril', ['piano-string', 'gong', 'flute', 'clarinet', 'trumpet', 'violin', 'cello'], { regularPriceJPY: 19800, regularPriceUSD: 139, introPriceJPY: 13800, introPriceUSD: 99 }),
+  {
+    ...collection('traces', 'Traces', ['palimpsest', 'suspended', 'refraction'], { regularPriceJPY: 9800, regularPriceUSD: 69, introPriceJPY: 6900, introPriceUSD: 49 }),
+    editorial: {
+      en: { shortDescription: 'Three processors for composing memory, suspension and spectral transformation.', description: null, features: [] },
+      ja: emptyEditorial(),
+    },
+  },
+  {
+    ...collection('tendril', 'Tendril', ['piano-string', 'gong', 'flute', 'clarinet', 'trumpet', 'violin', 'cello'], { regularPriceJPY: 19800, regularPriceUSD: 139, introPriceJPY: 13800, introPriceUSD: 99 }),
+    editorial: {
+      en: {
+        shortDescription: 'Experimental physical models for strings, air columns, friction and resonant bodies.',
+        description: 'Not a realistic emulation. Designed for unstable resonance, extended technique and non-idiomatic performance.',
+        features: [],
+      },
+      ja: emptyEditorial(),
+    },
+  },
   collection('future-artist-collection', 'Future Artist Collection', [], { regularPriceJPY: 24800, regularPriceUSD: 169, introPriceJPY: 17800, introPriceUSD: 119 }, ['traces', 'tendril']),
 ];
 
 export function getProductBySlug(slug: string): Product | undefined {
   return products.find((product) => product.slug === slug);
+}
+
+export function isVisibleCollection(collection: Collection): boolean {
+  return collection.status !== 'archived' && Boolean(collection.editorial.en.shortDescription);
 }

@@ -1,10 +1,10 @@
 ---
 import CollectionCard from '../../components/CollectionCard.astro';
-import { collections } from '../../data/products';
+import { collections, isVisibleCollection } from '../../data/products';
 import { getLocale } from '../../lib/locale';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-const visibleCollections = collections.filter((collection) => collection.status !== 'archived');
+const visibleCollections = collections.filter(isVisibleCollection);
 const locale = getLocale(new URL(Astro.request.url));
 ---
 
