@@ -1,0 +1,13 @@
+---
+interface Props {
+  locale?: 'en' | 'ja';
+}
+
+const { locale = 'en' } = Astro.props;
+const path = Astro.url.pathname;
+---
+
+<nav class="language-switch" aria-label="Language">
+  <a href={path} aria-current={locale === 'en' ? 'page' : undefined}>EN</a>
+  <a href={`${path}?lang=ja`} aria-current={locale === 'ja' ? 'page' : undefined}>日本語</a>
+</nav>

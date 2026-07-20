@@ -1,0 +1,27 @@
+---
+import LanguageSwitch from './LanguageSwitch.astro';
+
+interface Props {
+  locale?: 'en' | 'ja';
+}
+
+const { locale = 'en' } = Astro.props;
+const navigation = [
+  { label: 'Studio', href: '/' },
+  { label: 'Work', href: '/work/' },
+  { label: 'Audio Instruments', href: '/products/' },
+  { label: 'About', href: '/about/' },
+  { label: 'Support', href: '/support/' },
+];
+---
+
+<header class="site-header">
+  <a class="brand" href="/" aria-label="Studio Cucurbits home">Studio Cucurbits.</a>
+  <nav class="primary-nav" aria-label="Primary navigation">
+    {navigation.map((item) => <a href={item.href}>{item.label}</a>)}
+  </nav>
+  <div class="header-tools">
+    <span class="parent-brand">Audio Instruments is a Studio Cucurbits area.</span>
+    <LanguageSwitch locale={locale} />
+  </div>
+</header>
