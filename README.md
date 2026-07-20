@@ -26,6 +26,8 @@ Public links referenced in the page:
 
 Pushes to `main` run `check`, tests, and a production build before deploying `dist/` to GitHub Pages. The custom domain is retained at `public/CNAME`; do not remove it from the deployment artifact. Run the same gate locally with `npm run verify`.
 
+For the complete release gate, production-preview route checks, known content constraints, and the current verification record, see [docs/VERIFICATION.md](docs/VERIFICATION.md). Update catalogue content through [docs/CONTENT_GUIDE.md](docs/CONTENT_GUIDE.md), rather than changing generated pages directly.
+
 ## Asset migration
 
 Legacy files in `assets/` now live in `public/images/brand/` and `public/images/studio/` with their original filenames. Product UI images belong in `public/images/products/<slug>/`.
