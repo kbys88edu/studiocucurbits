@@ -41,4 +41,17 @@ describe('data-generated instrument routes', () => {
     expect(renderedPage('/collections')).not.toContain('Future Artist Collection');
     expect(renderedPage('/collections/future-artist-collection')).toBe('');
   });
+
+  it('generates Japanese instrument routes while retaining English canonical routes', () => {
+    const japanese = renderedPage('/ja/products/suspended');
+    const english = renderedPage('/products/suspended');
+
+    expect(japanese).toContain('<html lang="ja">');
+    expect(japanese).toContain('\u8fd1\u65e5\u516c\u958b');
+    expect(japanese).toContain('href="/products/suspended/"');
+    expect(japanese).toContain('href="/ja/products/"');
+    expect(english).toContain('<html lang="en">');
+    expect(english).toContain('Coming soon');
+    expect(english).not.toContain('\u8fd1\u65e5\u516c\u958b');
+  });
 });

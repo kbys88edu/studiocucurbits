@@ -1,11 +1,13 @@
 ---
 import type { Product } from '../data/products';
+import { localizedPath, type Locale } from '../lib/locale';
 
 interface Props {
   products: Product[];
+  locale: Locale;
 }
 
-const { products } = Astro.props;
+const { products, locale } = Astro.props;
 ---
 
 {products.length > 0 && (
@@ -13,7 +15,7 @@ const { products } = Astro.props;
     <p class="eyebrow">Audio Instruments</p>
     <h2 id="related-products-title">Related instruments</h2>
     <ul>
-      {products.map((product) => <li><a href={`/products/${product.slug}/`}>{product.name}</a></li>)}
+      {products.map((product) => <li><a href={localizedPath(`/products/${product.slug}/`, locale)}>{product.name}</a></li>)}
     </ul>
   </section>
 )}

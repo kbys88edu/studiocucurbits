@@ -17,7 +17,7 @@ describe('global navigation', () => {
     expect(html).toContain('href="/about/"');
     expect(html).not.toContain('Buy now');
     expect(html).not.toContain(reportedMojibake);
-    expect(html).not.toContain('\u65e5\u672c\u8a9e');
-    expect(html).not.toContain('aria-label="Language"');
+    expect(html).toContain('href="/ja/"');
+    expect(html).toContain('aria-label="Language"');
   });
 });

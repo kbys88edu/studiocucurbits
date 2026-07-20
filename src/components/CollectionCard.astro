@@ -1,6 +1,6 @@
 ---
 import type { Collection } from '../data/products';
-import type { Locale } from '../lib/locale';
+import { localizedPath, type Locale } from '../lib/locale';
 import StatusLabel from './StatusLabel.astro';
 
 interface Props {
@@ -9,8 +9,8 @@ interface Props {
 }
 
 const { collection, locale } = Astro.props;
-const href = `/collections/${collection.slug}/`;
-const summary = collection.editorial.en.shortDescription;
+const href = localizedPath(`/collections/${collection.slug}/`, locale);
+const summary = collection.editorial[locale].shortDescription ?? collection.editorial.en.shortDescription;
 ---
 
 <article class="catalogue-card">

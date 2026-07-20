@@ -1,6 +1,6 @@
 ---
 import type { LatestItem as LatestItemModel } from '../data/site';
-import type { Locale } from '../lib/locale';
+import { localizedPath, type Locale } from '../lib/locale';
 import StatusLabel from './StatusLabel.astro';
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const { item, locale } = Astro.props;
-const href = item.href.trim();
+const href = item.href.trim() ? localizedPath(item.href, locale) : '';
 ---
 
 <article class="latest-item">

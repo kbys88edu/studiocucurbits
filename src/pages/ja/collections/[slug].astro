@@ -1,0 +1,39 @@
+---
+import CollectionHero from '../../../components/CollectionHero.astro';
+import ProductCard from '../../../components/ProductCard.astro';
+import { collections, isVisibleCollection, products } from '../../../data/products';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+export function getStaticPaths() {
+  return collections
+    .filter(isVisibleCollection)
+    .map((collection) => ({ params: { slug: collection.slug } }));
+}
+
+const collection = collections.filter(isVisibleCollection).find(({ slug }) => slug === Astro.params.slug);
+if (!collection) return Astro.redirect('/ja/collections/');
+
+const locale = 'ja' as const;
+const includedProducts = collection.productSlugs
+  .map((slug) => products.find((product) => product.slug === slug))
+  .filter((product): product is NonNullable<typeof product> => Boolean(product && product.status !== 'hidden'));
+const editorial = collection.editorial[locale].shortDescription ? collection.editorial[locale] : collection.editorial.en;
+---
+
+<BaseLayout
+  title={collection.seo.title ?? `${collection.name} | Audio Instruments | Studio Cucurbits.`}
+  description={collection.seo.description ?? editorial.shortDescription ?? 'Audio Instruments collection from Studio Cucurbits.'}
+  canonicalPath={`/collections/${collection.slug}/`}
+  locale={locale}
+>
+  <CollectionHero collection={collection} locale={locale} />
+  {includedProducts.length > 0 && (
+    <section class="section" aria-labelledby="included-products-title">
+      <p class="eyebrow">Included instruments</p>
+      <h2 id="included-products-title">Included products</h2>
+      <div class="catalogue-list">
+        {includedProducts.map((product) => <ProductCard product={product} locale={locale} />)}
+      </div>
+    </section>
+  )}
+</BaseLayout>

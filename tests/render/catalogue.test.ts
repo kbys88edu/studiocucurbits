@@ -1,6 +1,5 @@
-import { execFileSync, spawn } from 'node:child_process';
+import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
-import { createServer } from 'node:net';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { getLocale } from '../../src/lib/locale';
@@ -16,50 +15,6 @@ function buildSite() {
 function renderedPage(path: string) {
   const file = new URL(`../../dist${path}/index.html`, import.meta.url);
   return existsSync(file) ? readFileSync(file, 'utf8') : '';
-}
-
-async function getAvailablePort() {
-  return new Promise<number>((resolve, reject) => {
-    const server = createServer();
-    server.once('error', reject);
-    server.listen(0, '127.0.0.1', () => {
-      const address = server.address();
-      server.close(() => resolve(typeof address === 'object' && address ? address.port : 0));
-    });
-  });
-}
-
-async function renderDevPage(path: string) {
-  const port = await getAvailablePort();
-
-  return new Promise<string>((resolve, reject) => {
-    const server = spawn(process.execPath, ['node_modules/astro/astro.js', 'dev', '--config', 'tests/astro.server.config.mjs', '--host', '127.0.0.1', '--port', String(port)], {
-      cwd: root,
-      stdio: ['ignore', 'pipe', 'pipe'],
-    });
-    const timeout = setTimeout(() => finish(new Error(`Astro dev server did not start: ${output}`)), 10_000);
-    let output = '';
-
-    function finish(error?: Error, html?: string) {
-      clearTimeout(timeout);
-      server.kill();
-      error ? reject(error) : resolve(html!);
-    }
-
-    server.stdout.on('data', async (chunk: Buffer) => {
-      output += chunk.toString();
-      if (!output.includes('Local')) return;
-
-      try {
-        const response = await fetch(`http://127.0.0.1:${port}${path}`);
-        finish(undefined, await response.text());
-      } catch (error) {
-        finish(error instanceof Error ? error : new Error(String(error)));
-      }
-    });
-    server.stderr.on('data', (chunk: Buffer) => { output += chunk.toString(); });
-    server.on('error', finish);
-  });
 }
 
 describe('Audio Instruments catalogue', () => {
@@ -81,11 +36,12 @@ describe('Audio Instruments catalogue', () => {
     expect(renderedPage('/products')).toContain('Coming soon');
   });
 
-  it('renders the Japanese coming-soon label when the active locale is ja', async () => {
-    expect(getLocale(new URL('https://www.studiocucurbits.com/products/?lang=ja'))).toBe('ja');
-    const html = await renderDevPage('/products/?lang=ja');
+  it('renders the Japanese coming-soon label from a generated Japanese route', () => {
+    expect(getLocale(new URL('https://www.studiocucurbits.com/ja/products/'))).toBe('ja');
+    buildSite();
+    const html = renderedPage('/ja/products');
 
-    expect(html).toContain('近日公開');
-    expect(html).not.toContain('霑第律蜈ｬ髢・');
+    expect(html).toContain('\u8fd1\u65e5\u516c\u958b');
+    expect(html).not.toContain('\u8b4c\uff65\u8b5b\uff6c\u96b1\u30fb');
   });
 }, 30_000);

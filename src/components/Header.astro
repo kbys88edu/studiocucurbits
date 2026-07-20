@@ -1,19 +1,31 @@
 ---
+import { getDictionary } from '../i18n';
+import { localizedPath, type Locale } from '../lib/locale';
+import LanguageSwitch from './LanguageSwitch.astro';
+
+interface Props {
+  locale: Locale;
+  canonicalPath: string;
+}
+
+const { locale, canonicalPath } = Astro.props;
+const dictionary = getDictionary(locale);
 const navigation = [
-  { label: 'Studio', href: '/' },
-  { label: 'Work', href: '/work/' },
-  { label: 'Audio Instruments', href: '/products/' },
-  { label: 'About', href: '/about/' },
-  { label: 'Support', href: '/support/' },
+  { label: dictionary.navigation.studio, href: '/' },
+  { label: dictionary.navigation.work, href: '/work/' },
+  { label: dictionary.navigation.audioInstruments, href: '/products/' },
+  { label: dictionary.navigation.about, href: '/about/' },
+  { label: dictionary.navigation.support, href: '/support/' },
 ];
 ---
 
 <header class="site-header">
-  <a class="brand" href="/" aria-label="Studio Cucurbits home">Studio Cucurbits.</a>
+  <a class="brand" href={localizedPath('/', locale)} aria-label="Studio Cucurbits home">Studio Cucurbits.</a>
   <nav class="primary-nav" aria-label="Primary navigation">
-    {navigation.map((item) => <a href={item.href}>{item.label}</a>)}
+    {navigation.map((item) => <a href={localizedPath(item.href, locale)}>{item.label}</a>)}
   </nav>
   <div class="header-tools">
     <span class="parent-brand">Audio Instruments is a Studio Cucurbits area.</span>
+    <LanguageSwitch locale={locale} path={canonicalPath} />
   </div>
 </header>

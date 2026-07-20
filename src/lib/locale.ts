@@ -9,6 +9,17 @@ export function isLocale(value: string): value is Locale {
 }
 
 export function getLocale(url: URL): Locale {
-  const requestedLocale = url.searchParams.get('lang');
-  return requestedLocale && isLocale(requestedLocale) ? requestedLocale : defaultLocale;
+  return url.pathname === '/ja' || url.pathname.startsWith('/ja/') ? 'ja' : defaultLocale;
+}
+
+export function localizedPath(path: string, locale: Locale): string {
+  const englishPath = path === '/ja/' || path === '/ja'
+    ? '/'
+    : path.startsWith('/ja/')
+      ? path.slice(3)
+      : path;
+
+  return locale === 'ja'
+    ? englishPath === '/' ? '/ja/' : `/ja${englishPath}`
+    : englishPath;
 }

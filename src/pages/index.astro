@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LatestItem from '../components/LatestItem.astro';
 import { latestItem, site } from '../data/site';
-import { getLocale } from '../lib/locale';
+import { getLocale, localizedPath } from '../lib/locale';
 
 const locale = getLocale(new URL(Astro.request.url));
 ---
@@ -31,7 +31,7 @@ const locale = getLocale(new URL(Astro.request.url));
     <div class="area-grid">
       {site.businessAreas.map((area) => (
         <article class="area-card">
-          <h3><a href={area.href}>{area.title}</a></h3>
+          <h3><a href={localizedPath(area.href, locale)}>{area.title}</a></h3>
           {area.description && <p>{area.description}</p>}
         </article>
       ))}
@@ -47,6 +47,6 @@ const locale = getLocale(new URL(Astro.request.url));
   <section class="section notification" aria-labelledby="notification-title">
     <p class="eyebrow">Stay in touch</p>
     <h2 id="notification-title">Receive studio updates.</h2>
-    <a class="button" href="/newsletter/">Notify me</a>
+    <a class="button" href={localizedPath('/newsletter/', locale)}>Notify me</a>
   </section>
 </BaseLayout>
