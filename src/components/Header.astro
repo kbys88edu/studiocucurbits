@@ -1,11 +1,4 @@
 ---
-import LanguageSwitch from './LanguageSwitch.astro';
-
-interface Props {
-  locale?: 'en' | 'ja';
-}
-
-const { locale = 'en' } = Astro.props;
 const navigation = [
   { label: 'Studio', href: '/' },
   { label: 'Work', href: '/work/' },
@@ -22,6 +15,5 @@ const navigation = [
   </nav>
   <div class="header-tools">
     <span class="parent-brand">Audio Instruments is a Studio Cucurbits area.</span>
-    <LanguageSwitch locale={locale} />
   </div>
 </header>

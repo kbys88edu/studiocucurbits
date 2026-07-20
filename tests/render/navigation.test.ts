@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 
 const root = fileURLToPath(new URL('../..', import.meta.url));
+const reportedMojibake = '\u8b4c\uff65\u8b5b\uff6c\u96b1\u30fb';
 
 describe('global navigation', () => {
   it('presents Audio Instruments as a parent-brand area without a purchase CTA', () => {
@@ -15,5 +16,8 @@ describe('global navigation', () => {
     expect(html).toContain('Audio Instruments');
     expect(html).toContain('href="/about/"');
     expect(html).not.toContain('Buy now');
+    expect(html).not.toContain(reportedMojibake);
+    expect(html).not.toContain('\u65e5\u672c\u8a9e');
+    expect(html).not.toContain('aria-label="Language"');
   });
 });
