@@ -46,10 +46,11 @@ test('the mobile menu toggle is visible and operable at 390px', async ({ page })
 
 test('the language switch keeps the equivalent static route', async ({ page }) => {
   await page.goto(`${siteUrl}/products/`);
-  const languageSwitch = page.getByRole('navigation', { name: 'Language' });
-  await languageSwitch.getByRole('link', { name: '日本語', exact: true }).click();
+  const englishLanguageSwitch = page.getByRole('navigation', { name: 'Language' });
+  await englishLanguageSwitch.getByRole('link', { name: '\u65e5\u672c\u8a9e', exact: true }).click();
   await expect(page).toHaveURL(`${siteUrl}/ja/products/`);
-  await languageSwitch.getByRole('link', { name: 'EN', exact: true }).click();
+  const japaneseLanguageSwitch = page.getByRole('navigation', { name: '\u8a00\u8a9e' });
+  await japaneseLanguageSwitch.getByRole('link', { name: 'EN', exact: true }).click();
   await expect(page).toHaveURL(`${siteUrl}/products/`);
 });
 

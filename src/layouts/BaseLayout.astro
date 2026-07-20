@@ -16,6 +16,7 @@ interface Props {
 }
 
 const { title, description, canonicalPath, locale = 'en', product, breadcrumbLabel } = Astro.props;
+const skipLinkLabel = locale === 'ja' ? '\u30b3\u30f3\u30c6\u30f3\u30c4\u3078\u79fb\u52d5' : 'Skip to content';
 const canonical = new URL(canonicalPath, Astro.site);
 const segments = canonicalPath.split('/').filter(Boolean).slice(locale === 'ja' ? 1 : 0);
 const breadcrumbRoot = locale === 'ja' ? '/ja/' : '/';
@@ -45,7 +46,7 @@ const structuredData = [
     {structuredData.map((data) => <script is:inline type="application/ld+json" set:html={JSON.stringify(data)} />)}
   </head>
   <body>
-    <a class="skip-link" href="#main-content">Skip to content</a>
+    <a class="skip-link" href="#main-content">{skipLinkLabel}</a>
     <Header locale={locale} canonicalPath={canonicalPath} />
     <main id="main-content"><slot /></main>
     <Footer locale={locale} />

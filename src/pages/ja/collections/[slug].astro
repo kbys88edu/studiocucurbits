@@ -17,6 +17,7 @@ const includedProducts = collection.productSlugs
   .map((slug) => products.find((product) => product.slug === slug))
   .filter((product): product is NonNullable<typeof product> => Boolean(product && isVisibleProduct(product)));
 const editorial = collection.editorial[locale].shortDescription ? collection.editorial[locale] : collection.editorial.en;
+const catalogueCategory = '\u30aa\u30fc\u30c7\u30a3\u30aa\u30fb\u30a4\u30f3\u30b9\u30c8\u30a5\u30eb\u30e1\u30f3\u30c4';
 const copy = {
   mediaLabel: '\u30b3\u30ec\u30af\u30b7\u30e7\u30f3\u306e\u30e1\u30c7\u30a3\u30a2',
   mediaPlaceholder: '\u30e1\u30c7\u30a3\u30a2\u30d7\u30ec\u30d3\u30e5\u30fc\u3092\u5236\u4f5c\u4e2d\u3067\u3059\u3002',
@@ -29,7 +30,7 @@ const copy = {
 ---
 
 <BaseLayout
-  title={collection.seo.title ?? `${collection.name} | Audio Instruments | Studio Cucurbits.`}
+  title={collection.seo.title ?? `${collection.name} | ${catalogueCategory} | Studio Cucurbits.`}
   description={collection.seo.description ?? editorial.shortDescription ?? 'Audio Instruments collection from Studio Cucurbits.'}
   canonicalPath={`/ja/collections/${collection.slug}/`}
   locale={locale}

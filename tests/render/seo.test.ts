@@ -104,4 +104,14 @@ describe('production SEO', () => {
     expect(about).toContain('<title>Studio Cucurbits.\u306b\u3064\u3044\u3066 | Studio Cucurbits.</title>');
     expect(products).toContain('<h1 id="products-title">\u30aa\u30fc\u30c7\u30a3\u30aa\u30fb\u30a4\u30f3\u30b9\u30c8\u30a5\u30eb\u30e1\u30f3\u30c4</h1>');
   });
+
+  it('uses Japanese SEO titles and accessible labels on Japanese catalogue detail pages', () => {
+    const product = renderedPage('/ja/products/suspended');
+    const collection = renderedPage('/ja/collections/traces');
+
+    expect(product).toContain('<title>SC Suspended | \u30aa\u30fc\u30c7\u30a3\u30aa\u30fb\u30a4\u30f3\u30b9\u30c8\u30a5\u30eb\u30e1\u30f3\u30c4 | Studio Cucurbits.</title>');
+    expect(collection).toContain('<title>Traces | \u30aa\u30fc\u30c7\u30a3\u30aa\u30fb\u30a4\u30f3\u30b9\u30c8\u30a5\u30eb\u30e1\u30f3\u30c4 | Studio Cucurbits.</title>');
+    expect(product).toContain('<a class="skip-link" href="#main-content">\u30b3\u30f3\u30c6\u30f3\u30c4\u3078\u79fb\u52d5</a>');
+    expect(product).toContain('aria-label="\u8a00\u8a9e"');
+  });
 });

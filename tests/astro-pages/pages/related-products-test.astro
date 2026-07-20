@@ -1,0 +1,13 @@
+---
+import RelatedProducts from '../../../src/components/RelatedProducts.astro';
+import { getProductBySlug } from '../../../src/data/products';
+
+const product = getProductBySlug('suspended');
+if (!product) throw new Error('Expected SC Suspended test fixture.');
+---
+
+<!doctype html>
+<html lang="ja">
+  <head><meta charset="utf-8" /><title>Related products test</title></head>
+  <body><RelatedProducts products={[product]} locale="ja" /></body>
+</html>
