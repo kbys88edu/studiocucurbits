@@ -24,3 +24,7 @@ Public links referenced in the page:
 ## Deployment note
 
 This can be uploaded as a normal static site. For a future independent domain, update the `url` field in the JSON-LD block and the Open Graph metadata in `index.html`.
+
+## Asset migration
+
+Legacy files in `assets/` now live in `public/images/brand/` and `public/images/studio/` with their original filenames. Product UI images belong in `public/images/products/<slug>/`.
