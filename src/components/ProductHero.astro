@@ -12,10 +12,11 @@ interface Props {
 
 const { product, locale } = Astro.props;
 const editorial = product.editorial[locale].shortDescription ? product.editorial[locale] : product.editorial.en;
+const category = locale === 'ja' ? 'オーディオ・インストゥルメンツ' : 'Audio Instruments';
 ---
 
 <section class="hero" aria-labelledby="product-title">
-  <p class="eyebrow">Studio Cucurbits / Audio Instruments{product.productType && ` / ${product.productType}`}</p>
+  <p class="eyebrow">Studio Cucurbits / {category}{product.productType && ` / ${product.productType}`}</p>
   <StatusLabel status={product.status} locale={locale} />
   <h1 id="product-title">{product.name}</h1>
   {editorial.shortDescription && <p class="lead">{editorial.shortDescription}</p>}

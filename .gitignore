@@ -5,3 +5,4 @@ dist/
 playwright-report/
 test-results/
 lighthouse.json
+.superpowers/sdd/*.md

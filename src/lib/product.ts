@@ -12,7 +12,14 @@ function configuredUrl(value: string | null | undefined): string | null {
 }
 
 function checkoutUrlFor(product: Product, currency: Currency): string | null {
-  return configuredUrl(currency === 'JPY' ? product.checkoutUrlJPY : product.checkoutUrlUSD);
+  const value = configuredUrl(currency === 'JPY' ? product.checkoutUrlJPY : product.checkoutUrlUSD);
+  if (!value) return null;
+
+  try {
+    return new URL(value).protocol === 'https:' ? value : null;
+  } catch {
+    return null;
+  }
 }
 
 export function getProductCta(product: Product, today: Date, currency: Currency = 'USD', newsletterPath = '/newsletter/'): ProductCta | null {
@@ -38,9 +45,10 @@ export function getProductCta(product: Product, today: Date, currency: Currency 
       : { label: 'notify', href: newsletterPath, disabled: false };
   }
 
+  const price = getDisplayPrice(product, today, currency);
   const checkoutUrl = checkoutUrlFor(product, currency);
-  return checkoutUrl
-    ? { label: getDisplayPrice(product, today, currency)?.kind === 'intro' ? 'buy-intro' : 'buy', href: checkoutUrl, disabled: false }
+  return price && price.amount > 0 && checkoutUrl
+    ? { label: price.kind === 'intro' ? 'buy-intro' : 'buy', href: checkoutUrl, disabled: false }
     : { label: 'notify', href: newsletterPath, disabled: false };
 }
 
@@ -48,7 +56,7 @@ export function getDisplayPrice(product: Product, today: Date, currency: Currenc
   if (!product.publicPrice) return null;
 
   const regularAmount = currency === 'JPY' ? product.regularPriceJPY : product.regularPriceUSD;
-  if (product.status !== 'intro-sale') return regularAmount === null ? null : { amount: regularAmount, kind: 'regular' as const };
+  if (product.status !== 'intro-sale') return typeof regularAmount === 'number' && regularAmount > 0 ? { amount: regularAmount, kind: 'regular' as const } : null;
 
   const introEnd = product.introSaleEndDate && new Date(`${product.introSaleEndDate}T23:59:59Z`);
   if (!introEnd || Number.isNaN(introEnd.valueOf())) return null;
@@ -58,7 +66,7 @@ export function getDisplayPrice(product: Product, today: Date, currency: Currenc
     ? currency === 'JPY' ? product.introPriceJPY : product.introPriceUSD
     : regularAmount;
 
-  return amount === null ? null : { amount, kind: introActive ? 'intro' as const : 'regular' as const };
+  return typeof amount === 'number' && amount > 0 ? { amount, kind: introActive ? 'intro' as const : 'regular' as const } : null;
 }
 
 export function formatPrice(amount: number, currency: Currency, locale: Locale): string {

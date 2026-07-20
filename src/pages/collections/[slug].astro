@@ -1,6 +1,6 @@
 ---
 import CollectionHero from '../../components/CollectionHero.astro';
-import { collections, isVisibleCollection, products } from '../../data/products';
+import { collections, isVisibleCollection, isVisibleProduct, products } from '../../data/products';
 import { getLocale } from '../../lib/locale';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
@@ -18,7 +18,7 @@ if (!collection) return Astro.redirect('/collections/');
 const locale = getLocale(new URL(Astro.request.url));
 const includedProducts = collection.productSlugs
   .map((slug) => products.find((product) => product.slug === slug))
-  .filter((product): product is NonNullable<typeof product> => Boolean(product));
+  .filter((product): product is NonNullable<typeof product> => Boolean(product && isVisibleProduct(product)));
 const editorial = collection.editorial[locale].shortDescription ? collection.editorial[locale] : collection.editorial.en;
 ---
 

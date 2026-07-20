@@ -2,25 +2,28 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const { locale = 'en' } = Astro.props;
+const copy = locale === 'ja'
+  ? { title: '作品 | Studio Cucurbits.', description: 'Studio Cucurbits.の作品を掲載するための編集可能な一覧です。', eyebrow: '作品', heading: 'スタジオの作品', lead: '公開が承認されたスタジオ作品を掲載するための、編集可能な場所です。', selected: '選んだ作品', body: '題名、文脈、公開承認が揃った新しい作品は、ここに追加できます。', alt: '劇場のコントロールと投影ステージ' }
+  : { title: 'Work | Studio Cucurbits.', description: 'An editable index for Studio Cucurbits work.', eyebrow: 'Work', heading: 'Studio work', lead: 'An editable space for studio work approved for publication.', selected: 'Selected work', body: 'New entries can be added here when their title, context, and publication approval are available.', alt: 'Theatre control and projection stage' };
 ---
 
 <BaseLayout
-  title="Work | Studio Cucurbits."
-  description="An editable index for Studio Cucurbits work."
+  title={copy.title}
+  description={copy.description}
   canonicalPath={locale === 'ja' ? '/ja/work/' : '/work/'}
   locale={locale}
 >
   <section class="page-intro" aria-labelledby="work-title">
-    <p class="eyebrow">Work</p>
-    <h1 id="work-title">Studio work</h1>
-    <p class="lead">An editable space for studio work approved for publication.</p>
+    <p class="eyebrow">{copy.eyebrow}</p>
+    <h1 id="work-title">{copy.heading}</h1>
+    <p class="lead">{copy.lead}</p>
   </section>
 
   <section class="section work-boundary" aria-labelledby="work-boundary-title">
-    <img src="/images/studio/theatre-control.jpg" alt="Theatre control and projection stage" width="2048" height="1536" loading="lazy" decoding="async" />
+    <img src="/images/studio/theatre-control.jpg" alt={copy.alt} width="2048" height="1536" loading="lazy" decoding="async" />
     <div>
-      <h2 id="work-boundary-title">Selected work</h2>
-      <p>New entries can be added here when their title, context, and publication approval are available.</p>
+      <h2 id="work-boundary-title">{copy.selected}</h2>
+      <p>{copy.body}</p>
     </div>
   </section>
 </BaseLayout>

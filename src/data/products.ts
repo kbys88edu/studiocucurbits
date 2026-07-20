@@ -131,7 +131,7 @@ export const products: Product[] = [
   product('hidden-prototype', 'Hidden prototype', null, 'hidden'),
   {
     ...product('palimpsest', 'SC Palimpsest', 'traces', 'hidden', tracesPrice),
-    editorial: { en: { shortDescription: 'Sounds remain as overwritten spectral traces.', description: null, features: [] }, ja: emptyEditorial() },
+    editorial: { en: { shortDescription: 'Sounds remain as overwritten spectral traces.', description: null, features: [] }, ja: { shortDescription: '上書きされたスペクトルの痕跡として音が残ります。', description: null, features: [] } },
   },
   {
     ...product('suspended', 'SC Suspended', 'traces', 'coming-soon', tracesPrice),
@@ -141,12 +141,16 @@ export const products: Product[] = [
         description: 'Capture a sound and hold it in suspension. Grain size, density and internal movement remain active inside the frozen material.',
         features: [],
       },
-      ja: emptyEditorial(),
+      ja: {
+        shortDescription: '保たれた音が、内側で動き続けます。',
+        description: '音を取り込み、宙づりのまま保持します。粒子の大きさ、密度、内部の動きは、凍結した素材の内側で活動し続けます。',
+        features: [],
+      },
     },
   },
   {
     ...product('refraction', 'SC Refraction', 'traces', 'hidden', tracesPrice),
-    editorial: { en: { shortDescription: 'Coherent spectral regions bend into new relationships.', description: null, features: [] }, ja: emptyEditorial() },
+    editorial: { en: { shortDescription: 'Coherent spectral regions bend into new relationships.', description: null, features: [] }, ja: { shortDescription: 'まとまりあるスペクトル領域が、新しい関係へと曲がります。', description: null, features: [] } },
   },
   product('piano-string', 'SC Piano String', 'tendril', 'hidden', { regularPriceJPY: 2800, regularPriceUSD: 19, introPriceJPY: 1800, introPriceUSD: 12 }),
   product('gong', 'SC Gong', 'tendril', 'hidden'),
@@ -164,7 +168,11 @@ export const products: Product[] = [
         description: 'Input-derived fracture synthesizer',
         features: ['Procedural synthesis', 'No prerecorded glass samples', 'No AI or cloud processing', 'Input-derived fracture events'],
       },
-      ja: emptyEditorial(),
+      ja: {
+        shortDescription: 'ダイナミクスとスペクトルを、衝撃、破片、光る残響へと変えます。',
+        description: '入力から導かれるフラクチャー・シンセサイザー',
+        features: ['プロシージャル・シンセシス', '録音済みガラスサンプル不使用', 'AI・クラウド処理不使用', '入力由来のフラクチャーイベント'],
+      },
     },
   },
 ];
@@ -198,7 +206,7 @@ export const collections: Collection[] = [
     ...collection('traces', 'Traces', ['palimpsest', 'suspended', 'refraction'], { regularPriceJPY: 9800, regularPriceUSD: 69, introPriceJPY: 6900, introPriceUSD: 49 }),
     editorial: {
       en: { shortDescription: 'Three processors for composing memory, suspension and spectral transformation.', description: null, features: [] },
-      ja: emptyEditorial(),
+      ja: { shortDescription: '記憶、サスペンション、スペクトル変換を作曲するための三つのプロセッサー。', description: null, features: [] },
     },
   },
   {
@@ -209,7 +217,11 @@ export const collections: Collection[] = [
         description: 'Not a realistic emulation. Designed for unstable resonance, extended technique and non-idiomatic performance.',
         features: [],
       },
-      ja: emptyEditorial(),
+      ja: {
+        shortDescription: '弦、気柱、摩擦、共鳴体のための実験的な物理モデル。',
+        description: '現実的なエミュレーションではありません。不安定な共鳴、拡張奏法、非慣習的な演奏のために設計されています。',
+        features: [],
+      },
     },
   },
   collection('future-artist-collection', 'Future Artist Collection', [], { regularPriceJPY: 24800, regularPriceUSD: 169, introPriceJPY: 17800, introPriceUSD: 119 }, ['traces', 'tendril']),

@@ -1,4 +1,17 @@
+---
+import { localizedPath, type Locale } from '../lib/locale';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = locale === 'ja'
+  ? { tagline: 'Studio Cucurbits. / 音楽とクリエイティブテクノロジー', updates: 'スタジオからのお知らせ' }
+  : { tagline: 'Studio Cucurbits. / Music and Creative Technology', updates: 'Studio updates' };
+---
+
 <footer class="site-footer">
-  <p>Studio Cucurbits. / Music and Creative Technology</p>
-  <a href="/newsletter/">Studio updates</a>
+  <p>{copy.tagline}</p>
+  <a href={localizedPath('/newsletter/', locale)}>{copy.updates}</a>
 </footer>

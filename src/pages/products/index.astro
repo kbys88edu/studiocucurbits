@@ -7,23 +7,26 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 const visibleProducts = products.filter(isVisibleProduct);
 const locale = getLocale(new URL(Astro.request.url));
 const canonicalPath = locale === 'ja' ? '/ja/products/' : '/products/';
+const copy = locale === 'ja'
+  ? { title: 'オーディオ・インストゥルメンツ | Studio Cucurbits.', description: 'Studio Cucurbitsの事業のひとつ、音の素材とインストゥルメンツのためのAudio Instruments。', eyebrow: 'Studio Cucurbits / オーディオ・インストゥルメンツ', heading: 'オーディオ・インストゥルメンツ', lead: 'Studio Cucurbitsによる、音の素材とインストゥルメンツ。', catalogue: 'カタログ', current: '現在のインストゥルメンツ' }
+  : { title: 'Audio Instruments | Studio Cucurbits.', description: 'Audio Instruments, a Studio Cucurbits area for sound materials and instruments.', eyebrow: 'Studio Cucurbits / Audio Instruments', heading: 'Audio Instruments', lead: 'Sound materials and instruments from Studio Cucurbits.', catalogue: 'Catalogue', current: 'Current instruments' };
 ---
 
 <BaseLayout
-  title="Audio Instruments | Studio Cucurbits."
-  description="Audio Instruments, a Studio Cucurbits area for sound materials and instruments."
+  title={copy.title}
+  description={copy.description}
   canonicalPath={canonicalPath}
   locale={locale}
 >
   <section class="page-intro" aria-labelledby="products-title">
-    <p class="eyebrow">Studio Cucurbits / Audio Instruments</p>
-    <h1 id="products-title">Audio Instruments</h1>
-    <p class="lead">Sound materials and instruments from Studio Cucurbits.</p>
+    <p class="eyebrow">{copy.eyebrow}</p>
+    <h1 id="products-title">{copy.heading}</h1>
+    <p class="lead">{copy.lead}</p>
   </section>
 
   <section class="section" aria-labelledby="instruments-title">
-    <p class="eyebrow">Catalogue</p>
-    <h2 id="instruments-title">Current instruments</h2>
+    <p class="eyebrow">{copy.catalogue}</p>
+    <h2 id="instruments-title">{copy.current}</h2>
     <div class="catalogue-list">
       {visibleProducts.map((product) => <ProductCard product={product} locale={locale} />)}
     </div>

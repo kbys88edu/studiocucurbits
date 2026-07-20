@@ -10,12 +10,15 @@ interface Props {
 const { product, locale } = Astro.props;
 const editorial = product.editorial[locale].description ? product.editorial[locale] : product.editorial.en;
 const hasCompatibility = product.supportedFormats.length > 0 || product.supportedPlatforms.length > 0 || product.compatibilityNotes;
+const copy = locale === 'ja'
+  ? { instrument: 'インストゥルメント', details: '詳細', technical: '技術情報', compatibility: '互換性', formats: 'フォーマット', platforms: '対応プラットフォーム' }
+  : { instrument: 'Instrument', details: 'Details', technical: 'Technical', compatibility: 'Compatibility', formats: 'Formats', platforms: 'Platforms' };
 ---
 
 {editorial.description && (
   <section class="section copy-block" aria-labelledby="details-title">
-    <p class="eyebrow">Instrument</p>
-    <h2 id="details-title">Details</h2>
+    <p class="eyebrow">{copy.instrument}</p>
+    <h2 id="details-title">{copy.details}</h2>
     <p class="lead">{editorial.description}</p>
     {editorial.features.length > 0 && <ul>{editorial.features.map((feature) => <li>{feature}</li>)}</ul>}
   </section>
@@ -23,10 +26,10 @@ const hasCompatibility = product.supportedFormats.length > 0 || product.supporte
 
 {hasCompatibility && (
   <section class="section copy-block" aria-labelledby="compatibility">
-    <p class="eyebrow">Technical</p>
-    <h2 id="compatibility">Compatibility</h2>
-    {product.supportedFormats.length > 0 && <p>Formats: {product.supportedFormats.join(', ')}</p>}
-    {product.supportedPlatforms.length > 0 && <p>Platforms: {product.supportedPlatforms.join(', ')}</p>}
+    <p class="eyebrow">{copy.technical}</p>
+    <h2 id="compatibility">{copy.compatibility}</h2>
+    {product.supportedFormats.length > 0 && <p>{copy.formats}: {product.supportedFormats.join(', ')}</p>}
+    {product.supportedPlatforms.length > 0 && <p>{copy.platforms}: {product.supportedPlatforms.join(', ')}</p>}
     {product.compatibilityNotes && <p>{product.compatibilityNotes}</p>}
   </section>
 )}

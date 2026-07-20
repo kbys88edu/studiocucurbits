@@ -84,4 +84,24 @@ describe('production SEO', () => {
 
     expect(builtFile('/robots.txt')).toContain('Sitemap: https://www.studiocucurbits.com/sitemap-index.xml');
   });
+
+  it('localizes primary Japanese pages and links each published equivalent language version', () => {
+    for (const path of ['/ja', '/ja/about', '/ja/work', '/ja/products', '/ja/collections']) {
+      const html = renderedPage(path);
+
+      expect(html).toContain('<html lang="ja">');
+      expect(html).toContain('<link rel="alternate" hreflang="en"');
+      expect(html).toContain('<link rel="alternate" hreflang="ja"');
+      expect(html).toContain('<link rel="alternate" hreflang="x-default"');
+    }
+
+    const home = renderedPage('/ja');
+    const about = renderedPage('/ja/about');
+    const products = renderedPage('/ja/products');
+
+    expect(home).toContain('\u97f3\u697d\u30fb\u30b5\u30a6\u30f3\u30c9\u30fbAI\u30fb\u30af\u30ea\u30a8\u30a4\u30c6\u30a3\u30d6\u30c6\u30af\u30ce\u30ed\u30b8\u30fc');
+    expect(home).toContain('<meta name="description" content="Studio Cucurbits.\u306f\u3001\u97f3\u697d\u3068\u30af\u30ea\u30a8\u30a4\u30c6\u30a3\u30d6\u30c6\u30af\u30ce\u30ed\u30b8\u30fc\u306e\u30b9\u30bf\u30b8\u30aa\u3067\u3059\u3002">');
+    expect(about).toContain('<title>Studio Cucurbits.\u306b\u3064\u3044\u3066 | Studio Cucurbits.</title>');
+    expect(products).toContain('<h1 id="products-title">\u30aa\u30fc\u30c7\u30a3\u30aa\u30fb\u30a4\u30f3\u30b9\u30c8\u30a5\u30eb\u30e1\u30f3\u30c4</h1>');
+  });
 });

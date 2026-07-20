@@ -1,4 +1,6 @@
 ---
+import { localizedPath } from '../lib/locale';
+
 interface Props {
   title: string;
   description: string;
@@ -7,11 +9,16 @@ interface Props {
 }
 
 const { title, description, canonical, locale } = Astro.props;
+const englishUrl = new URL(localizedPath(canonical.pathname, 'en'), canonical.origin).toString();
+const japaneseUrl = new URL(localizedPath(canonical.pathname, 'ja'), canonical.origin).toString();
 ---
 
 <title>{title}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical.toString()} />
+<link rel="alternate" hreflang="en" href={englishUrl} />
+<link rel="alternate" hreflang="ja" href={japaneseUrl} />
+<link rel="alternate" hreflang="x-default" href={englishUrl} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:type" content="website" />

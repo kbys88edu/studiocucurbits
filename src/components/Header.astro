@@ -10,6 +10,9 @@ interface Props {
 
 const { locale, canonicalPath } = Astro.props;
 const dictionary = getDictionary(locale);
+const copy = locale === 'ja'
+  ? { home: 'Studio Cucurbits ホーム', menu: 'メニュー', navigation: '主要ナビゲーション', area: 'Audio Instrumentsは、Studio Cucurbitsの事業のひとつです。' }
+  : { home: 'Studio Cucurbits home', menu: 'Menu', navigation: 'Primary navigation', area: 'Audio Instruments is a Studio Cucurbits area.' };
 const navigation = [
   { label: dictionary.navigation.studio, href: '/' },
   { label: dictionary.navigation.work, href: '/work/' },
@@ -20,13 +23,13 @@ const navigation = [
 ---
 
 <header class="site-header">
-  <a class="brand" href={localizedPath('/', locale)} aria-label="Studio Cucurbits home">Studio Cucurbits<span class="brand-dot" data-decorative-animation aria-hidden="true">.</span></a>
-  <button class="menu-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false">Menu</button>
-  <nav id="primary-navigation" class="primary-nav" aria-label="Primary navigation">
+  <a class="brand" href={localizedPath('/', locale)} aria-label={copy.home}>Studio Cucurbits<span class="brand-dot" data-decorative-animation aria-hidden="true">.</span></a>
+  <button class="menu-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false">{copy.menu}</button>
+  <nav id="primary-navigation" class="primary-nav" aria-label={copy.navigation}>
     {navigation.map((item) => <a href={localizedPath(item.href, locale)}>{item.label}</a>)}
   </nav>
   <div class="header-tools">
-    <span class="parent-brand">Audio Instruments is a Studio Cucurbits area.</span>
+    <span class="parent-brand">{copy.area}</span>
     <LanguageSwitch locale={locale} path={canonicalPath} />
   </div>
 </header>
