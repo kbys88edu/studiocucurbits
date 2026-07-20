@@ -25,6 +25,8 @@ export function getProductCta(product: Product, _today: Date): ProductCta | null
 }
 
 export function getDisplayPrice(product: Product, today: Date, currency: Currency) {
+  if (!product.publicPrice) return null;
+
   const introEnd = product.introSaleEndDate ? new Date(`${product.introSaleEndDate}T23:59:59Z`) : null;
   const introActive = product.status === 'intro-sale' && introEnd !== null && today <= introEnd;
   const amount = introActive

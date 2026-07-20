@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { getProductBySlug } from '../../src/data/products';
-import { formatPrice, getProductCta } from '../../src/lib/product';
+import { formatPrice, getDisplayPrice, getProductCta } from '../../src/lib/product';
 
 describe('product CTA', () => {
   it('uses notification when a coming-soon product has no checkout URL', () => {
@@ -32,4 +32,11 @@ it('formats configured JPY without conversion', () => {
 
 it('keeps an unknown video state unpublished', () => {
   expect(getProductBySlug('suspended')?.media.video.status).toBeNull();
+});
+
+it('does not expose a stored price before it is public', () => {
+  const product = getProductBySlug('suspended');
+
+  expect(product).toBeDefined();
+  expect(getDisplayPrice(product!, new Date('2026-07-20'), 'JPY')).toBeNull();
 });
