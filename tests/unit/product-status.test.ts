@@ -25,10 +25,10 @@ describe('status-driven pricing', () => {
 });
 
 describe('status-driven CTAs', () => {
-  it('publishes SC Suspended with price visibility and a notification CTA before Stripe is configured', () => {
+  it('publishes SC Suspended without price visibility and with a notification CTA before Stripe is configured', () => {
     const suspended = products.find(({ slug }) => slug === 'suspended');
 
-    expect(suspended).toMatchObject({ status: 'coming-soon', publicPrice: true });
+    expect(suspended).toMatchObject({ status: 'coming-soon', publicPrice: false });
     expect(getProductCta(suspended as Product, new Date())).toMatchObject({ label: 'notify', href: '/newsletter/' });
   });
 

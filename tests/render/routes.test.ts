@@ -26,12 +26,13 @@ describe('SC Suspended sales routes', () => {
     expect(renderedPage('/collections/tendril')).toBe('');
   });
 
-  it('lists SC Suspended with its public price and notification CTA', () => {
+  it('lists SC Suspended without prices and with a notification CTA', () => {
     const html = renderedPage('/products');
     const detail = renderedPage('/products/suspended');
     expect(html).toContain('contrast_SC_Hero_2560x1440.png');
     expect(html).toContain('SC Suspended');
-    expect(detail).toContain('$29.00');
+    expect(detail).not.toContain('$29.00');
+    expect(detail).not.toContain('¥4,400');
     expect(detail).toContain('href="/newsletter/"');
     expect(html).not.toContain('SC Vitreous');
   });

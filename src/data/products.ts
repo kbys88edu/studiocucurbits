@@ -134,7 +134,7 @@ export const products: Product[] = [
     editorial: { en: { shortDescription: 'Sounds remain as overwritten spectral traces.', description: null, features: [] }, ja: { shortDescription: '上書きされたスペクトルの痕跡として音が残ります。', description: null, features: [] } },
   },
   {
-    ...product('suspended', 'SC Suspended', 'traces', 'coming-soon', { ...tracesPrice, publicPrice: true }),
+    ...product('suspended', 'SC Suspended', 'traces', 'coming-soon', tracesPrice),
     productType: 'Granular suspension processor',
     editorial: {
       en: {
