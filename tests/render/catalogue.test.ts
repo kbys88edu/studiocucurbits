@@ -36,4 +36,10 @@ describe('Audio Instruments catalogue', () => {
     expect(renderedPage('/products')).toContain('SC_Hero_2560x1440.png');
     expect(renderedPage('/products')).not.toContain('catalogue-card');
   });
+
+  it('uses the plugin hero image for the current studio update', () => {
+    buildSite();
+
+    expect(renderedPage('')).toContain('src="/images/products/SC_Hero_2560x1440.png"');
+  });
 }, 30_000);
