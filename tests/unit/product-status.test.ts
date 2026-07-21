@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Product } from '../../src/data/products';
+import { products } from '../../src/data/products';
 import { getDisplayPrice, getProductCta } from '../../src/lib/product';
 
 const introProduct = {
@@ -24,6 +25,13 @@ describe('status-driven pricing', () => {
 });
 
 describe('status-driven CTAs', () => {
+  it('publishes SC Suspended with price visibility and a notification CTA before Stripe is configured', () => {
+    const suspended = products.find(({ slug }) => slug === 'suspended');
+
+    expect(suspended).toMatchObject({ status: 'coming-soon', publicPrice: true });
+    expect(getProductCta(suspended as Product, new Date())).toMatchObject({ label: 'notify', href: '/newsletter/' });
+  });
+
   it('omits CTAs for hidden and discontinued products', () => {
     for (const status of ['hidden', 'discontinued'] as const) {
       expect(getProductCta({ status } as Product, new Date())).toBeNull();

@@ -1,9 +1,12 @@
 ---
 import NewsletterForm from '../../components/NewsletterForm.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { isVisibleProduct, products } from '../../data/products';
 import { getLocale } from '../../lib/locale';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const locale = getLocale(new URL(Astro.request.url));
+const visibleProducts = products.filter(isVisibleProduct);
 const canonicalPath = locale === 'ja' ? '/ja/products/' : '/products/';
 const copy = locale === 'ja'
   ? { title: 'オーディオ・インストゥルメンツ | Studio Cucurbits.', description: 'Studio CucurbitsのAudio Instrumentsは開発中です。', eyebrow: 'Studio Cucurbits / Audio Instruments', heading: 'オーディオ・インストゥルメンツ', lead: 'Studio Cucurbitsは、音のための新しいインストゥルメンツを準備しています。', development: '開発中', details: '個別製品、デモ、ベータ版は準備が整い次第お知らせします。', mailing: '今後のお知らせを受け取る' }
@@ -32,6 +35,14 @@ const copy = locale === 'ja'
     <div class="product-overview-newsletter">
       <p class="eyebrow">{copy.mailing}</p>
       <NewsletterForm locale={locale} />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="catalogue-title">
+    <p class="eyebrow">Products</p>
+    <h2 id="catalogue-title">Current instrument</h2>
+    <div class="catalogue-list">
+      {visibleProducts.map((product) => <ProductCard product={product} locale={locale} />)}
     </div>
   </section>
 </BaseLayout>

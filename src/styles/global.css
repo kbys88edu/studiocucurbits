@@ -59,6 +59,7 @@ h3 { font-size: 1.1rem; }
 .product-overview-hero { aspect-ratio: 16 / 9; margin: 0 0 clamp(2rem, 6vw, 5rem); overflow: hidden; border: 1px solid var(--rule); background: var(--paper); }
 .product-overview-hero img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .product-overview-newsletter { margin-top: clamp(3rem, 8vw, 7rem); }
+.product-hero-image { width: min(100%, 72rem); margin: clamp(2rem, 6vw, 5rem) 0 0; border: 1px solid var(--rule); }
 .newsletter-form input, .newsletter-form select, .newsletter-form button { font: inherit; padding: .65rem; }
 .newsletter-form button { width: fit-content; background: var(--ink); color: var(--paper); border: 0; cursor: pointer; }
 .newsletter-form button:disabled { cursor: not-allowed; opacity: .6; }

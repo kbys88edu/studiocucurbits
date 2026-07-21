@@ -16,20 +16,23 @@ function renderedPage(path: string) {
   return existsSync(file) ? readFileSync(file, 'utf8') : '';
 }
 
-describe('pre-launch Audio Instruments routes', () => {
+describe('SC Suspended sales routes', () => {
   beforeAll(buildSite);
 
-  it('withholds individual product and collection routes until launch readiness', () => {
-    expect(renderedPage('/products/suspended')).toBe('');
+  it('publishes SC Suspended while withholding other product and collection routes', () => {
+    expect(renderedPage('/products/suspended')).toContain('SC Suspended');
     expect(renderedPage('/products/vitreous')).toBe('');
     expect(renderedPage('/collections/traces')).toBe('');
     expect(renderedPage('/collections/tendril')).toBe('');
   });
 
-  it('keeps the public products route as a development-only entry point', () => {
+  it('lists SC Suspended with its public price and notification CTA', () => {
     const html = renderedPage('/products');
+    const detail = renderedPage('/products/suspended');
     expect(html).toContain('contrast_SC_Hero_2560x1440.png');
-    expect(html).not.toContain('SC Suspended');
+    expect(html).toContain('SC Suspended');
+    expect(detail).toContain('$29.00');
+    expect(detail).toContain('href="/newsletter/"');
     expect(html).not.toContain('SC Vitreous');
   });
 });

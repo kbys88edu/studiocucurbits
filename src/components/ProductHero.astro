@@ -20,6 +20,7 @@ const category = locale === 'ja' ? 'オーディオ・インストゥルメン�
   <StatusLabel status={product.status} locale={locale} />
   <h1 id="product-title">{product.name}</h1>
   {editorial.shortDescription && <p class="lead">{editorial.shortDescription}</p>}
+  {product.media.heroImage && <img class="product-hero-image" src={product.media.heroImage} alt="" width="2560" height="1440" loading="eager" decoding="async" />}
   <PriceBlock product={product} locale={locale} />
   <ProductCta product={product} locale={locale} />
 </section>

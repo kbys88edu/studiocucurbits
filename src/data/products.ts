@@ -134,18 +134,33 @@ export const products: Product[] = [
     editorial: { en: { shortDescription: 'Sounds remain as overwritten spectral traces.', description: null, features: [] }, ja: { shortDescription: '上書きされたスペクトルの痕跡として音が残ります。', description: null, features: [] } },
   },
   {
-    ...product('suspended', 'SC Suspended', 'traces', 'hidden', tracesPrice),
+    ...product('suspended', 'SC Suspended', 'traces', 'coming-soon', { ...tracesPrice, publicPrice: true }),
+    productType: 'Granular suspension processor',
     editorial: {
       en: {
         shortDescription: 'A held sound continues to move internally.',
         description: 'Capture a sound and hold it in suspension. Grain size, density and internal movement remain active inside the frozen material.',
-        features: [],
+        features: ['Grain size', 'Density', 'Drift', 'Scatter', 'Breath', 'Fragility'],
       },
       ja: {
         shortDescription: '保たれた音が、内側で動き続けます。',
         description: '音を取り込み、宙づりのまま保持します。粒子の大きさ、密度、内部の動きは、凍結した素材の内側で活動し続けます。',
         features: [],
       },
+    },
+    media: {
+      heroImage: '/images/products/contrast_SC_Hero_2560x1440.png',
+      gallery: [],
+      video: { status: null, poster: null, mp4: null, webm: null, captions: null },
+      audioExamples: [],
+    },
+    checkoutUrlJPY: import.meta.env.STRIPE_SUSPENDED_PAYMENT_LINK_JPY?.trim() || null,
+    checkoutUrlUSD: import.meta.env.STRIPE_SUSPENDED_PAYMENT_LINK_USD?.trim() || null,
+    seo: {
+      title: 'SC Suspended — Granular suspension processor | Studio Cucurbits.',
+      description: 'SC Suspended is an artist-designed audio processor for holding sound in suspension while preserving internal granular motion.',
+      image: '/images/products/contrast_SC_Hero_2560x1440.png',
+      keywords: ['granular processor', 'audio effect', 'sound design'],
     },
   },
   {

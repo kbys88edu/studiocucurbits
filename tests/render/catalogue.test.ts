@@ -17,11 +17,11 @@ function renderedPage(path: string) {
 }
 
 describe('Audio Instruments catalogue', () => {
-  it('keeps Audio Instruments in a pre-launch state', () => {
+  it('publishes SC Suspended as the sole Audio Instruments product', () => {
     buildSite();
 
     expect(renderedPage('')).not.toContain('SC Suspended');
-    expect(renderedPage('/products')).not.toContain('SC Suspended');
+    expect(renderedPage('/products')).toContain('SC Suspended');
   });
 
   it('excludes deliberately hidden products from the public catalogue', () => {
@@ -30,11 +30,11 @@ describe('Audio Instruments catalogue', () => {
     expect(renderedPage('/products')).not.toContain('Hidden prototype');
   });
 
-  it('uses the regenerated hero image without showing product cards', () => {
+  it('uses the regenerated hero image and shows the SC Suspended product card', () => {
     buildSite();
 
     expect(renderedPage('/products')).toContain('contrast_SC_Hero_2560x1440.png');
-    expect(renderedPage('/products')).not.toContain('catalogue-card');
+    expect(renderedPage('/products')).toContain('catalogue-card');
   });
 
   it('uses the plugin hero image for the current studio update', () => {

@@ -34,9 +34,9 @@ it('keeps an unknown video state unpublished', () => {
   expect(getProductBySlug('suspended')?.media.video.status).toBeNull();
 });
 
-it('does not expose a stored price before it is public', () => {
+it('exposes the configured public price for SC Suspended', () => {
   const product = getProductBySlug('suspended');
 
   expect(product).toBeDefined();
-  expect(getDisplayPrice(product!, new Date('2026-07-20'), 'JPY')).toBeNull();
+  expect(getDisplayPrice(product!, new Date('2026-07-20'), 'JPY')).toEqual({ amount: 4400, kind: 'regular' });
 });
