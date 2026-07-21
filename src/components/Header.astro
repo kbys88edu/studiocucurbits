@@ -23,7 +23,9 @@ const navigation = [
 ---
 
 <header class="site-header">
-  <a class="brand" href={localizedPath('/', locale)} aria-label={copy.home}>Studio Cucurbits<span class="brand-dot" data-decorative-animation aria-hidden="true">.</span></a>
+  <a class="brand" href={localizedPath('/', locale)} aria-label={copy.home}>
+    <img src="/images/brand/studio_cucurbits_logo_vector.svg" alt="" width="1260" height="974" />
+  </a>
   <button class="menu-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false">{copy.menu}</button>
   <nav id="primary-navigation" class="primary-nav" aria-label={copy.navigation}>
     {navigation.map((item) => <a href={localizedPath(item.href, locale)}>{item.label}</a>)}

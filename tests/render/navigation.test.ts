@@ -15,6 +15,8 @@ describe('global navigation', () => {
 
     expect(html).toContain('Audio Instruments');
     expect(html).toContain('href="/about/"');
+    expect(html).toContain('src="/images/brand/studio_cucurbits_logo_vector.svg"');
+    expect(html).toContain('alt=""');
     expect(html).not.toContain('Buy now');
     expect(html).not.toContain(reportedMojibake);
     expect(html).toContain('href="/ja/"');
