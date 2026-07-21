@@ -28,7 +28,7 @@ describe('pre-launch Audio Instruments routes', () => {
 
   it('keeps the public products route as a development-only entry point', () => {
     const html = renderedPage('/products');
-    expect(html).toContain('SC_Hero_2560x1440.png');
+    expect(html).toContain('contrast_SC_Hero_2560x1440.png');
     expect(html).not.toContain('SC Suspended');
     expect(html).not.toContain('SC Vitreous');
   });

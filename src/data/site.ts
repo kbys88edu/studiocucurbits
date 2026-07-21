@@ -40,5 +40,5 @@ export const latestItem: LatestItem = {
   summary: 'A new Studio Cucurbits area for sound is in development.',
   href: '/products/',
   status: 'in development',
-  image: '/images/products/SC_Hero_2560x1440.png',
+  image: '/images/products/contrast_SC_Hero_2560x1440.png',
 };
