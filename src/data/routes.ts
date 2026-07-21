@@ -1,7 +1,7 @@
 import { collections, isVisibleCollection, isVisibleProduct, products } from './products';
 
 const staticRoutes = [
-  '/', '/about/', '/work/', '/products/', '/collections/', '/support/', '/downloads/', '/license/',
+  '/', '/about/', '/work/', '/products/', '/support/', '/downloads/', '/license/',
   '/privacy/', '/terms/', '/coming-soon/', '/beta/', '/press/', '/newsletter/',
 ];
 

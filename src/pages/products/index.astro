@@ -1,15 +1,13 @@
 ---
-import ProductCard from '../../components/ProductCard.astro';
-import { isVisibleProduct, products } from '../../data/products';
+import NewsletterForm from '../../components/NewsletterForm.astro';
 import { getLocale } from '../../lib/locale';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-const visibleProducts = products.filter(isVisibleProduct);
 const locale = getLocale(new URL(Astro.request.url));
 const canonicalPath = locale === 'ja' ? '/ja/products/' : '/products/';
 const copy = locale === 'ja'
-  ? { title: 'オーディオ・インストゥルメンツ | Studio Cucurbits.', description: 'Studio Cucurbitsの事業のひとつ、音の素材とインストゥルメンツのためのAudio Instruments。', eyebrow: 'Studio Cucurbits / オーディオ・インストゥルメンツ', heading: 'オーディオ・インストゥルメンツ', lead: 'Studio Cucurbitsによる、音の素材とインストゥルメンツ。', catalogue: 'カタログ', current: '現在のインストゥルメンツ' }
-  : { title: 'Audio Instruments | Studio Cucurbits.', description: 'Audio Instruments, a Studio Cucurbits area for sound materials and instruments.', eyebrow: 'Studio Cucurbits / Audio Instruments', heading: 'Audio Instruments', lead: 'Sound materials and instruments from Studio Cucurbits.', catalogue: 'Catalogue', current: 'Current instruments' };
+  ? { title: 'オーディオ・インストゥルメンツ | Studio Cucurbits.', description: 'Studio CucurbitsのAudio Instrumentsは開発中です。', eyebrow: 'Studio Cucurbits / Audio Instruments', heading: 'オーディオ・インストゥルメンツ', lead: 'Studio Cucurbitsは、音のための新しいインストゥルメンツを準備しています。', development: '開発中', details: '個別製品、デモ、ベータ版は準備が整い次第お知らせします。', mailing: '今後のお知らせを受け取る' }
+  : { title: 'Audio Instruments | Studio Cucurbits.', description: 'Audio Instruments from Studio Cucurbits are in development.', eyebrow: 'Studio Cucurbits / Audio Instruments', heading: 'Audio Instruments', lead: 'Studio Cucurbits is preparing a new area for sound.', development: 'In development', details: 'Individual instruments, demonstrations, and beta access will be announced when they are ready.', mailing: 'Receive future announcements' };
 ---
 
 <BaseLayout
@@ -24,11 +22,16 @@ const copy = locale === 'ja'
     <p class="lead">{copy.lead}</p>
   </section>
 
-  <section class="section" aria-labelledby="instruments-title">
-    <p class="eyebrow">{copy.catalogue}</p>
-    <h2 id="instruments-title">{copy.current}</h2>
-    <div class="catalogue-list">
-      {visibleProducts.map((product) => <ProductCard product={product} locale={locale} />)}
+  <section class="section" aria-labelledby="development-title">
+    <figure class="product-overview-hero">
+      <img src="/images/products/SC_Hero_2560x1440.png" width="2560" height="1440" alt="" loading="eager" decoding="async" />
+    </figure>
+    <p class="eyebrow">{copy.development}</p>
+    <h2 id="development-title">{copy.development}</h2>
+    <p class="lead">{copy.details}</p>
+    <div class="product-overview-newsletter">
+      <p class="eyebrow">{copy.mailing}</p>
+      <NewsletterForm locale={locale} />
     </div>
   </section>
 </BaseLayout>

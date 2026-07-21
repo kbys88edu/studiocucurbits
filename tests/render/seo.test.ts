@@ -27,8 +27,7 @@ describe('production SEO', () => {
     expect(renderedPage('')).toContain('<link rel="canonical" href="https://www.studiocucurbits.com/">');
 
     for (const [path, title, description] of [
-      ['/products/suspended', 'SC Suspended | Audio Instruments | Studio Cucurbits.', 'A held sound continues to move internally.'],
-      ['/collections/traces', 'Traces | Audio Instruments | Studio Cucurbits.', 'Three processors for composing memory, suspension and spectral transformation.'],
+      ['/products', 'Audio Instruments | Studio Cucurbits.', 'Audio Instruments from Studio Cucurbits are in development.'],
       ['/support', 'Support | Studio Cucurbits.', 'Editable installation and support guidance.'],
       ['/privacy', 'Privacy | Studio Cucurbits.', 'Privacy information requiring final review.'],
     ]) {
@@ -40,20 +39,14 @@ describe('production SEO', () => {
     }
   });
 
-  it('does not publish product offers for products that are not available', () => {
-    const html = renderedPage('/products/suspended');
-
-    expect(html).toContain('application/ld+json');
-    expect(html).toContain('"@type":"Organization"');
-    expect(html).toContain('"@type":"BreadcrumbList"');
-    expect(html).not.toContain('"@type":"Product"');
-    expect(html).not.toContain('"@type":"Offer"');
-    expect(html).not.toContain('availability');
-    expect(html).not.toContain('aggregateRating');
+  it('withholds product and collection detail pages from public output', () => {
+    for (const path of ['/products/suspended', '/products/vitreous', '/collections/traces', '/collections/tendril']) {
+      expect(renderedPage(path)).toBe('');
+    }
   });
 
   it('keeps Japanese static aliases self-canonical and locale-aware in breadcrumbs', () => {
-    for (const path of ['/ja', '/ja/about', '/ja/work', '/ja/products', '/ja/collections']) {
+    for (const path of ['/ja', '/ja/about', '/ja/work', '/ja/products']) {
       const html = renderedPage(path);
 
       expect(html).toContain(`<link rel="canonical" href="https://www.studiocucurbits.com${path}/">`);
@@ -71,14 +64,14 @@ describe('production SEO', () => {
     expect(japanese).toContain('"position":1,"name":"ホーム","item":"https://www.studiocucurbits.com/ja/"');
   });
 
-  it('publishes a sitemap of English and Japanese public routes without hidden records', () => {
+  it('publishes a sitemap without withheld product or collection records', () => {
     const sitemap = builtFile('/sitemap-index.xml');
 
-    for (const path of ['/about/', '/ja/about/', '/products/suspended/', '/ja/products/suspended/', '/collections/traces/', '/ja/collections/traces/']) {
+    for (const path of ['/about/', '/ja/about/', '/products/', '/ja/products/']) {
       expect(sitemap).toContain(`<loc>https://www.studiocucurbits.com${path}</loc>`);
     }
 
-    for (const path of ['/products/hidden-prototype/', '/products/palimpsest/', '/collections/future-artist-collection/']) {
+    for (const path of ['/products/suspended/', '/ja/products/suspended/', '/collections/traces/', '/ja/collections/traces/', '/collections/tendril/']) {
       expect(sitemap).not.toContain(path);
     }
 
@@ -86,7 +79,7 @@ describe('production SEO', () => {
   });
 
   it('localizes primary Japanese pages and links each published equivalent language version', () => {
-    for (const path of ['/ja', '/ja/about', '/ja/work', '/ja/products', '/ja/collections']) {
+    for (const path of ['/ja', '/ja/about', '/ja/work', '/ja/products']) {
       const html = renderedPage(path);
 
       expect(html).toContain('<html lang="ja">');
@@ -99,19 +92,9 @@ describe('production SEO', () => {
     const about = renderedPage('/ja/about');
     const products = renderedPage('/ja/products');
 
-    expect(home).toContain('\u97f3\u697d\u30fb\u30b5\u30a6\u30f3\u30c9\u30fbAI\u30fb\u30af\u30ea\u30a8\u30a4\u30c6\u30a3\u30d6\u30c6\u30af\u30ce\u30ed\u30b8\u30fc');
-    expect(home).toContain('<meta name="description" content="Studio Cucurbits.\u306f\u3001\u97f3\u697d\u3068\u30af\u30ea\u30a8\u30a4\u30c6\u30a3\u30d6\u30c6\u30af\u30ce\u30ed\u30b8\u30fc\u306e\u30b9\u30bf\u30b8\u30aa\u3067\u3059\u3002">');
-    expect(about).toContain('<title>Studio Cucurbits.\u306b\u3064\u3044\u3066 | Studio Cucurbits.</title>');
-    expect(products).toContain('<h1 id="products-title">\u30aa\u30fc\u30c7\u30a3\u30aa\u30fb\u30a4\u30f3\u30b9\u30c8\u30a5\u30eb\u30e1\u30f3\u30c4</h1>');
-  });
-
-  it('uses Japanese SEO titles and accessible labels on Japanese catalogue detail pages', () => {
-    const product = renderedPage('/ja/products/suspended');
-    const collection = renderedPage('/ja/collections/traces');
-
-    expect(product).toContain('<title>SC Suspended | \u30aa\u30fc\u30c7\u30a3\u30aa\u30fb\u30a4\u30f3\u30b9\u30c8\u30a5\u30eb\u30e1\u30f3\u30c4 | Studio Cucurbits.</title>');
-    expect(collection).toContain('<title>Traces | \u30aa\u30fc\u30c7\u30a3\u30aa\u30fb\u30a4\u30f3\u30b9\u30c8\u30a5\u30eb\u30e1\u30f3\u30c4 | Studio Cucurbits.</title>');
-    expect(product).toContain('<a class="skip-link" href="#main-content">\u30b3\u30f3\u30c6\u30f3\u30c4\u3078\u79fb\u52d5</a>');
-    expect(product).toContain('aria-label="\u8a00\u8a9e"');
+    expect(home).toContain('音楽・サウンド・AI・クリエイティブテクノロジー');
+    expect(home).toContain('<meta name="description" content="Studio Cucurbits.は、音楽とクリエイティブテクノロジーのスタジオです。">');
+    expect(about).toContain('<title>Studio Cucurbits.について | Studio Cucurbits.</title>');
+    expect(products).toContain('<h1 id="products-title">オーディオ・インストゥルメンツ</h1>');
   });
 });

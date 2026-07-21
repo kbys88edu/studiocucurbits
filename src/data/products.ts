@@ -134,7 +134,7 @@ export const products: Product[] = [
     editorial: { en: { shortDescription: 'Sounds remain as overwritten spectral traces.', description: null, features: [] }, ja: { shortDescription: '上書きされたスペクトルの痕跡として音が残ります。', description: null, features: [] } },
   },
   {
-    ...product('suspended', 'SC Suspended', 'traces', 'coming-soon', tracesPrice),
+    ...product('suspended', 'SC Suspended', 'traces', 'hidden', tracesPrice),
     editorial: {
       en: {
         shortDescription: 'A held sound continues to move internally.',
@@ -160,7 +160,7 @@ export const products: Product[] = [
   product('violin', 'SC Violin', 'tendril', 'hidden', { regularPriceJPY: 5900, regularPriceUSD: 39, introPriceJPY: 3900, introPriceUSD: 25 }),
   product('cello', 'SC Cello', 'tendril', 'hidden', { regularPriceJPY: 5900, regularPriceUSD: 39, introPriceJPY: 3900, introPriceUSD: 25 }),
   {
-    ...product('vitreous', 'SC Vitreous', null, 'announcement', { regularPriceJPY: 5900, regularPriceUSD: 39, introPriceJPY: 3900, introPriceUSD: 25 }),
+    ...product('vitreous', 'SC Vitreous', null, 'hidden', { regularPriceJPY: 5900, regularPriceUSD: 39, introPriceJPY: 3900, introPriceUSD: 25 }),
     productType: 'Material Studies',
     editorial: {
       en: {
@@ -204,6 +204,7 @@ function collection(
 export const collections: Collection[] = [
   {
     ...collection('traces', 'Traces', ['palimpsest', 'suspended', 'refraction'], { regularPriceJPY: 9800, regularPriceUSD: 69, introPriceJPY: 6900, introPriceUSD: 49 }),
+    status: 'archived',
     editorial: {
       en: { shortDescription: 'Three processors for composing memory, suspension and spectral transformation.', description: null, features: [] },
       ja: { shortDescription: '記憶、サスペンション、スペクトル変換を作曲するための三つのプロセッサー。', description: null, features: [] },
@@ -211,6 +212,7 @@ export const collections: Collection[] = [
   },
   {
     ...collection('tendril', 'Tendril', ['piano-string', 'gong', 'flute', 'clarinet', 'trumpet', 'violin', 'cello'], { regularPriceJPY: 19800, regularPriceUSD: 139, introPriceJPY: 13800, introPriceUSD: 99 }),
+    status: 'archived',
     editorial: {
       en: {
         shortDescription: 'Experimental physical models for strings, air columns, friction and resonant bodies.',

@@ -35,10 +35,10 @@ export const site: SiteData = {
 };
 
 export const latestItem: LatestItem = {
-  type: 'instrument',
-  title: 'SC Suspended',
-  summary: 'A held sound that appears motionless while time continues to move inside it.',
-  href: '/products/suspended/',
-  status: 'coming soon',
+  type: 'studio',
+  title: 'Audio Instruments',
+  summary: 'A new Studio Cucurbits area for sound is in development.',
+  href: '/products/',
+  status: 'in development',
   image: null,
 };

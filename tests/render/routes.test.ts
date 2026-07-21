@@ -16,42 +16,20 @@ function renderedPage(path: string) {
   return existsSync(file) ? readFileSync(file, 'utf8') : '';
 }
 
-describe('data-generated instrument routes', () => {
+describe('pre-launch Audio Instruments routes', () => {
   beforeAll(buildSite);
 
-  it('generates routes for every visible product', () => {
-    expect(renderedPage('/products/suspended')).toContain('SC Suspended');
-    expect(renderedPage('/products/vitreous')).toContain('SC Vitreous');
+  it('withholds individual product and collection routes until launch readiness', () => {
+    expect(renderedPage('/products/suspended')).toBe('');
+    expect(renderedPage('/products/vitreous')).toBe('');
+    expect(renderedPage('/collections/traces')).toBe('');
+    expect(renderedPage('/collections/tendril')).toBe('');
   });
 
-  it('does not emit empty links in public detail pages', () => {
-    for (const path of ['/products/suspended', '/products/vitreous', '/collections/traces', '/collections/tendril']) {
-      const html = renderedPage(path);
-
-      expect(html).not.toBe('');
-      expect(html).not.toContain('href=""');
-    }
-  });
-
-  it('omits compatibility when no compatibility facts are supplied', () => {
-    expect(renderedPage('/products/suspended')).not.toContain('>Compatibility</h2>');
-  });
-
-  it('does not link to collections without supplied public editorial content', () => {
-    expect(renderedPage('/collections')).not.toContain('Future Artist Collection');
-    expect(renderedPage('/collections/future-artist-collection')).toBe('');
-  });
-
-  it('generates Japanese instrument routes while retaining English canonical routes', () => {
-    const japanese = renderedPage('/ja/products/suspended');
-    const english = renderedPage('/products/suspended');
-
-    expect(japanese).toContain('<html lang="ja">');
-    expect(japanese).toContain('\u8fd1\u65e5\u516c\u958b');
-    expect(japanese).toContain('href="/products/suspended/"');
-    expect(japanese).toContain('href="/ja/products/"');
-    expect(english).toContain('<html lang="en">');
-    expect(english).toContain('Coming soon');
-    expect(english).not.toContain('\u8fd1\u65e5\u516c\u958b');
+  it('keeps the public products route as a development-only entry point', () => {
+    const html = renderedPage('/products');
+    expect(html).toContain('SC_Hero_2560x1440.png');
+    expect(html).not.toContain('SC Suspended');
+    expect(html).not.toContain('SC Vitreous');
   });
 });

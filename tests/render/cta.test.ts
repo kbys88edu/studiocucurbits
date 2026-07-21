@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { beforeAll, describe, expect, it } from 'vitest';
 
@@ -11,26 +11,16 @@ function buildSite() {
   execFileSync(command, args, { cwd: root, stdio: 'pipe' });
 }
 
-function renderedProduct(slug: string, locale = '') {
-  return readFileSync(new URL(`../../dist/${locale}products/${slug}/index.html`, import.meta.url), 'utf8');
+function productPageExists(slug: string, locale = '') {
+  return existsSync(fileURLToPath(new URL(`../../dist/${locale}products/${slug}/index.html`, import.meta.url)));
 }
 
-describe('product CTA rendering', () => {
+describe('product calls to action', () => {
   beforeAll(buildSite, 30_000);
 
-  it('renders a localized notify CTA without an empty link and withholds private prices', () => {
-    const html = renderedProduct('suspended');
-
-    expect(html).toContain('Notify me');
-    expect(html).toContain('href="/newsletter/"');
-    expect(html).not.toContain('href=""');
-    expect(html).not.toContain('class="price"');
-  });
-
-  it('uses the Japanese static newsletter path and localized CTA copy', () => {
-    const html = renderedProduct('suspended', 'ja/');
-
-    expect(html).toContain('お知らせを受け取る');
-    expect(html).toContain('href="/ja/newsletter/"');
+  it('does not publish product CTAs before a product is ready', () => {
+    expect(productPageExists('suspended')).toBe(false);
+    expect(productPageExists('vitreous')).toBe(false);
+    expect(productPageExists('suspended', 'ja/')).toBe(false);
   });
 }, 30_000);

@@ -2,7 +2,6 @@ import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { getLocale } from '../../src/lib/locale';
 
 const root = fileURLToPath(new URL('../..', import.meta.url));
 
@@ -18,10 +17,11 @@ function renderedPage(path: string) {
 }
 
 describe('Audio Instruments catalogue', () => {
-  it('features SC Suspended as the latest studio item', () => {
+  it('keeps Audio Instruments in a pre-launch state', () => {
     buildSite();
 
-    expect(renderedPage('')).toContain('SC Suspended');
+    expect(renderedPage('')).not.toContain('SC Suspended');
+    expect(renderedPage('/products')).not.toContain('SC Suspended');
   });
 
   it('excludes deliberately hidden products from the public catalogue', () => {
@@ -30,18 +30,10 @@ describe('Audio Instruments catalogue', () => {
     expect(renderedPage('/products')).not.toContain('Hidden prototype');
   });
 
-  it('renders a localized coming-soon status for the catalogue', () => {
+  it('uses the regenerated hero image without showing product cards', () => {
     buildSite();
 
-    expect(renderedPage('/products')).toContain('Coming soon');
-  });
-
-  it('renders the Japanese coming-soon label from a generated Japanese route', () => {
-    expect(getLocale(new URL('https://www.studiocucurbits.com/ja/products/'))).toBe('ja');
-    buildSite();
-    const html = renderedPage('/ja/products');
-
-    expect(html).toContain('\u8fd1\u65e5\u516c\u958b');
-    expect(html).not.toContain('\u8b4c\uff65\u8b5b\uff6c\u96b1\u30fb');
+    expect(renderedPage('/products')).toContain('SC_Hero_2560x1440.png');
+    expect(renderedPage('/products')).not.toContain('catalogue-card');
   });
 }, 30_000);
