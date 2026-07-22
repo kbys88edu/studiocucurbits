@@ -1,0 +1,17 @@
+---
+import ProductSupport from '../../../components/ProductSupport.astro';
+import { getProductBySlug, isVisibleProduct, products } from '../../../data/products';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+export function getStaticPaths() {
+  return products.filter((product) => isVisibleProduct(product) && product.launch).map((product) => ({ params: { slug: product.slug } }));
+}
+
+const product = getProductBySlug(Astro.params.slug ?? '');
+if (!product?.launch || !isVisibleProduct(product)) return Astro.redirect('/ja/support/');
+const locale = 'ja' as const;
+---
+
+<BaseLayout title={`${product.name} サポート | Studio Cucurbits.`} description={`${product.name}のサポート情報。`} canonicalPath={`/ja/support/${product.slug}/`} locale={locale} breadcrumbLabel={`${product.name} サポート`}>
+  <ProductSupport product={product} locale={locale} />
+</BaseLayout>

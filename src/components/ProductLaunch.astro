@@ -1,0 +1,164 @@
+---
+import type { Locale } from '../lib/locale';
+import type { Product } from '../data/products';
+import { localizedPath } from '../lib/locale';
+import StatusLabel from './StatusLabel.astro';
+
+interface Props {
+  product: Product;
+  locale: Locale;
+}
+
+const { product, locale } = Astro.props;
+const launch = product.launch;
+if (!launch) return;
+
+const copy = locale === 'ja'
+  ? {
+      category: 'Granular audio effect',
+      environment: 'Windows VST3 Beta',
+      series: 'TRACES',
+      features: 'FEATURES',
+      controls: 'CONTROLS',
+      uses: 'USES',
+      whatItIs: 'WHAT IT IS',
+      whatItIsNot: 'WHAT IT IS NOT',
+      presets: 'FACTORY PRESETS',
+      specs: 'SPECIFICATIONS',
+      beta: 'BETA INFORMATION',
+      implemented: '現在のベータ版に実装済み',
+      coming: 'ベータ期間中に予定',
+      credits: 'CREDITS',
+      notify: 'SC Suspendedの公開通知を受け取る',
+      hear: 'コンセプトを読む',
+      support: 'SC Suspended Support',
+      productImage: 'SC Suspendedの製品モックアップ',
+    }
+  : {
+      category: 'Granular audio effect',
+      environment: 'Windows VST3 Beta',
+      series: 'TRACES',
+      features: 'FEATURES',
+      controls: 'CONTROLS',
+      uses: 'USES',
+      whatItIs: 'WHAT IT IS',
+      whatItIsNot: 'WHAT IT IS NOT',
+      presets: 'FACTORY PRESETS',
+      specs: 'SPECIFICATIONS',
+      beta: 'BETA INFORMATION',
+      implemented: 'IMPLEMENTED IN THE CURRENT BETA',
+      coming: 'COMING DURING BETA',
+      credits: 'CREDITS',
+      notify: 'Notify me when SC Suspended is available.',
+      hear: 'Read the concept',
+      support: 'SC Suspended Support',
+      productImage: 'SC Suspended product mockup',
+    };
+const content = launch.hero[locale];
+const beta = launch.beta[locale];
+const publicBeta = launch.publicBeta[locale];
+const supportPath = localizedPath(`/support/${product.slug}/`, locale);
+const newsletterPath = localizedPath('/newsletter/', locale);
+---
+
+<section class="suspended-launch" aria-labelledby="product-title">
+  <div class="suspended-hero">
+    <div class="suspended-hero-copy">
+      <p class="eyebrow">Studio Cucurbits / {copy.series} / {copy.category}</p>
+      <StatusLabel status={product.status} locale={locale} />
+      <p class="status-label">{copy.environment}</p>
+      <h1 id="product-title">{product.name}</h1>
+      <p class="launch-tagline">{content.tagline}</p>
+      <p class="lead">{content.description}</p>
+      <div class="launch-actions">
+        <a class="button product-cta" data-suspended-event="click_notify_suspended" href={newsletterPath}>{copy.notify}</a>
+        <a class="text-link" href="#freeze-release">{copy.hear}</a>
+      </div>
+    </div>
+    {product.media.heroImage && <img class="product-hero-image suspended-hero-image" src={product.media.heroImage} alt={copy.productImage} width="1200" height="1500" loading="eager" decoding="async" />}
+  </div>
+
+  <section class="launch-section" aria-labelledby="features-title">
+    <p class="eyebrow">{copy.features}</p>
+    <h2 id="features-title">{copy.features}</h2>
+    <div class="launch-feature-list">
+      {launch.features.map((feature) => {
+        const item = feature[locale];
+        return <article class="launch-feature"><h3>{item.title}</h3><p>{item.description}</p></article>;
+      })}
+    </div>
+  </section>
+
+  <section class="launch-section launch-controls" aria-labelledby="controls-title">
+    <p class="eyebrow">{copy.controls}</p>
+    <h2 id="controls-title">{copy.controls}</h2>
+    <div class="launch-columns">
+      <div><h3>{locale === 'ja' ? 'パラメーター' : 'Parameters'}</h3><ul>{launch.controls.parameters.map((parameter) => <li>{parameter}</li>)}</ul></div>
+      <div><h3>{locale === 'ja' ? '操作' : 'Operations'}</h3><ul>{launch.controls.operations.map((operation) => <li>{operation}</li>)}</ul></div>
+    </div>
+  </section>
+
+  <section class="launch-section" aria-labelledby="uses-title">
+    <p class="eyebrow">{copy.uses}</p>
+    <h2 id="uses-title">{copy.uses}</h2>
+    <ul class="launch-list launch-list-columns">{launch.uses[locale].map((use) => <li>{use}</li>)}</ul>
+  </section>
+
+  <section class="launch-section comparison" aria-labelledby="comparison-title">
+    <h2 id="comparison-title">{locale === 'ja' ? 'SC Suspendedとは' : 'A different kind of freeze'}</h2>
+    <div class="launch-columns">
+      <div><p class="eyebrow">{copy.whatItIs}</p><h3>{copy.whatItIs}</h3><ul>{launch.comparison.whatIs.map((item) => <li>{item}</li>)}</ul></div>
+      <div><p class="eyebrow">{copy.whatItIsNot}</p><h3>{copy.whatItIsNot}</h3><ul>{launch.comparison.whatIsNot.map((item) => <li>{item}</li>)}</ul></div>
+    </div>
+  </section>
+
+  <section id="freeze-release" class="launch-section launch-concept" aria-labelledby="freeze-release-title">
+    <p class="eyebrow">{launch.freezeRelease[locale].title}</p>
+    <h2 id="freeze-release-title">{launch.freezeRelease[locale].title}</h2>
+    {launch.freezeRelease[locale].paragraphs.map((paragraph) => <p class="lead">{paragraph}</p>)}
+  </section>
+
+  <section class="launch-section" aria-labelledby="presets-title">
+    <p class="eyebrow">{copy.presets}</p>
+    <h2 id="presets-title">{copy.presets}</h2>
+    <ol class="preset-list">{launch.presets.map((preset) => <li>{preset}</li>)}</ol>
+  </section>
+
+  <section class="launch-section" aria-labelledby="specifications-title">
+    <p class="eyebrow">{copy.specs}</p>
+    <h2 id="specifications-title">{copy.specs}</h2>
+    <dl class="spec-list">{launch.specifications[locale].map((spec) => <div><dt>{spec.label}</dt><dd>{spec.value}</dd></div>)}</dl>
+  </section>
+
+  <section class="launch-section" aria-labelledby="beta-title">
+    <p class="eyebrow">{copy.beta}</p>
+    <h2 id="beta-title">{beta.title}</h2>
+    {beta.paragraphs.map((paragraph) => <p class="lead">{paragraph}</p>)}
+    <div class="launch-columns beta-state">
+      <div><h3>{publicBeta.implementedTitle || copy.implemented}</h3><ul>{publicBeta.implemented.map((item) => <li>{item}</li>)}</ul></div>
+      <div><h3>{publicBeta.comingTitle || copy.coming}</h3><ul>{publicBeta.coming.map((item) => <li>{item}</li>)}</ul></div>
+    </div>
+  </section>
+
+  <section class="launch-section launch-credits" aria-labelledby="credits-title">
+    <p class="eyebrow">{copy.credits}</p>
+    <h2 id="credits-title">{copy.credits}</h2>
+    <p>{launch.credits.concept}</p>
+    <p>{launch.credits.publisher}</p>
+  </section>
+
+  <section class="launch-section launch-final" aria-labelledby="launch-final-title">
+    <h2 id="launch-final-title">{copy.notify}</h2>
+    <a class="button product-cta" href={newsletterPath}>{copy.notify}</a>
+    <a class="text-link" data-suspended-event="open_suspended_support" href={supportPath}>{copy.support}</a>
+  </section>
+</section>
+
+<script>
+  import { trackEvent } from '../lib/analytics';
+
+  trackEvent('view_suspended');
+  document.querySelectorAll<HTMLElement>('[data-suspended-event]').forEach((element) => {
+    element.addEventListener('click', () => trackEvent(element.dataset.suspendedEvent as Parameters<typeof trackEvent>[0]));
+  });
+</script>

@@ -1,0 +1,28 @@
+---
+import type { Locale } from '../lib/locale';
+import type { Product } from '../data/products';
+
+interface Props { product: Product; locale: Locale }
+const { product, locale } = Astro.props;
+const support = product.launch?.support[locale];
+if (!support) return;
+const title = locale === 'ja' ? `${product.name} サポート` : `${product.name} support`;
+---
+
+<section class="page-intro" aria-labelledby="product-support-title">
+  <p class="eyebrow">{product.name}</p>
+  <h1 id="product-support-title">{title}</h1>
+  <p class="lead">{support.intro}</p>
+</section>
+
+<section class="section" aria-labelledby="support-topics-title">
+  <p class="eyebrow">{locale === 'ja' ? '公開準備項目' : 'Published guidance'}</p>
+  <h2 id="support-topics-title">{locale === 'ja' ? 'サポート項目' : 'Support topics'}</h2>
+  <ul class="launch-list">{support.topics.map((topic) => <li>{topic}</li>)}</ul>
+</section>
+
+<section class="section" aria-labelledby="bug-report-title">
+  <p class="eyebrow">{locale === 'ja' ? '問題の報告' : 'Problem reports'}</p>
+  <h2 id="bug-report-title">{support.bugReportTitle}</h2>
+  <ul class="launch-list">{support.bugReport.map((item) => <li>{item}</li>)}</ul>
+</section>

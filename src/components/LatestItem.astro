@@ -10,15 +10,18 @@ interface Props {
 
 const { item, locale } = Astro.props;
 const href = item.href.trim() ? localizedPath(item.href, locale) : '';
+const newsletterPath = localizedPath('/newsletter/', locale);
 const copy = locale === 'ja'
-  ? { category: 'オーディオ・インストゥルメンツ', summary: '時間が内側で動き続けるなか、静止しているように現れる持続音。' }
-  : { category: 'Audio Instruments', summary: item.summary };
+  ? { category: item.type === 'instrument' ? 'NEW INSTRUMENT' : 'オーディオ・インストゥルメンツ', summary: item.summaryJa ?? item.summary, view: 'SC Suspendedを見る', notify: '通知を受け取る' }
+  : { category: item.type === 'instrument' ? 'NEW INSTRUMENT' : 'Audio Instruments', summary: item.summary, view: 'View SC Suspended', notify: 'Notify me' };
 ---
 
 <article class="latest-item">
   {item.image ? <img src={item.image} alt="" loading="lazy" decoding="async" /> : <div class="media-placeholder" aria-hidden="true" />}
-  <p class="eyebrow">{item.type === 'instrument' ? copy.category : item.type}</p>
+  <p class="eyebrow">{copy.category}</p>
   <StatusLabel status={item.status} locale={locale} />
+  {item.type === 'instrument' && <p class="status-label">Windows VST3 Beta</p>}
   <h3>{href ? <a href={href}>{item.title}</a> : item.title}</h3>
   <p>{copy.summary}</p>
+  {item.type === 'instrument' && <div class="latest-actions"><a class="text-link" href={href}>{copy.view}</a><a class="text-link" href={newsletterPath}>{copy.notify}</a></div>}
 </article>

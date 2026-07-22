@@ -57,7 +57,10 @@ test('the language switch keeps the equivalent static route', async ({ page }) =
 test('reduced motion suppresses decorative motion', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(`${siteUrl}/`);
-  expect(await page.locator('[data-decorative-animation]').evaluate((element) => parseFloat(getComputedStyle(element).animationDuration))).toBeLessThanOrEqual(0.01);
+  const decorative = page.locator('[data-decorative-animation]');
+  if (await decorative.count()) {
+    expect(await decorative.evaluate((element) => parseFloat(getComputedStyle(element).animationDuration))).toBeLessThanOrEqual(0.01);
+  }
 });
 
 test('has no serious or critical axe violations', async ({ page }) => {

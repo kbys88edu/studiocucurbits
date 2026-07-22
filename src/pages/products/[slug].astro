@@ -1,6 +1,7 @@
 ---
 import ProductDetails from '../../components/ProductDetails.astro';
 import ProductHero from '../../components/ProductHero.astro';
+import ProductLaunch from '../../components/ProductLaunch.astro';
 import RelatedProducts from '../../components/RelatedProducts.astro';
 import { getProductBySlug, isVisibleProduct, products } from '../../data/products';
 import { getLocale } from '../../lib/locale';
@@ -31,7 +32,9 @@ const editorial = product.editorial[locale].shortDescription ? product.editorial
   product={product}
   breadcrumbLabel={product.name}
 >
-  <ProductHero product={product} locale={locale} />
-  <ProductDetails product={product} locale={locale} />
+  {product.launch ? <ProductLaunch product={product} locale={locale} /> : <>
+    <ProductHero product={product} locale={locale} />
+    <ProductDetails product={product} locale={locale} />
+  </>}
   <RelatedProducts products={relatedProducts} locale={locale} />
 </BaseLayout>

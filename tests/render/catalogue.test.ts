@@ -20,7 +20,7 @@ describe('Audio Instruments catalogue', () => {
   it('publishes SC Suspended as the sole Audio Instruments product', () => {
     buildSite();
 
-    expect(renderedPage('')).not.toContain('SC Suspended');
+    expect(renderedPage('')).toContain('SC Suspended');
     expect(renderedPage('/products')).toContain('SC Suspended');
   });
 
@@ -40,6 +40,18 @@ describe('Audio Instruments catalogue', () => {
   it('uses the plugin hero image for the current studio update', () => {
     buildSite();
 
-    expect(renderedPage('')).toContain('src="/images/products/contrast_SC_Hero_2560x1440.png"');
+    expect(renderedPage('')).toContain('src="/images/products/SC_Suspended_mockup_20260722.png"');
+    expect(renderedPage('')).toContain('Notify me');
+  });
+
+  it('summarizes unpublished instrument areas without exposing collection routes', () => {
+    buildSite();
+
+    const html = renderedPage('/products');
+    expect(html).toContain('Coming Soon / Windows Beta');
+    expect(html).toContain('Collection in development');
+    expect(html).toContain('Physical modelling collection in development');
+    expect(html).toContain('Standalone material processor / Coming later');
+    expect(html).not.toContain('href="/collections/traces/"');
   });
 }, 30_000);

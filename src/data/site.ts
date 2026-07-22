@@ -9,6 +9,7 @@ export interface LatestItem {
   type: 'instrument' | 'studio' | 'work';
   title: string;
   summary: string;
+  summaryJa?: string;
   href: string;
   status: string | null;
   image: string | null;
@@ -35,10 +36,11 @@ export const site: SiteData = {
 };
 
 export const latestItem: LatestItem = {
-  type: 'studio',
-  title: 'Audio Instruments',
-  summary: 'A new Studio Cucurbits area for sound is in development.',
-  href: '/products/',
-  status: 'in development',
-  image: '/images/products/contrast_SC_Hero_2560x1440.png',
+  type: 'instrument',
+  title: 'SC Suspended',
+  summary: 'Sound in suspension. A body still in motion.',
+  summaryJa: '浮遊する音。動き続ける身体。',
+  href: '/products/suspended/',
+  status: 'coming-soon',
+  image: '/images/products/SC_Suspended_mockup_20260722.png',
 };

@@ -14,6 +14,9 @@ describe('global navigation', () => {
     const html = readFileSync(new URL('../../dist/index.html', import.meta.url), 'utf8');
 
     expect(html).toContain('Audio Instruments');
+    expect(html).toContain('Products');
+    expect(html).toContain('NEW INSTRUMENT');
+    expect(html).toContain('View SC Suspended');
     expect(html).toContain('href="/about/"');
     expect(html).toContain('src="/images/brand/studio_cucurbits_logo_vector.svg"');
     expect(html).toContain('alt=""');

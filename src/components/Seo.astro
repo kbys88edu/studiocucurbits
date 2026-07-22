@@ -6,9 +6,10 @@ interface Props {
   description: string;
   canonical: URL;
   locale: 'en' | 'ja';
+  image?: string;
 }
 
-const { title, description, canonical, locale } = Astro.props;
+const { title, description, canonical, locale, image } = Astro.props;
 const englishUrl = new URL(localizedPath(canonical.pathname, 'en'), canonical.origin).toString();
 const japaneseUrl = new URL(localizedPath(canonical.pathname, 'ja'), canonical.origin).toString();
 ---
@@ -24,3 +25,4 @@ const japaneseUrl = new URL(localizedPath(canonical.pathname, 'ja'), canonical.o
 <meta property="og:type" content="website" />
 <meta property="og:url" content={canonical.toString()} />
 <meta property="og:locale" content={locale === 'ja' ? 'ja_JP' : 'en_US'} />
+{image && <meta property="og:image" content={new URL(image, canonical.origin).toString()} />}

@@ -11,10 +11,11 @@ interface Props {
 const { product, locale } = Astro.props;
 const href = localizedPath(`/products/${product.slug}/`, locale);
 const summary = product.editorial[locale].shortDescription ?? product.editorial.en.shortDescription;
+const imageSize = product.slug === 'suspended' ? { width: 1200, height: 1500 } : { width: 1200, height: 800 };
 ---
 
 <article class="catalogue-card">
-  {product.media.heroImage ? <img src={product.media.heroImage} alt={product.name} width="1200" height="800" loading="lazy" decoding="async" /> : <div class="media-placeholder" aria-hidden="true" />}
+  {product.media.heroImage ? <img src={product.media.heroImage} alt={product.name} width={imageSize.width} height={imageSize.height} loading="lazy" decoding="async" /> : <div class="media-placeholder" aria-hidden="true" />}
   <StatusLabel status={product.status} locale={locale} />
   {product.productType && <p class="eyebrow">{product.productType}</p>}
   <h2><a href={href}>{product.name}</a></h2>

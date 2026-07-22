@@ -2,7 +2,7 @@ export const en = {
   navigation: {
     studio: 'Studio',
     work: 'Work',
-    audioInstruments: 'Audio Instruments',
+    audioInstruments: 'Products',
     about: 'About',
     support: 'Support',
   },
