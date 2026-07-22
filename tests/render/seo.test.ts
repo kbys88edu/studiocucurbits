@@ -98,9 +98,9 @@ describe('production SEO', () => {
     const about = renderedPage('/ja/about');
     const products = renderedPage('/ja/products');
 
-    expect(home).toContain('音楽・サウンド・AI・クリエイティブテクノロジー');
-    expect(home).toContain('<meta name="description" content="Studio Cucurbits.は、音楽とクリエイティブテクノロジーのスタジオです。">');
+    expect(home).toContain('音楽 / サウンド / AI / クリエイティブテクノロジー');
+    expect(home).toContain('<meta name="description" content="Studio Cucurbits.は、音楽とクリエイティブテクノロジーに取り組むスタジオです。">');
     expect(about).toContain('<title>Studio Cucurbits.について | Studio Cucurbits.</title>');
-    expect(products).toContain('<h1 id="products-title">PRODUCTS</h1>');
+    expect(products).toContain('<h1 id="products-title">オーディオ・インストゥルメンツ</h1>');
   });
 });

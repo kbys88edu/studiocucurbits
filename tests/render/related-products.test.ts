@@ -16,7 +16,7 @@ describe('related products', () => {
     const html = readFileSync(new URL('../../dist/related-products-test/index.html', import.meta.url), 'utf8');
 
     expect(html).toContain('<p class="eyebrow">オーディオ・インストゥルメンツ</p>');
-    expect(html).toContain('<h2 id="related-products-title">関連するインストゥルメンツ</h2>');
+    expect(html).toContain('<h2 id="related-products-title">関連製品</h2>');
     expect(html).toContain('href="/ja/products/suspended/"');
   }, 30_000);
 });
