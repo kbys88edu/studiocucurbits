@@ -42,7 +42,7 @@ const structuredData = [
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <Seo title={title} description={description} canonical={canonical} locale={locale} />
+    <Seo title={title} description={description} canonical={canonical} locale={locale} image={product?.seo.image ?? undefined} />
     {structuredData.map((data) => <script is:inline type="application/ld+json" set:html={JSON.stringify(data)} />)}
   </head>
   <body>

@@ -27,7 +27,7 @@ describe('production SEO', () => {
     expect(renderedPage('')).toContain('<link rel="canonical" href="https://www.studiocucurbits.com/">');
 
     for (const [path, title, description] of [
-      ['/products', 'Audio Instruments | Studio Cucurbits.', 'Audio Instruments from Studio Cucurbits are in development.'],
+      ['/products', 'PRODUCTS | Studio Cucurbits.', 'Artist-designed instruments for unstable sound from Studio Cucurbits.'],
       ['/support', 'Support | Studio Cucurbits.', 'Editable installation and support guidance.'],
       ['/privacy', 'Privacy | Studio Cucurbits.', 'Privacy information requiring final review.'],
     ]) {
@@ -40,7 +40,8 @@ describe('production SEO', () => {
   });
 
   it('publishes SC Suspended while withholding other product and collection detail pages', () => {
-    expect(renderedPage('/products/suspended')).toContain('<title>SC Suspended — Granular suspension processor | Studio Cucurbits.</title>');
+    expect(renderedPage('/products/suspended')).toContain('<title>SC Suspended — Granular audio effect | Studio Cucurbits.</title>');
+    expect(renderedPage('/products/suspended')).toContain('property="og:image"');
     for (const path of ['/products/vitreous', '/collections/traces', '/collections/tendril']) {
       expect(renderedPage(path)).toBe('');
     }
@@ -100,6 +101,6 @@ describe('production SEO', () => {
     expect(home).toContain('音楽・サウンド・AI・クリエイティブテクノロジー');
     expect(home).toContain('<meta name="description" content="Studio Cucurbits.は、音楽とクリエイティブテクノロジーのスタジオです。">');
     expect(about).toContain('<title>Studio Cucurbits.について | Studio Cucurbits.</title>');
-    expect(products).toContain('<h1 id="products-title">オーディオ・インストゥルメンツ</h1>');
+    expect(products).toContain('<h1 id="products-title">PRODUCTS</h1>');
   });
 });

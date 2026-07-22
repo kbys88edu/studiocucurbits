@@ -179,8 +179,8 @@ export const products: Product[] = [
     checkoutUrlJPY: import.meta.env.STRIPE_SUSPENDED_PAYMENT_LINK_JPY?.trim() || null,
     checkoutUrlUSD: import.meta.env.STRIPE_SUSPENDED_PAYMENT_LINK_USD?.trim() || null,
     seo: {
-      title: 'SC Suspended — Granular suspension processor | Studio Cucurbits.',
-      description: 'SC Suspended is an artist-designed audio processor for holding sound in suspension while preserving internal granular motion.',
+      title: 'SC Suspended — Granular audio effect | Studio Cucurbits.',
+      description: 'SC Suspended is a live-input granular effect for holding sound in suspension while preserving internal motion.',
       image: '/images/products/SC_Suspended_mockup_20260722.png',
       keywords: ['granular processor', 'audio effect', 'sound design'],
     },
