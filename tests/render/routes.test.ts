@@ -35,6 +35,10 @@ describe('SC Suspended sales routes', () => {
     expect(detail).toContain('SC_Suspended_mockup_20260722.png');
     expect(detail).toContain('Sound in suspension. A body still in motion.');
     expect(detailJa).toContain('浮遊する音。動き続ける身体。');
+    expect(detailJa).toContain('特徴');
+    expect(detailJa).toContain('Windows（ベータ版）');
+    expect(detailJa).toContain('ファクトリープリセット 8種');
+    expect(detailJa).not.toContain('BETA INFORMATION');
     expect(detail).toContain('Almost Motionless');
     expect(detail).not.toContain('¥4,400');
     expect(detail).not.toContain('$29.00');

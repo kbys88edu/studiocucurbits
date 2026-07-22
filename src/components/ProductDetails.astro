@@ -11,7 +11,7 @@ const { product, locale } = Astro.props;
 const editorial = product.editorial[locale].description ? product.editorial[locale] : product.editorial.en;
 const hasCompatibility = product.supportedFormats.length > 0 || product.supportedPlatforms.length > 0 || product.compatibilityNotes;
 const copy = locale === 'ja'
-  ? { instrument: 'インストゥルメント', details: '詳細', technical: '技術情報', compatibility: '互換性', formats: 'フォーマット', platforms: '対応プラットフォーム' }
+  ? { instrument: 'オーディオ・インストゥルメンツ', details: '詳細', technical: '技術情報', compatibility: '互換性', formats: '形式', platforms: '対応環境' }
   : { instrument: 'Instrument', details: 'Details', technical: 'Technical', compatibility: 'Compatibility', formats: 'Formats', platforms: 'Platforms' };
 ---
 

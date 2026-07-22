@@ -12,6 +12,6 @@ if (!product?.launch || !isVisibleProduct(product)) return Astro.redirect('/ja/s
 const locale = 'ja' as const;
 ---
 
-<BaseLayout title={`${product.name} サポート | Studio Cucurbits.`} description={`${product.name}のサポート情報。`} canonicalPath={`/ja/support/${product.slug}/`} locale={locale} breadcrumbLabel={`${product.name} サポート`}>
+<BaseLayout title={`${product.name}のサポート | Studio Cucurbits.`} description={`${product.name}のサポート案内。`} canonicalPath={`/ja/support/${product.slug}/`} locale={locale} breadcrumbLabel={`${product.name}のサポート`}>
   <ProductSupport product={product} locale={locale} />
 </BaseLayout>
