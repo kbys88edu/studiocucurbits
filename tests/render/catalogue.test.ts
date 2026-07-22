@@ -54,4 +54,12 @@ describe('Audio Instruments catalogue', () => {
     expect(html).toContain('Standalone material processor / Coming later');
     expect(html).not.toContain('href="/collections/traces/"');
   });
+
+  it('uses natural Japanese labels on the Japanese catalogue', () => {
+    const html = renderedPage('/ja/products');
+
+    expect(html).toContain('オーディオ・インストゥルメンツ');
+    expect(html).toContain('近日公開 / Windows（ベータ版）');
+    expect(html).not.toContain('PRODUCTS');
+  });
 }, 30_000);

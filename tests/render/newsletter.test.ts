@@ -28,6 +28,12 @@ describe('newsletter announcement route', () => {
     expect(html).toMatch(/data-newsletter-status[^>]*>Newsletter signup is not configured yet\.<\/p>/);
     expect(html).toContain('href="/privacy/"');
     expect(html).toContain('value="suspended"');
+
+    const japanese = renderedPage('/ja/newsletter');
+    expect(japanese).toContain('ニュースレターの登録は現在準備中です。');
+    expect(japanese).toContain('data-newsletter-locale="ja"');
+    expect(japanese).toContain('"name":"ニュースレター"');
+    expect(japanese).not.toContain('"name":"Newsletter"');
   });
 
   it('provides a live privacy route for newsletter consent', () => {

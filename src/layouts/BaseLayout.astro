@@ -20,12 +20,15 @@ const skipLinkLabel = locale === 'ja' ? '\u30b3\u30f3\u30c6\u30f3\u30c4\u3078\u7
 const canonical = new URL(canonicalPath, Astro.site);
 const segments = canonicalPath.split('/').filter(Boolean).slice(locale === 'ja' ? 1 : 0);
 const breadcrumbRoot = locale === 'ja' ? '/ja/' : '/';
+const localizedBreadcrumbs: Record<string, string> = locale === 'ja'
+  ? { about: '概要', work: '作品', products: 'オーディオ・インストゥルメンツ', support: 'サポート', newsletter: 'ニュースレター', downloads: 'ダウンロード', license: 'ライセンス', privacy: 'プライバシー', terms: '利用規約', 'coming-soon': '近日公開', beta: 'ベータ', press: 'プレス' }
+  : {};
 const breadcrumbItems = [
   { '@type': 'ListItem', position: 1, name: locale === 'ja' ? 'ホーム' : 'Home', item: new URL(breadcrumbRoot, Astro.site).toString() },
   ...segments.map((segment, index) => ({
     '@type': 'ListItem',
     position: index + 2,
-    name: index === segments.length - 1 && breadcrumbLabel ? breadcrumbLabel : segment.replace(/-/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase()),
+    name: index === segments.length - 1 && breadcrumbLabel ? breadcrumbLabel : localizedBreadcrumbs[segment] ?? segment.replace(/-/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase()),
     item: new URL(`${breadcrumbRoot}${segments.slice(0, index + 1).join('/')}/`, Astro.site).toString(),
   })),
 ];

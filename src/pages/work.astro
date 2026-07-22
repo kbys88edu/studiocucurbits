@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const { locale = 'en' } = Astro.props;
 const copy = locale === 'ja'
-  ? { title: '作品 | Studio Cucurbits.', description: 'Studio Cucurbits.の作品を掲載するための編集可能な一覧です。', eyebrow: '作品', heading: 'スタジオの作品', lead: '公開が承認されたスタジオ作品を掲載するための、編集可能な場所です。', selected: '選んだ作品', body: '題名、文脈、公開承認が揃った新しい作品は、ここに追加できます。', alt: '劇場のコントロールと投影ステージ' }
+  ? { title: '作品 | Studio Cucurbits.', description: 'Studio Cucurbits.の作品を紹介するためのページです。', eyebrow: '作品', heading: 'スタジオの作品', lead: '公開準備の整ったスタジオ作品を掲載していきます。', selected: '掲載予定の作品', body: '作品名、背景、公開の準備が整ったものから、ここに追加していきます。', alt: '劇場のコントロールと投影ステージ' }
   : { title: 'Work | Studio Cucurbits.', description: 'An editable index for Studio Cucurbits work.', eyebrow: 'Work', heading: 'Studio work', lead: 'An editable space for studio work approved for publication.', selected: 'Selected work', body: 'New entries can be added here when their title, context, and publication approval are available.', alt: 'Theatre control and projection stage' };
 ---
 

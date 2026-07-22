@@ -42,7 +42,8 @@ describe('support, legal, and pre-launch routes', () => {
 
     expect(support).toContain('インストールとプラグインのスキャン');
     expect(support).toContain('よくある質問');
-    expect(support).toContain('一般的なVST3の場所');
+    expect(support).toContain('VST3の保存場所');
+    expect(support).toContain('基本ガイド');
     expect(support).not.toContain('Installation and plugin scanning');
   });
 }, 30_000);

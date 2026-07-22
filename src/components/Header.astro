@@ -11,7 +11,7 @@ interface Props {
 const { locale, canonicalPath } = Astro.props;
 const dictionary = getDictionary(locale);
 const copy = locale === 'ja'
-  ? { home: 'Studio Cucurbits ホーム', menu: 'メニュー', navigation: '主要ナビゲーション', area: 'Audio Instrumentsは、Studio Cucurbitsの事業のひとつです。' }
+  ? { home: 'Studio Cucurbits.のホーム', menu: 'メニュー', navigation: 'メインナビゲーション', area: 'オーディオ・インストゥルメンツは、Studio Cucurbits.の活動領域のひとつです。' }
   : { home: 'Studio Cucurbits home', menu: 'Menu', navigation: 'Primary navigation', area: 'Audio Instruments is a Studio Cucurbits area.' };
 const navigation = [
   { label: dictionary.navigation.studio, href: '/' },

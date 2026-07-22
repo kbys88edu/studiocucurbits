@@ -11,22 +11,22 @@ interface Props {
 const { locale = 'en' } = Astro.props;
 const copy = getDictionary(locale).newsletter;
 const formCopy = locale === 'ja'
-  ? { email: 'メールアドレス', language: '言語', optional: '任意', noPreference: '指定しない', interest: '興味のある内容', updates: 'スタジオからのお知らせ', instruments: 'オーディオ・インストゥルメンツ', suspended: 'SC Suspended', work: 'スタジオの作品', honeypot: 'この欄は空欄のままにしてください', consent: 'プライバシーに関するお知らせ' }
+  ? { email: 'メールアドレス', language: '言語', optional: '任意', noPreference: '指定なし', interest: '関心のある内容', updates: 'スタジオからの最新情報', instruments: 'オーディオ・インストゥルメンツ', suspended: 'SC Suspended', work: 'スタジオの作品', honeypot: 'この欄は空欄のままにしてください', consent: 'プライバシーに関するお知らせ' }
   : { email: 'Email', language: 'Language', optional: 'optional', noPreference: 'No preference', interest: 'Interest', updates: 'Studio updates', instruments: 'Audio instruments', suspended: 'SC Suspended', work: 'Studio work', honeypot: 'Leave this field empty', consent: 'privacy notice' };
 const endpoint = import.meta.env.NEWSLETTER_API_ENDPOINT?.trim() || import.meta.env.NEWSLETTER_FORM_ACTION?.trim();
-const state = newsletterState(endpoint);
+const state = newsletterState(endpoint, locale);
 const privacyPath = localizedPath('/privacy/', locale);
 ---
 
-<form class="newsletter-form" data-newsletter-form data-endpoint={endpoint || undefined} aria-describedby="newsletter-status">
+<form class="newsletter-form" data-newsletter-form data-newsletter-locale={locale} data-endpoint={endpoint || undefined} aria-describedby="newsletter-status">
   <label for="newsletter-email">{formCopy.email}</label>
   <input id="newsletter-email" name="email" type="email" autocomplete="email" required />
 
   <label for="newsletter-language">{formCopy.language} <span>({formCopy.optional})</span></label>
   <select id="newsletter-language" name="language">
     <option value="">{formCopy.noPreference}</option>
-    <option value="en">English</option>
-    <option value="ja">Japanese</option>
+    <option value="en">{locale === 'ja' ? '英語' : 'English'}</option>
+    <option value="ja">{locale === 'ja' ? '日本語' : 'Japanese'}</option>
   </select>
 
   <label for="newsletter-interest">{formCopy.interest} <span>({formCopy.optional})</span></label>
