@@ -37,7 +37,8 @@ h3 { font-size: 1.1rem; }
 .text-link, .button { display: inline-block; margin-top: 1rem; }
 .button { min-height: 44px; padding: .75rem 1rem; background: var(--ink); color: var(--paper); text-decoration: none; }
 .area-grid, .people-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
-.area-card, .person-card { padding: 1rem; border: 1px solid var(--rule); }
+.area-card { padding: 1rem; border: 1px solid var(--rule); }
+.person-card { padding: 1rem; }
 .area-card h3 { margin: 0; }
 .latest-item, .catalogue-card { display: grid; gap: .75rem; max-width: 48rem; padding-block: 1.5rem; border-top: 1px solid var(--rule); }
 .latest-item h3, .catalogue-card h2 { margin: 0; }
