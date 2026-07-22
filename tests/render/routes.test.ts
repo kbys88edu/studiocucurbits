@@ -31,6 +31,7 @@ describe('SC Suspended sales routes', () => {
     const detail = renderedPage('/products/suspended');
     expect(html).toContain('contrast_SC_Hero_2560x1440.png');
     expect(html).toContain('SC Suspended');
+    expect(detail).toContain('SC_Suspended_mockup_20260722.png');
     expect(detail).not.toContain('$29.00');
     expect(detail).not.toContain('¥4,400');
     expect(detail).toContain('href="/newsletter/"');
