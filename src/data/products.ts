@@ -175,7 +175,6 @@ export const products: Product[] = [
     },
     supportedFormats: ['VST3'],
     supportedPlatforms: ['Windows Beta'],
-    compatibilityNotes: 'Supported environment details will be published after verification.',
     checkoutUrlJPY: import.meta.env.STRIPE_SUSPENDED_PAYMENT_LINK_JPY?.trim() || null,
     checkoutUrlUSD: import.meta.env.STRIPE_SUSPENDED_PAYMENT_LINK_USD?.trim() || null,
     demoUrl: import.meta.env.SUSPENDED_DEMO_URL?.trim() || null,

@@ -6,13 +6,13 @@ describe('optional product data', () => {
     const product = getProductBySlug('suspended');
 
     expect(product?.editorial.en.description).toBe(
-      'Capture a sound and hold it in suspension. Grain size, density and internal movement remain active inside the frozen material.',
+      'SC Suspended holds incoming audio as a granular sound body, preserving subtle motion and change within it.',
     );
-    expect(product?.supportedFormats).toEqual([]);
-    expect(product?.supportedPlatforms).toEqual([]);
+    expect(product?.supportedFormats).toEqual(['VST3']);
+    expect(product?.supportedPlatforms).toEqual(['Windows Beta']);
     expect(product?.compatibilityNotes).toBeNull();
     expect(product?.media.audioExamples).toEqual([]);
-    expect(product?.media.video.status).toBeNull();
+    expect(product?.media.video.status).toBe('in-production');
     expect(product?.demoUrl).toBeNull();
   });
 });

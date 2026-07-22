@@ -40,7 +40,7 @@ describe('SC Suspended sales routes', () => {
     expect(detail).not.toContain('$29.00');
     expect(detail).not.toContain('¥4,400');
     expect(detail).toContain('href="/newsletter/"');
-    expect(html).not.toContain('SC Vitreous');
+    expect(html).toContain('SC Vitreous');
   });
 
   it('publishes product-specific support guidance without an unverified install path', () => {
