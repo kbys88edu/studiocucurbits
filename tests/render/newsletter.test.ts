@@ -27,6 +27,7 @@ describe('newsletter announcement route', () => {
     expect(html).toContain('Newsletter signup is not configured yet.');
     expect(html).toMatch(/data-newsletter-status[^>]*>Newsletter signup is not configured yet\.<\/p>/);
     expect(html).toContain('href="/privacy/"');
+    expect(html).toContain('value="suspended"');
   });
 
   it('provides a live privacy route for newsletter consent', () => {

@@ -178,6 +178,8 @@ export const products: Product[] = [
     compatibilityNotes: 'Supported environment details will be published after verification.',
     checkoutUrlJPY: import.meta.env.STRIPE_SUSPENDED_PAYMENT_LINK_JPY?.trim() || null,
     checkoutUrlUSD: import.meta.env.STRIPE_SUSPENDED_PAYMENT_LINK_USD?.trim() || null,
+    demoUrl: import.meta.env.SUSPENDED_DEMO_URL?.trim() || null,
+    manualUrl: import.meta.env.SUSPENDED_MANUAL_URL?.trim() || null,
     seo: {
       title: 'SC Suspended — Granular audio effect | Studio Cucurbits.',
       description: 'SC Suspended is a live-input granular effect for holding sound in suspension while preserving internal motion.',

@@ -43,6 +43,8 @@ h3 { font-size: 1.1rem; }
 .latest-item h3, .catalogue-card h2 { margin: 0; }
 .latest-item h3 { font-size: clamp(1.5rem, 3vw, 2.5rem); line-height: 1; letter-spacing: -.04em; }
 .latest-item p, .catalogue-card p { margin: 0; }
+.latest-item > img { width: min(100%, 32rem); aspect-ratio: 4 / 5; object-fit: cover; border: 1px solid var(--rule); }
+.latest-actions, .launch-actions { display: flex; flex-wrap: wrap; gap: .75rem 1.25rem; align-items: center; }
 .media-placeholder { aspect-ratio: 3 / 2; background: #efefec; border: 1px solid var(--rule); }
 .status-label { color: var(--muted); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; }
 .price { display: flex; gap: .5rem; margin: 1.5rem 0 0; }
@@ -68,6 +70,38 @@ h3 { font-size: 1.1rem; }
 .audio-comparison { display: grid; gap: 1rem; margin-top: 2rem; }
 .draft-notice { max-width: 48rem; padding: 1rem; border: 2px solid var(--ink); background: #fff4cf; }
 .draft-notice p { margin: .5rem 0 0; }
+.catalogue-status { display: grid; gap: 0; margin-top: clamp(2rem, 5vw, 4rem); border-top: 1px solid var(--rule); }
+.catalogue-status-row { display: grid; grid-template-columns: minmax(12rem, 1fr) minmax(0, 2fr); gap: 1rem; padding-block: 1rem; border-bottom: 1px solid var(--rule); }
+.catalogue-status-row h3, .catalogue-status-row p { margin: 0; }
+.catalogue-status-row p { color: var(--muted); }
+
+.suspended-hero { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: clamp(2rem, 8vw, 9rem); align-items: start; padding-block: clamp(3rem, 8vw, 8rem); border-bottom: 1px solid var(--rule); }
+.suspended-hero-copy { max-width: 42rem; }
+.suspended-hero h1 { margin-top: .2rem; }
+.launch-tagline { max-width: 28rem; margin: 1.5rem 0 1rem; font-size: clamp(1.75rem, 4vw, 4rem); line-height: .98; letter-spacing: -.055em; }
+.suspended-hero-image { width: 100%; max-height: min(78vh, 58rem); margin: 0; object-fit: contain; object-position: top center; background: var(--paper); }
+.launch-section { padding-block: clamp(3.5rem, 10vw, 10rem); border-bottom: 1px solid var(--rule); }
+.launch-section > h2 { max-width: 24ch; }
+.launch-feature-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--space); max-width: 70rem; }
+.launch-feature { padding-block: 1.5rem; border-top: 1px solid var(--rule); }
+.launch-feature h3, .launch-feature p { margin: 0; }
+.launch-feature p { max-width: 32rem; margin-top: .5rem; color: var(--muted); }
+.launch-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(2rem, 8vw, 8rem); max-width: 70rem; }
+.launch-columns h3 { margin-top: 0; }
+.launch-columns ul, .launch-list { margin: 0; padding-left: 1.2rem; }
+.launch-list-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem 3rem; max-width: 70rem; }
+.comparison { background: #f4f4f1; }
+.launch-concept { max-width: 72rem; }
+.launch-concept .lead { max-width: 54rem; }
+.preset-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem 3rem; max-width: 60rem; padding-left: 1.5rem; }
+.spec-list { max-width: 70rem; margin: 0; border-top: 1px solid var(--rule); }
+.spec-list > div { display: grid; grid-template-columns: minmax(10rem, 1fr) minmax(0, 2fr); gap: 1rem; padding-block: .85rem; border-bottom: 1px solid var(--rule); }
+.spec-list dt { color: var(--muted); }
+.spec-list dd { margin: 0; }
+.beta-state { margin-top: clamp(2rem, 5vw, 4rem); }
+.launch-credits p { margin: .35rem 0; }
+.launch-final { display: flex; flex-wrap: wrap; align-items: baseline; gap: 1rem 2rem; }
+.launch-final h2 { width: 100%; margin-bottom: 0; }
 
 @media (max-width: 760px) {
   .site-header { grid-template-columns: 1fr auto; align-items: center; }
@@ -78,6 +112,10 @@ h3 { font-size: 1.1rem; }
   .header-tools { text-align: left; }
   .language-switch { justify-content: start; }
   .area-grid, .people-grid, .work-boundary, .catalogue-list { grid-template-columns: 1fr; }
+  .suspended-hero, .launch-columns, .launch-feature-list, .launch-list-columns { grid-template-columns: 1fr; }
+  .suspended-hero-image { max-height: none; }
+  .catalogue-status-row, .spec-list > div { grid-template-columns: 1fr; gap: .25rem; }
+  .preset-list { grid-template-columns: 1fr; }
   .site-footer { flex-direction: column; }
 }
 
