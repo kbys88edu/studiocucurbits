@@ -1,6 +1,7 @@
 ---
 import ProductDetails from '../../../components/ProductDetails.astro';
 import ProductHero from '../../../components/ProductHero.astro';
+import ProductLaunch from '../../../components/ProductLaunch.astro';
 import RelatedProducts from '../../../components/RelatedProducts.astro';
 import { getProductBySlug, isVisibleProduct, products } from '../../../data/products';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
@@ -31,7 +32,9 @@ const catalogueCategory = '\u30aa\u30fc\u30c7\u30a3\u30aa\u30fb\u30a4\u30f3\u30b
   product={product}
   breadcrumbLabel={product.name}
 >
-  <ProductHero product={product} locale={locale} />
-  <ProductDetails product={product} locale={locale} />
+  {product.launch ? <ProductLaunch product={product} locale={locale} /> : <>
+    <ProductHero product={product} locale={locale} />
+    <ProductDetails product={product} locale={locale} />
+  </>}
   <RelatedProducts products={relatedProducts} locale={locale} />
 </BaseLayout>

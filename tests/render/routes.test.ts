@@ -42,4 +42,11 @@ describe('SC Suspended sales routes', () => {
     expect(detail).toContain('href="/newsletter/"');
     expect(html).not.toContain('SC Vitreous');
   });
+
+  it('publishes product-specific support guidance without an unverified install path', () => {
+    const support = renderedPage('/support/suspended');
+    expect(support).toContain('Installation');
+    expect(support).toContain('Reporting a bug');
+    expect(support).not.toContain('C:\\Program Files\\Common Files\\VST3');
+  });
 });

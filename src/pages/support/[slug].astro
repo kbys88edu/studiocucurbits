@@ -1,0 +1,18 @@
+---
+import ProductSupport from '../../components/ProductSupport.astro';
+import { getProductBySlug, isVisibleProduct, products } from '../../data/products';
+import { getLocale } from '../../lib/locale';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export function getStaticPaths() {
+  return products.filter((product) => isVisibleProduct(product) && product.launch).map((product) => ({ params: { slug: product.slug } }));
+}
+
+const product = getProductBySlug(Astro.params.slug ?? '');
+if (!product?.launch || !isVisibleProduct(product)) return Astro.redirect('/support/');
+const locale = getLocale(new URL(Astro.request.url));
+---
+
+<BaseLayout title={`${product.name} support | Studio Cucurbits.`} description={`Support guidance for ${product.name}.`} canonicalPath={`/support/${product.slug}/`} locale={locale} breadcrumbLabel={`${product.name} support`}>
+  <ProductSupport product={product} locale={locale} />
+</BaseLayout>
