@@ -30,9 +30,10 @@ describe('SC Suspended sales routes', () => {
     const html = renderedPage('/products');
     const detail = renderedPage('/products/suspended');
     const detailJa = renderedPage('/ja/products/suspended');
-    expect(html).toContain('contrast_SC_Hero_2560x1440.png');
+    expect(html).toContain('SC_Hero_2560x1440.png');
     expect(html).toContain('SC Suspended');
-    expect(detail).toContain('SC_Suspended_mockup_20260722.png');
+    expect(detail).toContain('traces_suspended.png');
+    expect(detail).toContain('central_sc_suspended.png');
     expect(detail).toContain('Sound in suspension. A body still in motion.');
     expect(detailJa).toContain('浮遊する音。動き続ける身体。');
     expect(detailJa).toContain('特徴');

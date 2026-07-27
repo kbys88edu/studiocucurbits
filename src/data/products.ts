@@ -145,12 +145,19 @@ function product(
 
 const tracesPrice = { regularPriceJPY: 4400, regularPriceUSD: 29, introPriceJPY: 2900, introPriceUSD: 19 };
 const tendrilPrice = { regularPriceJPY: 4400, regularPriceUSD: 29, introPriceJPY: 2900, introPriceUSD: 19 };
+const websiteMedia = (individual: string, centre: string, extraCentre: string[] = []): ProductMedia => ({
+  heroImage: `/images/products/website/individual/${individual}.png`,
+  gallery: [`/images/products/centre/${centre}.png`, ...extraCentre.map((asset) => `/images/products/centre/${asset}.png`)],
+  video: { status: null, poster: null, mp4: null, webm: null, captions: null },
+  audioExamples: [],
+});
 
 export const products: Product[] = [
   product('hidden-prototype', 'Hidden prototype', null, 'hidden'),
   {
     ...product('palimpsest', 'SC Palimpsest', 'traces', 'hidden', tracesPrice),
     editorial: { en: { shortDescription: 'Sounds remain as overwritten spectral traces.', description: null, features: [] }, ja: { shortDescription: '上書きされたスペクトルの痕跡として音が残ります。', description: null, features: [] } },
+    media: websiteMedia('traces_palimpsest', 'central_sc_palimpsest'),
   },
   {
     ...product('suspended', 'SC Suspended', 'traces', 'coming-soon', tracesPrice),
@@ -167,12 +174,7 @@ export const products: Product[] = [
         features: [],
       },
     },
-    media: {
-      heroImage: '/images/products/SC_Suspended_mockup_20260722.png',
-      gallery: [],
-      video: { status: 'in-production', poster: null, mp4: null, webm: null, captions: null },
-      audioExamples: [],
-    },
+    media: { ...websiteMedia('traces_suspended', 'central_sc_suspended'), video: { status: 'in-production', poster: null, mp4: null, webm: null, captions: null } },
     supportedFormats: ['VST3'],
     supportedPlatforms: ['Windows Beta'],
     checkoutUrlJPY: import.meta.env.STRIPE_SUSPENDED_PAYMENT_LINK_JPY?.trim() || null,
@@ -182,7 +184,7 @@ export const products: Product[] = [
     seo: {
       title: 'SC Suspended — Granular audio effect | Studio Cucurbits.',
       description: 'SC Suspended is a live-input granular effect for holding sound in suspension while preserving internal motion.',
-      image: '/images/products/SC_Suspended_mockup_20260722.png',
+      image: '/images/products/website/individual/traces_suspended.png',
       keywords: ['granular processor', 'audio effect', 'sound design'],
     },
     launch: {
@@ -286,13 +288,14 @@ export const products: Product[] = [
   {
     ...product('refraction', 'SC Refraction', 'traces', 'hidden', tracesPrice),
     editorial: { en: { shortDescription: 'Coherent spectral regions bend into new relationships.', description: null, features: [] }, ja: { shortDescription: 'まとまりあるスペクトル領域が、新しい関係へと曲がります。', description: null, features: [] } },
+    media: websiteMedia('traces_refraction', 'central_sc_refraction'),
   },
-  product('piano-string', 'SC Piano String', 'tendril', 'hidden', { regularPriceJPY: 2800, regularPriceUSD: 19, introPriceJPY: 1800, introPriceUSD: 12 }),
-  product('gong', 'SC Gong', 'tendril', 'hidden'),
-  product('flute', 'SC Flute', 'tendril', 'hidden', tendrilPrice),
-  product('clarinet', 'SC Clarinet', 'tendril', 'hidden', tendrilPrice),
-  product('trumpet', 'SC Trumpet', 'tendril', 'hidden', tendrilPrice),
-  product('violin', 'SC Violin', 'tendril', 'hidden', { regularPriceJPY: 5900, regularPriceUSD: 39, introPriceJPY: 3900, introPriceUSD: 25 }),
+  { ...product('piano-string', 'SC Piano String', 'tendril', 'hidden', { regularPriceJPY: 2800, regularPriceUSD: 19, introPriceJPY: 1800, introPriceUSD: 12 }), media: websiteMedia('single_piano_string', 'central_sc_piano_string') },
+  { ...product('gong', 'SC Gong', 'tendril', 'hidden'), media: websiteMedia('tendril_gong', 'central_sc_gong') },
+  { ...product('flute', 'SC Flute', 'tendril', 'hidden', tendrilPrice), media: websiteMedia('tendril_flute', 'central_sc_flute') },
+  { ...product('clarinet', 'SC Clarinet', 'tendril', 'hidden', tendrilPrice), media: websiteMedia('tendril_clarinet', 'central_sc_clarinet') },
+  { ...product('trumpet', 'SC Trumpet', 'tendril', 'hidden', tendrilPrice), media: websiteMedia('tendril_trumpet', 'central_sc_trumpet') },
+  { ...product('violin', 'SC Violin', 'tendril', 'hidden', { regularPriceJPY: 5900, regularPriceUSD: 39, introPriceJPY: 3900, introPriceUSD: 25 }), media: websiteMedia('tendril_violin_v2', 'central_sc_violin_v3', ['central_sc_violin_v2']) },
   product('cello', 'SC Cello', 'tendril', 'hidden', { regularPriceJPY: 5900, regularPriceUSD: 39, introPriceJPY: 3900, introPriceUSD: 25 }),
   {
     ...product('vitreous', 'SC Vitreous', null, 'hidden', { regularPriceJPY: 5900, regularPriceUSD: 39, introPriceJPY: 3900, introPriceUSD: 25 }),
@@ -309,6 +312,7 @@ export const products: Product[] = [
         features: ['プロシージャル・シンセシス', '録音済みガラスサンプル不使用', 'AI・クラウド処理不使用', '入力由来のフラクチャーイベント'],
       },
     },
+    media: websiteMedia('material_study_01_vitreous', 'central_sc_vitreous'),
   },
 ];
 
@@ -340,6 +344,7 @@ export const collections: Collection[] = [
   {
     ...collection('traces', 'Traces', ['palimpsest', 'suspended', 'refraction'], { regularPriceJPY: 9800, regularPriceUSD: 69, introPriceJPY: 6900, introPriceUSD: 49 }),
     status: 'archived',
+    heroImage: '/images/products/website/bundles/traces.png',
     editorial: {
       en: { shortDescription: 'Three processors for composing memory, suspension and spectral transformation.', description: null, features: [] },
       ja: { shortDescription: '記憶、サスペンション、スペクトル変換を作曲するための三つのプロセッサー。', description: null, features: [] },
@@ -348,6 +353,7 @@ export const collections: Collection[] = [
   {
     ...collection('tendril', 'Tendril', ['piano-string', 'gong', 'flute', 'clarinet', 'trumpet', 'violin', 'cello'], { regularPriceJPY: 19800, regularPriceUSD: 139, introPriceJPY: 13800, introPriceUSD: 99 }),
     status: 'archived',
+    heroImage: '/images/products/website/bundles/tendril.png',
     editorial: {
       en: {
         shortDescription: 'Experimental physical models for strings, air columns, friction and resonant bodies.',
@@ -361,7 +367,7 @@ export const collections: Collection[] = [
       },
     },
   },
-  collection('future-artist-collection', 'Future Artist Collection', [], { regularPriceJPY: 24800, regularPriceUSD: 169, introPriceJPY: 17800, introPriceUSD: 119 }, ['traces', 'tendril']),
+  { ...collection('future-artist-collection', 'Future Artist Collection', [], { regularPriceJPY: 24800, regularPriceUSD: 169, introPriceJPY: 17800, introPriceUSD: 119 }, ['traces', 'tendril']), heroImage: '/images/products/website/bundles/material_study_01.png' },
 ];
 
 export function getProductBySlug(slug: string): Product | undefined {

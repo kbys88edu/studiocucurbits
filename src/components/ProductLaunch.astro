@@ -78,6 +78,16 @@ const newsletterPath = localizedPath('/newsletter/', locale);
     {product.media.heroImage && <img class="product-hero-image suspended-hero-image" src={product.media.heroImage} alt={copy.productImage} width="1200" height="1500" loading="eager" decoding="async" />}
   </div>
 
+  {product.media.gallery.length > 0 && (
+    <section class="launch-section product-gallery" aria-labelledby="gallery-title">
+      <p class="eyebrow">{locale === 'ja' ? 'メディア' : 'Media'}</p>
+      <h2 id="gallery-title">{locale === 'ja' ? 'UIとレンダー' : 'UI and renders'}</h2>
+      <div class="product-gallery-grid">
+        {product.media.gallery.map((image) => <img src={image} alt={`${product.name} interface and material detail`} width="1254" height="1254" loading="lazy" decoding="async" />)}
+      </div>
+    </section>
+  )}
+
   <section class="launch-section" aria-labelledby="features-title">
     <p class="eyebrow">{copy.features}</p>
     <h2 id="features-title">{copy.features}</h2>

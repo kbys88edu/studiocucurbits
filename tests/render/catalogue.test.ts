@@ -33,14 +33,14 @@ describe('Audio Instruments catalogue', () => {
   it('uses the regenerated hero image and shows the SC Suspended product card', () => {
     buildSite();
 
-    expect(renderedPage('/products')).toContain('contrast_SC_Hero_2560x1440.png');
+    expect(renderedPage('/products')).toContain('SC_Hero_2560x1440.png');
     expect(renderedPage('/products')).toContain('catalogue-card');
   });
 
   it('uses the plugin hero image for the current studio update', () => {
     buildSite();
 
-    expect(renderedPage('')).toContain('src="/images/products/SC_Suspended_mockup_20260722.png"');
+    expect(renderedPage('')).toContain('src="/images/products/website/individual/traces_suspended.png"');
     expect(renderedPage('')).toContain('Notify me');
   });
 

@@ -24,6 +24,16 @@ const copy = locale === 'ja'
   </section>
 )}
 
+{product.media.gallery.length > 0 && (
+  <section class="section product-gallery" aria-labelledby="gallery-title">
+    <p class="eyebrow">{locale === 'ja' ? 'メディア' : 'Media'}</p>
+    <h2 id="gallery-title">{locale === 'ja' ? 'UIとレンダー' : 'UI and renders'}</h2>
+    <div class="product-gallery-grid">
+      {product.media.gallery.map((image) => <img src={image} alt={`${product.name} interface and material detail`} width="1254" height="1254" loading="lazy" decoding="async" />)}
+    </div>
+  </section>
+)}
+
 {hasCompatibility && (
   <section class="section copy-block" aria-labelledby="compatibility">
     <p class="eyebrow">{copy.technical}</p>
