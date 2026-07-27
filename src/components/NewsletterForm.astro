@@ -26,11 +26,11 @@ const formCopy = locale === 'ja' ? { email: 'メールアドレス', subscribe: 
           <input type="hidden" name="anticsrf" value="true" />
           <div class="ml-form-embedSubmit">
             <button type="submit" class="primary">{formCopy.subscribe}</button>
-            <button disabled hidden type="button" class="loading" aria-label="Loading"><span class="ml-form-embedSubmitLoad"></span></button>
+            <button disabled type="button" class="loading" aria-label="Loading" style="display:none"><span class="ml-form-embedSubmitLoad"></span></button>
           </div>
         </form>
       </div>
-      <div class="ml-form-successBody row-success" hidden>
+      <div class="ml-form-successBody row-success" style="display:none">
         <p>{locale === 'ja' ? '登録ありがとうございます。確認メールをご確認ください。' : 'Thank you. Please check your email to confirm your subscription.'}</p>
       </div>
     </div>
@@ -40,8 +40,10 @@ const formCopy = locale === 'ja' ? { email: 'メールアドレス', subscribe: 
   Object.assign(globalThis, {
     ml_webform_success_44184182: () => {
       const form = document.querySelector('.ml-subscribe-form-44184182');
-      form?.querySelector('.row-success')?.removeAttribute('hidden');
-      form?.querySelector('.row-form')?.setAttribute('hidden', '');
+      const success = form?.querySelector('.row-success');
+      const row = form?.querySelector('.row-form');
+      if (success instanceof HTMLElement) success.style.display = 'block';
+      if (row instanceof HTMLElement) row.style.display = 'none';
     },
   });
 </script>

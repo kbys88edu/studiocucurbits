@@ -27,6 +27,8 @@ describe('newsletter announcement route', () => {
     expect(html).toContain('name="fields[email]"');
     expect(html).toContain('name="ml-submit"');
     expect(html).toContain('src="https://groot.mailerlite.com/js/w/webforms.min.js');
+    expect(html).toContain('ml_webform_success_44184182');
+    expect(html).toContain('class="ml-form-successBody row-success" style="display:none"');
     expect(html).not.toContain('Newsletter signup is not configured yet.');
 
     const japanese = renderedPage('/ja/newsletter');
