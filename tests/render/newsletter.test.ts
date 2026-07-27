@@ -19,19 +19,18 @@ function renderedPage(path: string) {
 describe('newsletter announcement route', () => {
   beforeAll(buildSite, 30_000);
 
-  it('renders an accessible unavailable newsletter form', () => {
+  it('renders the MailerLite subscription form', () => {
     const html = renderedPage('/newsletter');
 
     expect(html).toContain('type="email"');
-    expect(html).toContain('aria-live="polite"');
-    expect(html).toContain('Newsletter signup is not configured yet.');
-    expect(html).toMatch(/data-newsletter-status[^>]*>Newsletter signup is not configured yet\.<\/p>/);
-    expect(html).toContain('href="/privacy/"');
-    expect(html).toContain('value="suspended"');
+    expect(html).toContain('action="https://assets.mailerlite.com/jsonp/2536948/forms/194159585016153657/subscribe"');
+    expect(html).toContain('name="fields[email]"');
+    expect(html).toContain('name="ml-submit"');
+    expect(html).toContain('src="https://groot.mailerlite.com/js/w/webforms.min.js');
+    expect(html).not.toContain('Newsletter signup is not configured yet.');
 
     const japanese = renderedPage('/ja/newsletter');
-    expect(japanese).toContain('ニュースレターの登録は現在準備中です。');
-    expect(japanese).toContain('data-newsletter-locale="ja"');
+    expect(japanese).toContain('action="https://assets.mailerlite.com/jsonp/2536948/forms/194159585016153657/subscribe"');
     expect(japanese).toContain('"name":"ニュースレター"');
     expect(japanese).not.toContain('"name":"Newsletter"');
   });

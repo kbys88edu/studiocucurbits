@@ -1,50 +1,31 @@
 ---
-import { getDictionary } from '../i18n';
 import type { Locale } from '../lib/locale';
-import { localizedPath } from '../lib/locale';
-import { newsletterState } from '../scripts/newsletter';
 
 interface Props {
   locale?: Locale;
 }
 
 const { locale = 'en' } = Astro.props;
-const copy = getDictionary(locale).newsletter;
-const formCopy = locale === 'ja'
-  ? { email: 'メールアドレス', language: '言語', optional: '任意', noPreference: '指定なし', interest: '関心のある内容', updates: 'スタジオからの最新情報', instruments: 'オーディオ・インストゥルメンツ', suspended: 'Suspended', work: 'スタジオの作品', honeypot: 'この欄は空欄のままにしてください', consent: 'プライバシーに関するお知らせ' }
-  : { email: 'Email', language: 'Language', optional: 'optional', noPreference: 'No preference', interest: 'Interest', updates: 'Studio updates', instruments: 'Audio instruments', suspended: 'Suspended', work: 'Studio work', honeypot: 'Leave this field empty', consent: 'privacy notice' };
-const endpoint = import.meta.env.NEWSLETTER_API_ENDPOINT?.trim() || import.meta.env.NEWSLETTER_FORM_ACTION?.trim();
-const state = newsletterState(endpoint, locale);
-const privacyPath = localizedPath('/privacy/', locale);
+const formCopy = locale === 'ja' ? { email: 'メールアドレス', subscribe: '登録する' } : { email: 'Email', subscribe: 'Subscribe' };
 ---
 
-<form class="newsletter-form" data-newsletter-form data-newsletter-locale={locale} data-endpoint={endpoint || undefined} aria-describedby="newsletter-status">
-  <label for="newsletter-email">{formCopy.email}</label>
-  <input id="newsletter-email" name="email" type="email" autocomplete="email" required />
-
-  <label for="newsletter-language">{formCopy.language} <span>({formCopy.optional})</span></label>
-  <select id="newsletter-language" name="language">
-    <option value="">{formCopy.noPreference}</option>
-    <option value="en">{locale === 'ja' ? '英語' : 'English'}</option>
-    <option value="ja">{locale === 'ja' ? '日本語' : 'Japanese'}</option>
-  </select>
-
-  <label for="newsletter-interest">{formCopy.interest} <span>({formCopy.optional})</span></label>
-  <select id="newsletter-interest" name="interest">
-    <option value="">{formCopy.updates}</option>
-    <option value="suspended">{formCopy.suspended}</option>
-    <option value="instruments">{formCopy.instruments}</option>
-    <option value="work">{formCopy.work}</option>
-  </select>
-
-  <label class="honeypot" aria-hidden="true">{formCopy.honeypot} <input name="website" tabindex="-1" autocomplete="off" /></label>
-  <label><input name="consent" type="checkbox" required /> {locale === 'ja' ? '' : 'I agree to the '}<a href={privacyPath}>{formCopy.consent}</a>{locale === 'ja' ? 'に同意します。' : '.'}</label>
-  <button type="submit" disabled={state.status === 'unavailable'}>{copy.subscribe}</button>
-  <p id="newsletter-status" data-newsletter-status aria-live="polite" role="status">{state.message}</p>
-</form>
-
-<script>
-  import { initNewsletterForms } from '../scripts/newsletter';
-
-  initNewsletterForms();
-</script>
+<div id="mlb2-44184182" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-44184182">
+  <div class="ml-form-align-left">
+    <div class="ml-form-embedWrapper embedForm">
+      <div class="ml-form-embedBody ml-form-embedBodyDefault row-form">
+        <form class="ml-block-form newsletter-form" action="https://assets.mailerlite.com/jsonp/2536948/forms/194159585016153657/subscribe" method="post" target="_blank">
+          <label for="newsletter-email">{formCopy.email}</label>
+          <input id="newsletter-email" name="fields[email]" type="email" autocomplete="email" required placeholder={formCopy.email} />
+          <input type="hidden" name="ml-submit" value="1" />
+          <input type="hidden" name="anticsrf" value="true" />
+          <button type="submit">{formCopy.subscribe}</button>
+        </form>
+      </div>
+      <div class="ml-form-successBody row-success" hidden>
+        <p>{locale === 'ja' ? '登録ありがとうございます。確認メールをご確認ください。' : 'Thank you. Please check your email to confirm your subscription.'}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://groot.mailerlite.com/js/w/webforms.min.js?v83147fa8ce2d95cb73ece7f28b469519" is:inline></script>
+<script is:inline>fetch("https://assets.mailerlite.com/jsonp/2536948/forms/194159585016153657/takel");</script>
