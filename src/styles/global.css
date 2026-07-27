@@ -59,6 +59,19 @@ h3 { font-size: 1.1rem; }
 .work-boundary { display: grid; grid-template-columns: minmax(0, 2fr) minmax(16rem, 1fr); gap: var(--space); align-items: start; }
 .site-footer { display: flex; justify-content: space-between; gap: 1rem; padding-block: 1.5rem; }
 .newsletter-form { display: grid; gap: .75rem; max-width: 32rem; margin-top: 2rem; }
+.ml-form-embedContainer { width: 100%; max-width: 32rem; }
+.ml-form-embedContainer .ml-form-embedWrapper,
+.ml-form-embedContainer .ml-form-embedBody,
+.ml-form-embedContainer .ml-block-form,
+.ml-form-embedContainer .ml-form-formContent,
+.ml-form-embedContainer .ml-form-fieldRow,
+.ml-form-embedContainer .ml-field-group { width: 100%; max-width: none; box-sizing: border-box; }
+.ml-form-embedContainer .newsletter-form input[type='email'] { display: block; width: 100%; min-height: 3rem; box-sizing: border-box; }
+.ml-form-embedContainer .ml-form-embedSubmit { display: flex; align-items: center; gap: .75rem; width: 100%; }
+.ml-form-embedContainer .ml-form-embedSubmit button.primary,
+.ml-form-embedContainer .ml-form-embedSubmit button.loading { min-height: 3rem; box-sizing: border-box; }
+.ml-form-embedContainer .ml-form-embedSubmit button.primary { width: fit-content; }
+.ml-form-embedContainer .ml-form-embedSubmit button.loading { width: 7rem; }
 .product-overview-hero { aspect-ratio: 16 / 9; margin: 0 0 clamp(2rem, 6vw, 5rem); overflow: hidden; background: var(--paper); }
 .product-overview-hero img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .product-overview-newsletter { margin-top: clamp(3rem, 8vw, 7rem); }
