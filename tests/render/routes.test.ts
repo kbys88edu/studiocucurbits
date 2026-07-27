@@ -53,18 +53,17 @@ describe('Suspended sales routes', () => {
     expect(html).toContain('Vitreous');
   });
 
-  it('links to a separate specifications page and removes specifications from the product page', () => {
+  it('keeps every product content section collapsed until its heading is opened', () => {
     const detail = renderedPage('/products/suspended');
-    const specifications = renderedPage('/products/suspended/specifications');
     const specificationsJa = renderedPage('/ja/products/suspended/specifications');
 
-    expect(detail).toContain('href="/products/suspended/specifications/"');
-    expect(detail).not.toContain('Attack Threshold</dt>');
-    expect(specifications).toContain('<h1 id="specifications-title">Suspended</h1>');
-    expect(specifications).toContain('Attack Threshold');
-    expect(specifications).not.toContain('SC Suspended');
+    for (const summary of ['UI and renders', 'FEATURES', 'CONTROLS', 'USES', 'A different kind of freeze', 'FREEZE / RELEASE', 'FACTORY PRESETS', 'BETA INFORMATION', 'CREDITS', 'SPECIFICATIONS']) {
+      expect(detail).toContain(`<span class="launch-summary-title">${summary}</span>`);
+    }
+    expect(detail).not.toContain('href="/products/suspended/specifications/"');
+    expect(detail).toContain('Attack Threshold');
+    expect(detail).not.toContain(' open>');
     expect(specificationsJa).toContain('<h1 id="specifications-title">Suspended</h1>');
-    expect(specificationsJa).toContain('Attack Threshold');
   });
 
   it('publishes product-specific support guidance without an unverified install path', () => {
