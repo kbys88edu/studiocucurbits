@@ -85,13 +85,11 @@ h3 { font-size: 1.1rem; }
 .suspended-hero-image { width: 100%; max-height: min(78vh, 58rem); margin: 0; object-fit: contain; object-position: top center; background: var(--paper); }
 .launch-section { padding-block: clamp(3.5rem, 10vw, 10rem); border-bottom: 1px solid var(--rule); }
 .launch-disclosure { padding-block: clamp(.75rem, 1.5vw, 1.5rem); }
-.launch-summary { display: grid; grid-template-columns: 1.25rem minmax(0, 1fr); gap: .25rem .5rem; align-items: baseline; cursor: pointer; list-style: none; }
-.launch-summary .eyebrow { grid-column: 1 / -1; }
+.launch-summary { display: grid; grid-template-columns: 1.25rem minmax(0, 1fr); gap: .5rem; align-items: baseline; cursor: pointer; list-style: none; }
 .launch-summary::-webkit-details-marker { display: none; }
 .launch-summary::after { grid-column: 1; grid-row: 2; content: '+'; font-size: 1.25rem; line-height: 1; }
 .launch-disclosure[open] .launch-summary::after { content: '−'; }
-.launch-summary-title { grid-column: 2; grid-row: 2; max-width: 24ch; font-size: clamp(1.25rem, 2.5vw, 2.5rem); line-height: .98; letter-spacing: -.055em; }
-.launch-summary.no-eyebrow .launch-summary-title { grid-column: 2; }
+.launch-summary-title { grid-column: 2; grid-row: 1; max-width: 24ch; font-size: clamp(1.25rem, 2.5vw, 2.5rem); line-height: .98; letter-spacing: -.055em; }
 .launch-disclosure > :not(summary) { margin-top: clamp(2rem, 5vw, 4rem); }
 .launch-feature-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--space); max-width: 70rem; }
 .launch-feature { padding-block: 1.5rem; border-top: 1px solid var(--rule); }

@@ -57,9 +57,14 @@ describe('Suspended sales routes', () => {
     const detail = renderedPage('/products/suspended');
     const specificationsJa = renderedPage('/ja/products/suspended/specifications');
 
-    for (const summary of ['UI and renders', 'FEATURES', 'CONTROLS', 'USES', 'A different kind of freeze', 'FREEZE / RELEASE', 'FACTORY PRESETS', 'BETA INFORMATION', 'CREDITS', 'SPECIFICATIONS']) {
+    for (const summary of ['UI and renders', 'FEATURES', 'CONTROLS', 'USES', 'FREEZE / RELEASE', 'FACTORY PRESETS', 'BETA INFORMATION', 'CREDITS', 'SPECIFICATIONS']) {
       expect(detail).toContain(`<span class="launch-summary-title">${summary}</span>`);
     }
+    expect(detail).toContain('<section class="launch-section comparison"');
+    expect(detail).toContain('<h2 id="comparison-title">A different kind of freeze</h2>');
+    expect(detail).not.toContain('<details class="launch-section comparison launch-disclosure"');
+    expect(detail.indexOf('A different kind of freeze')).toBeLessThan(detail.indexOf('<details class="launch-section product-gallery launch-disclosure">'));
+    expect(detail).not.toContain('<summary class="launch-summary"><span class="eyebrow">');
     expect(detail).not.toContain('href="/products/suspended/specifications/"');
     expect(detail).toContain('Attack Threshold');
     expect(detail).not.toContain(' open>');
