@@ -47,7 +47,37 @@ it('stores the approved suspended launch content in one product record', () => {
 
   expect(launch?.hero.en.tagline).toBe('Sound in suspension. A body still in motion.');
   expect(launch?.hero.ja.tagline).toBe('浮遊する音。動き続ける身体。');
-  expect(launch?.controls.parameters).toHaveLength(7);
+  expect(launch?.controls.parameters).toHaveLength(10);
   expect(launch?.presets).toHaveLength(8);
   expect(launch?.publicBeta.en.implemented).toContain('Live-input Freeze');
+});
+
+it('stores the current SC Suspended control names and ranges', () => {
+  const launch = getProductBySlug('suspended')?.launch;
+  const featureTitles = launch?.features.map(({ en }) => en.title);
+  const parameterNames = launch?.controls.parameters;
+  const specifications = launch?.specifications.en.map(({ label, value }) => `${label}: ${value}`);
+
+  expect(featureTitles).toEqual(['Grain', 'Density', 'Drift', 'Spread', 'Agitation', 'Grain Skip', 'Release Tail', 'Mix', 'Output']);
+  expect(parameterNames).toEqual(['Grain', 'Density', 'Drift', 'Spread', 'Agitation', 'Grain Skip', 'Release Tail', 'Mix', 'Output', 'Attack Threshold']);
+  expect(specifications).toEqual(expect.arrayContaining([
+    'Grain: 8–1200 ms',
+    'Density: 0.5–90 gr/s',
+    'Release Tail: Approximately 80 ms–6 s',
+    'Attack Threshold: −60 to −6 dB (default −42 dB)',
+    'Mix: Dry/Wet',
+    'Output: −24 to +12 dB',
+  ]));
+});
+
+it('describes the current freeze mesh and retrigger behaviour', () => {
+  const launch = getProductBySlug('suspended')?.launch;
+  const paragraphs = launch?.freezeRelease.en.paragraphs.join(' ');
+  const beta = launch?.beta.en.paragraphs.join(' ');
+
+  expect(paragraphs).toContain('Attack Threshold');
+  expect(paragraphs).toContain('Freeze holds the sound');
+  expect(paragraphs).toContain('Release returns to live input over the Release Tail');
+  expect(beta).toContain('Y-axis rotation only');
+  expect(beta).toContain('closed-perimeter');
 });

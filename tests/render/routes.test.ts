@@ -41,6 +41,11 @@ describe('SC Suspended sales routes', () => {
     expect(detailJa).toContain('ファクトリープリセット 8種');
     expect(detailJa).not.toContain('BETA INFORMATION');
     expect(detail).toContain('Almost Motionless');
+    expect(detail).toContain('Spread');
+    expect(detail).toContain('Attack Threshold');
+    expect(detail).not.toContain('<h3>Scatter</h3>');
+    expect(detail).not.toContain('<h3>Breath</h3>');
+    expect(detail).not.toContain('<h3>Fragility</h3>');
     expect(detail).not.toContain('¥4,400');
     expect(detail).not.toContain('$29.00');
     expect(detail).not.toContain('¥4,400');
