@@ -13,7 +13,7 @@ const formCopy = locale === 'ja' ? { email: 'メールアドレス', subscribe: 
   <div class="ml-form-align-left">
     <div class="ml-form-embedWrapper embedForm">
       <div class="ml-form-embedBody ml-form-embedBodyDefault row-form">
-        <form class="ml-block-form newsletter-form" action="https://assets.mailerlite.com/jsonp/2536948/forms/194159585016153657/subscribe" data-code="" method="post" target="_blank">
+        <form class="ml-block-form newsletter-form" action="https://dashboard.mailerlite.com/jsonp/2536948/forms/194159585016153657/subscribe" data-code="" method="post" target="_blank">
           <div class="ml-form-formContent">
             <div class="ml-form-fieldRow ml-last-item">
               <div class="ml-field-group ml-field-email ml-validate-email ml-validate-required">
@@ -21,6 +21,9 @@ const formCopy = locale === 'ja' ? { email: 'メールアドレス', subscribe: 
                 <input id="newsletter-email" name="fields[email]" type="email" autocomplete="email" required placeholder={formCopy.email} />
               </div>
             </div>
+          </div>
+          <div class="ml-form-recaptcha ml-validate-required">
+            <div class="g-recaptcha" data-sitekey="6Lf1KHQUAAAAAFNKEX1hdSWCS3mRMv4FlFaNslaD"></div>
           </div>
           <input type="hidden" name="ml-submit" value="1" />
           <input type="hidden" name="anticsrf" value="true" />
@@ -48,4 +51,4 @@ const formCopy = locale === 'ja' ? { email: 'メールアドレス', subscribe: 
   });
 </script>
 <script src="https://groot.mailerlite.com/js/w/webforms.min.js?v83147fa8ce2d95cb73ece7f28b469519" is:inline></script>
-<script is:inline>fetch("https://assets.mailerlite.com/jsonp/2536948/forms/194159585016153657/takel");</script>
+<script src="https://www.google.com/recaptcha/api.js" is:inline></script>

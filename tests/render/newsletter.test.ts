@@ -23,16 +23,18 @@ describe('newsletter announcement route', () => {
     const html = renderedPage('/newsletter');
 
     expect(html).toContain('type="email"');
-    expect(html).toContain('action="https://assets.mailerlite.com/jsonp/2536948/forms/194159585016153657/subscribe"');
+    expect(html).toContain('action="https://dashboard.mailerlite.com/jsonp/2536948/forms/194159585016153657/subscribe"');
     expect(html).toContain('name="fields[email]"');
     expect(html).toContain('name="ml-submit"');
+    expect(html).toContain('class="g-recaptcha" data-sitekey="6Lf1KHQUAAAAAFNKEX1hdSWCS3mRMv4FlFaNslaD"');
+    expect(html).toContain('https://www.google.com/recaptcha/api.js');
     expect(html).toContain('src="https://groot.mailerlite.com/js/w/webforms.min.js');
     expect(html).toContain('ml_webform_success_44184182');
     expect(html).toContain('class="ml-form-successBody row-success" style="display:none"');
     expect(html).not.toContain('Newsletter signup is not configured yet.');
 
     const japanese = renderedPage('/ja/newsletter');
-    expect(japanese).toContain('action="https://assets.mailerlite.com/jsonp/2536948/forms/194159585016153657/subscribe"');
+    expect(japanese).toContain('action="https://dashboard.mailerlite.com/jsonp/2536948/forms/194159585016153657/subscribe"');
     expect(japanese).toContain('"name":"ニュースレター"');
     expect(japanese).not.toContain('"name":"Newsletter"');
   });
