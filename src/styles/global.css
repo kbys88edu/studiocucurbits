@@ -85,11 +85,11 @@ h3 { font-size: 1.1rem; }
 .suspended-hero-image { width: 100%; max-height: min(78vh, 58rem); margin: 0; object-fit: contain; object-position: top center; background: var(--paper); }
 .launch-section { padding-block: clamp(3.5rem, 10vw, 10rem); border-bottom: 1px solid var(--rule); }
 .launch-disclosure { padding-block: clamp(.75rem, 1.5vw, 1.5rem); }
-.launch-summary { display: grid; grid-template-columns: 1.25rem minmax(0, 1fr); gap: .5rem; align-items: baseline; cursor: pointer; list-style: none; }
+.launch-summary { display: flex; gap: .5rem; align-items: baseline; cursor: pointer; list-style: none; }
 .launch-summary::-webkit-details-marker { display: none; }
-.launch-summary::after { grid-column: 1; grid-row: 2; content: '+'; font-size: 1.25rem; line-height: 1; }
-.launch-disclosure[open] .launch-summary::after { content: '−'; }
-.launch-summary-title { grid-column: 2; grid-row: 1; max-width: 24ch; font-size: clamp(1.25rem, 2.5vw, 2.5rem); line-height: .98; letter-spacing: -.055em; }
+.launch-summary::before { content: '+'; flex: 0 0 auto; font-size: 1.25rem; line-height: 1; }
+.launch-disclosure[open] .launch-summary::before { content: '−'; }
+.launch-summary-title { max-width: 24ch; font-size: clamp(1.25rem, 2.5vw, 2.5rem); line-height: .98; letter-spacing: -.055em; }
 .launch-disclosure > :not(summary) { margin-top: clamp(2rem, 5vw, 4rem); }
 .launch-feature-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--space); max-width: 70rem; }
 .launch-feature { padding-block: 1.5rem; border-top: 1px solid var(--rule); }
@@ -99,7 +99,7 @@ h3 { font-size: 1.1rem; }
 .launch-columns h3 { margin-top: 0; }
 .launch-columns ul, .launch-list { margin: 0; padding-left: 1.2rem; }
 .launch-list-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem 3rem; max-width: 70rem; }
-.comparison { background: #f4f4f1; }
+.comparison { background: var(--paper); }
 .launch-concept { max-width: 72rem; }
 .launch-concept .lead { max-width: 54rem; }
 .preset-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem 3rem; max-width: 60rem; padding-left: 1.5rem; }

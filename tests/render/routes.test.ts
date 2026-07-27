@@ -57,9 +57,12 @@ describe('Suspended sales routes', () => {
     const detail = renderedPage('/products/suspended');
     const specificationsJa = renderedPage('/ja/products/suspended/specifications');
 
-    for (const summary of ['UI and renders', 'FEATURES', 'CONTROLS', 'USES', 'FREEZE / RELEASE', 'FACTORY PRESETS', 'BETA INFORMATION', 'CREDITS', 'SPECIFICATIONS']) {
+    for (const summary of ['UI and renders', 'FEATURES', 'USES', 'FACTORY PRESETS', 'BETA INFORMATION', 'CREDITS', 'SPECIFICATIONS']) {
       expect(detail).toContain(`<span class="launch-summary-title">${summary}</span>`);
     }
+    expect(detail).not.toContain('<span class="launch-summary-title">CONTROLS</span>');
+    expect(detail).not.toContain('<span class="launch-summary-title">FREEZE / RELEASE</span>');
+    expect(detail).not.toContain('href="#freeze-release"');
     expect(detail).toContain('<section class="launch-section comparison"');
     expect(detail).toContain('<h2 id="comparison-title">A different kind of freeze</h2>');
     expect(detail).not.toContain('<details class="launch-section comparison launch-disclosure"');
