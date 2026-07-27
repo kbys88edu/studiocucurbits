@@ -81,3 +81,8 @@ it('describes the current freeze mesh and retrigger behaviour', () => {
   expect(beta).toContain('Y-axis rotation only');
   expect(beta).toContain('closed-perimeter');
 });
+
+it('uses public product names without the internal SC prefix', () => {
+  expect(getProductBySlug('suspended')?.name).toBe('Suspended');
+  expect(getProductBySlug('vitreous')?.name).toBe('Vitreous');
+});

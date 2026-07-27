@@ -13,16 +13,16 @@ const copy = locale === 'ja'
   : { title: 'PRODUCTS | Studio Cucurbits.', description: 'Artist-designed instruments for unstable sound from Studio Cucurbits.', eyebrow: 'Studio Cucurbits / Products', heading: 'PRODUCTS', lead: 'Artist-designed instruments for unstable sound.', development: 'Release status', details: 'Products, demonstrations, and beta access will be announced when they are ready.', mailing: 'Receive future announcements' };
 const statusRows = locale === 'ja'
   ? [
-      { name: 'SC Suspended', status: '近日公開 / Windows（ベータ版）', href: localizedPath('/products/suspended/', locale) },
+      { name: 'Suspended', status: '近日公開 / Windows（ベータ版）', href: localizedPath('/products/suspended/', locale) },
       { name: 'Traces', status: 'コレクション準備中', href: null },
       { name: 'Tendril', status: 'フィジカル・モデリング・コレクション準備中', href: null },
-      { name: 'SC Vitreous', status: '素材プロセッサー / 後日公開', href: null },
+      { name: 'Vitreous', status: '素材プロセッサー / 後日公開', href: null },
     ]
   : [
-      { name: 'SC Suspended', status: 'Coming Soon / Windows Beta', href: localizedPath('/products/suspended/', locale) },
+      { name: 'Suspended', status: 'Coming Soon / Windows Beta', href: localizedPath('/products/suspended/', locale) },
       { name: 'Traces', status: 'Collection in development', href: null },
       { name: 'Tendril', status: 'Physical modelling collection in development', href: null },
-      { name: 'SC Vitreous', status: 'Standalone material processor / Coming later', href: null },
+      { name: 'Vitreous', status: 'Standalone material processor / Coming later', href: null },
     ];
 ---
 

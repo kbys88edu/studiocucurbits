@@ -155,22 +155,22 @@ const websiteMedia = (individual: string, centre: string, extraCentre: string[] 
 export const products: Product[] = [
   product('hidden-prototype', 'Hidden prototype', null, 'hidden'),
   {
-    ...product('palimpsest', 'SC Palimpsest', 'traces', 'hidden', tracesPrice),
+    ...product('palimpsest', 'Palimpsest', 'traces', 'hidden', tracesPrice),
     editorial: { en: { shortDescription: 'Sounds remain as overwritten spectral traces.', description: null, features: [] }, ja: { shortDescription: '上書きされたスペクトルの痕跡として音が残ります。', description: null, features: [] } },
     media: websiteMedia('traces_palimpsest', 'central_sc_palimpsest'),
   },
   {
-    ...product('suspended', 'SC Suspended', 'traces', 'coming-soon', tracesPrice),
+    ...product('suspended', 'Suspended', 'traces', 'coming-soon', tracesPrice),
     productType: 'Granular suspension processor',
     editorial: {
       en: {
         shortDescription: 'Sound in suspension. A body still in motion.',
-        description: 'SC Suspended holds incoming audio as a granular sound body, preserving subtle motion and change within it.',
+        description: 'Suspended holds incoming audio as a granular sound body, preserving subtle motion and change within it.',
         features: ['Grain', 'Density', 'Drift', 'Spread', 'Agitation', 'Grain Skip', 'Release Tail', 'Mix', 'Output'],
       },
       ja: {
         shortDescription: '浮遊する音。動き続ける身体。',
-        description: 'SC Suspendedは、入力音を粒子状の音響体として空間に留め、その内側で微細な動きと変化を持続させるグラニュラー・エフェクトです。',
+        description: 'Suspendedは、入力音を粒子状の音響体として空間に留め、その内側で微細な動きと変化を持続させるグラニュラー・エフェクトです。',
         features: ['Grain', 'Density', 'Drift', 'Spread', 'Agitation', 'Grain Skip', 'Release Tail', 'Mix', 'Output'],
       },
     },
@@ -182,8 +182,8 @@ export const products: Product[] = [
     demoUrl: import.meta.env.SUSPENDED_DEMO_URL?.trim() || null,
     manualUrl: import.meta.env.SUSPENDED_MANUAL_URL?.trim() || null,
     seo: {
-      title: 'SC Suspended — Granular audio effect | Studio Cucurbits.',
-      description: 'SC Suspended is a live-input granular effect for holding sound in suspension while preserving internal motion.',
+      title: 'Suspended — Granular audio effect | Studio Cucurbits.',
+      description: 'Suspended is a live-input granular effect for holding sound in suspension while preserving internal motion.',
       image: '/images/products/website/individual/traces_suspended.png',
       keywords: ['granular processor', 'audio effect', 'sound design'],
     },
@@ -191,12 +191,12 @@ export const products: Product[] = [
       hero: {
         en: {
           tagline: 'Sound in suspension. A body still in motion.',
-          description: 'SC Suspended holds incoming audio as a granular sound body, preserving subtle motion and change within it.',
+          description: 'Suspended holds incoming audio as a granular sound body, preserving subtle motion and change within it.',
           concept: 'Freeze live input and hold it as a granular sound body whose internal motion continues over time.',
         },
         ja: {
           tagline: '浮遊する音。動き続ける身体。',
-          description: 'SC Suspendedは、入力音を粒子状の音響体として空間に留め、その内側で微細な動きと変化を持続させるグラニュラー・エフェクトです。',
+          description: 'Suspendedは、入力音を粒子状の音響体として空間に留め、その内側で微細な動きと変化を持続させるグラニュラー・エフェクトです。',
           concept: 'ライブ入力をFreezeで保持し、粒状再生によって、静止した音の内部に動きを生み出します。',
         },
       },
@@ -250,7 +250,7 @@ export const products: Product[] = [
       presets: ['Almost Motionless', 'Frozen Distance', 'Fine Particles', 'Large Breath', 'Glass Suspension', 'Sudden Opening', 'Fragile Continuum', 'A Sound Held in Air'],
       specifications: {
         en: [
-          { label: 'Product', value: 'SC Suspended' },
+          { label: 'Product', value: 'Suspended' },
           { label: 'Type', value: 'Granular audio effect' },
           { label: 'Format', value: 'VST3' },
           { label: 'Channels', value: 'Stereo' },
@@ -270,7 +270,7 @@ export const products: Product[] = [
           { label: 'Status', value: 'Beta / Coming Soon' },
         ],
         ja: [
-          { label: '製品名', value: 'SC Suspended' },
+          { label: '製品名', value: 'Suspended' },
           { label: '種別', value: 'グラニュラー・エフェクト' },
           { label: '形式', value: 'VST3' },
           { label: 'チャンネル', value: 'ステレオ' },
@@ -291,8 +291,8 @@ export const products: Product[] = [
         ],
       },
       beta: {
-        en: { title: 'BETA INFORMATION', paragraphs: ['SC Suspended is currently in beta.', 'The current build includes Freeze, granular playback, Release, factory preset loading and essential output-safety checks.', 'During Freeze, the mesh divides into closed-perimeter grain fragments; normal playback uses a continuous mesh. The centre animation uses Y-axis rotation only, with no zoom in or zoom out.', 'Sound behaviour, interface details, supported environments and parameter response may change during development.', 'Please verify operation in your own DAW and production environment before relying on the beta in critical work.'] },
-        ja: { title: 'ベータ情報', paragraphs: ['SC Suspendedは現在ベータ版です。', '現在のビルドには、Freeze、粒状再生、Release、ファクトリープリセットの読み込み、基本的な出力安全チェックを実装しています。', 'Freeze中はメッシュが分割され、各グレインの外周は閉じて表示されます。通常再生時は連続メッシュです。中央アニメーションはY軸回転のみで、ズームイン／ズームアウトはありません。', '開発中は、音の振る舞い、インターフェース、対応環境、パラメーターの反応が変わる場合があります。', '重要な制作で利用する前に、お使いのDAWと制作環境で動作をご確認ください。'] },
+        en: { title: 'BETA INFORMATION', paragraphs: ['Suspended is currently in beta.', 'The current build includes Freeze, granular playback, Release, factory preset loading and essential output-safety checks.', 'During Freeze, the mesh divides into closed-perimeter grain fragments; normal playback uses a continuous mesh. The centre animation uses Y-axis rotation only, with no zoom in or zoom out.', 'Sound behaviour, interface details, supported environments and parameter response may change during development.', 'Please verify operation in your own DAW and production environment before relying on the beta in critical work.'] },
+        ja: { title: 'ベータ情報', paragraphs: ['Suspendedは現在ベータ版です。', '現在のビルドには、Freeze、粒状再生、Release、ファクトリープリセットの読み込み、基本的な出力安全チェックを実装しています。', 'Freeze中はメッシュが分割され、各グレインの外周は閉じて表示されます。通常再生時は連続メッシュです。中央アニメーションはY軸回転のみで、ズームイン／ズームアウトはありません。', '開発中は、音の振る舞い、インターフェース、対応環境、パラメーターの反応が変わる場合があります。', '重要な制作で利用する前に、お使いのDAWと制作環境で動作をご確認ください。'] },
       },
       publicBeta: {
         en: { implementedTitle: 'IMPLEMENTED IN THE CURRENT BETA', implemented: ['Live-input Freeze', 'Granular playback', 'Freeze / Release interaction', 'Grain and density control', 'Internal motion controls', 'Release Tail', '8 factory presets', 'Stereo VST3 processing', 'Essential output-safety checks'], comingTitle: 'COMING DURING BETA', coming: ['Sound refinements', 'UI refinements', 'Expanded environment testing', 'Improved parameter response', 'Documentation and installation guidance'] },
@@ -300,25 +300,25 @@ export const products: Product[] = [
       },
       credits: { concept: 'Concept, sound design and artistic direction: Sachie Kobayashi', publisher: 'Developed and published by: Studio Cucurbits.' },
       support: {
-        en: { intro: 'SC Suspended support guidance will expand with the beta. Use the checklist below when reporting a problem.', topics: ['Installation', 'Windows VST3 location', 'Rescan plug-ins', 'Supported format', 'Stereo operation', 'Factory preset loading', 'Reporting a bug', 'Uninstallation', 'Beta limitations'], bugReportTitle: 'INCLUDE WITH A BUG REPORT', bugReport: ['Windows version', 'DAW and version', 'SC Suspended version', 'Sample rate', 'Buffer size', 'Steps to reproduce', 'Screenshot', 'Crash log if available'] },
-        ja: { intro: 'SC Suspendedのサポート情報は、ベータの進行に合わせて更新します。問題をご報告いただく際は、以下の項目をご用意ください。', topics: ['インストール', 'Windows VST3の場所', 'プラグインの再スキャン', '対応フォーマット', 'ステレオ動作', 'ファクトリープリセットの読み込み', '不具合の報告', 'アンインストール', 'ベータ版の制限'], bugReportTitle: 'バグ報告に含める情報', bugReport: ['Windowsのバージョン', 'DAW名とバージョン', 'SC Suspendedのバージョン', 'サンプルレート', 'バッファサイズ', '再現手順', 'スクリーンショット', '可能であればクラッシュログ'] },
+        en: { intro: 'Suspended support guidance will expand with the beta. Use the checklist below when reporting a problem.', topics: ['Installation', 'Windows VST3 location', 'Rescan plug-ins', 'Supported format', 'Stereo operation', 'Factory preset loading', 'Reporting a bug', 'Uninstallation', 'Beta limitations'], bugReportTitle: 'INCLUDE WITH A BUG REPORT', bugReport: ['Windows version', 'DAW and version', 'Suspended version', 'Sample rate', 'Buffer size', 'Steps to reproduce', 'Screenshot', 'Crash log if available'] },
+        ja: { intro: 'Suspendedのサポート情報は、ベータの進行に合わせて更新します。問題をご報告いただく際は、以下の項目をご用意ください。', topics: ['インストール', 'Windows VST3の場所', 'プラグインの再スキャン', '対応フォーマット', 'ステレオ動作', 'ファクトリープリセットの読み込み', '不具合の報告', 'アンインストール', 'ベータ版の制限'], bugReportTitle: 'バグ報告に含める情報', bugReport: ['Windowsのバージョン', 'DAW名とバージョン', 'Suspendedのバージョン', 'サンプルレート', 'バッファサイズ', '再現手順', 'スクリーンショット', '可能であればクラッシュログ'] },
       },
     },
   },
   {
-    ...product('refraction', 'SC Refraction', 'traces', 'hidden', tracesPrice),
+    ...product('refraction', 'Refraction', 'traces', 'hidden', tracesPrice),
     editorial: { en: { shortDescription: 'Coherent spectral regions bend into new relationships.', description: null, features: [] }, ja: { shortDescription: 'まとまりあるスペクトル領域が、新しい関係へと曲がります。', description: null, features: [] } },
     media: websiteMedia('traces_refraction', 'central_sc_refraction'),
   },
-  { ...product('piano-string', 'SC Piano String', 'tendril', 'hidden', { regularPriceJPY: 2800, regularPriceUSD: 19, introPriceJPY: 1800, introPriceUSD: 12 }), media: websiteMedia('single_piano_string', 'central_sc_piano_string') },
-  { ...product('gong', 'SC Gong', 'tendril', 'hidden'), media: websiteMedia('tendril_gong', 'central_sc_gong') },
-  { ...product('flute', 'SC Flute', 'tendril', 'hidden', tendrilPrice), media: websiteMedia('tendril_flute', 'central_sc_flute') },
-  { ...product('clarinet', 'SC Clarinet', 'tendril', 'hidden', tendrilPrice), media: websiteMedia('tendril_clarinet', 'central_sc_clarinet') },
-  { ...product('trumpet', 'SC Trumpet', 'tendril', 'hidden', tendrilPrice), media: websiteMedia('tendril_trumpet', 'central_sc_trumpet') },
-  { ...product('violin', 'SC Violin', 'tendril', 'hidden', { regularPriceJPY: 5900, regularPriceUSD: 39, introPriceJPY: 3900, introPriceUSD: 25 }), media: websiteMedia('tendril_violin_v2', 'central_sc_violin_v3', ['central_sc_violin_v2']) },
-  product('cello', 'SC Cello', 'tendril', 'hidden', { regularPriceJPY: 5900, regularPriceUSD: 39, introPriceJPY: 3900, introPriceUSD: 25 }),
+  { ...product('piano-string', 'Piano String', 'tendril', 'hidden', { regularPriceJPY: 2800, regularPriceUSD: 19, introPriceJPY: 1800, introPriceUSD: 12 }), media: websiteMedia('single_piano_string', 'central_sc_piano_string') },
+  { ...product('gong', 'Gong', 'tendril', 'hidden'), media: websiteMedia('tendril_gong', 'central_sc_gong') },
+  { ...product('flute', 'Flute', 'tendril', 'hidden', tendrilPrice), media: websiteMedia('tendril_flute', 'central_sc_flute') },
+  { ...product('clarinet', 'Clarinet', 'tendril', 'hidden', tendrilPrice), media: websiteMedia('tendril_clarinet', 'central_sc_clarinet') },
+  { ...product('trumpet', 'Trumpet', 'tendril', 'hidden', tendrilPrice), media: websiteMedia('tendril_trumpet', 'central_sc_trumpet') },
+  { ...product('violin', 'Violin', 'tendril', 'hidden', { regularPriceJPY: 5900, regularPriceUSD: 39, introPriceJPY: 3900, introPriceUSD: 25 }), media: websiteMedia('tendril_violin_v2', 'central_sc_violin_v3', ['central_sc_violin_v2']) },
+  product('cello', 'Cello', 'tendril', 'hidden', { regularPriceJPY: 5900, regularPriceUSD: 39, introPriceJPY: 3900, introPriceUSD: 25 }),
   {
-    ...product('vitreous', 'SC Vitreous', null, 'hidden', { regularPriceJPY: 5900, regularPriceUSD: 39, introPriceJPY: 3900, introPriceUSD: 25 }),
+    ...product('vitreous', 'Vitreous', null, 'hidden', { regularPriceJPY: 5900, regularPriceUSD: 39, introPriceJPY: 3900, introPriceUSD: 25 }),
     productType: 'Material Studies',
     editorial: {
       en: {

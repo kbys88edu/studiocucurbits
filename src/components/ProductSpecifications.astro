@@ -1,0 +1,29 @@
+---
+import type { Locale } from '../lib/locale';
+import type { Product } from '../data/products';
+
+interface Props {
+  product: Product;
+  locale: Locale;
+}
+
+const { product, locale } = Astro.props;
+const launch = product.launch;
+if (!launch) return;
+const copy = locale === 'ja'
+  ? { eyebrow: 'オーディオ・インストゥルメンツ', title: '仕様', intro: '製品の仕様と動作範囲。', back: '製品ページへ戻る' }
+  : { eyebrow: 'AUDIO INSTRUMENTS', title: 'SPECIFICATIONS', intro: 'Product specifications and operating ranges.', back: 'Back to product' };
+---
+
+<section class="page-intro" aria-labelledby="specifications-title">
+  <p class="eyebrow">{copy.eyebrow} / {product.name}</p>
+  <h1 id="specifications-title">{product.name}</h1>
+  <p class="lead">{copy.intro}</p>
+</section>
+
+<section class="section" aria-labelledby="specifications-table-title">
+  <p class="eyebrow">{copy.title}</p>
+  <h2 id="specifications-table-title">{copy.title}</h2>
+  <dl class="spec-list">{launch.specifications[locale].map((spec) => <div><dt>{spec.label}</dt><dd>{spec.value}</dd></div>)}</dl>
+  <a class="text-link" href={locale === 'ja' ? `/ja/products/${product.slug}/` : `/products/${product.slug}/`}>{copy.back}</a>
+</section>

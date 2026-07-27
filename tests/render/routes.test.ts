@@ -16,22 +16,22 @@ function renderedPage(path: string) {
   return existsSync(file) ? readFileSync(file, 'utf8') : '';
 }
 
-describe('SC Suspended sales routes', () => {
+describe('Suspended sales routes', () => {
   beforeAll(buildSite);
 
-  it('publishes SC Suspended while withholding other product and collection routes', () => {
-    expect(renderedPage('/products/suspended')).toContain('SC Suspended');
+  it('publishes Suspended while withholding other product and collection routes', () => {
+    expect(renderedPage('/products/suspended')).toContain('Suspended');
     expect(renderedPage('/products/vitreous')).toBe('');
     expect(renderedPage('/collections/traces')).toBe('');
     expect(renderedPage('/collections/tendril')).toBe('');
   });
 
-  it('lists SC Suspended without prices and with a notification CTA', () => {
+  it('lists Suspended without prices and with a notification CTA', () => {
     const html = renderedPage('/products');
     const detail = renderedPage('/products/suspended');
     const detailJa = renderedPage('/ja/products/suspended');
     expect(html).toContain('SC_Hero_2560x1440.png');
-    expect(html).toContain('SC Suspended');
+    expect(html).toContain('Suspended');
     expect(detail).toContain('traces_suspended.png');
     expect(detail).toContain('central_sc_suspended.png');
     expect(detail).toContain('Sound in suspension. A body still in motion.');
@@ -50,7 +50,21 @@ describe('SC Suspended sales routes', () => {
     expect(detail).not.toContain('$29.00');
     expect(detail).not.toContain('¥4,400');
     expect(detail).toContain('href="/newsletter/"');
-    expect(html).toContain('SC Vitreous');
+    expect(html).toContain('Vitreous');
+  });
+
+  it('links to a separate specifications page and removes specifications from the product page', () => {
+    const detail = renderedPage('/products/suspended');
+    const specifications = renderedPage('/products/suspended/specifications');
+    const specificationsJa = renderedPage('/ja/products/suspended/specifications');
+
+    expect(detail).toContain('href="/products/suspended/specifications/"');
+    expect(detail).not.toContain('Attack Threshold</dt>');
+    expect(specifications).toContain('<h1 id="specifications-title">Suspended</h1>');
+    expect(specifications).toContain('Attack Threshold');
+    expect(specifications).not.toContain('SC Suspended');
+    expect(specificationsJa).toContain('<h1 id="specifications-title">Suspended</h1>');
+    expect(specificationsJa).toContain('Attack Threshold');
   });
 
   it('publishes product-specific support guidance without an unverified install path', () => {

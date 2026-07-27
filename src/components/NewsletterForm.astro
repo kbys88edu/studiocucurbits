@@ -11,8 +11,8 @@ interface Props {
 const { locale = 'en' } = Astro.props;
 const copy = getDictionary(locale).newsletter;
 const formCopy = locale === 'ja'
-  ? { email: 'メールアドレス', language: '言語', optional: '任意', noPreference: '指定なし', interest: '関心のある内容', updates: 'スタジオからの最新情報', instruments: 'オーディオ・インストゥルメンツ', suspended: 'SC Suspended', work: 'スタジオの作品', honeypot: 'この欄は空欄のままにしてください', consent: 'プライバシーに関するお知らせ' }
-  : { email: 'Email', language: 'Language', optional: 'optional', noPreference: 'No preference', interest: 'Interest', updates: 'Studio updates', instruments: 'Audio instruments', suspended: 'SC Suspended', work: 'Studio work', honeypot: 'Leave this field empty', consent: 'privacy notice' };
+  ? { email: 'メールアドレス', language: '言語', optional: '任意', noPreference: '指定なし', interest: '関心のある内容', updates: 'スタジオからの最新情報', instruments: 'オーディオ・インストゥルメンツ', suspended: 'Suspended', work: 'スタジオの作品', honeypot: 'この欄は空欄のままにしてください', consent: 'プライバシーに関するお知らせ' }
+  : { email: 'Email', language: 'Language', optional: 'optional', noPreference: 'No preference', interest: 'Interest', updates: 'Studio updates', instruments: 'Audio instruments', suspended: 'Suspended', work: 'Studio work', honeypot: 'Leave this field empty', consent: 'privacy notice' };
 const endpoint = import.meta.env.NEWSLETTER_API_ENDPOINT?.trim() || import.meta.env.NEWSLETTER_FORM_ACTION?.trim();
 const state = newsletterState(endpoint, locale);
 const privacyPath = localizedPath('/privacy/', locale);

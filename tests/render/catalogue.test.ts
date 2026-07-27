@@ -17,11 +17,11 @@ function renderedPage(path: string) {
 }
 
 describe('Audio Instruments catalogue', () => {
-  it('publishes SC Suspended as the sole Audio Instruments product', () => {
+  it('publishes Suspended as the sole Audio Instruments product', () => {
     buildSite();
 
-    expect(renderedPage('')).toContain('SC Suspended');
-    expect(renderedPage('/products')).toContain('SC Suspended');
+    expect(renderedPage('')).toContain('Suspended');
+    expect(renderedPage('/products')).toContain('Suspended');
   });
 
   it('excludes deliberately hidden products from the public catalogue', () => {
@@ -30,7 +30,7 @@ describe('Audio Instruments catalogue', () => {
     expect(renderedPage('/products')).not.toContain('Hidden prototype');
   });
 
-  it('uses the regenerated hero image and shows the SC Suspended product card', () => {
+  it('uses the regenerated hero image and shows the Suspended product card', () => {
     buildSite();
 
     expect(renderedPage('/products')).toContain('SC_Hero_2560x1440.png');

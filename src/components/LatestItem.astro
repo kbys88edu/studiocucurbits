@@ -12,8 +12,8 @@ const { item, locale } = Astro.props;
 const href = item.href.trim() ? localizedPath(item.href, locale) : '';
 const newsletterPath = localizedPath('/newsletter/', locale);
 const copy = locale === 'ja'
-  ? { category: 'オーディオ・インストゥルメンツ', summary: item.summaryJa ?? item.summary, view: 'SC Suspendedの詳細を見る', notify: '公開のお知らせを受け取る' }
-  : { category: item.type === 'instrument' ? 'NEW INSTRUMENT' : 'Audio Instruments', summary: item.summary, view: 'View SC Suspended', notify: 'Notify me' };
+  ? { category: 'オーディオ・インストゥルメンツ', summary: item.summaryJa ?? item.summary, view: 'Suspendedの詳細を見る', notify: '公開のお知らせを受け取る' }
+  : { category: item.type === 'instrument' ? 'NEW INSTRUMENT' : 'Audio Instruments', summary: item.summary, view: 'View Suspended', notify: 'Notify me' };
 ---
 
 <article class="latest-item">
