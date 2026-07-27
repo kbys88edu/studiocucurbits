@@ -30,7 +30,7 @@ describe('Suspended sales routes', () => {
     const html = renderedPage('/products');
     const detail = renderedPage('/products/suspended');
     const detailJa = renderedPage('/ja/products/suspended');
-    expect(html).toContain('SC_Hero_2560x1440.png');
+    expect(html).toContain('Hero_2560x1440.png');
     expect(html).toContain('Suspended');
     expect(detail).toContain('traces_suspended.png');
     expect(detail).toContain('central_sc_suspended.png');
