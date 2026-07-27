@@ -26,8 +26,8 @@ describe('newsletter announcement route', () => {
     expect(html).toContain('action="https://dashboard.mailerlite.com/jsonp/2536948/forms/194159585016153657/subscribe"');
     expect(html).toContain('name="fields[email]"');
     expect(html).toContain('name="ml-submit"');
-    expect(html).toContain('class="g-recaptcha" data-sitekey="6Lf1KHQUAAAAAFNKEX1hdSWCS3mRMv4FlFaNslaD"');
-    expect(html).toContain('https://www.google.com/recaptcha/api.js');
+    expect(html).not.toContain('class="g-recaptcha"');
+    expect(html).not.toContain('https://www.google.com/recaptcha/api.js');
     expect(html).toContain('src="https://groot.mailerlite.com/js/w/webforms.min.js');
     expect(html).toContain('ml_webform_success_44184182');
     expect(html).toContain('class="ml-form-successBody row-success" style="display:none"');
