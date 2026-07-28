@@ -20,7 +20,7 @@ const copy = locale === 'ja'
   {item.image ? <img src={item.image} alt="" loading="lazy" decoding="async" /> : <div class="media-placeholder" aria-hidden="true" />}
   <p class="eyebrow">{copy.category}</p>
   <StatusLabel status={item.status} locale={locale} />
-  {item.type === 'instrument' && <p class="status-label">{locale === 'ja' ? 'Windows（ベータ版） / VST3' : 'Windows VST3 Beta'}</p>}
+  {item.type === 'instrument' && <p class="status-label">{locale === 'ja' ? 'Windows / macOS / Linux 各アルファ版 / VST3' : 'Windows / macOS / Linux Alpha / VST3'}</p>}
   <h3>{href ? <a href={href}>{item.title}</a> : item.title}</h3>
   <p>{copy.summary}</p>
   {item.type === 'instrument' && <div class="latest-actions"><a class="text-link" href={href}>{copy.view}</a><a class="text-link" href={newsletterPath}>{copy.notify}</a></div>}

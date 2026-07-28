@@ -37,9 +37,10 @@ describe('Suspended sales routes', () => {
     expect(detail).toContain('Sound in suspension. A body still in motion.');
     expect(detailJa).toContain('浮遊する音。動き続ける身体。');
     expect(detailJa).toContain('特徴');
-    expect(detailJa).toContain('Windows（ベータ版）');
+    expect(detailJa).toContain('Windows / macOS / Linux 各アルファ版');
     expect(detailJa).toContain('ファクトリープリセット 8種');
-    expect(detailJa).not.toContain('BETA INFORMATION');
+    expect(detail).toContain('ALPHA INFORMATION');
+    expect(detail).not.toContain('BETA INFORMATION');
     expect(detail).toContain('Almost Motionless');
     expect(detail).toContain('Spread');
     expect(detail).toContain('Attack Threshold');
@@ -57,7 +58,7 @@ describe('Suspended sales routes', () => {
     const detail = renderedPage('/products/suspended');
     const specificationsJa = renderedPage('/ja/products/suspended/specifications');
 
-    for (const summary of ['UI and renders', 'FEATURES', 'USES', 'FACTORY PRESETS', 'BETA INFORMATION', 'CREDITS', 'SPECIFICATIONS']) {
+    for (const summary of ['UI and renders', 'FEATURES', 'USES', 'FACTORY PRESETS', 'ALPHA INFORMATION', 'CREDITS', 'SPECIFICATIONS']) {
       expect(detail).toContain(`<span class="launch-summary-title">${summary}</span>`);
     }
     expect(detail).not.toContain('<span class="launch-summary-title">CONTROLS</span>');

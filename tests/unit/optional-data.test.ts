@@ -9,7 +9,7 @@ describe('optional product data', () => {
       'Suspended holds incoming audio as a granular sound body, preserving subtle motion and change within it.',
     );
     expect(product?.supportedFormats).toEqual(['VST3']);
-    expect(product?.supportedPlatforms).toEqual(['Windows Beta']);
+    expect(product?.supportedPlatforms).toEqual(['Windows Alpha', 'macOS Alpha', 'Linux Alpha']);
     expect(product?.compatibilityNotes).toBeNull();
     expect(product?.media.audioExamples).toEqual([]);
     expect(product?.media.video.status).toBe('in-production');
