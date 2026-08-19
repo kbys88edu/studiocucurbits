@@ -37,10 +37,10 @@ export const site: SiteData = {
 
 export const latestItem: LatestItem = {
   type: 'instrument',
-  title: 'SC Suspended',
+  title: 'Suspended',
   summary: 'Sound in suspension. A body still in motion.',
   summaryJa: '浮遊する音。動き続ける身体。',
   href: '/products/suspended/',
   status: 'coming-soon',
-  image: '/images/products/SC_Suspended_mockup_20260722.png',
+  image: '/images/products/website/individual/traces_suspended.png',
 };

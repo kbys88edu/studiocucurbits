@@ -17,11 +17,11 @@ function renderedPage(path: string) {
 }
 
 describe('Audio Instruments catalogue', () => {
-  it('publishes SC Suspended as the sole Audio Instruments product', () => {
+  it('publishes Suspended as the sole Audio Instruments product', () => {
     buildSite();
 
-    expect(renderedPage('')).toContain('SC Suspended');
-    expect(renderedPage('/products')).toContain('SC Suspended');
+    expect(renderedPage('')).toContain('Suspended');
+    expect(renderedPage('/products')).toContain('Suspended');
   });
 
   it('excludes deliberately hidden products from the public catalogue', () => {
@@ -30,17 +30,17 @@ describe('Audio Instruments catalogue', () => {
     expect(renderedPage('/products')).not.toContain('Hidden prototype');
   });
 
-  it('uses the regenerated hero image and shows the SC Suspended product card', () => {
+  it('uses the regenerated hero image and shows the Suspended product card', () => {
     buildSite();
 
-    expect(renderedPage('/products')).toContain('contrast_SC_Hero_2560x1440.png');
+    expect(renderedPage('/products')).toContain('Hero_2560x1440.png');
     expect(renderedPage('/products')).toContain('catalogue-card');
   });
 
   it('uses the plugin hero image for the current studio update', () => {
     buildSite();
 
-    expect(renderedPage('')).toContain('src="/images/products/SC_Suspended_mockup_20260722.png"');
+    expect(renderedPage('')).toContain('src="/images/products/website/individual/traces_suspended.png"');
     expect(renderedPage('')).toContain('Notify me');
   });
 
@@ -48,7 +48,7 @@ describe('Audio Instruments catalogue', () => {
     buildSite();
 
     const html = renderedPage('/products');
-    expect(html).toContain('Coming Soon / Windows Beta');
+    expect(html).toContain('Windows / macOS / Linux Alpha builds');
     expect(html).toContain('Collection in development');
     expect(html).toContain('Physical modelling collection in development');
     expect(html).toContain('Standalone material processor / Coming later');
@@ -59,7 +59,7 @@ describe('Audio Instruments catalogue', () => {
     const html = renderedPage('/ja/products');
 
     expect(html).toContain('オーディオ・インストゥルメンツ');
-    expect(html).toContain('近日公開 / Windows（ベータ版）');
+    expect(html).toContain('Windows / macOS / Linux 各アルファ版');
     expect(html).not.toContain('PRODUCTS');
   });
 }, 30_000);

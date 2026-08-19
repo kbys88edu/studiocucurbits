@@ -1,0 +1,25 @@
+---
+import ProductSpecifications from '../../../../components/ProductSpecifications.astro';
+import { getProductBySlug, isVisibleProduct, products } from '../../../../data/products';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+
+export function getStaticPaths() {
+  return products
+    .filter((product) => isVisibleProduct(product) && product.launch)
+    .map((product) => ({ params: { slug: product.slug } }));
+}
+
+const product = getProductBySlug(Astro.params.slug ?? '');
+if (!product || product.status === 'hidden' || !product.launch) return Astro.redirect('/ja/products/');
+---
+
+<BaseLayout
+  title={`${product.name} 仕様 | オーディオ・インストゥルメンツ | Studio Cucurbits.`}
+  description={`${product.name}の仕様。`}
+  canonicalPath={`/ja/products/${product.slug}/specifications/`}
+  locale="ja"
+  product={product}
+  breadcrumbLabel={`${product.name} 仕様`}
+>
+  <ProductSpecifications product={product} locale="ja" />
+</BaseLayout>

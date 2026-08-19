@@ -79,6 +79,11 @@ const specificationRows = launch.specifications[locale].filter(({ label }) => ![
     <p class="eyebrow">INTERFACE</p>
     <h2 id="interface-title">{interfaceCopy.title}</h2>
     {product.media.heroImage && <img class="product-interface-image" src={product.media.heroImage} alt={interfaceCopy.imageAlt} width="1200" height="1500" loading="lazy" decoding="async" />}
+    {product.media.gallery.length > 0 && (
+      <div class="product-gallery-grid" aria-label={locale === 'ja' ? '追加のインターフェース画像' : 'Additional interface images'}>
+        {product.media.gallery.map((image) => <img src={image} alt={locale === 'ja' ? 'SC Suspendedのインターフェース詳細' : 'SC Suspended interface detail'} width="1254" height="1254" loading="lazy" decoding="async" />)}
+      </div>
+    )}
     <div class="interface-controls">
       {interfaceCopy.controls.map((control) => <article><h3>{control.title}</h3><p>{control.description}</p></article>)}
     </div>
@@ -95,7 +100,7 @@ const specificationRows = launch.specifications[locale].filter(({ label }) => ![
 
   <section class="launch-section" aria-labelledby="presets-title">
     <p class="eyebrow">PRESETS</p>
-    <h2 id="presets-title">Eight starting points</h2>
+    <h2 id="presets-title">{locale === 'ja' ? '8つの出発点' : 'Eight starting points'}</h2>
     <p>{locale === 'ja' ? 'ファクトリープリセットは完成した効果ではなく、出発点として設計されています。' : 'The factory presets are designed as starting conditions rather than finished effects.'}</p>
     <ol class="preset-list">{launch.presets.map((preset) => <li>{preset}</li>)}</ol>
   </section>

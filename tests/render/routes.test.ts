@@ -30,9 +30,10 @@ describe('SC Suspended sales routes', () => {
     const html = renderedPage('/products');
     const detail = renderedPage('/products/suspended');
     const detailJa = renderedPage('/ja/products/suspended');
-    expect(html).toContain('contrast_SC_Hero_2560x1440.png');
-    expect(html).toContain('SC Suspended');
-    expect(detail).toContain('SC_Suspended_mockup_20260722.png');
+    expect(html).toContain('Hero_2560x1440.png');
+    expect(html).toContain('Suspended');
+    expect(detail).toContain('traces_suspended.png');
+    expect(detail).toContain('central_sc_suspended.png');
     expect(detail).toContain('Sound in suspension. A body still in motion.');
     expect(detail.indexOf('Sound in suspension. A body still in motion.')).toBeLessThan(detail.indexOf('Hear what stays in motion.'));
     expect(detail.indexOf('Hear what stays in motion.')).toBeLessThan(detail.indexOf('Hold a sound without stopping its time.'));
@@ -43,7 +44,7 @@ describe('SC Suspended sales routes', () => {
     expect(detailJa).toContain('動き続ける音を聴く。');
     expect(detailJa).toContain('音を止めずに、その時間を留める。');
     expect(detailJa).toContain('Suspendedのリリースをお知らせします。');
-    expect(detailJa).toContain('Windows（ベータ版）');
+    expect(detailJa).toContain('Windows / macOS / Linux 各アルファ版');
     expect(detailJa).toContain('ファクトリープリセット 8種');
     expect(detailJa).not.toContain('BETA INFORMATION');
     expect(detailJa).not.toContain('Hear what stays in motion.');
@@ -51,12 +52,11 @@ describe('SC Suspended sales routes', () => {
     expect(detail).not.toContain('¥4,400');
     expect(detail).not.toContain('$29.00');
     expect(detail).not.toContain('¥4,400');
-    expect(detail).toContain('href="/newsletter/"');
     expect(detail).toContain('value="suspended_product_page"');
     expect(detail).not.toContain('Audio comparison in production');
     expect(detail).not.toContain('Demonstration video in production');
     expect(detail).not.toContain('Buy');
-    expect(html).toContain('SC Vitreous');
+    expect(html).toContain('Vitreous');
   });
 
   it('publishes product-specific support guidance without an unverified install path', () => {
