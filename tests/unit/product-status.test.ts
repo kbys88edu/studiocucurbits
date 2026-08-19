@@ -29,6 +29,14 @@ describe('status-driven CTAs', () => {
     const suspended = products.find(({ slug }) => slug === 'suspended');
 
     expect(suspended).toMatchObject({ status: 'coming-soon', publicPrice: false });
+    expect(suspended?.launch?.release).toMatchObject({
+      releaseState: 'pre-release',
+      showPrice: false,
+      showBuyButton: false,
+      showNewsletterCTA: true,
+      audioDemosEnabled: true,
+      videoEnabled: true,
+    });
     expect(getProductCta(suspended as Product, new Date())).toMatchObject({ label: 'notify', href: '/newsletter/' });
   });
 

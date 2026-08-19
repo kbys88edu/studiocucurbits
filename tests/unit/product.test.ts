@@ -47,7 +47,13 @@ it('stores the approved suspended launch content in one product record', () => {
 
   expect(launch?.hero.en.tagline).toBe('Sound in suspension. A body still in motion.');
   expect(launch?.hero.ja.tagline).toBe('浮遊する音。動き続ける身体。');
+  expect(launch?.concept.en.title).toBe('Hold a sound without stopping its time.');
+  expect(launch?.coreIdeas.ja.map(({ title }) => title)).toEqual(['保持', '動き', '解放']);
   expect(launch?.controls.parameters).toHaveLength(7);
   expect(launch?.presets).toHaveLength(8);
+  expect(launch?.presets).toEqual([
+    'Almost Motionless', 'Frozen Distance', 'Fine Particles', 'Large Breath',
+    'Glass Suspension', 'Sudden Opening', 'Fragile Continuum', 'A Sound Held in Air',
+  ]);
   expect(launch?.publicBeta.en.implemented).toContain('Live-input Freeze');
 });

@@ -41,18 +41,57 @@ export interface ProductMedia {
 
 export type Localized<T> = { en: T; ja: T };
 
+export type ReleaseState = 'development' | 'closed-alpha' | 'pre-release' | 'released';
+
+export interface ProductReleaseConfig {
+  releaseState: ReleaseState;
+  version: string | null;
+  releaseDate: string | null;
+  showPrice: boolean;
+  showBuyButton: boolean;
+  showNewsletterCTA: boolean;
+  introPrice: Record<Currency, number>;
+  regularPrice: Record<Currency, number>;
+  currency: Localized<Currency>;
+  checkoutUrl: Record<Currency, string | null>;
+  audioDemosEnabled: boolean;
+  videoEnabled: boolean;
+}
+
+export interface LaunchAudioDemo {
+  name: string;
+  dryLabel: string;
+  suspendedLabel: string;
+  drySrc: string | null;
+  suspendedSrc: string | null;
+}
+
+export interface LaunchCopy {
+  title: string;
+  paragraphs: string[];
+}
+
 export interface LaunchContent {
+  release: ProductReleaseConfig;
   hero: Localized<{ tagline: string; description: string; concept: string }>;
+  sound: Localized<{ title: string; demos: LaunchAudioDemo[] }>;
+  video: Localized<{ title: string }>;
+  concept: Localized<LaunchCopy>;
+  coreIdeas: Localized<Array<{ title: string; description: string }>>;
+  interface: Localized<{ title: string; controls: Array<{ title: string; description: string }>; imageAlt: string }>;
   features: Array<Localized<{ title: string; description: string }>>;
   controls: { parameters: string[]; operations: string[] };
   uses: Localized<string[]>;
+  difference: Localized<LaunchCopy>;
   comparison: { whatIs: string[]; whatIsNot: string[] };
   freezeRelease: Localized<{ title: string; paragraphs: string[] }>;
   presets: string[];
   specifications: Localized<Array<{ label: string; value: string }>>;
+  developmentStatus: Localized<LaunchCopy>;
   beta: Localized<{ title: string; paragraphs: string[] }>;
   publicBeta: Localized<{ implementedTitle: string; implemented: string[]; comingTitle: string; coming: string[] }>;
   credits: { concept: string; publisher: string };
+  releaseCta: Localized<{ title: string; description: string; button: string; support: string }>;
   support: Localized<{ intro: string; topics: string[]; bugReportTitle: string; bugReport: string[] }>;
 }
 
@@ -186,6 +225,23 @@ export const products: Product[] = [
       keywords: ['granular processor', 'audio effect', 'sound design'],
     },
     launch: {
+      release: {
+        releaseState: 'pre-release',
+        version: null,
+        releaseDate: null,
+        showPrice: false,
+        showBuyButton: false,
+        showNewsletterCTA: true,
+        introPrice: { JPY: 2900, USD: 19 },
+        regularPrice: { JPY: 4400, USD: 29 },
+        currency: { en: 'USD', ja: 'JPY' },
+        checkoutUrl: {
+          JPY: import.meta.env.STRIPE_SUSPENDED_PAYMENT_LINK_JPY?.trim() || null,
+          USD: import.meta.env.STRIPE_SUSPENDED_PAYMENT_LINK_USD?.trim() || null,
+        },
+        audioDemosEnabled: true,
+        videoEnabled: true,
+      },
       hero: {
         en: {
           tagline: 'Sound in suspension. A body still in motion.',
@@ -196,6 +252,86 @@ export const products: Product[] = [
           tagline: '浮遊する音。動き続ける身体。',
           description: 'SC Suspendedは、入力音を粒子状の音響体として空間に留め、その内側で微細な動きと変化を持続させるグラニュラー・エフェクトです。',
           concept: 'ライブ入力をFreezeで保持し、粒状再生によって、静止した音の内部に動きを生み出します。',
+        },
+      },
+      sound: {
+        en: {
+          title: 'Hear what stays in motion.',
+          demos: [
+            { name: 'Piano', dryLabel: 'Dry', suspendedLabel: 'Suspended', drySrc: null, suspendedSrc: null },
+            { name: 'Voice', dryLabel: 'Dry', suspendedLabel: 'Suspended', drySrc: null, suspendedSrc: null },
+            { name: 'Field Recording', dryLabel: 'Dry', suspendedLabel: 'Suspended', drySrc: null, suspendedSrc: null },
+            { name: 'Synth', dryLabel: 'Dry', suspendedLabel: 'Suspended', drySrc: null, suspendedSrc: null },
+          ],
+        },
+        ja: {
+          title: '動き続ける音を聴く。',
+          demos: [
+            { name: 'ピアノ', dryLabel: 'Dry', suspendedLabel: 'Suspended', drySrc: null, suspendedSrc: null },
+            { name: '声', dryLabel: 'Dry', suspendedLabel: 'Suspended', drySrc: null, suspendedSrc: null },
+            { name: 'フィールドレコーディング', dryLabel: 'Dry', suspendedLabel: 'Suspended', drySrc: null, suspendedSrc: null },
+            { name: 'シンセ', dryLabel: 'Dry', suspendedLabel: 'Suspended', drySrc: null, suspendedSrc: null },
+          ],
+        },
+      },
+      video: {
+        en: { title: 'Freeze. Hold. Transform. Release.' },
+        ja: { title: 'Freeze。保持する。変化させる。Release。' },
+      },
+      concept: {
+        en: {
+          title: 'Hold a sound without stopping its time.',
+          paragraphs: [
+            'SC Suspended captures incoming audio and reconstructs it as a granular sound body. Instead of turning a frozen moment into a static loop, it allows the material to breathe, drift, scatter and gradually lose its continuity.',
+            'A note, a voice, a field recording or a short instrumental gesture can remain suspended while continuing to change from within.',
+          ],
+        },
+        ja: {
+          title: '音を止めずに、その時間を留める。',
+          paragraphs: [
+            'SC Suspendedは入力音をグラニュラーな音響体として再構成します。凍らせた瞬間を静的なループに変えるのではなく、素材が呼吸し、漂い、散らばり、少しずつ連続性を失っていく時間を保ちます。',
+            '音符、声、フィールドレコーディング、短い楽器の身振りを、内側で変化し続けるまま留めておけます。',
+          ],
+        },
+      },
+      coreIdeas: {
+        en: [
+          { title: 'HOLD', description: 'Capture a moment without reducing it to a conventional loop.' },
+          { title: 'MOTION', description: 'Shape grain, density, drift and breath inside the held material.' },
+          { title: 'RELEASE', description: 'Let the suspended body dissolve naturally back into silence.' },
+        ],
+        ja: [
+          { title: '保持', description: '瞬間を、従来のループへ還元せずに取り込む。' },
+          { title: '動き', description: '保持した素材の内側で、粒、密度、漂い、呼吸を整える。' },
+          { title: '解放', description: '浮遊する音響体を、自然に静けさへ戻す。' },
+        ],
+      },
+      interface: {
+        en: {
+          title: 'A small set of controls. A wide internal space.',
+          imageAlt: 'SC Suspended product mockup',
+          controls: [
+            { title: 'Grain', description: 'Controls the temporal scale of the particles.' },
+            { title: 'Density', description: 'Changes the population and continuity of the granular field.' },
+            { title: 'Drift', description: 'Introduces directional movement through the captured material.' },
+            { title: 'Scatter', description: 'Spreads the material apart.' },
+            { title: 'Breath', description: 'Adds slow, organic and non-periodic variation.' },
+            { title: 'Fragility', description: 'Introduces discontinuity and instability.' },
+            { title: 'Release Tail', description: 'Controls how the held material disappears after release.' },
+          ],
+        },
+        ja: {
+          title: '少数の操作。その内側に広がる空間。',
+          imageAlt: 'SC Suspendedの製品モックアップ',
+          controls: [
+            { title: 'Grain', description: '粒子の時間的なスケールを調整します。' },
+            { title: 'Density', description: 'グラニュラーな場の量と連続性を変えます。' },
+            { title: 'Drift', description: '取り込んだ素材の中に方向性のある動きを加えます。' },
+            { title: 'Scatter', description: '素材を広げ、ばらします。' },
+            { title: 'Breath', description: 'ゆっくりとした、有機的で周期的ではない変化を加えます。' },
+            { title: 'Fragility', description: '不連続さと不安定さを加えます。' },
+            { title: 'Release Tail', description: '保持した素材が消えていくまでの時間を調整します。' },
+          ],
         },
       },
       features: [
@@ -233,6 +369,22 @@ export const products: Product[] = [
         whatIs: ['A live-input granular effect', 'A sound-suspension instrument', 'A way to compose internal movement', 'Usable as a fully wet texture generator', 'A processor for instruments, voices and recorded environments'],
         whatIsNot: ['A conventional looper', 'A standard freeze plug-in', 'A generic granular delay', 'A static reverb', 'A realistic acoustic instrument emulation'],
       },
+      difference: {
+        en: {
+          title: 'Not another static freeze.',
+          paragraphs: [
+            'Suspended is built around the idea that a captured sound can remain alive. Its purpose is not to preserve a moment unchanged, but to hold it long enough for its internal structure to become audible.',
+            'It is not designed as a conventional looper or a generic granular delay.',
+          ],
+        },
+        ja: {
+          title: '静止したフリーズとは違う。',
+          paragraphs: [
+            'Suspendedは、取り込んだ音が生きたまま留まれるという考えからつくられています。瞬間を変わらないまま保存するのではなく、内側の構造が聴こえてくるまで保持します。',
+            '従来のルーパーや、一般的なグラニュラー・ディレイを目指したものではありません。',
+          ],
+        },
+      },
       freezeRelease: {
         en: {
           title: 'FREEZE / RELEASE',
@@ -268,6 +420,16 @@ export const products: Product[] = [
           { label: 'ステータス', value: 'ベータ版 / 近日公開' },
         ],
       },
+      developmentStatus: {
+        en: {
+          title: 'Development status',
+          paragraphs: ['Suspended is currently being prepared for its first public release. Compatibility, interface details and sound behaviour may still receive minor revisions before version 1.0.'],
+        },
+        ja: {
+          title: '開発状況',
+          paragraphs: ['Suspendedは、最初の一般公開に向けて準備中です。バージョン1.0までは、互換性、インターフェース、音の振る舞いに小さな変更が入る可能性があります。'],
+        },
+      },
       beta: {
         en: { title: 'BETA INFORMATION', paragraphs: ['SC Suspended is currently in beta.', 'The current build includes Freeze, granular playback, Release, factory preset loading and essential output-safety checks.', 'Sound behaviour, interface details, supported environments and parameter response may change during development.', 'Please verify operation in your own DAW and production environment before relying on the beta in critical work.'] },
         ja: { title: 'ベータ情報', paragraphs: ['SC Suspendedは現在ベータ版です。', '現在のビルドには、Freeze、粒状再生、Release、ファクトリープリセットの読み込み、基本的な出力安全チェックを実装しています。', '開発中は、音の振る舞い、インターフェース、対応環境、パラメーターの反応が変わる場合があります。', '重要な制作で利用する前に、お使いのDAWと制作環境で動作をご確認ください。'] },
@@ -277,6 +439,20 @@ export const products: Product[] = [
         ja: { implementedTitle: '現在のベータ版で利用できる機能', implemented: ['ライブ入力のFreeze', '粒状再生', 'Freeze / Releaseの操作', '粒と密度の調整', '音の内部の動きの調整', 'Release Tail', 'ファクトリープリセット 8種', 'ステレオVST3処理', '基本的な出力安全チェック'], comingTitle: 'ベータ期間中に予定している更新', coming: ['音の仕上げ', 'UIの調整', '対応環境の追加テスト', 'パラメーターの反応の改善', 'ドキュメントとインストール案内'] },
       },
       credits: { concept: 'Concept, sound design and artistic direction: Sachie Kobayashi', publisher: 'Developed and published by: Studio Cucurbits.' },
+      releaseCta: {
+        en: {
+          title: 'Be notified when Suspended is released.',
+          description: 'Release date, introductory availability and major product updates only.',
+          button: 'Notify me',
+          support: 'Installation & Support',
+        },
+        ja: {
+          title: 'Suspendedのリリースをお知らせします。',
+          description: 'リリース日、先行提供、主な製品情報のみをお知らせします。',
+          button: '通知を受け取る',
+          support: 'インストールとサポート',
+        },
+      },
       support: {
         en: { intro: 'SC Suspended support guidance will expand with the beta. Use the checklist below when reporting a problem.', topics: ['Installation', 'Windows VST3 location', 'Rescan plug-ins', 'Supported format', 'Stereo operation', 'Factory preset loading', 'Reporting a bug', 'Uninstallation', 'Beta limitations'], bugReportTitle: 'INCLUDE WITH A BUG REPORT', bugReport: ['Windows version', 'DAW and version', 'SC Suspended version', 'Sample rate', 'Buffer size', 'Steps to reproduce', 'Screenshot', 'Crash log if available'] },
         ja: { intro: 'SC Suspendedのサポート情報は、ベータの進行に合わせて更新します。問題をご報告いただく際は、以下の項目をご用意ください。', topics: ['インストール', 'Windows VST3の場所', 'プラグインの再スキャン', '対応フォーマット', 'ステレオ動作', 'ファクトリープリセットの読み込み', '不具合の報告', 'アンインストール', 'ベータ版の制限'], bugReportTitle: 'バグ報告に含める情報', bugReport: ['Windowsのバージョン', 'DAW名とバージョン', 'SC Suspendedのバージョン', 'サンプルレート', 'バッファサイズ', '再現手順', 'スクリーンショット', '可能であればクラッシュログ'] },
