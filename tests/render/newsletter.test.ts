@@ -41,17 +41,17 @@ describe('newsletter announcement route', () => {
     expect(renderedPage('/ja/privacy')).toContain('Draft content requiring final review before publication.');
   });
 
-  it('renders production video copy without a broken play control', () => {
+  it('does not publish video copy or a broken play control without a source', () => {
     const html = renderedPage('/newsletter');
 
-    expect(html).toContain('Demonstration video in production');
     expect(html).not.toContain('<video');
+    expect(html).not.toContain('Demonstration video in production');
   });
 
-  it('renders an honest audio placeholder until source files exist', () => {
+  it('does not publish an audio placeholder until source files exist', () => {
     const html = renderedPage('/newsletter');
 
-    expect(html).toContain('Audio comparison in production');
+    expect(html).not.toContain('Audio comparison in production');
     expect(html).not.toContain('autoplay');
   });
 });

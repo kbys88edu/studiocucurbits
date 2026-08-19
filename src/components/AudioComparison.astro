@@ -1,28 +1,36 @@
 ---
 interface Props {
+  name?: string;
   drySrc?: string;
+  suspendedSrc?: string;
   wetSrc?: string;
+  dryLabel?: string;
+  suspendedLabel?: string;
+  locale?: 'en' | 'ja';
 }
 
-const { drySrc, wetSrc } = Astro.props;
+const { name, drySrc, suspendedSrc: configuredSuspendedSrc, wetSrc, dryLabel = 'dry', suspendedLabel = 'wet', locale = 'en' } = Astro.props;
+const suspendedSrc = configuredSuspendedSrc ?? wetSrc;
 const samples = [
-  { id: 'dry', label: 'dry', src: drySrc },
-  { id: 'wet', label: 'wet', src: wetSrc },
+  { id: 'dry', label: dryLabel, src: drySrc },
+  { id: 'suspended', label: suspendedLabel, src: suspendedSrc },
 ].filter((sample): sample is { id: string; label: string; src: string } => Boolean(sample.src));
+const ready = samples.length === 2;
+const title = name ?? (locale === 'ja' ? '音声比較' : 'Audio comparison');
 ---
 
-{samples.length ? (
-  <section class="audio-comparison" data-audio-comparison-root aria-label="Audio comparison">
+{ready ? (
+  <section class="audio-comparison" data-audio-comparison-root data-demo-name={name} aria-label={title}>
+    {name && <h3>{name}</h3>}
     <p data-audio-loading aria-live="polite">Loading audio…</p>
     {samples.map(({ id, label, src }) => (
       <div data-audio-control>
-        <audio data-audio-comparison preload="metadata"><source src={src} /></audio>
+        <audio data-audio-comparison preload="metadata" controls aria-label={`${title} ${label}`}><source src={src} /></audio>
         <button type="button" data-audio-toggle data-audio-variant={id}>Play {label}</button>
-        <button type="button" data-audio-stop>Stop {label}</button>
       </div>
     ))}
   </section>
-) : <p class="media-placeholder">Audio comparison in production</p>}
+) : null}
 
 <script>
   import { initAudioComparisons } from '../scripts/audio-comparison';

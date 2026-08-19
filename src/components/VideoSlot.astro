@@ -15,12 +15,12 @@ const ready = status === 'ready' && source;
 
 {ready ? (
   <video controls preload="metadata" poster={poster} aria-label={title}>
-    <source src={source} />
+    {mp4 && <source src={mp4} type="video/mp4" />}
+    {webm && <source src={webm} type="video/webm" />}
     {captions && <track kind="captions" src={captions} srclang="en" label="English" />}
   </video>
 ) : poster ? (
-  <figure class="media-placeholder">
-    <img src={poster} alt="" width="3072" height="2304" loading="lazy" decoding="async" />
-    <figcaption>Demonstration video in production</figcaption>
+  <figure class="video-poster">
+    <img src={poster} alt={title} width="3072" height="2304" loading="lazy" decoding="async" />
   </figure>
-) : <p class="media-placeholder">Demonstration video in production</p>}
+) : null}

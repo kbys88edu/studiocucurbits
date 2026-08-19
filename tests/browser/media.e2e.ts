@@ -15,6 +15,7 @@ test('audio controls are native, start paused, show loading, and pause competing
   await expect(comparisons).toHaveCount(2);
   await expect(comparisons.first().locator('[data-audio-loading]')).toBeVisible();
   await expect(page.locator('audio[autoplay]')).toHaveCount(0);
+  await expect(comparisons.first().locator('audio').first()).toHaveAttribute('preload', 'metadata');
 
   const firstPlay = comparisons.first().getByRole('button', { name: 'Play dry' });
   await expect(firstPlay).toHaveJSProperty('tagName', 'BUTTON');

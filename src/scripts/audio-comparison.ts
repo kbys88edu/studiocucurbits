@@ -15,8 +15,7 @@ export function initAudioComparisons(root: ParentNode = document) {
     button.addEventListener('click', () => {
       const audio = button.closest<HTMLElement>('[data-audio-control]')?.querySelector<HTMLAudioElement>('audio');
       if (!audio) return;
-      if (button.hasAttribute('data-audio-stop')) audio.pause();
-      else if (audio.paused) {
+      if (audio.paused) {
         void audio.play();
         trackEvent('audio_comparison_played', { variant: button.dataset.audioVariant ?? '' });
       }
@@ -29,5 +28,10 @@ export function initAudioComparisons(root: ParentNode = document) {
       const loading = audio.closest<HTMLElement>('[data-audio-comparison-root]')?.querySelector<HTMLElement>('[data-audio-loading]');
       if (loading) loading.textContent = 'Audio ready.';
     }, { once: true });
+    audio.addEventListener('ended', () => {
+      const rootElement = audio.closest<HTMLElement>('[data-audio-comparison-root]');
+      const name = rootElement?.dataset.demoName;
+      if (name) trackEvent('suspended_demo_complete', { demo_name: name });
+    });
   });
 }
