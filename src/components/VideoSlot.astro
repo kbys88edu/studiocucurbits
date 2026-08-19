@@ -6,15 +6,17 @@ interface Props {
   webm?: string;
   captions?: string;
   title?: string;
+  locale?: 'en' | 'ja';
+  releaseState?: string;
 }
 
-const { status = 'in-production', poster, mp4, webm, captions, title = 'Demonstration video' } = Astro.props;
+const { status = 'in-production', poster, mp4, webm, captions, title = 'Demonstration video', locale = 'en', releaseState = 'pre-release' } = Astro.props;
 const source = mp4 || webm;
 const ready = status === 'ready' && source;
 ---
 
 {ready ? (
-  <video controls preload="metadata" poster={poster} aria-label={title}>
+  <video controls preload="metadata" poster={poster} aria-label={title} data-suspended-video data-locale={locale} data-release-state={releaseState} data-source="suspended_product_page">
     {mp4 && <source src={mp4} type="video/mp4" />}
     {webm && <source src={webm} type="video/webm" />}
     {captions && <track kind="captions" src={captions} srclang="en" label="English" />}
@@ -24,3 +26,15 @@ const ready = status === 'ready' && source;
     <img src={poster} alt={title} width="3072" height="2304" loading="lazy" decoding="async" />
   </figure>
 ) : null}
+
+{ready && <script>
+  import { trackEvent } from '../lib/analytics';
+
+  document.querySelectorAll<HTMLVideoElement>('[data-suspended-video]').forEach((video) => {
+    video.addEventListener('play', () => trackEvent('suspended_video_play', {
+      locale: video.dataset.locale ?? 'en',
+      source: video.dataset.source ?? 'suspended_product_page',
+      release_state: video.dataset.releaseState ?? 'pre-release',
+    }), { once: true });
+  });
+</script>}

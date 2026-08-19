@@ -81,6 +81,15 @@ export function initNewsletterForms(root: ParentNode = document) {
       try {
         await submitNewsletter(form, locale);
         if (status) status.textContent = messages[locale].success;
+        if (form.dataset.newsletterSource === 'suspended_product_page') {
+          const source = form.dataset.newsletterSource;
+          const releaseState = form.dataset.releaseState ?? 'pre-release';
+          import('../lib/analytics').then(({ trackEvent }) => trackEvent('suspended_notify_success', {
+            locale,
+            source,
+            release_state: releaseState,
+          }));
+        }
         form.reset();
       } catch (error) {
         if (status) status.textContent = error instanceof Error ? error.message : messages[locale].error;

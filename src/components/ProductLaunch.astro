@@ -31,7 +31,7 @@ const hearHref = audioDemos.length ? '#sound-first' : '#concept';
 const specificationRows = launch.specifications[locale].filter(({ label }) => !['Product', '製品名', 'Status', 'ステータス'].includes(label));
 ---
 
-<section class="suspended-launch" aria-labelledby="product-title">
+<section class="suspended-launch" data-suspended-product data-release-state={launch.release.releaseState} aria-labelledby="product-title">
   <section class="suspended-hero" aria-labelledby="product-title">
     <div class="suspended-hero-copy">
       <p class="eyebrow">TRACES — {locale === 'ja' ? 'グラニュラー・オーディオ・エフェクト' : 'Granular Audio Effect'}</p>
@@ -50,14 +50,14 @@ const specificationRows = launch.specifications[locale].filter(({ label }) => ![
   <section id="sound-first" class="launch-section sound-first" aria-labelledby="sound-first-title">
     <p class="eyebrow">SOUND FIRST</p>
     <h2 id="sound-first-title">{sound.title}</h2>
-    {audioDemos.map((demo) => <AudioComparison name={demo.name} drySrc={demo.drySrc ?? undefined} suspendedSrc={demo.suspendedSrc ?? undefined} dryLabel={demo.dryLabel} suspendedLabel={demo.suspendedLabel} locale={locale} />)}
+    {audioDemos.map((demo) => <AudioComparison name={demo.name} drySrc={demo.drySrc ?? undefined} suspendedSrc={demo.suspendedSrc ?? undefined} dryLabel={demo.dryLabel} suspendedLabel={demo.suspendedLabel} locale={locale} releaseState={launch.release.releaseState} />)}
   </section>
 
   {hasVideo && (
     <section class="launch-section product-film" aria-labelledby="video-title">
       <p class="eyebrow">PRODUCT FILM</p>
       <h2 id="video-title">{launch.video[locale].title}</h2>
-      <VideoSlot status={video.status === 'ready' ? 'ready' : 'in-production'} poster={video.poster ?? undefined} mp4={video.mp4 ?? undefined} webm={video.webm ?? undefined} captions={video.captions ?? undefined} title={launch.video[locale].title} />
+      <VideoSlot status={video.status === 'ready' ? 'ready' : 'in-production'} poster={video.poster ?? undefined} mp4={video.mp4 ?? undefined} webm={video.webm ?? undefined} captions={video.captions ?? undefined} title={launch.video[locale].title} locale={locale} releaseState={launch.release.releaseState} />
     </section>
   )}
 
@@ -130,7 +130,7 @@ const specificationRows = launch.specifications[locale].filter(({ label }) => ![
     <p class="eyebrow">RELEASE</p>
     <h2 id="release-notification-title">{releaseCta.title}</h2>
     <p>{releaseCta.description}</p>
-    {launch.release.showNewsletterCTA && <NewsletterForm locale={locale} source="suspended_product_page" />}
+    {launch.release.showNewsletterCTA && <NewsletterForm locale={locale} source="suspended_product_page" releaseState={launch.release.releaseState} />}
     <a class="text-link" data-suspended-event="open_suspended_support" href={supportPath}>{releaseCta.support}</a>
   </section>
 </section>
@@ -138,8 +138,17 @@ const specificationRows = launch.specifications[locale].filter(({ label }) => ![
 <script>
   import { trackEvent } from '../lib/analytics';
 
-  trackEvent('view_suspended');
+  const productRoot = document.querySelector<HTMLElement>('[data-suspended-product]');
+  const analyticsContext = {
+    locale: document.documentElement.lang,
+    source: 'suspended_product_page',
+    release_state: productRoot?.dataset.releaseState ?? 'pre-release',
+  };
+  trackEvent('suspended_page_view', analyticsContext);
   document.querySelectorAll<HTMLElement>('[data-suspended-event]').forEach((element) => {
-    element.addEventListener('click', () => trackEvent(element.dataset.suspendedEvent as Parameters<typeof trackEvent>[0]));
+    element.addEventListener('click', () => {
+      const event = element.dataset.suspendedEvent === 'open_suspended_support' ? 'suspended_support_click' : 'suspended_notify_click';
+      trackEvent(event, analyticsContext);
+    });
   });
 </script>

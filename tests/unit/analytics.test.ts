@@ -29,4 +29,25 @@ describe('analytics privacy', () => {
 
     expect(received).toEqual([{ event: 'audio_comparison_played', props: { variant: 'dry' } }]);
   });
+
+  it('keeps only the approved suspended interaction properties', () => {
+    trackEvent('suspended_demo_play', {
+      locale: 'ja',
+      demo_name: 'piano',
+      source: 'suspended_product_page',
+      release_state: 'pre-release',
+      email: 'listener@example.com',
+    });
+
+    expect(received).toEqual([{
+      event: 'suspended_demo_play',
+      props: { locale: 'ja', demo_name: 'piano', source: 'suspended_product_page', release_state: 'pre-release' },
+    }]);
+  });
+
+  it('allows a suspended page view event with locale and release state', () => {
+    trackEvent('suspended_page_view', { locale: 'en', release_state: 'pre-release' });
+
+    expect(received).toEqual([{ event: 'suspended_page_view', props: { locale: 'en', release_state: 'pre-release' } }]);
+  });
 });

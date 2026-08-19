@@ -7,9 +7,10 @@ interface Props {
   dryLabel?: string;
   suspendedLabel?: string;
   locale?: 'en' | 'ja';
+  releaseState?: string;
 }
 
-const { name, drySrc, suspendedSrc: configuredSuspendedSrc, wetSrc, dryLabel = 'dry', suspendedLabel = 'wet', locale = 'en' } = Astro.props;
+const { name, drySrc, suspendedSrc: configuredSuspendedSrc, wetSrc, dryLabel = 'dry', suspendedLabel = 'wet', locale = 'en', releaseState } = Astro.props;
 const suspendedSrc = configuredSuspendedSrc ?? wetSrc;
 const samples = [
   { id: 'dry', label: dryLabel, src: drySrc },
@@ -20,7 +21,7 @@ const title = name ?? (locale === 'ja' ? '音声比較' : 'Audio comparison');
 ---
 
 {ready ? (
-  <section class="audio-comparison" data-audio-comparison-root data-demo-name={name} aria-label={title}>
+  <section class="audio-comparison" data-audio-comparison-root data-demo-name={name} data-locale={locale} data-release-state={releaseState} data-source={name ? 'suspended_product_page' : undefined} aria-label={title}>
     {name && <h3>{name}</h3>}
     <p data-audio-loading aria-live="polite">Loading audio…</p>
     {samples.map(({ id, label, src }) => (

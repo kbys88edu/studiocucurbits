@@ -17,7 +17,18 @@ export function initAudioComparisons(root: ParentNode = document) {
       if (!audio) return;
       if (audio.paused) {
         void audio.play();
-        trackEvent('audio_comparison_played', { variant: button.dataset.audioVariant ?? '' });
+        const comparison = button.closest<HTMLElement>('[data-audio-comparison-root]');
+        const demoName = comparison?.dataset.demoName;
+        if (demoName) {
+          trackEvent('suspended_demo_play', {
+            locale: comparison?.dataset.locale ?? 'en',
+            demo_name: demoName,
+            source: comparison?.dataset.source ?? 'suspended_product_page',
+            release_state: comparison?.dataset.releaseState ?? 'pre-release',
+          });
+        } else {
+          trackEvent('audio_comparison_played', { variant: button.dataset.audioVariant ?? '' });
+        }
       }
       else audio.pause();
     });
@@ -31,7 +42,14 @@ export function initAudioComparisons(root: ParentNode = document) {
     audio.addEventListener('ended', () => {
       const rootElement = audio.closest<HTMLElement>('[data-audio-comparison-root]');
       const name = rootElement?.dataset.demoName;
-      if (name) trackEvent('suspended_demo_complete', { demo_name: name });
+      if (name) {
+        trackEvent('suspended_demo_complete', {
+          locale: rootElement?.dataset.locale ?? 'en',
+          demo_name: name,
+          source: rootElement?.dataset.source ?? 'suspended_product_page',
+          release_state: rootElement?.dataset.releaseState ?? 'pre-release',
+        });
+      }
     });
   });
 }

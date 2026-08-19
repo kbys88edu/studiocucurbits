@@ -40,7 +40,7 @@ describe('production SEO', () => {
   });
 
   it('publishes SC Suspended while withholding other product and collection detail pages', () => {
-    expect(renderedPage('/products/suspended')).toContain('<title>SC Suspended — Granular audio effect | Studio Cucurbits.</title>');
+    expect(renderedPage('/products/suspended')).toContain('<title>SC Suspended — Granular Audio Effect | Studio Cucurbits.</title>');
     expect(renderedPage('/products/suspended')).toContain('property="og:image"');
     for (const path of ['/products/vitreous', '/collections/traces', '/collections/tendril']) {
       expect(renderedPage(path)).toBe('');
