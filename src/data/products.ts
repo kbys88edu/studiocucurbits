@@ -245,12 +245,12 @@ export const products: Product[] = [
       hero: {
         en: {
           tagline: 'Sound in suspension. A body still in motion.',
-          description: 'SC Suspended holds incoming audio as a granular sound body, preserving subtle motion and change within it.',
+          description: 'Capture a moment of sound and keep it moving from within.',
           concept: 'Freeze live input and hold it as a granular sound body whose internal motion continues over time.',
         },
         ja: {
           tagline: '浮遊する音。動き続ける身体。',
-          description: 'SC Suspendedは、入力音を粒子状の音響体として空間に留め、その内側で微細な動きと変化を持続させるグラニュラー・エフェクトです。',
+          description: '音の一瞬を捉え、その内側の動きを保ったまま留めます。',
           concept: 'ライブ入力をFreezeで保持し、粒状再生によって、静止した音の内部に動きを生み出します。',
         },
       },
