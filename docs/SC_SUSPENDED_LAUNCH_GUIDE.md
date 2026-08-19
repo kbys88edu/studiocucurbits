@@ -1,58 +1,84 @@
-# SC Suspended launch guide
+# SC Suspended release guide
 
-SC Suspended is configured as a `coming-soon` Windows VST3 Beta product. Public copy and state live in `src/data/products.ts`; the page components should not be edited for a normal release update.
+SC Suspended is a pre-release Windows VST3 product. The public page is data-driven: update `src/data/products.ts` and provide verified assets under `public/`; do not edit the page component for a normal state change.
 
-## Current state
+## Current public state
 
-The current record has `status: 'coming-soon'`, `publicPrice: false`, `releaseDate: null`, no demo or manual URL, no audio examples, and an in-production video with no source. The notification CTA is the only action shown. Traces and Tendril remain unpublished.
+The `launch.release` object currently has:
 
-## Set the release date
-
-Set `releaseDate` on the SC Suspended record to an ISO date (`YYYY-MM-DD`). Keep the status as `coming-soon` until the product is actually ready. A date alone does not expose a purchase link or price.
-
-## Show the introductory price
-
-Set the four configured price fields already present on the record, set `publicPrice: true`, set `introSaleEndDate` to the end of the 14-day introductory period, and change `status` to `intro-sale`. The existing price and CTA helpers will show the configured currency and use the matching Stripe URL only when it is valid HTTPS.
-
-## Return to the regular price
-
-After the introductory period, change `status` to `available` and keep `publicPrice: true`. Set `introSaleEndDate` to the completed sale date or clear it. The regular JPY/USD values remain the source for the displayed price.
-
-## Add Stripe checkout
-
-Set these environment variables in the deployment environment, never in committed source:
-
-```text
-STRIPE_SUSPENDED_PAYMENT_LINK_JPY=https://checkout.stripe.com/...
-STRIPE_SUSPENDED_PAYMENT_LINK_USD=https://checkout.stripe.com/...
+```ts
+{
+  releaseState: 'pre-release',
+  showPrice: false,
+  showBuyButton: false,
+  showNewsletterCTA: true,
+  audioDemosEnabled: true,
+  videoEnabled: true,
+}
 ```
 
-The page does not show a Buy link while the product is coming soon or while the relevant URL is missing. The checkout URL must be HTTPS.
+The product record remains `status: 'coming-soon'`, `publicPrice: false`, and `releaseDate: null`. No checkout URL, demo URL, manual URL, audio source, or ready video is public. The page displays `PRE-RELEASE` as its single public status. Traces and Tendril remain unpublished.
 
-## Add a Demo or Manual
+## Release-state changes
 
-Set `SUSPENDED_DEMO_URL` or `SUSPENDED_MANUAL_URL` in the deployment environment. The values are read into the product record and remain absent from the page until the corresponding component is intentionally enabled for the released state. Never use an empty link as a placeholder.
+Change the `launch.release` object only after the release decision is approved:
 
-## Add video
+- `releaseState`: `development`, `closed-alpha`, `pre-release`, or `released`.
+- `version`: public version string or `null`.
+- `releaseDate`: ISO date (`YYYY-MM-DD`) or `null`.
+- `showPrice`: exposes configured intro/regular pricing only when true.
+- `showBuyButton`: exposes a purchase link only when true and the selected checkout URL is valid HTTPS.
+- `showNewsletterCTA`: controls the release notification form.
+- `introPrice` / `regularPrice`: internal JPY/USD values (`¥2,900` / `¥4,400`, `$19` / `$29`).
+- `checkoutUrl`: read from `STRIPE_SUSPENDED_PAYMENT_LINK_JPY` and `STRIPE_SUSPENDED_PAYMENT_LINK_USD`; never commit secrets or URLs that are not ready.
+- `audioDemosEnabled` / `videoEnabled`: gates optional media sections without publishing missing-media copy.
 
-Place the approved poster and final video files under `public/`, then set `media.video.poster`, `media.video.mp4` or `media.video.webm`, and `media.video.status: 'ready'` in the product record. Keep `status: 'in-production'` and source fields null while the video is unfinished; the page will not render a broken play control.
+When releasing, update the product `status`, verified compatibility, public pricing, release date, and checkout URLs together. Run the complete verification suite before pushing `main`.
 
-## Add Dry / Wet audio
+## Optional media
 
-Add the approved source files under `public/audio/products/suspended/` and add their paths to `media.audioExamples`. Keep the list empty until files exist. The audio comparison component is designed to avoid autoplay and simultaneous playback; do not add fake sources.
+Use the checklist and exact paths in [suspended-release-assets.md](suspended-release-assets.md). Audio comparisons require both dry and suspended files for a demo. Video requires a ready MP4/WebM or an approved poster. Missing files render no public media section; never add fake sources or text such as “in production”, “placeholder”, or “coming soon”.
 
-## Verify compatibility
+## Newsletter attribution
 
-Only add verified values to `supportedPlatforms`, `supportedFormats`, and `compatibilityNotes`. Do not add a Windows version or DAW name until it has been tested and approved for publication.
+The SC Suspended form sends the existing endpoint with:
 
-## Remove the Beta label
+```text
+source=suspended_product_page
+```
 
-When the public release is ready, set the product status to `available`, update the beta copy and acceptance lists in `launch`, and update the verified compatibility fields. Keep the public price and checkout conditions consistent with the release state.
+Consent, honeypot, endpoint validation, unavailable state, success state, and error state are shared with the general newsletter form. Keep the existing privacy link and consent requirement.
 
-## Product schema
+## Analytics
 
-`Product` Offer schema is enabled automatically only when the product is `available`, `publicPrice` is true, a positive regular USD price exists, and a valid HTTPS Stripe checkout URL exists. Do not add schema manually and do not expose `InStock` before those conditions are true.
+The existing Plausible adapter allowlists these Suspended events:
 
-## Publish Traces later
+```text
+suspended_page_view
+suspended_demo_play
+suspended_demo_complete
+suspended_video_play
+suspended_notify_click
+suspended_notify_success
+suspended_support_click
+suspended_buy_click
+```
 
-When the complete collection is approved, change the Traces collection from `archived` to a visible status, add its approved editorial copy and media, and add only the approved product routes. Run the full test and sitemap checks first. Do not publish the collection merely because SC Suspended is public.
+Permitted properties are limited to `locale`, `demo_name`, `source`, and `release_state`. Do not send email addresses, message text, or other form values. A buy event is emitted only when a buy control is actually rendered.
+
+## Compatibility and support
+
+Publish only values verified in the current build. The current public claims are VST3, stereo processing, live audio capture, and Windows Beta. Do not add Windows versions, DAW names, Linux/macOS support, installation paths, or known issues without matching support guidance in `src/data/products.ts` and `/support/suspended/`.
+
+## SEO and schema
+
+The product record supplies the concept-led title, description, and mockup image. `BaseLayout`/`Seo` retain canonical, EN/JA alternate links, Open Graph metadata, breadcrumbs, and guarded Product Offer schema. Offer schema remains absent until public price, released status, positive price, and valid HTTPS checkout are all present.
+
+## Publishing checklist
+
+1. Confirm the release decision, version, date, compatibility, and support text.
+2. Add and optimize approved audio/video/UI assets using the asset checklist.
+3. Set release flags and checkout environment variables together when purchase is approved.
+4. Run `npm.cmd run check`, `npm.cmd test -- --hookTimeout=60000`, `npm.cmd run build`, and `npm.cmd run test:browser`.
+5. Inspect EN/JA pages at 360, 390, 768, 1024, 1440, and 1920px.
+6. Push the verified commit to `main` and confirm the GitHub Pages workflow succeeds.

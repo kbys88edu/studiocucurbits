@@ -68,3 +68,22 @@ test('has no serious or critical axe violations', async ({ page }) => {
   const results = await new AxeBuilder({ page }).analyze();
   expect(results.violations.filter(({ impact }) => impact === 'serious' || impact === 'critical')).toEqual([]);
 });
+
+for (const width of [360, 1440]) {
+  test(`SC Suspended product page keeps its editorial order at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto(`${siteUrl}/products/suspended/`);
+    await expect(page.getByRole('heading', { name: 'SC SUSPENDED' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Hold a sound without stopping its time.' })).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+    expect(await page.locator('audio[autoplay], video[autoplay]').count()).toBe(0);
+    await expect(page.getByText('Audio comparison in production')).toHaveCount(0);
+    await expect(page.getByText('Demonstration video in production')).toHaveCount(0);
+  });
+}
+
+test('Japanese SC Suspended page keeps the release copy localized', async ({ page }) => {
+  await page.goto(`${siteUrl}/ja/products/suspended/`);
+  await expect(page.getByRole('heading', { name: '音を止めずに、その時間を留める。' })).toBeVisible();
+  await expect(page.getByText('Hear what stays in motion.')).toHaveCount(0);
+});
