@@ -6,10 +6,10 @@ Verified on 2026-08-19 from the `feat/audio-instruments-site` worktree.
 
 - `npm.cmd run check` — passed (0 errors, 0 warnings, 0 hints)
 - `npm.cmd test -- --hookTimeout=60000` — passed (15 files, 52 tests)
-- `npm.cmd run build` — passed (32 pages)
+- `npm.cmd run build` — passed (34 pages)
 - `npm.cmd run test:browser` — passed (14 tests)
 - Responsive/accessibility coverage includes 360px, 390px, 768px, 1024px, 1440px, and 1920px home layouts plus 360px/1440px SC Suspended layouts.
-- Optional media sections are omitted until approved assets are supplied; no fictional media or missing-media placeholder copy is emitted.
+- The approved regenerated product hero and Suspended interface mockup are served; optional audio/video sections are omitted until their source files are supplied.
 
 ## Commands and results
 
@@ -61,7 +61,7 @@ Review captures were generated from that preview and deliberately stored outside
 - Studio Cucurbits remains the parent studio. Audio Instruments is presented as one studio area, not the site-wide identity.
 - SC Suspended is `coming-soon`; SC Vitreous is an `announcement`; Traces and Tendril are `forthcoming` collections.
 - Neither currently public product has `publicPrice` enabled or a checkout URL. The resulting product CTA is the internal newsletter notification route, not a purchase flow.
-- No product has supplied final image, video, or audio assets. Optional SC Suspended media sections remain omitted until approved files are supplied; no fictional media, compatibility, reviews, or availability claims are emitted.
+- SC Suspended has approved hero/interface images. No final audio or video sources are public, so those optional sections remain omitted; no fictional media, compatibility, reviews, or availability claims are emitted.
 - Newsletter delivery requires `NEWSLETTER_API_ENDPOINT` or `NEWSLETTER_FORM_ACTION`; without either, the form remains safely unavailable instead of submitting personal data elsewhere.
 
 ## Deployment and discovery checks

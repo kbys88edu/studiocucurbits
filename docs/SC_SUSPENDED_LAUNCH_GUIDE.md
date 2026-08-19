@@ -1,6 +1,6 @@
 # SC Suspended release guide
 
-SC Suspended is a pre-release Windows VST3 product. The public page is data-driven: update `src/data/products.ts` and provide verified assets under `public/`; do not edit the page component for a normal state change.
+SC Suspended is a pre-release VST3 product with current alpha compatibility claims for Windows, macOS, and Linux. The public page is data-driven: update `src/data/products.ts` and provide verified assets under `public/`; do not edit the page component for a normal state change.
 
 ## Current public state
 
@@ -17,7 +17,7 @@ The `launch.release` object currently has:
 }
 ```
 
-The product record remains `status: 'coming-soon'`, `publicPrice: false`, and `releaseDate: null`. No checkout URL, demo URL, manual URL, audio source, or ready video is public. The page displays `PRE-RELEASE` as its single public status. Traces and Tendril remain unpublished.
+The product record remains `status: 'coming-soon'`, `publicPrice: false`, and `releaseDate: null`. The regenerated hero and interface mockup are public; no checkout URL, demo URL, manual URL, audio source, or ready video is public. The page displays `PRE-RELEASE` as its single public status. Traces and Tendril remain unpublished.
 
 ## Release-state changes
 
@@ -41,13 +41,13 @@ Use the checklist and exact paths in [suspended-release-assets.md](suspended-rel
 
 ## Newsletter attribution
 
-The SC Suspended form sends the existing endpoint with:
+The SC Suspended MailerLite form includes the following attribution field:
 
 ```text
 source=suspended_product_page
 ```
 
-Consent, honeypot, endpoint validation, unavailable state, success state, and error state are shared with the general newsletter form. Keep the existing privacy link and consent requirement.
+The form keeps the existing MailerLite endpoint and success callback. Keep the source value stable so release-interest attribution remains available without sending product-specific data beyond the hidden source field.
 
 ## Analytics
 
@@ -68,7 +68,7 @@ Permitted properties are limited to `locale`, `demo_name`, `source`, and `releas
 
 ## Compatibility and support
 
-Publish only values verified in the current build. The current public claims are VST3, stereo processing, live audio capture, and Windows Beta. Do not add Windows versions, DAW names, Linux/macOS support, installation paths, or known issues without matching support guidance in `src/data/products.ts` and `/support/suspended/`.
+Publish only values verified in the current build. The current public claims are VST3, stereo processing, live audio capture, and Windows/macOS/Linux alpha builds. Do not add OS versions, DAW names, installation paths, or known issues without matching support guidance in `src/data/products.ts` and `/support/suspended/`.
 
 ## SEO and schema
 
