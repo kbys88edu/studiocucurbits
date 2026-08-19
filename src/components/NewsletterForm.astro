@@ -6,9 +6,10 @@ import { newsletterState } from '../scripts/newsletter';
 
 interface Props {
   locale?: Locale;
+  source?: string;
 }
 
-const { locale = 'en' } = Astro.props;
+const { locale = 'en', source } = Astro.props;
 const copy = getDictionary(locale).newsletter;
 const formCopy = locale === 'ja'
   ? { email: 'メールアドレス', language: '言語', optional: '任意', noPreference: '指定なし', interest: '関心のある内容', updates: 'スタジオからの最新情報', instruments: 'オーディオ・インストゥルメンツ', suspended: 'SC Suspended', work: 'スタジオの作品', honeypot: 'この欄は空欄のままにしてください', consent: 'プライバシーに関するお知らせ' }
@@ -18,7 +19,8 @@ const state = newsletterState(endpoint, locale);
 const privacyPath = localizedPath('/privacy/', locale);
 ---
 
-<form class="newsletter-form" data-newsletter-form data-newsletter-locale={locale} data-endpoint={endpoint || undefined} aria-describedby="newsletter-status">
+<form class="newsletter-form" data-newsletter-form data-newsletter-locale={locale} data-newsletter-source={source || undefined} data-endpoint={endpoint || undefined} aria-describedby="newsletter-status">
+  {source && <input type="hidden" name="source" value={source} />}
   <label for="newsletter-email">{formCopy.email}</label>
   <input id="newsletter-email" name="email" type="email" autocomplete="email" required />
 
