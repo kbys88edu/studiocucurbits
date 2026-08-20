@@ -25,6 +25,12 @@ build uses.
 
 `.env` is git-ignored. Do not commit real endpoints or payment links.
 
+Astro 7 starts `astro dev` as a background process when it detects an AI
+coding agent (Claude Code, Cursor and similar). Use `astro dev status`,
+`astro dev logs` and `astro dev stop` to manage it, or set
+`ASTRO_DEV_BACKGROUND=0` to force the server to stay in the foreground.
+A normal terminal and GitHub Actions are unaffected.
+
 ## Build-time configuration
 
 Every variable in `.env.example` is optional. An unset value is read as "not
