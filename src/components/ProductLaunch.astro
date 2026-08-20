@@ -22,6 +22,7 @@ const ideas = launch.coreIdeas[locale];
 const interfaceCopy = launch.interface[locale];
 const difference = launch.difference[locale];
 const developmentStatus = launch.developmentStatus[locale];
+const notesPath = locale === 'ja' ? `/ja/products/${product.slug}/notes/` : `/products/${product.slug}/notes/`;
 const releaseCta = launch.releaseCta[locale];
 const supportPath = localizedPath(`/support/${product.slug}/`, locale);
 const audioDemos = launch.release.audioDemosEnabled ? sound.demos.filter((demo) => demo.drySrc && demo.suspendedSrc) : [];
@@ -128,7 +129,7 @@ const specificationRows = launch.specifications[locale].filter(({ label }) => ![
   <section class="launch-section development-status" aria-labelledby="development-title">
     <p class="eyebrow">{developmentStatus.title}</p>
     <h2 id="development-title">{locale === 'ja' ? '最初の公開に向けて' : 'Preparing the first public release'}</h2>
-    {developmentStatus.paragraphs.map((paragraph) => <p class="lead">{paragraph}</p>)}
+    <a class="text-link" href={notesPath}>{locale === 'ja' ? 'アーティストノートを読む' : 'Read the artist note'}</a>
   </section>
 
   <section id="release-notification" class="launch-section release-notification" aria-labelledby="release-notification-title">

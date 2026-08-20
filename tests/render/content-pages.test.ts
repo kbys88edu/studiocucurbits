@@ -47,3 +47,34 @@ describe('support, legal, and pre-launch routes', () => {
     expect(support).not.toContain('Installation and plugin scanning');
   });
 }, 30_000);
+
+describe('artist note separation', () => {
+  beforeAll(buildSite, 30_000);
+
+  it('publishes the artist note in both locales', () => {
+    expect(renderedPage('/products/suspended/notes')).not.toBe('');
+    expect(renderedPage('/ja/products/suspended/notes')).not.toBe('');
+  });
+
+  it('keeps the development story off the product page and on the artist note', () => {
+    const product = renderedPage('/products/suspended');
+    const notes = renderedPage('/products/suspended/notes');
+
+    for (const story of ['Suspended is currently being prepared', 'Suspended is currently in alpha', 'IMPLEMENTED IN THE CURRENT ALPHA']) {
+      expect(product).not.toContain(story);
+      expect(notes).toContain(story);
+    }
+
+    expect(product).toContain('Read the artist note');
+    expect(product).toContain('/products/suspended/notes/');
+  });
+
+  it('keeps the Japanese artist note localized and linked from the Japanese product page', () => {
+    const productJa = renderedPage('/ja/products/suspended');
+    const notesJa = renderedPage('/ja/products/suspended/notes');
+
+    expect(productJa).not.toContain('Suspendedは現在アルファ版です');
+    expect(notesJa).toContain('Suspendedは現在アルファ版です');
+    expect(productJa).toContain('/ja/products/suspended/notes/');
+  });
+});

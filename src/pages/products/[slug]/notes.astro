@@ -1,0 +1,25 @@
+---
+import ProductNotes from '../../../components/ProductNotes.astro';
+import { getProductBySlug, isVisibleProduct, products } from '../../../data/products';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+export function getStaticPaths() {
+  return products
+    .filter((product) => isVisibleProduct(product) && product.launch)
+    .map((product) => ({ params: { slug: product.slug } }));
+}
+
+const product = getProductBySlug(Astro.params.slug ?? '');
+if (!product || product.status === 'hidden' || !product.launch) return Astro.redirect('/products/');
+---
+
+<BaseLayout
+  title={`${product.name} artist note | Audio Instruments | Studio Cucurbits.`}
+  description={`Development record and current state of ${product.name}.`}
+  canonicalPath={`/products/${product.slug}/notes/`}
+  locale="en"
+  product={product}
+  breadcrumbLabel={`${product.name} artist note`}
+>
+  <ProductNotes product={product} locale="en" />
+</BaseLayout>

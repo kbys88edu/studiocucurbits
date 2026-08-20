@@ -1,0 +1,67 @@
+---
+import type { Product } from '../data/products';
+import type { Locale } from '../lib/locale';
+
+interface Props {
+  product: Product;
+  locale: Locale;
+}
+
+const { product, locale } = Astro.props;
+const launch = product.launch;
+if (!launch) return;
+
+const developmentStatus = launch.developmentStatus[locale];
+const alpha = launch.beta[locale];
+const progress = launch.publicBeta[locale];
+const copy = locale === 'ja'
+  ? {
+      eyebrow: 'アーティストノート',
+      title: 'アーティストノート',
+      intro: '製品ページには置かない、開発の経過と現在地の記録です。',
+      creditsTitle: 'クレジット',
+      back: '製品ページへ戻る',
+    }
+  : {
+      eyebrow: 'ARTIST NOTE',
+      title: 'Artist note',
+      intro: 'The development record kept off the product page: how the instrument got here, and where it currently stands.',
+      creditsTitle: 'Credits',
+      back: 'Back to product',
+    };
+const productPath = locale === 'ja' ? `/ja/products/${product.slug}/` : `/products/${product.slug}/`;
+---
+
+<section class="page-intro" aria-labelledby="notes-title">
+  <p class="eyebrow">{copy.eyebrow} / {product.name}</p>
+  <h1 id="notes-title">{copy.title}</h1>
+  <p class="lead">{copy.intro}</p>
+</section>
+
+<section class="section copy-block" aria-labelledby="notes-development-title">
+  <p class="eyebrow">{developmentStatus.title}</p>
+  <h2 id="notes-development-title">{locale === 'ja' ? '最初の公開に向けて' : 'Preparing the first public release'}</h2>
+  {developmentStatus.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+</section>
+
+<section class="section copy-block" aria-labelledby="notes-alpha-title">
+  <p class="eyebrow">{alpha.title}</p>
+  <h2 id="notes-alpha-title">{alpha.title}</h2>
+  {alpha.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+</section>
+
+<section class="section" aria-labelledby="notes-progress-title">
+  <p class="eyebrow">{locale === 'ja' ? '進捗' : 'PROGRESS'}</p>
+  <h2 id="notes-progress-title">{progress.implementedTitle}</h2>
+  <ul class="launch-list-columns">{progress.implemented.map((item) => <li>{item}</li>)}</ul>
+  <h2 id="notes-coming-title">{progress.comingTitle}</h2>
+  <ul class="launch-list-columns">{progress.coming.map((item) => <li>{item}</li>)}</ul>
+</section>
+
+<section class="section launch-credits" aria-labelledby="notes-credits-title">
+  <p class="eyebrow">{copy.creditsTitle}</p>
+  <h2 id="notes-credits-title">{copy.creditsTitle}</h2>
+  <p>{launch.credits.concept}</p>
+  <p>{launch.credits.publisher}</p>
+  <a class="text-link" href={productPath}>{copy.back}</a>
+</section>

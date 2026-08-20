@@ -10,5 +10,6 @@ export const publicRoutePaths = [
   ...staticRoutes.map((path) => path === '/' ? '/ja/' : `/ja${path}`),
   ...products.filter(isVisibleProduct).flatMap(({ slug }) => [`/products/${slug}/`, `/ja/products/${slug}/`]),
   ...products.filter((product) => isVisibleProduct(product) && product.launch).flatMap(({ slug }) => [`/products/${slug}/specifications/`, `/ja/products/${slug}/specifications/`]),
+  ...products.filter((product) => isVisibleProduct(product) && product.launch).flatMap(({ slug }) => [`/products/${slug}/notes/`, `/ja/products/${slug}/notes/`]),
   ...collections.filter(isVisibleCollection).flatMap(({ slug }) => [`/collections/${slug}/`, `/ja/collections/${slug}/`]),
 ];
