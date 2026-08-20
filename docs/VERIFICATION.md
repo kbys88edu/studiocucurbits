@@ -62,7 +62,7 @@ Review captures were generated from that preview and deliberately stored outside
 - SC Suspended is `coming-soon`; SC Vitreous is an `announcement`; Traces and Tendril are `forthcoming` collections.
 - Neither currently public product has `publicPrice` enabled or a checkout URL. The resulting product CTA is the internal newsletter notification route, not a purchase flow.
 - SC Suspended has approved hero/interface images. No final audio or video sources are public, so those optional sections remain omitted; no fictional media, compatibility, reviews, or availability claims are emitted.
-- Newsletter delivery requires `NEWSLETTER_API_ENDPOINT` or `NEWSLETTER_FORM_ACTION`; without either, the form remains safely unavailable instead of submitting personal data elsewhere.
+- Newsletter delivery is the hard-coded MailerLite embed in `src/components/NewsletterForm.astro`; it posts directly to MailerLite and needs no build-time configuration. The generic endpoint-driven module in `src/scripts/newsletter.ts` is retained and unit-tested but is not wired to the live form, so `NEWSLETTER_API_ENDPOINT` and `NEWSLETTER_FORM_ACTION` are not read today.
 
 ## Deployment and discovery checks
 

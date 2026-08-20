@@ -17,11 +17,22 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      # Non-sensitive values live in repository variables; the pre-launch
+      # checkout links live in secrets. Every one of these is optional: an
+      # unset value is read as an empty string, which the site treats exactly
+      # like "not configured" and renders the safe fallback instead.
+      ANALYTICS_PROVIDER: ${{ vars.ANALYTICS_PROVIDER }}
+      ANALYTICS_ID: ${{ vars.ANALYTICS_ID }}
+      SUSPENDED_DEMO_URL: ${{ vars.SUSPENDED_DEMO_URL }}
+      SUSPENDED_MANUAL_URL: ${{ vars.SUSPENDED_MANUAL_URL }}
+      STRIPE_SUSPENDED_PAYMENT_LINK_JPY: ${{ secrets.STRIPE_SUSPENDED_PAYMENT_LINK_JPY }}
+      STRIPE_SUSPENDED_PAYMENT_LINK_USD: ${{ secrets.STRIPE_SUSPENDED_PAYMENT_LINK_USD }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version-file: .nvmrc
           cache: npm
       - run: npm ci
       - run: npm run check

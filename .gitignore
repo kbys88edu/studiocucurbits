@@ -6,3 +6,11 @@ playwright-report/
 test-results/
 lighthouse.json
 .superpowers/sdd/*.md
+
+.DS_Store
+**/.DS_Store
+
+# local environment (never commit real keys/endpoints)
+.env
+.env.*
+!.env.example
