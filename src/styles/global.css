@@ -129,6 +129,11 @@ h3 { font-size: 1.1rem; }
 .launch-platforms { color: var(--muted); margin: .75rem 0 0; }
 .footer-legal { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; }
 .legal-links { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; }
+.legal-section { padding-block: clamp(1.5rem, 3vw, 2.75rem); }
+.legal-section h2 { max-width: none; margin: 0 0 .6rem; font-size: clamp(1.2rem, 1.8vw, 1.5rem); line-height: 1.25; letter-spacing: -.01em; }
+.legal-section p { max-width: 44rem; }
+.legal-section ul { max-width: 44rem; margin: .5rem 0 0; padding-left: 1.15rem; }
+.legal-section li { margin: .35rem 0; }
 .launch-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(2rem, 8vw, 8rem); max-width: 70rem; }
 .launch-columns h3 { margin-top: 0; }
 .launch-columns ul, .launch-list { margin: 0; padding-left: 1.2rem; }

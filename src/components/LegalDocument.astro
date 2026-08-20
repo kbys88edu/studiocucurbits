@@ -24,14 +24,14 @@ const related: Array<{ slug: LegalSlug; path: string }> = (['privacy', 'terms', 
 </section>
 
 {document.sections.map((section, index) => (
-  <section class="section copy-block" aria-labelledby={`legal-section-${index}`}>
+  <section class="section copy-block legal-section" aria-labelledby={`legal-section-${index}`}>
     <h2 id={`legal-section-${index}`}>{section.heading}</h2>
     {section.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
     {section.items && <ul>{section.items.map((item) => <li>{item}</li>)}</ul>}
   </section>
 ))}
 
-<section class="section" aria-labelledby="legal-related-title">
+<section class="section legal-section" aria-labelledby="legal-related-title">
   <p class="eyebrow">{locale === 'ja' ? '関連' : 'RELATED'}</p>
   <h2 id="legal-related-title">{locale === 'ja' ? 'ほかの規定' : 'Other documents'}</h2>
   <ul class="legal-links">
