@@ -23,7 +23,7 @@ img { display: block; max-width: 100%; height: auto; }
 .brand { display: inline-flex; align-items: center; width: clamp(4.8rem, 8.4vw, 6.6rem); text-decoration: none; }
 .brand img { width: 100%; height: auto; }
 .menu-toggle { display: none; min-width: 44px; min-height: 44px; padding: .5rem .75rem; border: 1px solid var(--ink); background: transparent; color: inherit; font: inherit; cursor: pointer; }
-.primary-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem 1.75rem; }
+.primary-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem clamp(1rem, 2vw, 1.75rem); }
 .primary-nav a, .language-switch a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; }
 .primary-nav a { font-weight: 700; }
 .header-tools { display: grid; gap: .4rem; text-align: right; }
