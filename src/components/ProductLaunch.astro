@@ -2,6 +2,7 @@
 import type { Locale } from '../lib/locale';
 import type { Product } from '../data/products';
 import { localizedPath } from '../lib/locale';
+import { formatPrice, getLaunchRelease } from '../lib/product';
 import AudioComparison from './AudioComparison.astro';
 import NewsletterForm from './NewsletterForm.astro';
 import VideoSlot from './VideoSlot.astro';
@@ -23,6 +24,11 @@ const interfaceCopy = launch.interface[locale];
 const difference = launch.difference[locale];
 const developmentStatus = launch.developmentStatus[locale];
 const notesPath = locale === 'ja' ? `/ja/products/${product.slug}/notes/` : `/products/${product.slug}/notes/`;
+const announcement = launch.releaseAnnouncement[locale];
+const { isReleased, canBuy, checkoutUrl, currency, introAmount, regularAmount, showIntroPrice, showRegularPrice } = getLaunchRelease(launch, locale);
+const statusLabel = isReleased
+  ? (locale === 'ja' ? '販売中' : 'AVAILABLE')
+  : 'PRE-RELEASE';
 const releaseCta = launch.releaseCta[locale];
 const supportPath = localizedPath(`/support/${product.slug}/`, locale);
 const audioDemos = launch.release.audioDemosEnabled ? sound.demos.filter((demo) => demo.drySrc && demo.suspendedSrc) : [];
@@ -36,8 +42,9 @@ const specificationRows = launch.specifications[locale].filter(({ label }) => ![
   <section class="suspended-hero" aria-labelledby="product-title">
     <div class="suspended-hero-copy">
       <p class="eyebrow">TRACES — {locale === 'ja' ? 'グラニュラー・オーディオ・エフェクト' : 'Granular Audio Effect'}</p>
-      <p class="status-label">PRE-RELEASE</p>
+      <p class="status-label">{statusLabel}</p>
       <h1 id="product-title">SC SUSPENDED</h1>
+      {isReleased && <p class="launch-release-message">{announcement.message}</p>}
       <p class="launch-tagline">{content.tagline}</p>
       <p class="lead">{content.description}</p>
       <div class="launch-actions">
@@ -134,9 +141,22 @@ const specificationRows = launch.specifications[locale].filter(({ label }) => ![
 
   <section id="release-notification" class="launch-section release-notification" aria-labelledby="release-notification-title">
     <p class="eyebrow">RELEASE</p>
-    <h2 id="release-notification-title">{releaseCta.title}</h2>
-    <p>{releaseCta.description}</p>
-    {launch.release.showNewsletterCTA && <NewsletterForm locale={locale} source="suspended_product_page" releaseState={launch.release.releaseState} />}
+    <h2 id="release-notification-title">{canBuy ? announcement.message : releaseCta.title}</h2>
+    {!canBuy && <p>{releaseCta.description}</p>}
+    {canBuy && (
+      <>
+        {(showIntroPrice || showRegularPrice) && (
+          <dl class="price launch-price">
+            {showIntroPrice && <div><dt>{announcement.introPriceLabel}</dt><dd>{formatPrice(introAmount!, currency, locale)}</dd></div>}
+            {showRegularPrice && <div><dt>{announcement.priceLabel}</dt><dd>{formatPrice(regularAmount!, currency, locale)}</dd></div>}
+          </dl>
+        )}
+        <p class="launch-platforms">{product.supportedFormats.join(' / ')} — {product.supportedPlatforms.join(' / ')}</p>
+        <a class="button product-cta" data-suspended-event="click_suspended_buy" href={checkoutUrl}>{announcement.buy}</a>
+        <p>{announcement.introNote}</p>
+      </>
+    )}
+    {!canBuy && launch.release.showNewsletterCTA && <NewsletterForm locale={locale} source="suspended_product_page" releaseState={launch.release.releaseState} />}
     <a class="text-link" data-suspended-event="open_suspended_support" href={supportPath}>{releaseCta.support}</a>
   </section>
 </section>
@@ -153,8 +173,12 @@ const specificationRows = launch.specifications[locale].filter(({ label }) => ![
   trackEvent('suspended_page_view', analyticsContext);
   document.querySelectorAll<HTMLElement>('[data-suspended-event]').forEach((element) => {
     element.addEventListener('click', () => {
-      const event = element.dataset.suspendedEvent === 'open_suspended_support' ? 'suspended_support_click' : 'suspended_notify_click';
-      trackEvent(event, analyticsContext);
+      const events = {
+        open_suspended_support: 'suspended_support_click',
+        click_suspended_buy: 'suspended_buy_click',
+      } as const;
+      const key = element.dataset.suspendedEvent as keyof typeof events;
+      trackEvent(events[key] ?? 'suspended_notify_click', analyticsContext);
     });
   });
 </script>

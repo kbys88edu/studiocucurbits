@@ -92,6 +92,7 @@ export interface LaunchContent {
   publicBeta: Localized<{ implementedTitle: string; implemented: string[]; comingTitle: string; coming: string[] }>;
   credits: { concept: string; publisher: string };
   releaseCta: Localized<{ title: string; description: string; button: string; support: string }>;
+  releaseAnnouncement: Localized<{ message: string; introNote: string; buy: string; priceLabel: string; introPriceLabel: string }>;
   support: Localized<{ intro: string; topics: string[]; bugReportTitle: string; bugReport: string[] }>;
 }
 
@@ -461,6 +462,22 @@ export const products: Product[] = [
         ja: { implementedTitle: '現在のアルファ版で利用できる機能', implemented: ['ライブ入力のFreeze', '粒状再生', 'Freeze / Releaseの操作', '粒と密度の調整', '音の内部の動きの調整', 'Release Tail', 'ファクトリープリセット 8種', 'ステレオVST3処理', '基本的な出力安全チェック'], comingTitle: 'アルファ期間中に予定している更新', coming: ['音の仕上げ', 'UIの調整', '対応環境の追加テスト', 'パラメーターの反応の改善', 'ドキュメントとインストール案内'] },
       },
       credits: { concept: 'Concept, sound design and artistic direction: Sachie Kobayashi', publisher: 'Developed and published by: Studio Cucurbits.' },
+      releaseAnnouncement: {
+        en: {
+          message: 'SC Suspended is now available.',
+          introNote: 'Introductory availability for the first release.',
+          buy: 'Buy SC Suspended',
+          priceLabel: 'Price',
+          introPriceLabel: 'Introductory price',
+        },
+        ja: {
+          message: 'SC Suspendedを公開しました。',
+          introNote: '最初のリリースの導入価格です。',
+          buy: 'SC Suspendedを購入する',
+          priceLabel: '価格',
+          introPriceLabel: '導入価格',
+        },
+      },
       releaseCta: {
         en: {
           title: 'Be notified when Suspended is released.',

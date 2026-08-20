@@ -1,4 +1,4 @@
-import type { Currency, Product } from '../data/products';
+import type { Currency, LaunchContent, Product } from '../data/products';
 import type { Locale } from './locale';
 
 export interface ProductCta {
@@ -74,6 +74,57 @@ export function formatPrice(amount: number, currency: Currency, locale: Locale):
     style: 'currency',
     currency,
     currencyDisplay: 'narrowSymbol',
+    // The marketing strategy quotes $19 / $29, not $19.00. Keep the minimum at
+    // zero so whole amounts stay clean while a fractional price still renders.
+    minimumFractionDigits: 0,
     maximumFractionDigits: currency === 'JPY' ? 0 : 2,
   }).format(amount);
+}
+
+export interface LaunchRelease {
+  isReleased: boolean;
+  canBuy: boolean;
+  checkoutUrl: string | null;
+  currency: Currency;
+  introAmount: number | null;
+  regularAmount: number | null;
+  showIntroPrice: boolean;
+  showRegularPrice: boolean;
+}
+
+function positiveAmount(value: number | undefined): number | null {
+  return typeof value === 'number' && value > 0 ? value : null;
+}
+
+/**
+ * Resolves what the launch page may show about buying. Every field is derived
+ * from launch.release, so a release is performed by editing that record alone.
+ * An unset or non-https checkout URL always falls back to the notify route
+ * rather than rendering a broken purchase button.
+ */
+export function getLaunchRelease(launch: LaunchContent, locale: Locale): LaunchRelease {
+  const currency = launch.release.currency[locale];
+  const checkoutUrl = httpsUrl(launch.release.checkoutUrl[currency]);
+  const introAmount = positiveAmount(launch.release.introPrice[currency]);
+  const regularAmount = positiveAmount(launch.release.regularPrice[currency]);
+
+  return {
+    isReleased: launch.release.releaseState === 'released',
+    canBuy: launch.release.showBuyButton && Boolean(checkoutUrl),
+    checkoutUrl,
+    currency,
+    introAmount,
+    regularAmount,
+    showIntroPrice: launch.release.showPrice && introAmount !== null,
+    showRegularPrice: launch.release.showPrice && regularAmount !== null,
+  };
+}
+
+function httpsUrl(value: string | null): string | null {
+  if (!value?.trim()) return null;
+  try {
+    return new URL(value).protocol === 'https:' ? value : null;
+  } catch {
+    return null;
+  }
 }

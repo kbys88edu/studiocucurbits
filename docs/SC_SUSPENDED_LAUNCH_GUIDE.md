@@ -35,6 +35,41 @@ Change the `launch.release` object only after the release decision is approved:
 
 When releasing, update the product `status`, verified compatibility, public pricing, release date, and checkout URLs together. Run the complete verification suite before pushing `main`.
 
+## The release switch
+
+Setting `releaseState: 'released'` changes the page on its own:
+
+- The hero status label becomes `AVAILABLE` / `販売中`.
+- The single release message from `launch.releaseAnnouncement` appears under the
+  product name — `SC Suspended is now available.` and its Japanese equivalent.
+  Marketing strategy P09 allows exactly one release-day message, so do not add a
+  second announcement elsewhere on the page.
+- With `showBuyButton` and a valid HTTPS checkout URL, the release section
+  becomes the purchase route: price, formats and platforms, buy button, then the
+  introductory-availability note. The newsletter form is withheld automatically.
+- Without a usable checkout URL the page silently keeps the notify route, so a
+  half-configured release never renders a broken buy button.
+
+`tests/unit/release-readiness.test.ts` enforces the rest. Its assertions are
+inert while the product is pre-release and activate the moment `releaseState`
+becomes `released`, failing the build if:
+
+- `supportedPlatforms` or the published specifications still say `Alpha` /
+  `アルファ` (marketing strategy P12 PRODUCT: the compatibility wording must
+  match reality),
+- `showBuyButton` is on without an HTTPS checkout URL in both currencies
+  (P12 COMMERCE),
+- the product `status` is still `coming-soon` or `announcement`.
+
+Do not weaken these to make a release pass. Fix the underlying record.
+
+## Artist note
+
+The development story lives at `/products/suspended/notes/` and its Japanese
+equivalent, not on the product page (P09). `launch.developmentStatus`,
+`launch.beta` and `launch.publicBeta` render there. The product page keeps only
+a link.
+
 ## Optional media
 
 Use the checklist and exact paths in [suspended-release-assets.md](suspended-release-assets.md). Audio comparisons require both dry and suspended files for a demo. Video requires a ready MP4/WebM or an approved poster. Missing files render no public media section; never add fake sources or text such as “in production”, “placeholder”, or “coming soon”.
