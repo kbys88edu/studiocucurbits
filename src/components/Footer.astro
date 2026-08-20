@@ -1,4 +1,5 @@
 ---
+import { legalDocuments } from '../data/legal';
 import { localizedPath, type Locale } from '../lib/locale';
 
 interface Props {
@@ -7,11 +8,16 @@ interface Props {
 
 const { locale } = Astro.props;
 const copy = locale === 'ja'
-  ? { tagline: 'Studio Cucurbits. / 音楽とクリエイティブテクノロジー', updates: 'スタジオからの最新情報' }
-  : { tagline: 'Studio Cucurbits. / Music and Creative Technology', updates: 'Studio updates' };
+  ? { tagline: 'Studio Cucurbits. / 音楽とクリエイティブテクノロジー', updates: 'スタジオからの最新情報', legal: '規定' }
+  : { tagline: 'Studio Cucurbits. / Music and Creative Technology', updates: 'Studio updates', legal: 'Legal' };
+const legalLinks = (['terms', 'privacy', 'license', 'refund'] as const)
+  .map((slug) => ({ label: legalDocuments[slug][locale].title, href: localizedPath(`/${slug}/`, locale) }));
 ---
 
 <footer class="site-footer">
   <p>{copy.tagline}</p>
   <a href={localizedPath('/newsletter/', locale)}>{copy.updates}</a>
+  <nav class="footer-legal" aria-label={copy.legal}>
+    {legalLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+  </nav>
 </footer>

@@ -63,6 +63,30 @@ becomes `released`, failing the build if:
 
 Do not weaken these to make a release pass. Fix the underlying record.
 
+## Legal documents
+
+Terms, Privacy, License and Refunds are authored in `src/data/legal.ts` and
+rendered by `LegalDocument.astro`; the page files hold no copy. All four are
+linked from the site footer and from each other.
+
+Every one of them still renders `LegalDraftNotice`. The wording is a draft and
+has not been reviewed. Two things must happen before selling:
+
+1. Review and approve the wording, then remove `LegalDraftNotice` from
+   `LegalDocument.astro` and drop the corresponding assertion in
+   `tests/render/content-pages.test.ts`.
+2. Publish 特定商取引法に基づく表記. Selling to consumers in Japan requires a
+   disclosure page naming the seller, the responsible person, the business
+   address, a contact route, the price and payment terms, delivery timing, and
+   the returns policy. The site prices in JPY and has a Japanese storefront, so
+   this is not optional. It is not scaffolded here because it needs real
+   business details that must not be invented.
+
+The privacy document names MailerLite, GitHub Pages and the payment provider
+because those are what the site actually uses today. If the newsletter provider,
+host, analytics provider or payment provider changes, update that document in
+the same commit.
+
 ## Artist note
 
 The development story lives at `/products/suspended/notes/` and its Japanese

@@ -29,7 +29,8 @@ describe('production SEO', () => {
     for (const [path, title, description] of [
       ['/products', 'PRODUCTS | Studio Cucurbits.', 'Artist-designed instruments for unstable sound from Studio Cucurbits.'],
       ['/support', 'Support | Studio Cucurbits.', 'Editable installation and support guidance.'],
-      ['/privacy', 'Privacy | Studio Cucurbits.', 'Privacy information requiring final review.'],
+      ['/privacy', 'Privacy | Studio Cucurbits.', 'How Studio Cucurbits. handles personal data on this site.'],
+      ['/refund', 'Refunds | Studio Cucurbits.', 'When and how to get a refund on a Studio Cucurbits. product.'],
     ]) {
       const html = renderedPage(path);
 

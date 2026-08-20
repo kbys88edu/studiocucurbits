@@ -1,11 +1,11 @@
 ---
-import LegalDraftNotice from '../components/LegalDraftNotice.astro';
+import LegalDocument from '../components/LegalDocument.astro';
+import { legalDocuments } from '../data/legal';
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const document = legalDocuments.terms.en;
 ---
 
-<BaseLayout title="Terms | Studio Cucurbits." description="Draft terms requiring final review." canonicalPath="/terms/">
-  <section class="page-intro" aria-labelledby="terms-title">
-    <h1 id="terms-title">Terms</h1>
-    <LegalDraftNotice />
-  </section>
+<BaseLayout title={`${document.title} | Studio Cucurbits.`} description={document.description} canonicalPath="/terms/">
+  <LegalDocument slug="terms" locale="en" />
 </BaseLayout>

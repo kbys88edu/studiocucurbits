@@ -1,11 +1,11 @@
 ---
+import LegalDocument from '../components/LegalDocument.astro';
+import { legalDocuments } from '../data/legal';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import LegalDraftNotice from '../components/LegalDraftNotice.astro';
+
+const document = legalDocuments.privacy.en;
 ---
 
-<BaseLayout title="Privacy | Studio Cucurbits." description="Privacy information requiring final review." canonicalPath="/privacy/">
-  <section class="page-intro" aria-labelledby="privacy-title">
-    <h1 id="privacy-title">Privacy</h1>
-    <LegalDraftNotice />
-  </section>
+<BaseLayout title={`${document.title} | Studio Cucurbits.`} description={document.description} canonicalPath="/privacy/">
+  <LegalDocument slug="privacy" locale="en" />
 </BaseLayout>

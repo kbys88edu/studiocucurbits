@@ -20,13 +20,13 @@ describe('support, legal, and pre-launch routes', () => {
   beforeAll(buildSite, 30_000);
 
   it('generates the required static support and legal routes in both locales', () => {
-    for (const route of ['/support', '/downloads', '/license', '/privacy', '/terms', '/coming-soon', '/beta', '/press', '/ja/support', '/ja/downloads', '/ja/license', '/ja/privacy', '/ja/terms', '/ja/coming-soon', '/ja/beta', '/ja/press']) {
+    for (const route of ['/support', '/downloads', '/license', '/privacy', '/terms', '/refund', '/coming-soon', '/beta', '/press', '/ja/support', '/ja/downloads', '/ja/license', '/ja/privacy', '/ja/terms', '/ja/refund', '/ja/coming-soon', '/ja/beta', '/ja/press']) {
       expect(renderedPage(route)).not.toBe('');
     }
   });
 
   it('marks every legal page as draft content requiring final review', () => {
-    for (const route of ['/license', '/privacy', '/terms', '/ja/license', '/ja/privacy', '/ja/terms']) {
+    for (const route of ['/license', '/privacy', '/terms', '/refund', '/ja/license', '/ja/privacy', '/ja/terms', '/ja/refund']) {
       expect(renderedPage(route)).toContain('Draft content requiring final review');
     }
   });
@@ -76,5 +76,43 @@ describe('artist note separation', () => {
     expect(productJa).not.toContain('Suspendedは現在アルファ版です');
     expect(notesJa).toContain('Suspendedは現在アルファ版です');
     expect(productJa).toContain('/ja/products/suspended/notes/');
+  });
+});
+
+describe('legal documents carry real terms', () => {
+  beforeAll(buildSite, 30_000);
+
+  it('publishes substantive content on every legal page, not an empty shell', () => {
+    const expectations: Array<[string, string]> = [
+      ['/terms', 'Products are delivered digitally'],
+      ['/privacy', 'This site is a static site'],
+      ['/license', 'Install and use the plugin on the computers you personally work on'],
+      ['/refund', 'Ask for a refund within 14 days of purchase'],
+      ['/ja/terms', '製品はデジタルデータとして提供します'],
+      ['/ja/privacy', '本サイトは静的サイトです'],
+      ['/ja/refund', 'ご購入から14日以内にご連絡いただければ返金します'],
+    ];
+
+    for (const [route, phrase] of expectations) {
+      expect(renderedPage(route), route).toContain(phrase);
+    }
+  });
+
+  it('describes the processors the site actually uses', () => {
+    const privacy = renderedPage('/privacy');
+    expect(privacy).toContain('MailerLite');
+    expect(privacy).toContain('GitHub Pages');
+  });
+
+  it('links every legal document from the site footer', () => {
+    const home = renderedPage('/');
+    for (const path of ['/terms/', '/privacy/', '/license/', '/refund/']) {
+      expect(home).toContain(`href="${path}"`);
+    }
+
+    const homeJa = renderedPage('/ja');
+    for (const path of ['/ja/terms/', '/ja/privacy/', '/ja/license/', '/ja/refund/']) {
+      expect(homeJa).toContain(`href="${path}"`);
+    }
   });
 });

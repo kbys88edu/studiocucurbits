@@ -2,7 +2,7 @@ import { collections, isVisibleCollection, isVisibleProduct, products } from './
 
 const staticRoutes = [
   '/', '/about/', '/work/', '/products/', '/support/', '/support/suspended/', '/downloads/', '/license/',
-  '/privacy/', '/terms/', '/coming-soon/', '/beta/', '/press/', '/newsletter/',
+  '/privacy/', '/terms/', '/refund/', '/coming-soon/', '/beta/', '/press/', '/newsletter/',
 ];
 
 export const publicRoutePaths = [
