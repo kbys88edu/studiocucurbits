@@ -13,7 +13,7 @@ export interface LegalDocument {
   sections: LegalSection[];
 }
 
-export type LegalSlug = 'privacy' | 'terms' | 'license' | 'refund';
+export type LegalSlug = 'privacy' | 'terms' | 'license' | 'refund' | 'business';
 
 /**
  * Draft legal copy. Every document is rendered with LegalDraftNotice until the
@@ -21,6 +21,18 @@ export type LegalSlug = 'privacy' | 'terms' | 'license' | 'refund';
  * that notice. The privacy document describes the processors the site actually
  * uses today, so it must be updated whenever that stack changes.
  */
+export const sellerDisclosure = {
+  operator: 'Sachie Kobayashi (Studio Cucurbits.)',
+  representative: 'Sachie Kobayashi / 小林 祥恵',
+  postalCode: '〒150-0043',
+  address: '東京都渋谷区道玄坂1-10-8 渋谷道玄坂東急ビル2F-C',
+  addressEn: 'Shibuya Dogenzaka Tokyu Building 2F-C, 1-10-8 Dogenzaka, Shibuya-ku, Tokyo 150-0043, Japan',
+  phone: '050-5530-1800',
+  phoneHours: '平日 10:00-18:00 JST',
+  phoneHoursEn: 'Weekdays 10:00-18:00 JST',
+  email: 'info@sachiekobayashi.com',
+} as const;
+
 export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
   privacy: {
     en: {
@@ -63,7 +75,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: 'Contact',
-          paragraphs: ['Send privacy requests to the support address published on the Support page.'],
+          paragraphs: [`Send privacy requests to ${sellerDisclosure.email}.`],
         },
       ],
     },
@@ -107,7 +119,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: 'お問い合わせ',
-          paragraphs: ['プライバシーに関するご請求は、サポートページに掲載のアドレスへお送りください。'],
+          paragraphs: [`プライバシーに関するご請求は、${sellerDisclosure.email} へお送りください。`],
         },
       ],
     },
@@ -270,7 +282,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: 'How to ask',
-          paragraphs: ['Write to the support address published on the Support page with the email address used at purchase. Refunds are returned to the original payment method, and the payment provider decides how long it takes to appear.'],
+          paragraphs: [`Write to ${sellerDisclosure.email} from the email address used at purchase. Refunds are returned to the original payment method, and the payment provider decides how long it takes to appear.`],
         },
         {
           heading: 'Before asking',
@@ -297,7 +309,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: 'お手続き',
-          paragraphs: ['ご購入時のメールアドレスを添えて、サポートページに掲載のアドレスへご連絡ください。返金はご購入時の支払い方法へ返金します。着金までの期間は決済事業者により異なります。'],
+          paragraphs: [`ご購入時のメールアドレスを添えて、${sellerDisclosure.email} へご連絡ください。返金はご購入時の支払い方法へ返金します。着金までの期間は決済事業者により異なります。`],
         },
         {
           heading: 'ご連絡の前に',
@@ -310,6 +322,82 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         {
           heading: '制限',
           paragraphs: ['同一製品での購入と返金の反復についてはお断りする場合があります。本ポリシーは、お客様に適用される消費者法上の権利を制限するものではありません。'],
+        },
+      ],
+    },
+  },
+  business: {
+    en: {
+      title: 'Business information',
+      description: 'Seller, contact and trading details for Studio Cucurbits.',
+      intro: 'The seller behind this site, and the trading terms required for online sales in Japan.',
+      sections: [
+        {
+          heading: 'Seller',
+          items: [
+            `Operator: ${sellerDisclosure.operator}`,
+            `Representative: ${sellerDisclosure.representative}`,
+            `Address: ${sellerDisclosure.addressEn}`,
+            `Phone: ${sellerDisclosure.phone} (${sellerDisclosure.phoneHoursEn})`,
+            `Email: ${sellerDisclosure.email}`,
+          ],
+        },
+        {
+          heading: 'Price and additional costs',
+          paragraphs: ['Each product page shows the price for that product. Any consumption tax is applied at checkout. You are responsible for your own internet connection charges; there are no shipping or handling fees, because nothing is shipped.'],
+        },
+        {
+          heading: 'Payment',
+          paragraphs: ['Card payment through the provider named at checkout. Payment is taken when the order is placed.'],
+        },
+        {
+          heading: 'Delivery',
+          paragraphs: ['Download and licence details are issued immediately after payment is confirmed. If they do not arrive, contact us and they will be reissued.'],
+        },
+        {
+          heading: 'Returns and refunds',
+          paragraphs: ['A refund can be requested within 14 days of purchase, without giving a reason. The full conditions are on the Refunds page. Because products are delivered digitally, a refunded licence stops being valid and the plugin must be uninstalled.'],
+        },
+        {
+          heading: 'Operating requirements',
+          paragraphs: ['The supported plugin formats and operating systems are published on each product page. Check them before buying.'],
+        },
+      ],
+    },
+    ja: {
+      title: '特定商取引法に基づく表記',
+      description: 'Studio Cucurbits.の販売事業者情報および取引条件。',
+      intro: '特定商取引法に基づき、販売事業者と取引条件を表示します。',
+      sections: [
+        {
+          heading: '販売業者',
+          items: [
+            `事業者名：${sellerDisclosure.operator}`,
+            `運営統括責任者：${sellerDisclosure.representative}`,
+            `所在地：${sellerDisclosure.postalCode} ${sellerDisclosure.address}`,
+            `電話番号：${sellerDisclosure.phone}（${sellerDisclosure.phoneHours}）`,
+            `メールアドレス：${sellerDisclosure.email}`,
+          ],
+        },
+        {
+          heading: '販売価格・商品代金以外の必要料金',
+          paragraphs: ['販売価格は各製品ページに表示します。消費税が課される場合は決済時に加算されます。インターネット接続に必要な通信料はお客様のご負担となります。デジタル製品のため、送料および手数料はいただきません。'],
+        },
+        {
+          heading: '支払方法・支払時期',
+          paragraphs: ['決済画面に表示される決済事業者を通じたクレジットカード決済です。ご注文時にお支払いが確定します。'],
+        },
+        {
+          heading: '商品の引渡時期',
+          paragraphs: ['決済の確認後、ダウンロードおよびライセンス情報を直ちに発行します。届かない場合はご連絡ください。再発行いたします。'],
+        },
+        {
+          heading: '返品・キャンセル（返品特約）',
+          paragraphs: ['ご購入から14日以内であれば、理由を問わず返金をご請求いただけます。詳細は返金ポリシーに記載しています。デジタル製品のため、返金されたライセンスは無効となり、プラグインはアンインストールしていただきます。'],
+        },
+        {
+          heading: '動作環境',
+          paragraphs: ['対応するプラグインフォーマットとオペレーティングシステムは、各製品ページに掲載しています。ご購入前にご確認ください。'],
         },
       ],
     },

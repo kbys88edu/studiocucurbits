@@ -1,0 +1,11 @@
+---
+import LegalDocument from '../../components/LegalDocument.astro';
+import { legalDocuments } from '../../data/legal';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const document = legalDocuments.business.ja;
+---
+
+<BaseLayout title={`${document.title} | Studio Cucurbits.`} description={document.description} canonicalPath="/ja/business/" locale="ja">
+  <LegalDocument slug="business" locale="ja" />
+</BaseLayout>

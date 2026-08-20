@@ -11,7 +11,7 @@ interface Props {
 
 const { slug, locale } = Astro.props;
 const document = legalDocuments[slug][locale];
-const related: Array<{ slug: LegalSlug; path: string }> = (['privacy', 'terms', 'license', 'refund'] as const)
+const related: Array<{ slug: LegalSlug; path: string }> = (['privacy', 'terms', 'license', 'refund', 'business'] as const)
   .filter((entry) => entry !== slug)
   .map((entry) => ({ slug: entry, path: localizedPath(`/${entry}/`, locale) }));
 ---

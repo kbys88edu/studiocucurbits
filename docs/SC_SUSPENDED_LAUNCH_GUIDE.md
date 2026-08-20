@@ -75,12 +75,17 @@ has not been reviewed. Two things must happen before selling:
 1. Review and approve the wording, then remove `LegalDraftNotice` from
    `LegalDocument.astro` and drop the corresponding assertion in
    `tests/render/content-pages.test.ts`.
-2. Publish 特定商取引法に基づく表記. Selling to consumers in Japan requires a
-   disclosure page naming the seller, the responsible person, the business
-   address, a contact route, the price and payment terms, delivery timing, and
-   the returns policy. The site prices in JPY and has a Japanese storefront, so
-   this is not optional. It is not scaffolded here because it needs real
-   business details that must not be invented.
+2. Confirm the seller disclosure. 特定商取引法に基づく表記 is published at
+   `/ja/business/`, with an English `Business information` page at `/business/`.
+   The details live in `sellerDisclosure` in `src/data/legal.ts` and were
+   supplied from the operator's existing disclosure at
+   ateliercompositionson.com. The phone number and email are shared with that
+   business; confirm they are the right contact route for plugin sales before
+   release, and note that its 返品・返金 wording differs because it covers
+   lessons, not software.
+
+   The 返品特約 on the disclosure page and the Refunds page must agree. Both
+   currently state 14 days; `tests/render/content-pages.test.ts` asserts it.
 
 The privacy document names MailerLite, GitHub Pages and the payment provider
 because those are what the site actually uses today. If the newsletter provider,

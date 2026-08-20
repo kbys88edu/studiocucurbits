@@ -10,7 +10,7 @@ const { locale } = Astro.props;
 const copy = locale === 'ja'
   ? { tagline: 'Studio Cucurbits. / 音楽とクリエイティブテクノロジー', updates: 'スタジオからの最新情報', legal: '規定' }
   : { tagline: 'Studio Cucurbits. / Music and Creative Technology', updates: 'Studio updates', legal: 'Legal' };
-const legalLinks = (['terms', 'privacy', 'license', 'refund'] as const)
+const legalLinks = (['terms', 'privacy', 'license', 'refund', 'business'] as const)
   .map((slug) => ({ label: legalDocuments[slug][locale].title, href: localizedPath(`/${slug}/`, locale) }));
 ---
 
