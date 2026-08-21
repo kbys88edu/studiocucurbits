@@ -90,6 +90,7 @@ export interface LaunchRelease {
   regularAmount: number | null;
   showIntroPrice: boolean;
   showRegularPrice: boolean;
+  showNotify: boolean;
 }
 
 function positiveAmount(value: number | undefined): number | null {
@@ -100,7 +101,9 @@ function positiveAmount(value: number | undefined): number | null {
  * Resolves what the launch page may show about buying. Every field is derived
  * from launch.release, so a release is performed by editing that record alone.
  * An unset or non-https checkout URL always falls back to the notify route
- * rather than rendering a broken purchase button.
+ * rather than rendering a broken purchase button. Conversely, canBuy suppresses
+ * every notify affordance on the page, so a release cannot leave a stale
+ * "Notify me" link next to a working buy button.
  */
 export function getLaunchRelease(launch: LaunchContent, locale: Locale): LaunchRelease {
   const currency = launch.release.currency[locale];
@@ -108,15 +111,18 @@ export function getLaunchRelease(launch: LaunchContent, locale: Locale): LaunchR
   const introAmount = positiveAmount(launch.release.introPrice[currency]);
   const regularAmount = positiveAmount(launch.release.regularPrice[currency]);
 
+  const canBuy = launch.release.showBuyButton && Boolean(checkoutUrl);
+
   return {
     isReleased: launch.release.releaseState === 'released',
-    canBuy: launch.release.showBuyButton && Boolean(checkoutUrl),
+    canBuy,
     checkoutUrl,
     currency,
     introAmount,
     regularAmount,
     showIntroPrice: launch.release.showPrice && introAmount !== null,
     showRegularPrice: launch.release.showPrice && regularAmount !== null,
+    showNotify: !canBuy && launch.release.showNewsletterCTA,
   };
 }
 

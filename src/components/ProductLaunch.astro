@@ -25,7 +25,7 @@ const difference = launch.difference[locale];
 const developmentStatus = launch.developmentStatus[locale];
 const notesPath = locale === 'ja' ? `/ja/products/${product.slug}/notes/` : `/products/${product.slug}/notes/`;
 const announcement = launch.releaseAnnouncement[locale];
-const { isReleased, canBuy, checkoutUrl, currency, introAmount, regularAmount, showIntroPrice, showRegularPrice } = getLaunchRelease(launch, locale);
+const { isReleased, canBuy, checkoutUrl, currency, introAmount, regularAmount, showIntroPrice, showRegularPrice, showNotify } = getLaunchRelease(launch, locale);
 const statusLabel = isReleased
   ? (locale === 'ja' ? '販売中' : 'AVAILABLE')
   : 'PRE-RELEASE';
@@ -49,7 +49,7 @@ const specificationRows = launch.specifications[locale].filter(({ label }) => ![
       <p class="lead">{content.description}</p>
       <div class="launch-actions">
         <a class="button product-cta" data-suspended-event="click_notify_suspended" href={hearHref}>{locale === 'ja' ? 'Suspendedを聴く' : 'Hear Suspended'}</a>
-        {launch.release.showNewsletterCTA && <a class="text-link" data-suspended-event="click_notify_suspended" href="#release-notification">{releaseCta.button}</a>}
+        {showNotify && <a class="text-link" data-suspended-event="click_notify_suspended" href="#release-notification">{releaseCta.button}</a>}
       </div>
     </div>
     {product.media.heroImage && <img class="product-hero-image suspended-hero-image" src={product.media.heroImage} alt={interfaceCopy.imageAlt} width="1200" height="1500" loading="eager" decoding="async" />}
@@ -156,7 +156,7 @@ const specificationRows = launch.specifications[locale].filter(({ label }) => ![
         <p>{announcement.introNote}</p>
       </>
     )}
-    {!canBuy && launch.release.showNewsletterCTA && <NewsletterForm locale={locale} source="suspended_product_page" releaseState={launch.release.releaseState} />}
+    {showNotify && <NewsletterForm locale={locale} source="suspended_product_page" releaseState={launch.release.releaseState} />}
     <a class="text-link" data-suspended-event="open_suspended_support" href={supportPath}>{releaseCta.support}</a>
   </section>
 </section>

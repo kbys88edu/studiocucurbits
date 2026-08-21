@@ -8,6 +8,7 @@ function launchWith(release: Record<string, unknown>) {
       releaseState: 'pre-release',
       showPrice: false,
       showBuyButton: false,
+      showNewsletterCTA: true,
       introPrice: { JPY: 2900, USD: 19 },
       regularPrice: { JPY: 4400, USD: 29 },
       currency: { en: 'USD', ja: 'JPY' },
@@ -67,6 +68,30 @@ describe('launch release state', () => {
       expect(release.canBuy).toBe(false);
       expect(release.checkoutUrl).toBeNull();
     }
+  });
+
+  it('withdraws every notify affordance once buying is live', () => {
+    const release = getLaunchRelease(launchWith({
+      releaseState: 'released',
+      showBuyButton: true,
+      showNewsletterCTA: true,
+      checkoutUrl: { JPY: 'https://buy.stripe.com/jpy', USD: 'https://buy.stripe.com/usd' },
+    }), 'en');
+
+    expect(release.canBuy).toBe(true);
+    expect(release.showNotify).toBe(false);
+  });
+
+  it('keeps the notify affordance while the checkout is not usable', () => {
+    const release = getLaunchRelease(launchWith({
+      releaseState: 'released',
+      showBuyButton: true,
+      showNewsletterCTA: true,
+      checkoutUrl: { JPY: null, USD: null },
+    }), 'en');
+
+    expect(release.canBuy).toBe(false);
+    expect(release.showNotify).toBe(true);
   });
 
   it('keeps prices hidden when showPrice is off even after release', () => {
