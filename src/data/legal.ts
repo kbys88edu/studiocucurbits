@@ -46,7 +46,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
           items: [
             'Newsletter: your email address, when you submit the subscription form.',
             'Analytics: aggregate page and interaction counts, with no cookie and no cross-site identifier.',
-            'Purchase: name, email and payment details, collected by the payment provider and never by this site.',
+            'Purchase: name, email and payment details, collected by Stripe and never by this site.',
           ],
         },
         {
@@ -54,7 +54,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
           items: [
             'MailerLite — newsletter delivery. The subscription form posts directly to MailerLite.',
             'GitHub Pages — website hosting, which records standard server request logs.',
-            'The payment provider named at checkout — payment processing and receipts.',
+            'Stripe — payment processing and receipts. Card details go to Stripe and are never held by this site.',
           ],
         },
         {
@@ -90,7 +90,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
           items: [
             'ニュースレター：登録フォームを送信したときのメールアドレス。',
             'アクセス解析：Cookieおよびサイト横断の識別子を用いない、集計値としてのページ閲覧数と操作回数。',
-            '購入：氏名・メールアドレス・支払い情報。これらは決済事業者が取得し、本サイトが受け取ることはありません。',
+            '購入：氏名・メールアドレス・支払い情報。これらはStripeが取得し、本サイトが受け取ることはありません。',
           ],
         },
         {
@@ -98,7 +98,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
           items: [
             'MailerLite — ニュースレターの配信。登録フォームはMailerLiteへ直接送信されます。',
             'GitHub Pages — ウェブサイトのホスティング。標準的なサーバーリクエストログが記録されます。',
-            '決済画面に表示される決済事業者 — 決済処理と領収書の発行。',
+            'Stripe — 決済処理と領収書の発行。カード情報はStripeが取得し、本サイトが保持することはありません。',
           ],
         },
         {
@@ -136,7 +136,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: 'Orders',
-          paragraphs: ['A purchase is complete when the payment provider confirms it and the download and licence details are issued. Prices are shown in the currency selected at checkout, and any tax due is applied by the payment provider.'],
+          paragraphs: ['A purchase is complete when Stripe confirms the payment and the download and licence details are issued. Prices are shown in the currency selected at checkout. Where tax applies, the amount is shown before you confirm the order.'],
         },
         {
           heading: 'Delivery',
@@ -171,7 +171,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: 'ご注文',
-          paragraphs: ['購入は、決済事業者による決済の確認と、ダウンロードおよびライセンス情報の発行をもって完了します。価格は決済時に選択された通貨で表示し、課税される場合の税額は決済事業者が適用します。'],
+          paragraphs: ['購入は、Stripeによる決済の確認と、ダウンロードおよびライセンス情報の発行をもって完了します。価格は決済時に選択された通貨で表示します。課税される場合は、ご注文の確定前に税額を表示します。'],
         },
         {
           heading: '提供方法',
@@ -282,7 +282,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: 'How to ask',
-          paragraphs: [`Write to ${sellerDisclosure.email} from the email address used at purchase. Refunds are returned to the original payment method, and the payment provider decides how long it takes to appear.`],
+          paragraphs: [`Write to ${sellerDisclosure.email} from the email address used at purchase. Refunds are returned to the original payment method through Stripe; how long it takes to appear depends on your card issuer.`],
         },
         {
           heading: 'Before asking',
@@ -309,7 +309,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: 'お手続き',
-          paragraphs: [`ご購入時のメールアドレスを添えて、${sellerDisclosure.email} へご連絡ください。返金はご購入時の支払い方法へ返金します。着金までの期間は決済事業者により異なります。`],
+          paragraphs: [`ご購入時のメールアドレスを添えて、${sellerDisclosure.email} へご連絡ください。返金はStripeを通じてご購入時の支払い方法へ返金します。着金までの期間はカード発行会社により異なります。`],
         },
         {
           heading: 'ご連絡の前に',
@@ -348,7 +348,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: 'Payment',
-          paragraphs: ['Card payment through the provider named at checkout. Payment is taken when the order is placed.'],
+          paragraphs: ['Credit card payment through Stripe. Payment is taken when the order is placed.'],
         },
         {
           heading: 'Delivery',
@@ -385,7 +385,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: '支払方法・支払時期',
-          paragraphs: ['決済画面に表示される決済事業者を通じたクレジットカード決済です。ご注文時にお支払いが確定します。'],
+          paragraphs: ['Stripeによるクレジットカード決済です。ご注文時にお支払いが確定します。'],
         },
         {
           heading: '商品の引渡時期',
