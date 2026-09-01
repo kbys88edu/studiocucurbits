@@ -8,6 +8,7 @@ This folder contains the static Studio Cucurbits site, built with Astro.
 - `public/` - static assets and the custom-domain CNAME file.
 - `astro.config.mjs` - static build and site configuration.
 - `package.json` - Astro scripts and dependencies.
+- `tools/` - standalone utilities that are not part of the site build.
 
 ## Local setup
 
@@ -71,6 +72,15 @@ Public links referenced in the page:
 Pushes to `main` run `check`, tests, and a production build before deploying `dist/` to GitHub Pages. The custom domain is retained at `public/CNAME`; do not remove it from the deployment artifact. Run the same gate locally with `npm run verify`.
 
 For the complete release gate, production-preview route checks, known content constraints, and the current verification record, see [docs/VERIFICATION.md](docs/VERIFICATION.md). Update catalogue content through [docs/CONTENT_GUIDE.md](docs/CONTENT_GUIDE.md), rather than changing generated pages directly.
+
+## Score rendering
+
+`tools/score-to-audio/` turns a printed score into audio - PDF to MusicXML with
+Audiveris, MusicXML to MIDI with music21, then MIDI to MP3 through FluidSynth
+and ffmpeg. It is a separate Python toolchain, installed on demand and not part
+of `npm run verify` or the deployed build. Setup, usage and the measured
+recognition accuracy are in
+[tools/score-to-audio/README.md](tools/score-to-audio/README.md).
 
 ## Asset migration
 

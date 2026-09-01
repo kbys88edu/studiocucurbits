@@ -1,0 +1,18 @@
+%%  Fixture for tools/score-to-audio/score_to_audio.py selftest.
+%%  Original material, written for this repository - no third-party score is involved.
+%%  Regenerate the PDF with:
+%%      abcm2ps -O scale-study.ps scale-study.abc && ps2pdf scale-study.ps scale-study.pdf
+X:1
+T:Scale Study
+M:4/4
+L:1/8
+Q:1/4=100
+K:C
+CDEF GABc | cBAG FEDC | CEGc GECG | DFAd AFDA |
+EGBe BGEB | FAcf cAFC | GBdg dBGD | ceg2 ecG2 |
+CDEF GABc | cBAG FEDC | CEGc GECG | DFAd AFDA |
+EGBe BGEB | FAcf cAFC | GBdg dBGD | ceg2 ecG2 |
+CDEF GABc | cBAG FEDC | CEGc GECG | DFAd AFDA |
+EGBe BGEB | FAcf cAFC | GBdg dBGD | ceg2 ecG2 |
+CDEF GABc | cBAG FEDC | CEGc GECG | DFAd AFDA |
+EGBe BGEB | FAcf cAFC | GBdg dBGD | ceg2 ecG2 |
