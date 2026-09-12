@@ -54,6 +54,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
             'Newsletter: your email address, when you submit the subscription form.',
             'Analytics: aggregate page and interaction counts, with no cookie and no cross-site identifier.',
             'Purchase: name, email and payment details, collected by Paddle as the seller of record and never by this site.',
+            'Licence: if you buy a licence, our activation service holds the records needed to activate it. They are listed below.',
           ],
         },
         {
@@ -85,8 +86,23 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
           ],
         },
         {
+          heading: 'What a licence record holds',
+          paragraphs: ['Buying a licence creates a record in our activation service. It holds:'],
+          items: [
+            'A customer identifier, which products you bought, and how many of your three computers are in use.',
+            'A one-way hash of your licence code. The code itself is never stored, which is why we cannot read it back to you.',
+            'For each activated computer: a device fingerprint, the name you choose for that computer, and the activation identifiers and times.',
+            'Records of activation requests and their signed results, so a retry or a seat replacement cannot go wrong.',
+            'Your IP address is used during a request to limit abuse. The raw address is not stored or logged.',
+          ],
+        },
+        {
           heading: 'Retention',
-          paragraphs: ['Newsletter addresses are kept until you unsubscribe. Purchase and receipt records are kept as long as tax and accounting rules require.'],
+          paragraphs: [
+            'Newsletter addresses are kept until you unsubscribe. Purchase and receipt records are kept as long as tax and accounting rules require.',
+            'Licence records are kept for as long as you hold the licence. They are what makes activation work: without them we cannot activate a new computer for you, move a seat, or recognise the licence you paid for. Ask us to delete them and the licence stops being usable on any new computer.',
+            'A licence already installed on a computer keeps working offline even after we delete our records. Removing the record prevents future activations; it does not reach into a machine and remove what is already there.',
+          ],
         },
         {
           heading: 'Your requests',
@@ -110,6 +126,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
             'ニュースレター：登録フォームを送信したときのメールアドレス。',
             'アクセス解析：Cookieおよびサイト横断の識別子を用いない、集計値としてのページ閲覧数と操作回数。',
             '購入：氏名・メールアドレス・支払い情報。これらは販売者であるPaddleが取得し、本サイトが受け取ることはありません。',
+            'ライセンス：ライセンスをご購入いただいた場合、認証に必要な記録を当方の認証サービスが保持します。内容は以下に記載します。',
           ],
         },
         {
@@ -141,8 +158,23 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
           ],
         },
         {
+          heading: 'ライセンス記録の内容',
+          paragraphs: ['ライセンスをご購入いただくと、当方の認証サービスに記録が作成されます。内容は次のとおりです。'],
+          items: [
+            'お客様の識別子、購入された製品、3台のうち何台を使用中か。',
+            'ライセンスコードの一方向ハッシュ。コード自体は保存していないため、当方から読み出してお伝えすることはできません。',
+            '認証した各コンピューターについて、デバイスの識別値、お客様が付けた名称、認証の識別子と日時。',
+            '認証リクエストとその署名済み結果の記録。再試行や台数の入れ替えが破綻しないために必要です。',
+            'IPアドレスはリクエスト処理中に不正利用の制限にのみ使用します。生のアドレスは保存もログ記録もしていません。',
+          ],
+        },
+        {
           heading: '保存期間',
-          paragraphs: ['ニュースレターのアドレスは登録解除まで保存します。購入および領収の記録は、税務・会計上必要な期間保存します。'],
+          paragraphs: [
+            'ニュースレターのアドレスは登録解除まで保存します。購入および領収の記録は、税務・会計上必要な期間保存します。',
+            'ライセンスの記録は、お客様がライセンスを保有される間保存します。これは認証そのものを成立させる記録であり、削除すると新しいコンピューターでの認証、台数の入れ替え、ご購入いただいたライセンスの確認ができなくなります。',
+            'すでにコンピューターにインストールされたライセンスは、当方が記録を削除した後もオフラインで動作し続けます。記録の削除は以後の認証を止めるものであり、お手元の端末から削除するものではありません。',
+          ],
         },
         {
           heading: 'ご請求',
@@ -317,6 +349,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: 'Before asking',
+          links: [{ label: 'Installation and support', href: '/support/' }],
           paragraphs: [`If the problem is installation or compatibility, write to ${sellerDisclosure.email.support} first. Most of these are resolved quickly, and a working plugin is a better outcome than a refund. Asking first does not reduce your right to a refund inside the window.`],
         },
         {
@@ -344,6 +377,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: 'ご連絡の前に',
+          links: [{ label: 'インストールとサポート', href: '/ja/support/' }],
           paragraphs: [`インストールや対応環境の問題であれば、まず ${sellerDisclosure.email.support} へご連絡ください。多くは短時間で解決し、動作する製品をお使いいただけるほうが良い結果になります。先にご相談いただいても、期間内の返金を受ける権利は変わりません。`],
         },
         {
