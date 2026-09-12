@@ -130,7 +130,7 @@ describe('seller disclosure', () => {
     expect(ja).toContain('小林 祥恵');
     expect(ja).toContain('東京都渋谷区道玄坂1-10-8');
     expect(ja).toContain('050-5530-1800');
-    expect(ja).toContain('info@sachiekobayashi.com');
+    expect(ja).toContain('contact@studiocucurbits.com');
   });
 
   it('publishes the same disclosure in English', () => {
@@ -138,13 +138,14 @@ describe('seller disclosure', () => {
     expect(en).toContain('Business information');
     expect(en).toContain('Sachie Kobayashi');
     expect(en).toContain('Shibuya-ku, Tokyo');
-    expect(en).toContain('info@sachiekobayashi.com');
+    expect(en).toContain('contact@studiocucurbits.com');
   });
 
   it('names a reachable contact instead of pointing at a page that has none', () => {
     for (const route of ['/refund', '/privacy', '/ja/refund', '/ja/privacy']) {
       const html = renderedPage(route);
-      expect(html, route).toContain('info@sachiekobayashi.com');
+      expect(html, route).toContain(route.includes('refund') ? 'refunds@studiocucurbits.com' : 'info@studiocucurbits.com');
+      expect(html, route).not.toContain('sachiekobayashi.com');
       expect(html, route).not.toContain('support address published on the Support page');
     }
   });

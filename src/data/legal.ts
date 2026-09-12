@@ -4,6 +4,7 @@ export interface LegalSection {
   heading: string;
   paragraphs?: string[];
   items?: string[];
+  links?: Array<{ label: string; href: string }>;
 }
 
 export interface LegalDocument {
@@ -30,7 +31,13 @@ export const sellerDisclosure = {
   phone: '050-5530-1800',
   phoneHours: '平日 10:00-18:00 JST',
   phoneHoursEn: 'Weekdays 10:00-18:00 JST',
-  email: 'info@sachiekobayashi.com',
+  // Purpose-specific mailboxes on the company domain. Never publish a personal address.
+  email: {
+    refunds: 'refunds@studiocucurbits.com',
+    privacy: 'info@studiocucurbits.com',
+    support: 'support@studiocucurbits.com',
+    contact: 'contact@studiocucurbits.com',
+  },
 } as const;
 
 export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
@@ -56,13 +63,25 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
             'GitHub Pages — website hosting, which records standard server request logs.',
             'Paddle.com Market Ltd — our reseller and Merchant of Record. Paddle takes the order, the payment details and the tax, and issues the receipt. Card details never reach this site.',
           ],
+          links: [
+            { label: 'MailerLite privacy policy', href: 'https://www.mailerlite.com/legal/privacy-policy' },
+            { label: 'GitHub privacy statement', href: 'https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement' },
+            { label: 'Paddle privacy policy', href: 'https://www.paddle.com/legal/privacy' },
+          ],
         },
         {
-          heading: 'What is not done',
+          heading: 'What we do not do',
           items: [
-            'No advertising or cross-site tracking.',
-            'No sale or rental of personal data.',
-            'No profiling that produces automated decisions about you.',
+            'This site does not run advertising or cross-site tracking of its own.',
+            'We do not sell or rent personal data.',
+            'We do not profile you or make automated decisions about you.',
+          ],
+        },
+        {
+          heading: 'What we cannot speak for',
+          paragraphs: [
+            'These statements cover what Studio Cucurbits. does. They do not cover what the providers above do with the data they receive. MailerLite, GitHub and Paddle are independent controllers of the data they collect, and each may set cookies, keep logs or track across sites under its own policy, which we neither control nor monitor.',
+            'If that matters to you, read their policies. They are linked above, and they, not this page, govern what happens to data once it reaches them.',
           ],
         },
         {
@@ -75,7 +94,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: 'Contact',
-          paragraphs: [`Send privacy requests to ${sellerDisclosure.email}.`],
+          paragraphs: [`Send privacy requests to ${sellerDisclosure.email.privacy}.`],
         },
       ],
     },
@@ -100,13 +119,25 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
             'GitHub Pages — ウェブサイトのホスティング。標準的なサーバーリクエストログが記録されます。',
             'Paddle.com Market Ltd — 当社の再販業者およびMerchant of Record。注文・支払い情報・税の取り扱いと領収書の発行を行います。カード情報が本サイトに渡ることはありません。',
           ],
+          links: [
+            { label: 'MailerLite privacy policy', href: 'https://www.mailerlite.com/legal/privacy-policy' },
+            { label: 'GitHub privacy statement', href: 'https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement' },
+            { label: 'Paddle privacy policy', href: 'https://www.paddle.com/legal/privacy' },
+          ],
         },
         {
-          heading: '行わないこと',
+          heading: '当方が行わないこと',
           items: [
-            '広告目的の利用およびサイト横断のトラッキング。',
+            '本サイト自身による広告目的の利用およびサイト横断のトラッキング。',
             '個人データの販売および貸与。',
-            '自動的な決定を伴うプロファイリング。',
+            'プロファイリングおよび自動的な決定。',
+          ],
+        },
+        {
+          heading: '当方が保証できない範囲',
+          paragraphs: [
+            '上記はStudio Cucurbits.が行うことについての記載であり、前述の各事業者が受け取ったデータをどう扱うかは含みません。MailerLite、GitHub、Paddleはそれぞれ独立した管理者であり、各社の方針に基づいてCookieの設定、ログの保存、サイト横断のトラッキングを行う場合があります。当方はこれを制御も監視もしていません。',
+            '気になる場合は各社の方針をご確認ください。リンクは上記に記載しています。データが各社に渡った後の取り扱いは、本ページではなく各社の方針が適用されます。',
           ],
         },
         {
@@ -119,7 +150,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: 'お問い合わせ',
-          paragraphs: [`プライバシーに関するご請求は、${sellerDisclosure.email} へお送りください。`],
+          paragraphs: [`プライバシーに関するご請求は、${sellerDisclosure.email.privacy} へお送りください。`],
         },
       ],
     },
@@ -282,11 +313,11 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: 'How to ask',
-          paragraphs: [`Write to ${sellerDisclosure.email} from the email address used at purchase. Paddle is the Merchant of Record and processes the refund to the original payment method; how long it takes to appear depends on your card issuer.`],
+          paragraphs: [`Write to ${sellerDisclosure.email.refunds} from the email address used at purchase. Paddle is the Merchant of Record and processes the refund to the original payment method; how long it takes to appear depends on your card issuer.`],
         },
         {
           heading: 'Before asking',
-          paragraphs: ['If the problem is installation or compatibility, contact support first. Most of these are resolved quickly, and a working plugin is a better outcome than a refund. Asking first does not reduce your right to a refund inside the window.'],
+          paragraphs: [`If the problem is installation or compatibility, write to ${sellerDisclosure.email.support} first. Most of these are resolved quickly, and a working plugin is a better outcome than a refund. Asking first does not reduce your right to a refund inside the window.`],
         },
         {
           heading: 'After the licence ends',
@@ -309,11 +340,11 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: 'お手続き',
-          paragraphs: [`ご購入時のメールアドレスを添えて、${sellerDisclosure.email} へご連絡ください。Merchant of RecordであるPaddleが、ご購入時の支払い方法へ返金します。着金までの期間はカード発行会社により異なります。`],
+          paragraphs: [`ご購入時のメールアドレスを添えて、${sellerDisclosure.email.refunds} へご連絡ください。Merchant of RecordであるPaddleが、ご購入時の支払い方法へ返金します。着金までの期間はカード発行会社により異なります。`],
         },
         {
           heading: 'ご連絡の前に',
-          paragraphs: ['インストールや対応環境の問題であれば、まずサポートへご連絡ください。多くは短時間で解決し、動作する製品をお使いいただけるほうが良い結果になります。先にご相談いただいても、期間内の返金を受ける権利は変わりません。'],
+          paragraphs: [`インストールや対応環境の問題であれば、まず ${sellerDisclosure.email.support} へご連絡ください。多くは短時間で解決し、動作する製品をお使いいただけるほうが良い結果になります。先にご相談いただいても、期間内の返金を受ける権利は変わりません。`],
         },
         {
           heading: 'ライセンスの終了',
@@ -339,7 +370,8 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
             `Representative: ${sellerDisclosure.representative}`,
             `Address: ${sellerDisclosure.addressEn}`,
             `Phone: ${sellerDisclosure.phone} (${sellerDisclosure.phoneHoursEn})`,
-            `Email: ${sellerDisclosure.email}`,
+            `Email: ${sellerDisclosure.email.contact}`,
+            `Support: ${sellerDisclosure.email.support}`,
           ],
         },
         {
@@ -376,7 +408,8 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
             `運営統括責任者：${sellerDisclosure.representative}`,
             `所在地：${sellerDisclosure.postalCode} ${sellerDisclosure.address}`,
             `電話番号：${sellerDisclosure.phone}（${sellerDisclosure.phoneHours}）`,
-            `メールアドレス：${sellerDisclosure.email}`,
+            `メールアドレス：${sellerDisclosure.email.contact}`,
+            `サポート：${sellerDisclosure.email.support}`,
           ],
         },
         {
