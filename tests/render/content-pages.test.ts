@@ -86,7 +86,7 @@ describe('legal documents carry real terms', () => {
     const expectations: Array<[string, string]> = [
       ['/terms', 'Products are delivered digitally'],
       ['/privacy', 'This site is a static site'],
-      ['/license', 'Install and use the plugin on the computers you personally work on'],
+      ['/license', 'Install and use the plugin on up to three of your own active computers'],
       ['/refund', 'Ask for a refund within 14 days of purchase'],
       ['/ja/terms', '製品はデジタルデータとして提供します'],
       ['/ja/privacy', '本サイトは静的サイトです'],

@@ -205,7 +205,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         {
           heading: 'What you may do',
           items: [
-            'Install and use the plugin on the computers you personally work on.',
+            'Install and use the plugin on up to three of your own active computers.',
             'Use it in commercial work. Music, sound design and audio you produce with it are yours, and no further fee or credit is owed.',
             'Keep your own backup copies of the installer.',
           ],
@@ -221,7 +221,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: 'Studios and teams',
-          paragraphs: ['A licence covers one person. For several people working at the same time, buy one licence per person. Get in touch about larger installations.'],
+          paragraphs: ['A licence covers one person on up to three active computers. For several people working at the same time, buy one licence per person. Get in touch about larger installations.'],
         },
         {
           heading: 'Updates',
@@ -241,7 +241,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         {
           heading: 'できること',
           items: [
-            'ご自身が作業に使用するコンピューターへのインストールと使用。',
+            'ご自身のコンピューター最大3台までのインストールと使用。',
             '商用の制作での使用。制作された音楽、サウンドデザイン、音声はご自身のものであり、追加の料金やクレジット表記は必要ありません。',
             'インストーラーのバックアップの保持。',
           ],
@@ -257,7 +257,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: 'スタジオ・チームでの利用',
-          paragraphs: ['1ライセンスは1名を対象とします。複数の方が同時に使用される場合は、人数分のライセンスをご購入ください。大規模な導入についてはご相談ください。'],
+          paragraphs: ['1ライセンスは1名・最大3台までを対象とします。複数の方が同時に使用される場合は、人数分のライセンスをご購入ください。大規模な導入についてはご相談ください。'],
         },
         {
           heading: 'アップデート',
