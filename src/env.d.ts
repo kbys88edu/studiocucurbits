@@ -8,8 +8,8 @@ interface ImportMetaEnv {
 
   // Read at build time by src/data/products.ts. Unset means "no checkout /
   // no demo / no manual", and the page falls back to the newsletter CTA.
-  readonly STRIPE_SUSPENDED_PAYMENT_LINK_JPY?: string;
-  readonly STRIPE_SUSPENDED_PAYMENT_LINK_USD?: string;
+  readonly PADDLE_SUSPENDED_CHECKOUT_LINK_JPY?: string;
+  readonly PADDLE_SUSPENDED_CHECKOUT_LINK_USD?: string;
   readonly SUSPENDED_DEMO_URL?: string;
   readonly SUSPENDED_MANUAL_URL?: string;
 

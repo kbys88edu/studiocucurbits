@@ -30,7 +30,7 @@ Change the `launch.release` object only after the release decision is approved:
 - `showBuyButton`: exposes a purchase link only when true and the selected checkout URL is valid HTTPS.
 - `showNewsletterCTA`: controls the release notification form.
 - `introPrice` / `regularPrice`: internal JPY/USD values (`¥2,900` / `¥4,400`, `$19` / `$29`).
-- `checkoutUrl`: read from `STRIPE_SUSPENDED_PAYMENT_LINK_JPY` and `STRIPE_SUSPENDED_PAYMENT_LINK_USD`; never commit secrets or URLs that are not ready.
+- `checkoutUrl`: read from `PADDLE_SUSPENDED_CHECKOUT_LINK_JPY` and `PADDLE_SUSPENDED_CHECKOUT_LINK_USD`; never commit secrets or URLs that are not ready.
 - `audioDemosEnabled` / `videoEnabled`: gates optional media sections without publishing missing-media copy.
 
 When releasing, update the product `status`, verified compatibility, public pricing, release date, and checkout URLs together. Run the complete verification suite before pushing `main`.

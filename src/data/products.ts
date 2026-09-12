@@ -217,8 +217,8 @@ export const products: Product[] = [
     media: { ...websiteMedia('traces_suspended', 'central_sc_suspended'), video: { status: 'in-production', poster: null, mp4: null, webm: null, captions: null } },
     supportedFormats: ['VST3'],
     supportedPlatforms: ['Windows Alpha', 'macOS Alpha', 'Linux Alpha'],
-    checkoutUrlJPY: import.meta.env.STRIPE_SUSPENDED_PAYMENT_LINK_JPY?.trim() || null,
-    checkoutUrlUSD: import.meta.env.STRIPE_SUSPENDED_PAYMENT_LINK_USD?.trim() || null,
+    checkoutUrlJPY: import.meta.env.PADDLE_SUSPENDED_CHECKOUT_LINK_JPY?.trim() || null,
+    checkoutUrlUSD: import.meta.env.PADDLE_SUSPENDED_CHECKOUT_LINK_USD?.trim() || null,
     demoUrl: import.meta.env.SUSPENDED_DEMO_URL?.trim() || null,
     manualUrl: import.meta.env.SUSPENDED_MANUAL_URL?.trim() || null,
     seo: {
@@ -239,8 +239,8 @@ export const products: Product[] = [
         regularPrice: { JPY: 4400, USD: 29 },
         currency: { en: 'USD', ja: 'JPY' },
         checkoutUrl: {
-          JPY: import.meta.env.STRIPE_SUSPENDED_PAYMENT_LINK_JPY?.trim() || null,
-          USD: import.meta.env.STRIPE_SUSPENDED_PAYMENT_LINK_USD?.trim() || null,
+          JPY: import.meta.env.PADDLE_SUSPENDED_CHECKOUT_LINK_JPY?.trim() || null,
+          USD: import.meta.env.PADDLE_SUSPENDED_CHECKOUT_LINK_USD?.trim() || null,
         },
         audioDemosEnabled: true,
         videoEnabled: true,

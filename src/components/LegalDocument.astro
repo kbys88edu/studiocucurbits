@@ -2,7 +2,6 @@
 import { legalDocuments, type LegalSlug } from '../data/legal';
 import type { Locale } from '../lib/locale';
 import { localizedPath } from '../lib/locale';
-import LegalDraftNotice from './LegalDraftNotice.astro';
 
 interface Props {
   slug: LegalSlug;
@@ -20,7 +19,6 @@ const related: Array<{ slug: LegalSlug; path: string }> = (['privacy', 'terms', 
   <p class="eyebrow">{locale === 'ja' ? '規定' : 'LEGAL'}</p>
   <h1 id="legal-title">{document.title}</h1>
   <p class="lead">{document.intro}</p>
-  <LegalDraftNotice />
 </section>
 
 {document.sections.map((section, index) => (

@@ -17,6 +17,7 @@ const legalLinks = (['terms', 'privacy', 'license', 'refund', 'business'] as con
 <footer class="site-footer">
   <p>{copy.tagline}</p>
   <a href={localizedPath('/newsletter/', locale)}>{copy.updates}</a>
+  <a href={localizedPath('/pricing/', locale)}>{locale === 'ja' ? '価格' : 'Pricing'}</a>
   <nav class="footer-legal" aria-label={copy.legal}>
     {legalLinks.map((link) => <a href={link.href}>{link.label}</a>)}
   </nav>

@@ -40,8 +40,8 @@ describe('newsletter announcement route', () => {
   });
 
   it('provides a live privacy route for newsletter consent', () => {
-    expect(renderedPage('/privacy')).toContain('Draft content requiring final review before publication.');
-    expect(renderedPage('/ja/privacy')).toContain('Draft content requiring final review before publication.');
+    expect(renderedPage('/privacy')).toContain('This site is a static site');
+    expect(renderedPage('/ja/privacy')).toContain('本サイトは静的サイトです');
   });
 
   it('does not publish video copy or a broken play control without a source', () => {

@@ -44,13 +44,13 @@ In CI the values come from GitHub repository variables and secrets, wired in
 | --- | --- | --- |
 | `ANALYTICS_PROVIDER`, `ANALYTICS_ID` | repository variables | Plausible tracking stays off |
 | `SUSPENDED_DEMO_URL`, `SUSPENDED_MANUAL_URL` | repository variables | Demo and manual links are omitted |
-| `STRIPE_SUSPENDED_PAYMENT_LINK_JPY`, `..._USD` | repository secrets | Product CTA stays on the newsletter route |
+| `PADDLE_SUSPENDED_CHECKOUT_LINK_JPY`, `..._USD` | repository secrets | Product CTA stays on the newsletter route |
 
 Set them with:
 
 ```bash
 gh variable set ANALYTICS_ID --body "www.studiocucurbits.com"
-gh secret set STRIPE_SUSPENDED_PAYMENT_LINK_JPY
+gh secret set PADDLE_SUSPENDED_CHECKOUT_LINK_JPY
 ```
 
 ## Source basis

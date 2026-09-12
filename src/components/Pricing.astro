@@ -1,0 +1,36 @@
+---
+import { products } from '../data/products';
+import type { Locale } from '../lib/locale';
+import { formatPrice } from '../lib/product';
+
+const { locale } = Astro.props as { locale: Locale };
+const sellable = products.filter((p) => p.launch && p.status !== 'hidden');
+const copy = locale === 'ja'
+  ? { eyebrow: '価格', title: '価格', intro: '販売価格の一覧です。表示価格に対し、課税される場合の税額はPaddleが計算して請求します。', intro_p: '導入価格', regular: '通常価格', incl: '含まれるもの', detail: '製品ページ', tax: '価格は税別表示です。' }
+  : { eyebrow: 'PRICING', title: 'Pricing', intro: 'What each product costs. Any tax due is calculated and charged by Paddle at checkout.', intro_p: 'Introductory price', regular: 'Regular price', incl: 'What you get', detail: 'Product page', tax: 'Prices are shown excluding tax.' };
+const included = locale === 'ja'
+  ? ['VST3プラグイン本体', 'ファクトリープリセット 8種', '同一メジャーバージョン内のアップデート', '1名分のライセンス', 'メールサポート']
+  : ['The VST3 plugin', '8 factory presets', 'Updates within the major version', 'A licence for one person', 'Email support'];
+const currency = locale === 'ja' ? 'JPY' : 'USD';
+---
+
+<section class="page-intro" aria-labelledby="pricing-title">
+  <p class="eyebrow">{copy.eyebrow}</p>
+  <h1 id="pricing-title">{copy.title}</h1>
+  <p class="lead">{copy.intro}</p>
+</section>
+
+{sellable.map((product) => (
+  <section class="section legal-section" aria-labelledby={`price-${product.slug}`}>
+    <h2 id={`price-${product.slug}`}>SC {product.name}</h2>
+    <p>{product.editorial[locale].shortDescription ?? product.editorial.en.shortDescription}</p>
+    <dl class="price launch-price">
+      <div><dt>{copy.intro_p}</dt><dd>{formatPrice(product.launch!.release.introPrice[currency], currency, locale)}</dd></div>
+      <div><dt>{copy.regular}</dt><dd>{formatPrice(product.launch!.release.regularPrice[currency], currency, locale)}</dd></div>
+    </dl>
+    <p class="launch-platforms">{product.supportedFormats.join(' / ')} — {product.supportedPlatforms.join(' / ')}</p>
+    <h3>{copy.incl}</h3>
+    <ul>{included.map((item) => <li>{item}</li>)}</ul>
+    <p><a class="text-link" href={locale === 'ja' ? `/ja/products/${product.slug}/` : `/products/${product.slug}/`}>{copy.detail}</a></p>
+  </section>
+))}

@@ -25,9 +25,9 @@ describe('support, legal, and pre-launch routes', () => {
     }
   });
 
-  it('marks every legal page as draft content requiring final review', () => {
+  it('states final terms rather than a draft placeholder', () => {
     for (const route of ['/license', '/privacy', '/terms', '/refund', '/business', '/ja/license', '/ja/privacy', '/ja/terms', '/ja/refund', '/ja/business']) {
-      expect(renderedPage(route)).toContain('Draft content requiring final review');
+      expect(renderedPage(route), route).not.toContain('Draft content requiring final review');
     }
   });
 
