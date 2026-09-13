@@ -33,7 +33,7 @@ describe('SC Suspended sales routes', () => {
     expect(html).toContain('Hero_2560x1440.png');
     expect(html).toContain('Suspended');
     expect(detail).toContain('traces_suspended.png');
-    expect(detail).toContain('central_sc_suspended.png');
+    expect(detail).not.toContain('central_sc_suspended.png');
     expect(detail).toContain('Sound in suspension. A body still in motion.');
     expect(detail.indexOf('Sound in suspension. A body still in motion.')).toBeLessThan(detail.indexOf('Hear what stays in motion.'));
     expect(detail.indexOf('Hear what stays in motion.')).toBeLessThan(detail.indexOf('Hold a sound without stopping its time.'));
