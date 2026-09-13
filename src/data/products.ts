@@ -1,3 +1,5 @@
+import { MOCKUP_V } from './site';
+
 export type ProductStatus =
   | 'hidden'
   | 'announcement'
@@ -186,7 +188,7 @@ function product(
 const tracesPrice = { regularPriceJPY: 4400, regularPriceUSD: 29, introPriceJPY: 2900, introPriceUSD: 19 };
 const tendrilPrice = { regularPriceJPY: 4400, regularPriceUSD: 29, introPriceJPY: 2900, introPriceUSD: 19 };
 const websiteMedia = (individual: string, centre: string, extraCentre: string[] = []): ProductMedia => ({
-  heroImage: `/images/products/website/individual/${individual}.png`,
+  heroImage: `/images/products/website/individual/${individual}.png${MOCKUP_V}`,
   gallery: [`/images/products/centre/${centre}.png`, ...extraCentre.map((asset) => `/images/products/centre/${asset}.png`)],
   video: { status: null, poster: null, mp4: null, webm: null, captions: null },
   audioExamples: [],
@@ -224,7 +226,7 @@ export const products: Product[] = [
     seo: {
       title: 'SC Suspended — Granular Audio Effect | Studio Cucurbits.',
       description: 'SC Suspended captures incoming audio and holds it as a granular sound body, preserving motion and transformation within the frozen material.',
-      image: '/images/products/website/individual/traces_suspended.png',
+      image: `/images/products/website/individual/traces_suspended.png${MOCKUP_V}`,
       keywords: ['granular processor', 'audio effect', 'sound design'],
     },
     launch: {
@@ -557,7 +559,7 @@ export const collections: Collection[] = [
   {
     ...collection('traces', 'Traces', ['palimpsest', 'suspended', 'refraction'], { regularPriceJPY: 9800, regularPriceUSD: 69, introPriceJPY: 6900, introPriceUSD: 49 }),
     status: 'archived',
-    heroImage: '/images/products/website/bundles/traces.png',
+    heroImage: `/images/products/website/bundles/traces.png${MOCKUP_V}`,
     editorial: {
       en: { shortDescription: 'Three processors for composing memory, suspension and spectral transformation.', description: null, features: [] },
       ja: { shortDescription: '記憶、サスペンション、スペクトル変換を作曲するための三つのプロセッサー。', description: null, features: [] },
@@ -566,7 +568,7 @@ export const collections: Collection[] = [
   {
     ...collection('tendril', 'Tendril', ['piano-string', 'gong', 'flute', 'clarinet', 'trumpet', 'violin', 'cello'], { regularPriceJPY: 19800, regularPriceUSD: 139, introPriceJPY: 13800, introPriceUSD: 99 }),
     status: 'archived',
-    heroImage: '/images/products/website/bundles/tendril.png',
+    heroImage: `/images/products/website/bundles/tendril.png${MOCKUP_V}`,
     editorial: {
       en: {
         shortDescription: 'Experimental physical models for strings, air columns, friction and resonant bodies.',
@@ -580,7 +582,7 @@ export const collections: Collection[] = [
       },
     },
   },
-  { ...collection('future-artist-collection', 'Future Artist Collection', [], { regularPriceJPY: 24800, regularPriceUSD: 169, introPriceJPY: 17800, introPriceUSD: 119 }, ['traces', 'tendril']), heroImage: '/images/products/website/bundles/material_study_01.png' },
+  { ...collection('future-artist-collection', 'Future Artist Collection', [], { regularPriceJPY: 24800, regularPriceUSD: 169, introPriceJPY: 17800, introPriceUSD: 119 }, ['traces', 'tendril']), heroImage: `/images/products/website/bundles/material_study_01.png${MOCKUP_V}` },
 ];
 
 export function getProductBySlug(slug: string): Product | undefined {

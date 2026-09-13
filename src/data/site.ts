@@ -1,3 +1,7 @@
+// Mockups are replaced under the same file names; Cloudflare tells browsers to keep images for 4 h,
+// so bump this on every mockup deploy.
+export const MOCKUP_V = '?v=2026091316';
+
 export interface BusinessArea {
   slug: string;
   title: string;
@@ -42,5 +46,5 @@ export const latestItem: LatestItem = {
   summaryJa: '浮遊する音。動き続ける身体。',
   href: '/products/suspended/',
   status: 'coming-soon',
-  image: '/images/products/website/individual/traces_suspended.png',
+  image: `/images/products/website/individual/traces_suspended.png${MOCKUP_V}`,
 };

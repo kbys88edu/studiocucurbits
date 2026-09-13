@@ -40,7 +40,7 @@ describe('Audio Instruments catalogue', () => {
   it('uses the plugin hero image for the current studio update', () => {
     buildSite();
 
-    expect(renderedPage('')).toContain('src="/images/products/website/individual/traces_suspended.png"');
+    expect(renderedPage('')).toContain('src="/images/products/website/individual/traces_suspended.png');
     expect(renderedPage('')).toContain('Notify me');
   });
 
