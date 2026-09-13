@@ -2,6 +2,7 @@
 import NewsletterForm from '../../components/NewsletterForm.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import { isVisibleProduct, products } from '../../data/products';
+import { MOCKUP_V } from '../../data/site';
 import { getLocale, localizedPath } from '../../lib/locale';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
@@ -40,7 +41,7 @@ const statusRows = locale === 'ja'
 
   <section class="section" aria-labelledby="development-title">
     <figure class="product-overview-hero">
-      <img src="/images/products/Hero_2560x1440.png" width="2560" height="1440" alt="" loading="eager" decoding="async" />
+      <img src={`/images/products/Hero_2560x1440.png${MOCKUP_V}`} width="2560" height="1440" alt="" loading="eager" decoding="async" />
     </figure>
     <p class="eyebrow">{copy.development}</p>
     <h2 id="development-title">{copy.development}</h2>

@@ -1,6 +1,6 @@
 // Mockups are replaced under the same file names; Cloudflare tells browsers to keep images for 4 h,
 // so bump this on every mockup deploy.
-export const MOCKUP_V = '?v=2026091316';
+export const MOCKUP_V = '?v=2026091317';
 
 export interface BusinessArea {
   slug: string;
