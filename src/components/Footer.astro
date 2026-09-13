@@ -8,17 +8,24 @@ interface Props {
 
 const { locale } = Astro.props;
 const copy = locale === 'ja'
-  ? { tagline: 'Studio Cucurbits. / 音楽とクリエイティブテクノロジー', updates: 'スタジオからの最新情報', legal: '規定' }
-  : { tagline: 'Studio Cucurbits. / Music and Creative Technology', updates: 'Studio updates', legal: 'Legal' };
+  ? { tagline: 'Studio Cucurbits. / 音楽とクリエイティブテクノロジー', accent: '音楽とクリエイティブテクノロジー', updates: 'スタジオからの最新情報', pricing: '価格', legal: '規定' }
+  : { tagline: 'Studio Cucurbits. / Music and Creative Technology', accent: 'Music and creative technology.', updates: 'Studio updates', pricing: 'Pricing', legal: 'Legal' };
 const legalLinks = (['terms', 'privacy', 'license', 'refund', 'business'] as const)
   .map((slug) => ({ label: legalDocuments[slug][locale].title, href: localizedPath(`/${slug}/`, locale) }));
+const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
-  <p>{copy.tagline}</p>
-  <a href={localizedPath('/newsletter/', locale)}>{copy.updates}</a>
-  <a href={localizedPath('/pricing/', locale)}>{locale === 'ja' ? '価格' : 'Pricing'}</a>
-  <nav class="footer-legal" aria-label={copy.legal}>
-    {legalLinks.map((link) => <a href={link.href}>{link.label}</a>)}
-  </nav>
+  <p class="footer-signoff">Studio Cucurbits.<span>{copy.accent}</span></p>
+  <div class="footer-links">
+    <a href="mailto:contact@studiocucurbits.com">contact@studiocucurbits.com</a>
+    <a href={localizedPath('/newsletter/', locale)}>{copy.updates}</a>
+    <a href={localizedPath('/pricing/', locale)}>{copy.pricing}</a>
+  </div>
+  <div class="footer-meta">
+    <p>© {year} {copy.tagline}</p>
+    <nav class="footer-legal" aria-label={copy.legal}>
+      {legalLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+    </nav>
+  </div>
 </footer>

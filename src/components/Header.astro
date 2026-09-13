@@ -26,7 +26,7 @@ const navigation = [
   <a class="brand" href={localizedPath('/', locale)} aria-label={copy.home}>
     <img src="/images/brand/studio_cucurbits_logo_vector.svg" alt="" width="1260" height="974" />
   </a>
-  <button class="menu-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false">{copy.menu}</button>
+  <button class="menu-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false"><span class="visually-hidden">{copy.menu}</span></button>
   <nav id="primary-navigation" class="primary-nav" aria-label={copy.navigation}>
     {navigation.map((item) => <a href={localizedPath(item.href, locale)}>{item.label}</a>)}
   </nav>
