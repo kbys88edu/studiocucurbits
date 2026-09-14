@@ -1,10 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { localizedPath } from '../lib/locale';
 
 const { locale = 'en' } = Astro.props;
 const copy = locale === 'ja'
-  ? { title: '作品 | Studio Cucurbits.', description: 'Studio Cucurbits.の作品を紹介するためのページです。', eyebrow: '作品', heading: 'スタジオの作品', selected: '掲載予定の作品', alt: '劇場のコントロールと投影ステージ' }
-  : { title: 'Work | Studio Cucurbits.', description: 'An editable index for Studio Cucurbits work.', eyebrow: 'Work', heading: 'Studio work', selected: 'Selected work', alt: 'Theatre control and projection stage' };
+  ? { title: '作品 | Studio Cucurbits.', description: 'Studio Cucurbits.の作品。', eyebrow: '作品', heading: 'スタジオの作品', selected: '作品一覧' }
+  : { title: 'Work | Studio Cucurbits.', description: 'Work by Studio Cucurbits.', eyebrow: 'Work', heading: 'Studio work', selected: 'Selected work' };
+const works = [
+  {
+    title: 'Babel / TRANS-INSTRUMENTALISM',
+    href: '/work/babel-trans-instrumentalism/',
+    meta: locale === 'ja' ? '2026 / インタラクティブ・オーディオビジュアル・インスタレーション（制作中）' : '2026 / Interactive audiovisual installation (in progress)',
+  },
+];
 ---
 
 <BaseLayout
@@ -18,10 +26,16 @@ const copy = locale === 'ja'
     <h1 id="work-title">{copy.heading}</h1>
   </section>
 
-  <section class="section work-boundary" aria-labelledby="work-boundary-title">
-    <img src="/images/studio/theatre-control.jpg" alt={copy.alt} width="2048" height="1536" loading="lazy" decoding="async" />
-    <div>
-      <h2 id="work-boundary-title">{copy.selected}</h2>
+  <section class="section" aria-labelledby="work-list-title">
+    <p class="eyebrow">{copy.selected}</p>
+    <h2 id="work-list-title" class="visually-hidden">{copy.selected}</h2>
+    <div class="area-grid">
+      {works.map((work) => (
+        <article class="area-card">
+          <h3><a href={localizedPath(work.href, locale)}>{work.title}</a></h3>
+          <p>{work.meta}</p>
+        </article>
+      ))}
     </div>
   </section>
 </BaseLayout>

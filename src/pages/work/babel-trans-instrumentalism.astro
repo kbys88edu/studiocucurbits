@@ -1,0 +1,97 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { localizedPath } from '../../lib/locale';
+
+// Source: https://www.sachiekobayashi.com/BABEL-TRANS-INSTRUMENTALISM/
+const { locale = 'en' } = Astro.props;
+const copy = locale === 'ja'
+  ? {
+    title: 'Babel / TRANS-INSTRUMENTALISM | Studio Cucurbits.',
+    description: '声が機械の聴取、翻訳、合成音声、音と映像を通過するインタラクティブ・オーディオビジュアル・インスタレーション（制作中）。',
+    eyebrow: '作品 / 2026',
+    lead: 'インタラクティブ・オーディオビジュアル・インスタレーション（制作中）',
+    mockupAlt: 'Babel / TRANS-INSTRUMENTALISM のインスタレーション・モックアップ：四つの小さなスクリーンと近接スピーカー',
+    mockupCaption: 'インスタレーション・モックアップ',
+    sampleAlt: 'Babel / TRANS-INSTRUMENTALISM のサンプル画像：膜の向こうの四つの口（ソプラノ、アルト、テノール、バス）',
+    sampleCaption: 'サンプル画像（制作途中のもので、最終的な映像ではありません）',
+    about: '作品について',
+    paragraphs: [
+      'Babel / TRANS-INSTRUMENTALISM は、身体、音、言語、楽器、テクノロジーの関係の移ろいを探る、小林祥恵の TRANS-INSTRUMENTALISM シリーズを拡張する新しいインタラクティブ・オーディオビジュアル・インスタレーションです。',
+      'シリーズは IRCAM Cursus で制作された Day 0 / TRANS-INSTRUMENTALISM（2022）に始まり、ジュネーブ国際映画祭で Ensemble Contrechamps と共に発表した VR 作品 RêVeRie（2025）へと続きました。Babel はこの探究を話し言葉へと向け、話された言葉そのものを、音響的であり、意味的であり、視覚的であり、合成的でもあるトランス・インストゥルメンタルな素材として扱います。',
+      '来場者の声は、機械の聴取、書き起こし、意味の変換、合成音声、音と映像というプロセスを通過します。この作品は完全な翻訳によって言語の壁を越えようとするのではなく、認識、誤訳、遅延、訛り、沈黙、断片化を作曲の素材として扱います。AI と音声技術の層は、音と AI の研究者 Frederik Bous との協働で開発されています。対話システムとしてではなく、話し言葉を断片化し、翻訳し、誤認識し、再合成して作曲の素材とする手段として構想されています。',
+      'ここでの「Babel」は、翻訳と、その失敗の両方を指します。人の声、機械の聴取、テキスト、合成音声、オーディオビジュアル表現のあいだを行き来する、意味の不安定な通過です。この変換の連鎖を通して、インスタレーションは、楽器の境界、そして話し、演奏する身体の境界がどこで始まり、どこで終わるのかを問いかけます。',
+    ],
+    details: '詳細',
+    presentation: '発表',
+    presentationValue: 'IRCAM Forum @Tokyo 2026 — 2026年11月',
+    concept: 'コンセプト、作曲',
+    ai: 'AI・音声技術',
+    production: '制作',
+    more: '詳細は追ってお知らせします。',
+    back: '作品一覧へ戻る',
+  }
+  : {
+    title: 'Babel / TRANS-INSTRUMENTALISM | Studio Cucurbits.',
+    description: 'An interactive audiovisual installation in progress, in which a visitor’s voice passes through machine listening, translation, synthetic speech, sound and image.',
+    eyebrow: 'Work / 2026',
+    lead: 'Interactive audiovisual installation (in progress)',
+    mockupAlt: 'Babel / TRANS-INSTRUMENTALISM — installation mockup: four small screens and near-field speakers',
+    mockupCaption: 'Installation mockup',
+    sampleAlt: 'Babel / TRANS-INSTRUMENTALISM — sample image: four mouths behind a membrane, labelled Soprano, Alto, Tenor and Bass',
+    sampleCaption: 'Sample image (work in progress, not the final visuals)',
+    about: 'About the work',
+    paragraphs: [
+      'Babel / TRANS-INSTRUMENTALISM is a new interactive audiovisual installation extending Sachie Kobayashi’s ongoing TRANS-INSTRUMENTALISM series, which explores shifting relationships between the body, sound, language, instruments and technological systems.',
+      'The series began with Day 0 / TRANS-INSTRUMENTALISM (2022), developed during the IRCAM Cursus, and continued with RêVeRie (2025), a VR work presented in collaboration with Ensemble Contrechamps at the Geneva International Film Festival. Babel shifts this research toward speech, treating the spoken word itself as a trans-instrumental material: simultaneously acoustic, semantic, visual and synthetic.',
+      'A visitor’s voice passes through processes of machine listening, transcription, semantic transformation, synthetic speech, sound and image. Rather than attempting to overcome language barriers through perfect translation, the work treats recognition, mistranslation, delay, accent, silence and fragmentation as compositional material. The AI and voice-technology layer is developed in collaboration with Frederik Bous, a researcher in sound and AI, and is conceived not as a conversational system but as a means of fragmenting, translating, misrecognizing and re-synthesizing speech as compositional material.',
+      'Here, “Babel” refers to translation as well as to its failure: the unstable passage of meaning between human voice, machine listening, text, synthetic voice and audiovisual representation. Through this chain of transformations, the installation asks where the boundaries of an instrument — and of the speaking or performing body — might begin and end.',
+    ],
+    details: 'Details',
+    presentation: 'Presentation',
+    presentationValue: 'IRCAM Forum @Tokyo 2026 — November 2026',
+    concept: 'Concept, composition',
+    ai: 'AI and voice technology',
+    production: 'Production',
+    more: 'More information coming soon.',
+    back: 'Back to work',
+  };
+const path = '/work/babel-trans-instrumentalism/';
+---
+
+<BaseLayout title={copy.title} description={copy.description} canonicalPath={localizedPath(path, locale)} locale={locale} breadcrumbLabel="Babel / TRANS-INSTRUMENTALISM">
+  <section class="page-intro" aria-labelledby="babel-title">
+    <p class="eyebrow">{copy.eyebrow}</p>
+    <h1 id="babel-title">Babel / TRANS-INSTRUMENTALISM</h1>
+    <p class="lead">{copy.lead}</p>
+  </section>
+
+  <section class="work-figures" aria-label={copy.mockupCaption}>
+    <figure>
+      <img src="/images/work/babel_installation_mockup_v2.jpg" alt={copy.mockupAlt} width="2200" height="1228" loading="eager" decoding="async" />
+      <figcaption>{copy.mockupCaption}</figcaption>
+    </figure>
+    <figure>
+      <img src="/images/work/babel_canon_sample.jpg" alt={copy.sampleAlt} width="2564" height="1444" loading="lazy" decoding="async" />
+      <figcaption>{copy.sampleCaption}</figcaption>
+    </figure>
+  </section>
+
+  <section class="section copy-block" aria-labelledby="babel-about">
+    <p class="eyebrow">{copy.about}</p>
+    <h2 id="babel-about" class="visually-hidden">{copy.about}</h2>
+    {copy.paragraphs.map((paragraph, index) => <p class={index === 0 ? 'lead' : undefined}>{paragraph}</p>)}
+  </section>
+
+  <section class="section" aria-labelledby="babel-details">
+    <p class="eyebrow">{copy.details}</p>
+    <h2 id="babel-details" class="visually-hidden">{copy.details}</h2>
+    <dl class="spec-list">
+      <div><dt>{copy.presentation}</dt><dd>{copy.presentationValue}</dd></div>
+      <div><dt>{copy.concept}</dt><dd>Sachie Kobayashi</dd></div>
+      <div><dt>{copy.ai}</dt><dd>Frederik Bous</dd></div>
+      <div><dt>{copy.production}</dt><dd>Studio Cucurbits.</dd></div>
+    </dl>
+    <p>{copy.more}</p>
+    <a class="text-link" href={localizedPath('/work/', locale)}>← {copy.back}</a>
+  </section>
+</BaseLayout>
