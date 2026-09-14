@@ -115,27 +115,26 @@ const specificationRows = launch.specifications[locale].filter(({ label }) => pr
     </div>
   </details>
 
-  <details id="release-notification" class="launch-section launch-disclosure release-notification">
-    <summary class="launch-summary"><span class="eyebrow">RELEASE</span><h2 class="launch-summary-title" id="release-notification-title">{canBuy ? announcement.message : releaseCta.title}</h2></summary>
-    <div class="launch-disclosure-body">
-      {!canBuy && <p>{releaseCta.description}</p>}
-      {canBuy && (
-        <>
-          {(showIntroPrice || showRegularPrice) && (
-            <dl class="price launch-price">
-              {showIntroPrice && <div><dt>{announcement.introPriceLabel}</dt><dd>{formatPrice(introAmount!, currency, locale)}</dd></div>}
-              {showRegularPrice && <div><dt>{announcement.priceLabel}</dt><dd>{formatPrice(regularAmount!, currency, locale)}</dd></div>}
-            </dl>
-          )}
-          <p class="launch-platforms">{product.supportedFormats.join(' / ')} — {product.supportedPlatforms.join(' / ')}</p>
-          <a class="button product-cta" data-suspended-event="click_suspended_buy" href={checkoutUrl}>{announcement.buy}</a>
-          <p>{announcement.introNote}</p>
-        </>
-      )}
-      {showNotify && <NewsletterForm locale={locale} source="suspended_product_page" releaseState={launch.release.releaseState} />}
-      <a class="text-link" data-suspended-event="open_suspended_support" href={supportPath}>{releaseCta.support}</a>
-    </div>
-  </details>
+  <section id="release-notification" class="launch-section release-notification" aria-labelledby="release-notification-title">
+    <p class="eyebrow">RELEASE</p>
+    <h2 id="release-notification-title">{canBuy ? announcement.message : releaseCta.title}</h2>
+    {!canBuy && <p>{releaseCta.description}</p>}
+    {canBuy && (
+      <>
+        {(showIntroPrice || showRegularPrice) && (
+          <dl class="price launch-price">
+            {showIntroPrice && <div><dt>{announcement.introPriceLabel}</dt><dd>{formatPrice(introAmount!, currency, locale)}</dd></div>}
+            {showRegularPrice && <div><dt>{announcement.priceLabel}</dt><dd>{formatPrice(regularAmount!, currency, locale)}</dd></div>}
+          </dl>
+        )}
+        <p class="launch-platforms">{product.supportedFormats.join(' / ')} — {product.supportedPlatforms.join(' / ')}</p>
+        <a class="button product-cta" data-suspended-event="click_suspended_buy" href={checkoutUrl}>{announcement.buy}</a>
+        <p>{announcement.introNote}</p>
+      </>
+    )}
+    {showNotify && <NewsletterForm locale={locale} source="suspended_product_page" releaseState={launch.release.releaseState} />}
+    <a class="text-link" data-suspended-event="open_suspended_support" href={supportPath}>{releaseCta.support}</a>
+  </section>
 </section>
 
 <script>
@@ -150,12 +149,12 @@ const specificationRows = launch.specifications[locale].filter(({ label }) => pr
   trackEvent('suspended_page_view', analyticsContext);
   document.querySelectorAll<HTMLElement>('[data-suspended-event]').forEach((element) => {
     element.addEventListener('click', () => {
-      const events = {
-        open_suspended_support: 'suspended_support_click',
-        click_suspended_buy: 'suspended_buy_click',
-      } as const;
-      const key = element.dataset.suspendedEvent as keyof typeof events;
-      trackEvent(events[key] ?? 'suspended_notify_click', analyticsContext);
+    const events = {
+      open_suspended_support: 'suspended_support_click',
+      click_suspended_buy: 'suspended_buy_click',
+    } as const;
+    const key = element.dataset.suspendedEvent as keyof typeof events;
+    trackEvent(events[key] ?? 'suspended_notify_click', analyticsContext);
     });
   });
 
