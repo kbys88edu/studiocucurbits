@@ -35,13 +35,13 @@ describe('SC Suspended sales routes', () => {
     expect(detail).toContain('traces_suspended.png');
     expect(detail).not.toContain('central_sc_suspended.png');
     expect(detail).toContain('Sound in suspension. A body still in motion.');
-    expect(detail.indexOf('Sound in suspension. A body still in motion.')).toBeLessThan(detail.indexOf('Hear what stays in motion.'));
-    expect(detail.indexOf('Hear what stays in motion.')).toBeLessThan(detail.indexOf('Hold a sound without stopping its time.'));
+    expect(detail).not.toContain('Hear what stays in motion.');
+    expect(detail.indexOf('Sound in suspension. A body still in motion.')).toBeLessThan(detail.indexOf('Hold a sound without stopping its time.'));
     expect(detail).not.toContain('Freeze. Hold. Transform. Release.');
     expect(detail).toContain('A small set of controls. A wide internal space.');
     expect(detail).toContain('Be notified when Suspended is released.');
     expect(detailJa).toContain('浮遊する音。動き続ける身体。');
-    expect(detailJa).toContain('動き続ける音を聴く。');
+    expect(detailJa).not.toContain('動き続ける音を聴く。');
     expect(detailJa).toContain('音を止めずに、その時間を留める。');
     expect(detailJa).toContain('Suspendedのリリースをお知らせします。');
     expect(detailJa).toContain('macOS / Linux');
