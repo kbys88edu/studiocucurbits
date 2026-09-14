@@ -11,8 +11,8 @@ interface Props {
 const { locale, canonicalPath } = Astro.props;
 const dictionary = getDictionary(locale);
 const copy = locale === 'ja'
-  ? { home: 'Studio Cucurbits.のホーム', menu: 'メニュー', navigation: 'メインナビゲーション', area: 'オーディオ・インストゥルメンツは、Studio Cucurbits.の活動領域のひとつです。' }
-  : { home: 'Studio Cucurbits home', menu: 'Menu', navigation: 'Primary navigation', area: 'Audio Instruments is a Studio Cucurbits area.' };
+  ? { home: 'Studio Cucurbits.のホーム', menu: 'メニュー', navigation: 'メインナビゲーション' }
+  : { home: 'Studio Cucurbits home', menu: 'Menu', navigation: 'Primary navigation' };
 const navigation = [
   { label: dictionary.navigation.studio, href: '/' },
   { label: dictionary.navigation.work, href: '/work/' },
@@ -31,7 +31,6 @@ const navigation = [
     {navigation.map((item) => <a href={localizedPath(item.href, locale)}>{item.label}</a>)}
   </nav>
   <div class="header-tools">
-    <span class="parent-brand">{copy.area}</span>
     <LanguageSwitch locale={locale} path={canonicalPath} />
   </div>
 </header>

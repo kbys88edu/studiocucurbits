@@ -3,8 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const { locale = 'en' } = Astro.props;
 const copy = locale === 'ja'
-  ? { title: '作品 | Studio Cucurbits.', description: 'Studio Cucurbits.の作品を紹介するためのページです。', eyebrow: '作品', heading: 'スタジオの作品', lead: '公開準備の整ったスタジオ作品を掲載していきます。', selected: '掲載予定の作品', body: '作品名、背景、公開の準備が整ったものから、ここに追加していきます。', alt: '劇場のコントロールと投影ステージ' }
-  : { title: 'Work | Studio Cucurbits.', description: 'An editable index for Studio Cucurbits work.', eyebrow: 'Work', heading: 'Studio work', lead: 'An editable space for studio work approved for publication.', selected: 'Selected work', body: 'New entries can be added here when their title, context, and publication approval are available.', alt: 'Theatre control and projection stage' };
+  ? { title: '作品 | Studio Cucurbits.', description: 'Studio Cucurbits.の作品を紹介するためのページです。', eyebrow: '作品', heading: 'スタジオの作品', selected: '掲載予定の作品', alt: '劇場のコントロールと投影ステージ' }
+  : { title: 'Work | Studio Cucurbits.', description: 'An editable index for Studio Cucurbits work.', eyebrow: 'Work', heading: 'Studio work', selected: 'Selected work', alt: 'Theatre control and projection stage' };
 ---
 
 <BaseLayout
@@ -16,14 +16,12 @@ const copy = locale === 'ja'
   <section class="page-intro" aria-labelledby="work-title">
     <p class="eyebrow">{copy.eyebrow}</p>
     <h1 id="work-title">{copy.heading}</h1>
-    <p class="lead">{copy.lead}</p>
   </section>
 
   <section class="section work-boundary" aria-labelledby="work-boundary-title">
     <img src="/images/studio/theatre-control.jpg" alt={copy.alt} width="2048" height="1536" loading="lazy" decoding="async" />
     <div>
       <h2 id="work-boundary-title">{copy.selected}</h2>
-      <p>{copy.body}</p>
     </div>
   </section>
 </BaseLayout>

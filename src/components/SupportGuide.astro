@@ -34,8 +34,8 @@ const copy = locale === 'ja'
   <h2 id="support-guide-title">{copy.title}</h2>
   <ol>{copy.steps.map((step) => <li>{step}</li>)}</ol>
   {locale === 'ja' ? (
-    <p>VST3の保存場所は、Windowsでは <code>C:\Program Files\Common Files\VST3</code>、macOSでは <code>/Library/Audio/Plug-Ins/VST3</code> または <code>~/Library/Audio/Plug-Ins/VST3</code> です。AUの保存場所は <code>/Library/Audio/Plug-Ins/Components</code> と <code>~/Library/Audio/Plug-Ins/Components</code> です。</p>
+    <p>VST3の保存場所は、macOSでは <code>/Library/Audio/Plug-Ins/VST3</code> または <code>~/Library/Audio/Plug-Ins/VST3</code> です。AUの保存場所は <code>/Library/Audio/Plug-Ins/Components</code> と <code>~/Library/Audio/Plug-Ins/Components</code> です。</p>
   ) : (
-    <p>Common VST3 locations include <code>C:\Program Files\Common Files\VST3</code> on Windows and <code>/Library/Audio/Plug-Ins/VST3</code> or <code>~/Library/Audio/Plug-Ins/VST3</code> on macOS. Common AU locations include <code>/Library/Audio/Plug-Ins/Components</code> and <code>~/Library/Audio/Plug-Ins/Components</code>.</p>
+    <p>Common VST3 locations include <code>/Library/Audio/Plug-Ins/VST3</code> or <code>~/Library/Audio/Plug-Ins/VST3</code> on macOS. Common AU locations include <code>/Library/Audio/Plug-Ins/Components</code> and <code>~/Library/Audio/Plug-Ins/Components</code>.</p>
   )}
 </section>

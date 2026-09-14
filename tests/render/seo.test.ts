@@ -27,7 +27,7 @@ describe('production SEO', () => {
     expect(renderedPage('')).toContain('<link rel="canonical" href="https://www.studiocucurbits.com/">');
 
     for (const [path, title, description] of [
-      ['/products', 'PRODUCTS | Studio Cucurbits.', 'Artist-designed instruments for unstable sound from Studio Cucurbits.'],
+      ['/products', 'PRODUCTS | Studio Cucurbits.', 'Artist-designed instruments and effects from Studio Cucurbits.'],
       ['/support', 'Support | Studio Cucurbits.', 'Editable installation and support guidance.'],
       ['/privacy', 'Privacy | Studio Cucurbits.', 'How Studio Cucurbits. handles personal data on this site.'],
       ['/refund', 'Refunds | Studio Cucurbits.', 'When and how to get a refund on a Studio Cucurbits. product.'],
@@ -99,7 +99,7 @@ describe('production SEO', () => {
     const about = renderedPage('/ja/about');
     const products = renderedPage('/ja/products');
 
-    expect(home).toContain('音楽 / サウンド / AI / クリエイティブテクノロジー');
+    expect(home).toContain('作曲、サウンドデザイン、クリエイティブテクノロジー、オーディオ・インストゥルメンツを横断するスタジオ。');
     expect(home).toContain('<meta name="description" content="Studio Cucurbits.は、音楽とクリエイティブテクノロジーに取り組むスタジオです。">');
     expect(about).toContain('<title>Studio Cucurbits.について | Studio Cucurbits.</title>');
     expect(products).toContain('<h1 id="products-title">オーディオ・インストゥルメンツ</h1>');

@@ -44,7 +44,7 @@ describe('SC Suspended sales routes', () => {
     expect(detailJa).toContain('動き続ける音を聴く。');
     expect(detailJa).toContain('音を止めずに、その時間を留める。');
     expect(detailJa).toContain('Suspendedのリリースをお知らせします。');
-    expect(detailJa).toContain('macOS / Linux 各アルファ版');
+    expect(detailJa).toContain('macOS / Linux');
     expect(detailJa).toContain('ファクトリープリセット 8種');
     expect(detailJa).not.toContain('BETA INFORMATION');
     expect(detailJa).not.toContain('Hear what stays in motion.');

@@ -1,6 +1,6 @@
 export const ja = {
   navigation: {
-    studio: 'スタジオ',
+    studio: 'ホーム',
     work: '作品',
     audioInstruments: 'オーディオ・インストゥルメンツ',
     about: '概要',

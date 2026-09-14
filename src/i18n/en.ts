@@ -1,6 +1,6 @@
 export const en = {
   navigation: {
-    studio: 'Studio',
+    studio: 'Home',
     work: 'Work',
     audioInstruments: 'Products',
     about: 'About',

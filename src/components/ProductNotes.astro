@@ -12,7 +12,7 @@ const launch = product.launch;
 if (!launch) return;
 
 const developmentStatus = launch.developmentStatus[locale];
-const alpha = launch.beta[locale];
+const notes = launch.beta[locale];
 const progress = launch.publicBeta[locale];
 const copy = locale === 'ja'
   ? {
@@ -44,10 +44,10 @@ const productPath = locale === 'ja' ? `/ja/products/${product.slug}/` : `/produc
   {developmentStatus.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
 </section>
 
-<section class="section copy-block" aria-labelledby="notes-alpha-title">
-  <p class="eyebrow">{alpha.title}</p>
-  <h2 id="notes-alpha-title">{alpha.title}</h2>
-  {alpha.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+<section class="section copy-block" aria-labelledby="notes-info-title">
+  <p class="eyebrow">{notes.title}</p>
+  <h2 id="notes-info-title">{notes.title}</h2>
+  {notes.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
 </section>
 
 <section class="section" aria-labelledby="notes-progress-title">

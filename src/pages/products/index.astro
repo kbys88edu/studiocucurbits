@@ -1,26 +1,23 @@
 ---
 import NewsletterForm from '../../components/NewsletterForm.astro';
-import ProductCard from '../../components/ProductCard.astro';
-import { isVisibleProduct, products } from '../../data/products';
 import { MOCKUP_V } from '../../data/site';
 import { getLocale, localizedPath } from '../../lib/locale';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const locale = getLocale(new URL(Astro.request.url));
-const visibleProducts = products.filter(isVisibleProduct);
 const canonicalPath = locale === 'ja' ? '/ja/products/' : '/products/';
 const copy = locale === 'ja'
-  ? { title: 'オーディオ・インストゥルメンツ | Studio Cucurbits.', description: 'Studio Cucurbits.のオーディオ・インストゥルメンツは、不安定な音のために作曲家が設計した音の道具です。', eyebrow: 'Studio Cucurbits / オーディオ・インストゥルメンツ', heading: 'オーディオ・インストゥルメンツ', lead: '不安定な音のために、作曲家が設計した音の道具。', development: '公開状況', details: '製品、デモ、ベータ版は準備が整い次第お知らせします。', mailing: '今後の情報を受け取る' }
-  : { title: 'PRODUCTS | Studio Cucurbits.', description: 'Artist-designed instruments for unstable sound from Studio Cucurbits.', eyebrow: 'Studio Cucurbits / Products', heading: 'PRODUCTS', lead: 'Artist-designed instruments for unstable sound.', development: 'Release status', details: 'Products, demonstrations, and beta access will be announced when they are ready.', mailing: 'Receive future announcements' };
+  ? { title: 'オーディオ・インストゥルメンツ | Studio Cucurbits.', description: 'Studio Cucurbits.のオーディオ・インストゥルメンツは、作曲家が設計した楽器とエフェクトです。', eyebrow: 'Studio Cucurbits / オーディオ・インストゥルメンツ', heading: 'オーディオ・インストゥルメンツ', lead: '作曲家が設計した楽器とエフェクト。', development: '公開状況', details: '製品、デモ、ベータ版は準備が整い次第お知らせします。', mailing: '今後の情報を受け取る' }
+  : { title: 'PRODUCTS | Studio Cucurbits.', description: 'Artist-designed instruments and effects from Studio Cucurbits.', eyebrow: 'Studio Cucurbits / Products', heading: 'PRODUCTS', lead: 'Artist-designed instruments and effects.', development: 'Release status', details: 'Products, demonstrations, and beta access will be announced when they are ready.', mailing: 'Receive future announcements' };
 const statusRows = locale === 'ja'
   ? [
-      { name: 'Suspended', status: 'Windows / macOS / Linux 各アルファ版', href: localizedPath('/products/suspended/', locale) },
+      { name: 'Suspended', status: 'macOS / Linux', href: localizedPath('/products/suspended/', locale) },
       { name: 'Traces bundle', status: 'コレクション準備中', href: null },
       { name: 'Tendril bundle', status: 'フィジカル・モデリング・コレクション準備中', href: null },
       { name: 'Vitreous', status: '素材プロセッサー / 後日公開', href: null },
     ]
   : [
-      { name: 'Suspended', status: 'Windows / macOS / Linux Alpha builds', href: localizedPath('/products/suspended/', locale) },
+      { name: 'Suspended', status: 'macOS / Linux', href: localizedPath('/products/suspended/', locale) },
       { name: 'Traces bundle', status: 'Collection in development', href: null },
       { name: 'Tendril bundle', status: 'Physical modelling collection in development', href: null },
       { name: 'Vitreous', status: 'Standalone material processor / Coming later', href: null },
@@ -52,14 +49,6 @@ const statusRows = locale === 'ja'
     <div class="product-overview-newsletter">
       <p class="eyebrow">{copy.mailing}</p>
       <NewsletterForm locale={locale} />
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="catalogue-title">
-    <p class="eyebrow">{locale === 'ja' ? 'オーディオ・インストゥルメンツ' : 'Products'}</p>
-    <h2 id="catalogue-title">{locale === 'ja' ? '公開中の製品' : 'Current instrument'}</h2>
-    <div class="catalogue-list">
-      {visibleProducts.map((product) => <ProductCard product={product} locale={locale} />)}
     </div>
   </section>
 </BaseLayout>

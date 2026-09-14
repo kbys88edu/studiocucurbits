@@ -30,11 +30,11 @@ describe('Audio Instruments catalogue', () => {
     expect(renderedPage('/products')).not.toContain('Hidden prototype');
   });
 
-  it('uses the regenerated hero image and shows the Suspended product card', () => {
+  it('uses the regenerated hero image and shows the Suspended release-status row', () => {
     buildSite();
 
     expect(renderedPage('/products')).toContain('Hero_2560x1440.png');
-    expect(renderedPage('/products')).toContain('catalogue-card');
+    expect(renderedPage('/products')).toContain('catalogue-status-row');
   });
 
   it('uses the plugin hero image for the current studio update', () => {
@@ -48,7 +48,7 @@ describe('Audio Instruments catalogue', () => {
     buildSite();
 
     const html = renderedPage('/products');
-    expect(html).toContain('Windows / macOS / Linux Alpha builds');
+    expect(html).toContain('macOS / Linux');
     expect(html).toContain('Collection in development');
     expect(html).toContain('Physical modelling collection in development');
     expect(html).toContain('Standalone material processor / Coming later');
@@ -59,7 +59,7 @@ describe('Audio Instruments catalogue', () => {
     const html = renderedPage('/ja/products');
 
     expect(html).toContain('オーディオ・インストゥルメンツ');
-    expect(html).toContain('Windows / macOS / Linux 各アルファ版');
+    expect(html).toContain('macOS / Linux');
     expect(html).not.toContain('PRODUCTS');
   });
 }, 30_000);

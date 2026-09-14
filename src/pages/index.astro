@@ -9,16 +9,14 @@ const canonicalPath = locale === 'ja' ? '/ja/' : '/';
 const copy = locale === 'ja'
   ? {
     title: 'Studio Cucurbits. | 音楽とクリエイティブテクノロジー', description: 'Studio Cucurbits.は、音楽とクリエイティブテクノロジーに取り組むスタジオです。',
-    eyebrow: '音楽 / サウンド / AI / クリエイティブテクノロジー', lead: '作曲、サウンドデザイン、クリエイティブテクノロジー、オーディオ・インストゥルメンツを横断するスタジオ。',
+    lead: '作曲、サウンドデザイン、クリエイティブテクノロジー、オーディオ・インストゥルメンツを横断するスタジオ。',
     latest: '最新情報', latestTitle: 'スタジオからの最新情報', areas: 'スタジオの活動領域', areasTitle: '音と向き合う、三つの領域。',
-    statement: 'スタジオ・ステートメント', statementTitle: '音を、はじめに。', statementLead: 'AIは音を広げられる。意味を決めるのは、人の聴くこと。',
     contact: '最新情報を受け取る', contactTitle: 'スタジオからのお知らせを受け取る。', notify: 'お知らせを受け取る',
   }
   : {
     title: 'Studio Cucurbits. | Music and Creative Technology', description: 'Studio Cucurbits. is a music and creative technology studio.',
-    eyebrow: 'Music / Sound / AI / Creative Technology', lead: 'A studio for composition, sound design, creative technology, and audio instruments.',
+    lead: 'A studio for composition, sound design, creative technology, and audio instruments.',
     latest: 'Latest', latestTitle: 'Current studio updates', areas: 'Studio areas', areasTitle: 'Three ways of working with sound.',
-    statement: 'Studio statement', statementTitle: 'Sound comes first.', statementLead: 'AI can expand sound. Human listening decides meaning.',
     contact: 'Stay in touch', contactTitle: 'Receive studio updates.', notify: 'Notify me',
   };
 const areaTitles = locale === 'ja'
@@ -33,7 +31,6 @@ const areaTitles = locale === 'ja'
   locale={locale}
 >
   <section class="hero home-hero" aria-labelledby="hero-title">
-    <p class="eyebrow">{copy.eyebrow}</p>
     <h1 id="hero-title">Studio Cucurbits.</h1>
     <p class="lead">{copy.lead}</p>
   </section>
@@ -55,12 +52,6 @@ const areaTitles = locale === 'ja'
         </article>
       ))}
     </div>
-  </section>
-
-  <section class="section statement" aria-labelledby="statement-title">
-    <p class="eyebrow">{copy.statement}</p>
-    <h2 id="statement-title">{copy.statementTitle}</h2>
-    <p class="lead">{copy.statementLead}</p>
   </section>
 
   <section class="section notification" aria-labelledby="notification-title">

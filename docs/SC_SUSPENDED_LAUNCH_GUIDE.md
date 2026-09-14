@@ -1,6 +1,6 @@
 # SC Suspended release guide
 
-SC Suspended is a pre-release VST3 product with current alpha compatibility claims for Windows, macOS, and Linux. The public page is data-driven: update `src/data/products.ts` and provide verified assets under `public/`; do not edit the page component for a normal state change.
+SC Suspended is a pre-release VST3 product with current compatibility claims for macOS and Linux. The public page is data-driven: update `src/data/products.ts` and provide verified assets under `public/`; do not edit the page component for a normal state change.
 
 ## Current public state
 
@@ -132,7 +132,7 @@ Permitted properties are limited to `locale`, `demo_name`, `source`, and `releas
 
 ## Compatibility and support
 
-Publish only values verified in the current build. The current public claims are VST3, stereo processing, live audio capture, and Windows/macOS/Linux alpha builds. Do not add OS versions, DAW names, installation paths, or known issues without matching support guidance in `src/data/products.ts` and `/support/suspended/`.
+Publish only values verified in the current build. The current public claims are VST3, stereo processing, live audio capture, and macOS/Linux builds. Do not add OS versions, DAW names, installation paths, or known issues without matching support guidance in `src/data/products.ts` and `/support/suspended/`.
 
 ## SEO and schema
 

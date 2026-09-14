@@ -60,7 +60,7 @@ describe('artist note separation', () => {
     const product = renderedPage('/products/suspended');
     const notes = renderedPage('/products/suspended/notes');
 
-    for (const story of ['Suspended is currently being prepared', 'Suspended is currently in alpha', 'IMPLEMENTED IN THE CURRENT ALPHA']) {
+    for (const story of ['Suspended is currently being prepared', 'The current build includes Freeze', 'IMPLEMENTED IN THE CURRENT BUILD']) {
       expect(product).not.toContain(story);
       expect(notes).toContain(story);
     }
@@ -73,8 +73,8 @@ describe('artist note separation', () => {
     const productJa = renderedPage('/ja/products/suspended');
     const notesJa = renderedPage('/ja/products/suspended/notes');
 
-    expect(productJa).not.toContain('Suspendedは現在アルファ版です');
-    expect(notesJa).toContain('Suspendedは現在アルファ版です');
+    expect(productJa).not.toContain('現在のビルドには、Freeze');
+    expect(notesJa).toContain('現在のビルドには、Freeze');
     expect(productJa).toContain('/ja/products/suspended/notes/');
   });
 });
