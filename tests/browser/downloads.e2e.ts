@@ -28,13 +28,13 @@ const priorManifest = { ...manifest, candidateSha256: priorDigest, draftId: '16'
 pointer.manifestSha256 = createHash('sha256').update(JSON.stringify(manifest)).digest('hex');
 pointer.history[0].manifestSha256 = createHash('sha256').update(JSON.stringify(priorManifest)).digest('hex');
 
-async function release(page: Page, userAgent: string, windows = true) {
+async function release(page: Page, userAgent: string, windows = true, brokenHistory = false) {
   await page.addInitScript((value: string) => Object.defineProperty(navigator, 'userAgent', { value }), userAgent);
   const currentManifest = windows ? manifest : { ...manifest, assets: manifest.assets.filter(({ name }) => !name.endsWith('.exe')) };
   const current = windows ? pointer : { ...pointer, manifestSha256: createHash('sha256').update(JSON.stringify(currentManifest)).digest('hex') };
   await page.route('https://downloads.studiocucurbits.com/releases/current.json', (route: Route) => route.fulfill({ json: current, headers: { 'access-control-allow-origin': '*' } }));
   await page.route(`https://downloads.studiocucurbits.com/releases/${digest}/manifest.json`, (route: Route) => route.fulfill({ json: currentManifest, headers: { 'access-control-allow-origin': '*' } }));
-  await page.route(`https://downloads.studiocucurbits.com/releases/${priorDigest}/manifest.json`, (route: Route) => route.fulfill({ json: priorManifest, headers: { 'access-control-allow-origin': '*' } }));
+  await page.route(`https://downloads.studiocucurbits.com/releases/${priorDigest}/manifest.json`, (route: Route) => brokenHistory ? route.fulfill({ status: 404 }) : route.fulfill({ json: priorManifest, headers: { 'access-control-allow-origin': '*' } }));
 }
 
 test('macOS receives the approved macOS installer and retains Linux choice', async ({ page }) => {
@@ -80,6 +80,14 @@ test('an empty Windows platform is omitted', async ({ page }) => {
   await release(page, 'Mozilla/5.0 (X11; Linux x86_64)', false);
   await page.goto(`${siteUrl}/downloads/suspended/`);
   await expect(page.getByRole('heading', { name: 'Windows' })).toHaveCount(0);
+});
+
+test('a broken historical manifest does not hide the current release', async ({ page }) => {
+  await release(page, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)', true, true);
+  await page.goto(`${siteUrl}/downloads/suspended/`);
+  await expect(page.getByRole('link', { name: 'Download for macOS' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Version 1.2.3' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Version 1.1.0' })).toHaveCount(0);
 });
 
 test('Japanese download actions remain localized', async ({ page }) => {

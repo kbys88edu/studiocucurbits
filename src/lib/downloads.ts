@@ -110,9 +110,10 @@ export function detectPlatform(userAgent: string): 'macos' | 'windows' | 'linux'
 export function readRelease(current: unknown, approved: unknown, productSlug: string): ProductRelease {
   const entry = validPointerEntry(current) ? current : readCurrent(current);
   if (!validManifest(approved, entry)) throw new Error('Release metadata does not match');
-  const releaseVersion = entry.versions[productSlug] ?? null;
+  const releaseVersion = product.test(productSlug) ? entry.versions[productSlug] ?? null : null;
+  const productAsset = new RegExp(`^studio-cucurbits-${productSlug}[-_](?:v)?\\d`, 'i');
   const installers = releaseVersion
-    ? approved.assets.filter(({ customerDownload, name }) => customerDownload && name.toLowerCase().includes(productSlug))
+    ? approved.assets.filter(({ customerDownload, name }) => customerDownload && productAsset.test(name))
       .map(installer).filter((value): value is Installer => value !== null)
     : [];
   return { version: releaseVersion, installers };

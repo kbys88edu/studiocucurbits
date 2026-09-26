@@ -70,6 +70,11 @@ describe('public release metadata', () => {
 
   it('returns no unrelated product installers', () => {
     expect(readRelease(pointer, manifest, 'vitreous')).toEqual({ version: null, installers: [] });
+    const collisions = structuredClone(manifest);
+    collisions.assets = collisions.assets.map((asset) => ({ ...asset,
+      name: asset.name.replace('suspended', 'not-suspended'),
+      key: asset.key.replace('suspended', 'not-suspended') }));
+    expect(readRelease(pointer, collisions, 'suspended').installers).toEqual([]);
   });
 
   it('reads Windows installers and de-duplicates product versions newest first', () => {
