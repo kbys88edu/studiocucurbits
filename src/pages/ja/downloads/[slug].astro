@@ -1,0 +1,13 @@
+---
+import DownloadProduct from '../../../components/DownloadProduct.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { downloadProducts } from '../../../data/downloads';
+
+export function getStaticPaths() {
+  return downloadProducts.map((product) => ({ params: { slug: product.slug }, props: product }));
+}
+const product = Astro.props;
+---
+<BaseLayout title={`${product.name}をダウンロード | Studio Cucurbits.`} description={`${product.name}の最新承認済みインストーラーをダウンロード。`} canonicalPath={`/ja/downloads/${product.slug}/`} locale="ja" breadcrumbLabel={product.name}>
+  <DownloadProduct locale="ja" slug={product.slug} name={product.name} image={product.image} imageAlt={product.imageAlt.ja} />
+</BaseLayout>

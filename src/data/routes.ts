@@ -1,4 +1,5 @@
 import { collections, isVisibleCollection, isVisibleProduct, products } from './products';
+import { downloadProducts } from './downloads';
 
 const staticRoutes = [
   '/', '/about/', '/work/', '/work/babel-trans-instrumentalism/', '/products/', '/support/', '/support/suspended/', '/downloads/', '/license/',
@@ -12,4 +13,5 @@ export const publicRoutePaths = [
   ...products.filter((product) => isVisibleProduct(product) && product.launch).flatMap(({ slug }) => [`/products/${slug}/specifications/`, `/ja/products/${slug}/specifications/`]),
   ...products.filter((product) => isVisibleProduct(product) && product.launch).flatMap(({ slug }) => [`/products/${slug}/notes/`, `/ja/products/${slug}/notes/`]),
   ...collections.filter(isVisibleCollection).flatMap(({ slug }) => [`/collections/${slug}/`, `/ja/collections/${slug}/`]),
+  ...downloadProducts.flatMap(({ slug }) => [`/downloads/${slug}/`, `/ja/downloads/${slug}/`]),
 ];

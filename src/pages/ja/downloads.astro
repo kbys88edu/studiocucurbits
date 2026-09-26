@@ -1,11 +1,18 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { downloadProducts } from '../../data/downloads';
 ---
 
 <BaseLayout title="ダウンロード | Studio Cucurbits." description="公開中のダウンロードのみを掲載します。" canonicalPath="/ja/downloads/" locale="ja">
   <section class="page-intro" aria-labelledby="downloads-title">
     <p class="eyebrow">オーディオ・インストゥルメンツ</p>
     <h1 id="downloads-title">ダウンロード</h1>
-    <p class="lead">現在、公開中のダウンロードはありません。</p>
+    <p class="lead">製品を選択して、現在承認されているインストーラーをご確認ください。アカウントやライセンスは必要ありません。</p>
+  </section>
+  <section class="section" aria-labelledby="download-products-title">
+    <h2 id="download-products-title">製品</h2>
+    <div class="download-index">
+      {downloadProducts.map((product) => <a href={`/ja/downloads/${product.slug}/`}><img src={product.image} alt={product.imageAlt.ja} width="1200" height="1500" loading="lazy" /><strong>{product.name}</strong><span>{product.summary.ja}</span></a>)}
+    </div>
   </section>
 </BaseLayout>

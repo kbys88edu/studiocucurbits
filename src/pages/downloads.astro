@@ -1,11 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { downloadProducts } from '../data/downloads';
 ---
 
 <BaseLayout title="Downloads | Studio Cucurbits." description="Download availability is published when configured." canonicalPath="/downloads/">
   <section class="page-intro" aria-labelledby="downloads-title">
     <p class="eyebrow">Audio Instruments</p>
     <h1 id="downloads-title">Downloads</h1>
-    <p class="lead">No downloads are currently configured. Product downloads will appear here when they are supplied and ready to publish.</p>
+    <p class="lead">Choose a product to find its current approved installers. Downloads require no account or licence.</p>
+  </section>
+  <section class="section" aria-labelledby="download-products-title">
+    <h2 id="download-products-title">Products</h2>
+    <div class="download-index">
+      {downloadProducts.map((product) => <a href={`/downloads/${product.slug}/`}><img src={product.image} alt={product.imageAlt.en} width="1200" height="1500" loading="lazy" /><strong>{product.name}</strong><span>{product.summary.en}</span></a>)}
+    </div>
   </section>
 </BaseLayout>

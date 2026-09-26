@@ -1,0 +1,13 @@
+---
+import DownloadProduct from '../../components/DownloadProduct.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { downloadProducts } from '../../data/downloads';
+
+export function getStaticPaths() {
+  return downloadProducts.map((product) => ({ params: { slug: product.slug }, props: product }));
+}
+const product = Astro.props;
+---
+<BaseLayout title={`Download ${product.name} | Studio Cucurbits.`} description={`Download the latest approved ${product.name} installers.`} canonicalPath={`/downloads/${product.slug}/`} breadcrumbLabel={product.name}>
+  <DownloadProduct locale="en" slug={product.slug} name={product.name} image={product.image} imageAlt={product.imageAlt.en} />
+</BaseLayout>
