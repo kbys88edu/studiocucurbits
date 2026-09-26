@@ -4,11 +4,11 @@ import { currentReleaseUrl } from '../lib/downloads';
 interface Props { locale: 'en' | 'ja'; slug: string; name: string; image: string; imageAlt: string; }
 const { locale, slug, name, image, imageAlt } = Astro.props;
 const ja = locale === 'ja';
-let stagingInstallers: Array<{ name: string; url: string }> = [];
+let stagingInstallers: Array<{ name: string; url: string; version?: string }> = [];
 if (import.meta.env.MODE === 'development' && slug === 'suspended') {
   try {
     const value = JSON.parse(import.meta.env.SUSPENDED_STAGING_INSTALLERS ?? '[]');
-    if (Array.isArray(value)) stagingInstallers = value.filter((item) => item && typeof item.name === 'string' && /^[\w.-]+$/.test(item.name) && /\.(pkg|deb|tar\.zst|exe|msi)$/.test(item.name) && item.name.toLowerCase().includes('suspended') && typeof item.url === 'string' && item.url.startsWith('https://'));
+    if (Array.isArray(value)) stagingInstallers = value.filter((item) => item && typeof item.name === 'string' && /^[\w.-]+$/.test(item.name) && /\.(pkg|deb|tar\.zst|exe|msi)$/.test(item.name) && item.name.toLowerCase().includes('suspended') && typeof item.url === 'string' && item.url.startsWith('https://') && (item.version === undefined || typeof item.version === 'string' && /^(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)$/.test(item.version)));
   } catch {}
 }
 ---
@@ -120,13 +120,15 @@ if (import.meta.env.MODE === 'development' && slug === 'suspended') {
       stage.append(add('h2', labels.alternatives!, 'download-alternatives-title'));
       stage.append(...releases.map(renderRelease));
     } catch {
-      const staging = JSON.parse(root.dataset.stagingInstallers ?? '[]') as Array<{ name: string; url: string }>;
+      const staging = JSON.parse(root.dataset.stagingInstallers ?? '[]') as Array<{ name: string; url: string; version?: string }>;
       if (staging.length) {
-        const installers: Installer[] = staging.map((item) => ({ ...item,
+        const installers: Array<Installer & { version: string | null }> = staging.map((item) => ({ ...item, version: item.version ?? null,
           platform: item.name.endsWith('.pkg') ? 'macos' : item.name.endsWith('.exe') || item.name.endsWith('.msi') ? 'windows' : 'linux',
           format: item.name.endsWith('.tar.zst') ? 'TAR.ZST' : item.name.split('.').pop()!.toUpperCase(),
           architecture: /arm64|aarch64/i.test(item.name) ? 'ARM64' : item.name.endsWith('.pkg') ? 'Universal' : item.name.endsWith('.exe') || item.name.endsWith('.msi') ? 'x64' : 'x86-64', size: '', sha256: '' }));
-        const primary = detected === 'linux' ? installers.find(({ platform, format }) => platform === 'linux' && format === 'DEB') : installers.find(({ platform }) => platform === detected);
+        const latestVersion = installers[0].version;
+        const latest = installers.filter(({ version }) => version === latestVersion);
+        const primary = detected === 'linux' ? latest.find(({ platform, format }) => platform === 'linux' && format === 'DEB') : latest.find(({ platform }) => platform === detected);
         stage.replaceChildren();
         if (!primary && labels.unknown) stage.append(add('p', labels.unknown, 'download-status'));
         if (primary) {
@@ -137,7 +139,8 @@ if (import.meta.env.MODE === 'development' && slug === 'suspended') {
           stage.append(action);
         }
         stage.append(add('h2', labels.alternatives!, 'download-alternatives-title'));
-        stage.append(renderRelease({ version: null, installers }));
+        const versions = [...new Set(installers.map(({ version }) => version))];
+        stage.append(...versions.map((version) => renderRelease({ version, installers: installers.filter((item) => item.version === version) })));
       } else {
         stage.replaceChildren(add('p', labels.unavailable!, 'download-status'));
       }

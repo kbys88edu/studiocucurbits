@@ -102,9 +102,10 @@ test('development preview offers every private staging installer', async ({ page
   await page.route('https://downloads.studiocucurbits.com/releases/current.json', (route: Route) => route.fulfill({ status: 404 }));
   await page.goto(`${siteUrl}/downloads/suspended/`);
   await expect(page.getByRole('link', { name: 'Download staging build for Linux' })).toHaveAttribute('href', 'https://staging.example/Suspended.deb');
-  await expect(page.getByRole('link', { name: 'macOS PKG' })).toHaveAttribute('href', 'https://staging.example/Suspended.pkg');
+  await expect(page.getByRole('link', { name: 'macOS PKG' }).first()).toHaveAttribute('href', 'https://staging.example/Suspended.pkg');
   await expect(page.getByRole('link', { name: 'Linux TAR.ZST' })).toHaveAttribute('href', 'https://staging.example/Suspended.tar.zst');
   await expect(page.getByRole('link', { name: 'Windows EXE' })).toHaveAttribute('href', 'https://staging.example/Suspended.exe');
+  await expect(page.getByRole('heading', { name: 'Version 1.1.0' })).toBeVisible();
   await expect(page.locator('[data-download-stage]')).toHaveAttribute('aria-busy', 'false');
 });
 
