@@ -83,7 +83,7 @@ function installer(asset: Asset): Installer | null {
   if (!platform) return null;
   return {
     name: asset.name, url: `${releaseOrigin}/${asset.key}`, platform,
-    architecture: platform === 'macos' ? 'Universal' : lower.includes('arm64') || lower.includes('aarch64') ? 'ARM64' : platform === 'windows' ? 'x64' : 'x86-64',
+    architecture: platform === 'macos' ? 'Universal' : lower.includes('arm64') || lower.includes('aarch64') ? 'ARM64' : platform === 'windows' ? 'x64' : 'AMD64',
     format: lower.endsWith('.tar.zst') ? 'TAR.ZST' : lower.endsWith('.tar.gz') ? 'TAR.GZ' : lower.slice(lower.lastIndexOf('.') + 1).toUpperCase(),
     size: `${Number((asset.size / 1_000_000).toFixed(1))} MB`, sha256: asset.sha256,
   };

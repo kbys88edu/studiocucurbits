@@ -44,11 +44,18 @@ if (import.meta.env.MODE === 'development' && slug === 'suspended') {
       return element;
     };
     const detected = detectPlatform(navigator.userAgent);
+    const japanese = root.dataset.locale === 'ja';
     const platforms = [
       ['macos', 'macOS', '/images/platforms/macos.svg'],
       ['linux', 'Linux', '/images/platforms/linux.svg'],
       ['windows', 'Windows', '/images/platforms/windows.svg'],
     ] as const;
+    const installerName = (item: Installer) => {
+      if (item.platform === 'macos') return japanese ? `macOS ユニバーサル — ${item.format}インストーラー` : `macOS ${item.architecture} — ${item.format} installer`;
+      if (item.platform === 'windows') return japanese ? `Windows ${item.architecture} — ${item.format}インストーラー` : `Windows ${item.architecture} — ${item.format} installer`;
+      if (item.format === 'DEB') return japanese ? `Linux Debian/Ubuntu (${item.architecture}) — DEBパッケージ` : `Linux Debian/Ubuntu (${item.architecture}) — DEB package`;
+      return japanese ? `Linux ユニバーサル (${item.architecture}) — ${item.format}アーカイブ` : `Linux Universal (${item.architecture}) — ${item.format} archive`;
+    };
     const renderRelease = (release: ProductRelease) => {
       const section = document.createElement('section');
       section.className = 'download-release';
@@ -68,7 +75,7 @@ if (import.meta.env.MODE === 'development' && slug === 'suspended') {
           const article = document.createElement('article');
           const link = document.createElement('a');
           link.href = item.url;
-          link.textContent = `${title} ${item.format}`;
+          link.textContent = installerName(item);
           article.append(link);
           if (item.size && item.sha256) {
             const facts = add('dl', '', 'download-facts');
@@ -125,7 +132,7 @@ if (import.meta.env.MODE === 'development' && slug === 'suspended') {
         const installers: Array<Installer & { version: string | null }> = staging.map((item) => ({ ...item, version: item.version ?? null,
           platform: item.name.endsWith('.pkg') ? 'macos' : item.name.endsWith('.exe') || item.name.endsWith('.msi') ? 'windows' : 'linux',
           format: item.name.endsWith('.tar.zst') ? 'TAR.ZST' : item.name.split('.').pop()!.toUpperCase(),
-          architecture: /arm64|aarch64/i.test(item.name) ? 'ARM64' : item.name.endsWith('.pkg') ? 'Universal' : item.name.endsWith('.exe') || item.name.endsWith('.msi') ? 'x64' : 'x86-64', size: '', sha256: '' }));
+          architecture: /arm64|aarch64/i.test(item.name) ? 'ARM64' : item.name.endsWith('.pkg') ? 'Universal' : item.name.endsWith('.exe') || item.name.endsWith('.msi') ? 'x64' : 'AMD64', size: '', sha256: '' }));
         const latestVersion = installers[0].version;
         const latest = installers.filter(({ version }) => version === latestVersion);
         const primary = detected === 'linux' ? latest.find(({ platform, format }) => platform === 'linux' && format === 'DEB') : latest.find(({ platform }) => platform === detected);

@@ -46,9 +46,9 @@ describe('public release metadata', () => {
       version: '1.2.3',
       installers: [
         expect.objectContaining({ platform: 'macos', architecture: 'Universal', format: 'PKG', size: '12.5 MB', sha256: '1'.repeat(64) }),
-        expect.objectContaining({ platform: 'linux', architecture: 'x86-64', format: 'DEB', size: '10 MB', sha256: '2'.repeat(64) }),
-        expect.objectContaining({ platform: 'linux', architecture: 'x86-64', format: 'TAR.ZST', size: '9 MB', sha256: '3'.repeat(64) }),
-        expect.objectContaining({ platform: 'linux', architecture: 'x86-64', format: 'TAR.GZ', size: '8 MB', sha256: '5'.repeat(64) }),
+        expect.objectContaining({ platform: 'linux', architecture: 'AMD64', format: 'DEB', size: '10 MB', sha256: '2'.repeat(64) }),
+        expect.objectContaining({ platform: 'linux', architecture: 'AMD64', format: 'TAR.ZST', size: '9 MB', sha256: '3'.repeat(64) }),
+        expect.objectContaining({ platform: 'linux', architecture: 'AMD64', format: 'TAR.GZ', size: '8 MB', sha256: '5'.repeat(64) }),
       ],
     });
   });
