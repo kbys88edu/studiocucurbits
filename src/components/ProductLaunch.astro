@@ -1,11 +1,13 @@
 ---
 import type { Locale } from '../lib/locale';
 import type { Product } from '../data/products';
+import { downloadProducts } from '../data/downloads';
 import { localizedPath } from '../lib/locale';
 import { formatPrice, getLaunchRelease } from '../lib/product';
 import AudioComparison from './AudioComparison.astro';
 import NewsletterForm from './NewsletterForm.astro';
 import VideoSlot from './VideoSlot.astro';
+import ReleaseAvailability from './ReleaseAvailability.astro';
 
 interface Props {
   product: Product;
@@ -51,6 +53,7 @@ const specificationRows = launch.specifications[locale].filter(({ label }) => pr
       <div class="launch-actions">
         <a class="button product-cta" data-suspended-event="click_notify_suspended" href={hearHref}>{locale === 'ja' ? 'Suspendedを聴く' : 'Hear Suspended'}</a>
         {showNotify && <a class="text-link" data-suspended-event="click_notify_suspended" href="#release-notification">{releaseCta.button}</a>}
+        {downloadProducts.some(({ slug }) => slug === product.slug) && <ReleaseAvailability slug={product.slug} name={product.name} locale={locale} variant="download" />}
       </div>
     </div>
     {product.media.heroImage && <img class="product-hero-image suspended-hero-image" src={product.media.heroImage} alt={interfaceCopy.imageAlt} width="1200" height="1500" loading="eager" decoding="async" />}

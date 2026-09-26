@@ -1,9 +1,11 @@
 ---
 import type { Product } from '../data/products';
+import { downloadProducts } from '../data/downloads';
 import type { Locale } from '../lib/locale';
 import PriceBlock from './PriceBlock.astro';
 import ProductCta from './ProductCta.astro';
 import StatusLabel from './StatusLabel.astro';
+import ReleaseAvailability from './ReleaseAvailability.astro';
 
 interface Props {
   product: Product;
@@ -23,4 +25,5 @@ const category = locale === 'ja' ? 'オーディオ・インストゥルメン�
   {product.media.heroImage && <img class="product-hero-image" src={product.media.heroImage} alt="" width="2560" height="1440" loading="eager" decoding="async" />}
   <PriceBlock product={product} locale={locale} />
   <ProductCta product={product} locale={locale} />
+  {downloadProducts.some(({ slug }) => slug === product.slug) && <ReleaseAvailability slug={product.slug} name={product.name} locale={locale} variant="download" />}
 </section>
