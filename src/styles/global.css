@@ -148,7 +148,7 @@ h3 { margin: 0; font-size: 1.15rem; line-height: 1.2; letter-spacing: -.01em; }
 .download-platform-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: var(--space); }
 .download-platform { min-width: 0; border-top: 1px solid var(--ink); }
 .download-platform-heading { display: flex; align-items: center; gap: .75rem; padding-block: 1rem; }
-.download-platform-heading img { width: 1.5rem; height: 1.5rem; }
+.download-platform-heading img { width: 1.5rem; height: 1.5rem; object-fit: contain; }
 .download-platform article { padding-block: 1.5rem; border-top: 1px solid var(--rule); }
 .download-platform article > a { font-size: clamp(1.3rem, 2vw, 2rem); font-weight: 500; }
 .download-facts { margin: 0; }
