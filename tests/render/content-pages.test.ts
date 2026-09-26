@@ -36,8 +36,10 @@ describe('support, legal, and pre-launch routes', () => {
     expect(renderedPage('/downloads/suspended')).toContain('Suspended interface artwork');
     expect(renderedPage('/downloads/suspended')).not.toContain('staging.example');
     expect(renderedPage('/ja/downloads/suspended')).toContain('Suspendedをダウンロード');
-    expect(renderedPage('/products/suspended')).toContain('href="/downloads/suspended/"');
-    expect(renderedPage('/ja/products/suspended')).toContain('href="/ja/downloads/suspended/"');
+    expect(renderedPage('/products/suspended')).toContain('data-release-download="suspended"');
+    expect(renderedPage('/products/suspended')).not.toContain('<a class="button" href="/downloads/suspended/"');
+    expect(renderedPage('/ja/products/suspended')).toContain('data-release-download="suspended"');
+    expect(renderedPage('/ja/products/suspended')).not.toContain('<a class="button" href="/ja/downloads/suspended/"');
   });
 
   it('states final terms rather than a draft placeholder', () => {

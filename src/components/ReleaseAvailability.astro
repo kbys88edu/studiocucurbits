@@ -1,0 +1,53 @@
+---
+import type { Locale } from '../lib/locale';
+
+interface Props { slug: string; name: string; locale: Locale; variant: 'status' | 'download'; }
+const { slug, name, locale, variant } = Astro.props;
+let stagingPlatforms: string[] = [];
+if (import.meta.env.MODE === 'development' && slug === 'suspended') {
+  try {
+    const installers = JSON.parse(import.meta.env.SUSPENDED_STAGING_INSTALLERS ?? '[]');
+    if (Array.isArray(installers)) stagingPlatforms = [...new Set(installers.flatMap((item) => {
+      const file = typeof item?.name === 'string' ? item.name.toLowerCase() : '';
+      return file.endsWith('.pkg') ? ['macos'] : file.endsWith('.exe') || file.endsWith('.msi') ? ['windows'] : file.endsWith('.deb') || file.endsWith('.tar.zst') || file.endsWith('.tar.gz') ? ['linux'] : [];
+    }))];
+  } catch {}
+}
+const ja = locale === 'ja';
+---
+
+{variant === 'status'
+  ? <span data-release-availability={slug} data-staging-platforms={stagingPlatforms.join(',')}>{ja ? '近日公開' : 'Coming soon'}</span>
+  : <span data-release-download={slug} data-staging-platforms={stagingPlatforms.join(',')} data-href={`${locale === 'ja' ? '/ja' : ''}/downloads/${slug}/`} data-label={ja ? `${name}をダウンロード` : `Download ${name}`}></span>}
+
+<script>
+  import { currentReleaseUrl, readCurrent, readRelease, releaseManifestUrl, verifyManifestDigest } from '../lib/downloads';
+
+  const platformNames = { macos: 'macOS', windows: 'Windows', linux: 'Linux' } as const;
+  document.querySelectorAll<HTMLElement>('[data-release-availability], [data-release-download]').forEach(async (root) => {
+    let platforms: string[] = [];
+    const slug = root.dataset.releaseAvailability ?? root.dataset.releaseDownload!;
+    try {
+      const pointerResponse = await fetch(currentReleaseUrl, { cache: 'no-store' });
+      if (!pointerResponse.ok) throw new Error('release unavailable');
+      const pointer = readCurrent(await pointerResponse.json());
+      const manifestResponse = await fetch(releaseManifestUrl(pointer));
+      if (!manifestResponse.ok) throw new Error('release unavailable');
+      const text = await manifestResponse.text();
+      await verifyManifestDigest(pointer, text);
+      platforms = [...new Set(readRelease(pointer, JSON.parse(text), slug).installers.map(({ platform }) => platform))];
+    } catch {
+      platforms = root.dataset.stagingPlatforms?.split(',').filter(Boolean) ?? [];
+    }
+    const names = (['macos', 'windows', 'linux'] as const).filter((platform) => platforms.includes(platform)).map((platform) => platformNames[platform]);
+    if (root.dataset.releaseAvailability !== undefined) {
+      if (names.length) root.textContent = names.join(' / ');
+    } else if (names.length) {
+      const link = document.createElement('a');
+      link.className = 'button';
+      link.href = root.dataset.href!;
+      link.textContent = root.dataset.label!;
+      root.replaceChildren(link);
+    }
+  });
+</script>

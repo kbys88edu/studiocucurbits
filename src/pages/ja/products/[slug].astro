@@ -3,6 +3,7 @@ import ProductDetails from '../../../components/ProductDetails.astro';
 import ProductHero from '../../../components/ProductHero.astro';
 import ProductLaunch from '../../../components/ProductLaunch.astro';
 import RelatedProducts from '../../../components/RelatedProducts.astro';
+import ReleaseAvailability from '../../../components/ReleaseAvailability.astro';
 import { downloadProducts } from '../../../data/downloads';
 import { getProductBySlug, isVisibleProduct, products } from '../../../data/products';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
@@ -38,6 +39,6 @@ const hasDownload = downloadProducts.some(({ slug }) => slug === product.slug);
     <ProductHero product={product} locale={locale} />
     <ProductDetails product={product} locale={locale} />
   </>}
-  {hasDownload && <p><a class="button" href={`/ja/downloads/${product.slug}/`}>{product.name}をダウンロード</a></p>}
+  {hasDownload && <p><ReleaseAvailability slug={product.slug} name={product.name} locale={locale} variant="download" /></p>}
   <RelatedProducts products={relatedProducts} locale={locale} />
 </BaseLayout>

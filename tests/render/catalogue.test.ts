@@ -48,7 +48,8 @@ describe('Audio Instruments catalogue', () => {
     buildSite();
 
     const html = renderedPage('/products');
-    expect(html).toContain('macOS / Linux');
+    expect(html).toContain('data-release-availability="suspended"');
+    expect(html).toContain('Coming soon');
     expect(html).toContain('Collection in development');
     expect(html).toContain('Physical modelling collection in development');
     expect(html).toContain('Standalone material processor / Coming later');
@@ -59,7 +60,8 @@ describe('Audio Instruments catalogue', () => {
     const html = renderedPage('/ja/products');
 
     expect(html).toContain('オーディオ・インストゥルメンツ');
-    expect(html).toContain('macOS / Linux');
+    expect(html).toContain('data-release-availability="suspended"');
+    expect(html).toContain('近日公開');
     expect(html).not.toContain('PRODUCTS');
   });
 }, 30_000);

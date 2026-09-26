@@ -82,6 +82,25 @@ test('an empty Windows platform is omitted', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Windows' })).toHaveCount(0);
 });
 
+test('product availability follows approved downloads', async ({ page }) => {
+  await release(page, 'Mozilla/5.0', false);
+  await page.goto(`${siteUrl}/products/`);
+  await expect(page.locator('[data-release-availability="suspended"]')).toHaveText('macOS / Linux');
+  await page.goto(`${siteUrl}/products/suspended/`);
+  await expect(page.getByRole('link', { name: 'Download Suspended' })).toHaveAttribute('href', '/downloads/suspended/');
+});
+
+test('products remain coming soon without an approved download', async ({ page }) => {
+  const emptyManifest = { ...manifest, assets: [] };
+  const emptyPointer = { ...pointer, manifestSha256: createHash('sha256').update(JSON.stringify(emptyManifest)).digest('hex') };
+  await page.route('https://downloads.studiocucurbits.com/releases/current.json', (route: Route) => route.fulfill({ json: emptyPointer }));
+  await page.route(`https://downloads.studiocucurbits.com/releases/${digest}/manifest.json`, (route: Route) => route.fulfill({ json: emptyManifest }));
+  await page.goto(`${siteUrl}/products/`);
+  await expect(page.locator('[data-release-availability="suspended"]')).toHaveText('Coming soon');
+  await page.goto(`${siteUrl}/products/suspended/`);
+  await expect(page.getByRole('link', { name: 'Download Suspended' })).toHaveCount(0);
+});
+
 test('a broken historical manifest does not hide the current release', async ({ page }) => {
   await release(page, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)', true, true);
   await page.goto(`${siteUrl}/downloads/suspended/`);
