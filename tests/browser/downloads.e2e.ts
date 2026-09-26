@@ -106,6 +106,7 @@ test('download page is responsive and has no serious accessibility violations', 
   await page.goto(`${siteUrl}/downloads/suspended/`);
   await expect(page.locator('[data-download-stage]')).toHaveAttribute('aria-busy', 'false');
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(360);
+  expect(await page.locator('.download-platform-heading img').first().evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
   const results = await new AxeBuilder({ page }).analyze();
   expect(results.violations.filter(({ impact }) => impact === 'serious' || impact === 'critical')).toEqual([]);
 });
