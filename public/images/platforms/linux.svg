@@ -1,6 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-  <ellipse cx="12" cy="13" rx="6" ry="8"/>
-  <circle cx="10" cy="8" r=".7" fill="currentColor" stroke="none"/>
-  <circle cx="14" cy="8" r=".7" fill="currentColor" stroke="none"/>
-  <path d="m10 10 2 1 2-1M8 17c1.2-1 2.5-1.5 4-1.5s2.8.5 4 1.5M6 20l-2 1m14-1 2 1"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Tux circle logo from Wikimedia Commons, CC0-1.0. -->
+  <circle cx="16" cy="16" r="16"/>
+  <g fill="#fff"><circle cx="10.5" cy="12" r="5"/><circle cx="21.5" cy="12" r="5"/></g>
+  <circle cx="13" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>
+  <path fill="#f90" d="M10 18h12l-6 10z"/>
 </svg>
