@@ -143,6 +143,7 @@ h3 { margin: 0; font-size: 1.15rem; line-height: 1.2; letter-spacing: -.01em; }
 .download-primary { display: flex; align-items: center; justify-content: space-between; min-height: 7rem; padding: 1.25rem var(--space); background: var(--ink); color: var(--paper); font-size: clamp(1.6rem, 4vw, 4.5rem); font-weight: 500; line-height: 1; letter-spacing: -.045em; text-decoration: none; }
 .download-primary::after { content: '↓'; }
 .download-version { margin: 1.25rem 0; }
+.download-release > summary { cursor: pointer; }
 .download-alternatives-title { margin-top: clamp(4rem, 9vw, 8rem); }
 .download-release + .download-release { margin-top: clamp(3rem, 7vw, 6rem); }
 .download-platform-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: var(--space); }

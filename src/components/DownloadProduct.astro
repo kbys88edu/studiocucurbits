@@ -44,7 +44,6 @@ if (import.meta.env.MODE === 'development' && slug === 'suspended') {
       return element;
     };
     const detected = detectPlatform(navigator.userAgent);
-    const japanese = root.dataset.locale === 'ja';
     const platforms = [
       ['macos', 'macOS', '/images/platforms/macos.svg'],
       ['windows', 'Windows', '/images/platforms/windows.svg'],
@@ -54,12 +53,13 @@ if (import.meta.env.MODE === 'development' && slug === 'suspended') {
       if (item.platform === 'macos') return `macOS ${item.architecture}`;
       if (item.platform === 'windows') return `Windows ${item.architecture}`;
       if (item.format === 'DEB') return `Linux Debian (${item.architecture})`;
-      return japanese ? `Linux ユニバーサルTarball (${item.architecture})` : `Linux Universal Tarball (${item.architecture})`;
+      return `Linux Universal Tarball (${item.architecture})`;
     };
-    const renderRelease = (release: ProductRelease) => {
-      const section = document.createElement('section');
+    const renderRelease = (release: ProductRelease, open = false) => {
+      const section = document.createElement('details');
       section.className = 'download-release';
-      if (release.version) section.append(add('h3', `${labels.version} ${release.version}`, 'download-version'));
+      section.open = open;
+      if (release.version) section.append(add('summary', `${labels.version} ${release.version}`, 'download-version'));
       const grid = add('div', '', 'download-platform-grid');
       for (const [platform, title, icon] of platforms) {
         const installers = release.installers.filter((item) => item.platform === platform).sort((a, b) => Number(a.format.startsWith('TAR')) - Number(b.format.startsWith('TAR')));
@@ -125,7 +125,7 @@ if (import.meta.env.MODE === 'development' && slug === 'suspended') {
         stage.append(action);
       }
       stage.append(add('h2', labels.alternatives!, 'download-alternatives-title'));
-      stage.append(...releases.map(renderRelease));
+      stage.append(...releases.map((item, index) => renderRelease(item, index === 0)));
     } catch {
       const staging = JSON.parse(root.dataset.stagingInstallers ?? '[]') as Array<{ name: string; url: string; version?: string }>;
       if (staging.length) {
@@ -147,7 +147,7 @@ if (import.meta.env.MODE === 'development' && slug === 'suspended') {
         }
         stage.append(add('h2', labels.alternatives!, 'download-alternatives-title'));
         const versions = [...new Set(installers.map(({ version }) => version))];
-        stage.append(...versions.map((version) => renderRelease({ version, installers: installers.filter((item) => item.version === version) })));
+        stage.append(...versions.map((version, index) => renderRelease({ version, installers: installers.filter((item) => item.version === version) }, index === 0)));
       } else {
         stage.replaceChildren(add('p', labels.unavailable!, 'download-status'));
       }

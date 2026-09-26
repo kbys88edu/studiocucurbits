@@ -45,7 +45,9 @@ test('macOS receives the approved macOS installer and retains Linux choice', asy
   await expect(page.getByRole('heading', { name: 'All installers' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Windows' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Windows x64' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Version 1.1.0' })).toBeVisible();
+  await expect(page.getByText('Version 1.2.3', { exact: true })).toBeVisible();
+  await expect(page.locator('.download-release').first()).toHaveAttribute('open', '');
+  await expect(page.locator('.download-release').nth(1)).not.toHaveAttribute('open', '');
 });
 
 test('Linux receives the approved Linux installer and retains macOS choice', async ({ page }) => {
@@ -105,8 +107,8 @@ test('a broken historical manifest does not hide the current release', async ({ 
   await release(page, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)', true, true);
   await page.goto(`${siteUrl}/downloads/suspended/`);
   await expect(page.getByRole('link', { name: 'Download for macOS' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Version 1.2.3' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Version 1.1.0' })).toHaveCount(0);
+  await expect(page.getByText('Version 1.2.3', { exact: true })).toBeVisible();
+  await expect(page.getByText('Version 1.1.0', { exact: true })).toHaveCount(0);
 });
 
 test('Japanese download actions remain localized', async ({ page }) => {
@@ -114,6 +116,14 @@ test('Japanese download actions remain localized', async ({ page }) => {
   await page.goto(`${siteUrl}/ja/downloads/suspended/`);
   await expect(page.getByRole('link', { name: 'macOS版をダウンロード' })).toBeVisible();
   await expect(page.getByText('for macOS')).toHaveCount(0);
+});
+
+test('Japanese installer names consistently retain Latin Universal', async ({ page }) => {
+  await page.route('https://downloads.studiocucurbits.com/releases/current.json', (route: Route) => route.fulfill({ status: 404 }));
+  await page.goto(`${siteUrl}/ja/downloads/suspended/`);
+  await expect(page.getByRole('link', { name: 'macOS Universal' }).first()).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Linux Universal Tarball (AMD64)' })).toBeVisible();
+  await expect(page.getByText('ユニバーサル')).toHaveCount(0);
 });
 
 test('development preview offers every private staging installer', async ({ page }) => {
@@ -126,7 +136,7 @@ test('development preview offers every private staging installer', async ({ page
   await expect(page.getByRole('link', { name: 'Windows x64' }).first()).toHaveAttribute('href', 'https://staging.example/Suspended.exe');
   await expect(page.locator('.download-release').first().getByRole('heading', { level: 4 }).allTextContents()).resolves.toEqual(['macOS', 'Windows', 'Linux']);
   await expect(page.locator('.download-release').first().locator('.download-platform').last().getByRole('link').allTextContents()).resolves.toEqual(['Linux Debian (AMD64)', 'Linux Universal Tarball (AMD64)']);
-  await expect(page.getByRole('heading', { name: 'Version 1.1.0' })).toBeVisible();
+  await expect(page.getByText('Version 1.1.0', { exact: true })).toBeAttached();
   await expect(page.locator('[data-download-stage]')).toHaveAttribute('aria-busy', 'false');
 });
 
