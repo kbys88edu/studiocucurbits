@@ -72,6 +72,10 @@ Pushes to `main` run `check`, tests, and a production build before deploying `di
 
 For the complete release gate, production-preview route checks, known content constraints, and the current verification record, see [docs/VERIFICATION.md](docs/VERIFICATION.md). Update catalogue content through [docs/CONTENT_GUIDE.md](docs/CONTENT_GUIDE.md), rather than changing generated pages directly.
 
+Download pages are generated for existing product and collection records only when the approved R2 current pointer or its history contains matching customer installers. Names, artwork and descriptions come from those records; no separate download-page registration is needed. An unpublished pointer (404) produces an empty overview; invalid metadata or other fetch failures stop the build rather than remove deployed pages.
+
+On `main`, the Pages workflow checks the release pointer every 15 minutes (subject to GitHub scheduling delays) and rebuilds when it differs from `/download-state.json`. A manual workflow run also rebuilds immediately. This needs no R2 changes or cross-repository token. Build tests use `DOWNLOAD_RELEASE_SNAPSHOT` for offline fixtures; leave it unset for production builds. Development-only staging previews do not create production download pages.
+
 ## Asset migration
 
 Legacy files in `assets/` now live in `public/images/brand/` and `public/images/studio/` with their original filenames. Product UI images belong in `public/images/products/<slug>/`.

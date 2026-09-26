@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    - cron: '7,22,37,52 * * * *'
 
 permissions:
   contents: read
@@ -15,7 +17,30 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  release-check:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.release.outputs.changed }}
+    steps:
+      - id: release
+        uses: actions/github-script@v7
+        with:
+          script: |
+            if (context.eventName !== 'schedule') {
+              core.setOutput('changed', 'true');
+              return;
+            }
+            const { createHash } = require('node:crypto');
+            const pointer = await fetch('https://downloads.studiocucurbits.com/releases/current.json', { cache: 'no-store', signal: AbortSignal.timeout(30000) });
+            if (!pointer.ok && pointer.status !== 404) throw new Error(`Release pointer: ${pointer.status}`);
+            const state = pointer.status === 404 ? 'unpublished' : createHash('sha256').update(await pointer.text()).digest('hex');
+            const deployed = await fetch('https://www.studiocucurbits.com/download-state.json', { cache: 'no-store', signal: AbortSignal.timeout(30000) });
+            if (!deployed.ok && deployed.status !== 404) throw new Error(`Deployed state: ${deployed.status}`);
+            core.setOutput('changed', !deployed.ok || (await deployed.json()).state !== state ? 'true' : 'false');
+
   build:
+    needs: release-check
+    if: needs.release-check.outputs.changed == 'true'
     runs-on: ubuntu-latest
     env:
       # Non-sensitive values live in repository variables; the pre-launch

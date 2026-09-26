@@ -11,8 +11,9 @@ import { downloadProducts } from '../data/downloads';
   </section>
   <section class="section" aria-labelledby="download-products-title">
     <h2 id="download-products-title">Products</h2>
+    {!downloadProducts.length && <p>No downloads are available yet.</p>}
     <div class="download-index">
-      {downloadProducts.map((product) => <a href={`/downloads/${product.slug}/`}><img src={product.image} alt={product.imageAlt.en} width="1200" height="1500" loading="lazy" /><strong>{product.name}</strong><span>{product.summary.en}</span></a>)}
+      {downloadProducts.map((product) => <a href={`/downloads/${product.slug}/`}>{product.image && <img src={product.image} alt={product.imageAlt.en} width="1200" height="1500" loading="lazy" />}<strong>{product.name}</strong><span>{product.summary.en}</span></a>)}
     </div>
   </section>
 </BaseLayout>

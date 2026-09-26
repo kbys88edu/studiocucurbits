@@ -37,6 +37,20 @@ async function release(page: Page, userAgent: string, windows = true, brokenHist
   await page.route(`https://downloads.studiocucurbits.com/releases/${priorDigest}/manifest.json`, (route: Route) => brokenHistory ? route.fulfill({ status: 404 }) : route.fulfill({ json: priorManifest, headers: { 'access-control-allow-origin': '*' } }));
 }
 
+test('an earlier product stays downloadable after a different product is released', async ({ page }) => {
+  await release(page, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)');
+  const nextManifest = { ...manifest, versions: { vitreous: '1.0.0' }, assets: manifest.assets.map((asset) => ({ ...asset, name: asset.name.replace('suspended', 'vitreous'), key: asset.key.replace('suspended', 'vitreous') })) };
+  const nextPointer = { ...pointer, versions: nextManifest.versions, manifestSha256: createHash('sha256').update(JSON.stringify(nextManifest)).digest('hex') };
+  await page.route('https://downloads.studiocucurbits.com/releases/current.json', (route) => route.fulfill({ json: nextPointer }));
+  await page.route(`https://downloads.studiocucurbits.com/releases/${digest}/manifest.json`, (route) => route.fulfill({ json: nextManifest }));
+  await page.goto(`${siteUrl}/products/`);
+  await expect(page.locator('[data-release-availability="suspended"]')).toHaveText('macOS / Linux');
+  await page.goto(`${siteUrl}/products/suspended/`);
+  await page.getByRole('link', { name: 'Download', exact: true }).click();
+  await expect(page.getByRole('link', { name: 'Download for macOS' })).toHaveAttribute('href', new RegExp(priorDigest));
+  await expect(page.getByText('Version 1.1.0', { exact: true })).toBeVisible();
+});
+
 test('macOS receives the approved macOS installer and retains Linux choice', async ({ page }) => {
   await release(page, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)');
   await page.goto(`${siteUrl}/downloads/suspended/`);

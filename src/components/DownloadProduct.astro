@@ -19,7 +19,7 @@ if (import.meta.env.MODE === 'development' && slug === 'suspended') {
     <h1 id="download-title">{ja ? `${name}をダウンロード` : `Download ${name}`}</h1>
     <p class="lead">{ja ? 'デモとライセンス版は同じインストーラーを使用します。アカウントやライセンスは必要ありません。' : 'The demo and licensed version use the same installer. No account or licence is required.'}</p>
   </div>
-  <img src={image} alt={imageAlt} width="1200" height="1500" />
+  {image && <img src={image} alt={imageAlt} width="1200" height="1500" />}
 </section>
 
 <section class="download-stage" aria-live="polite" aria-busy="true" data-download-stage>
@@ -112,10 +112,10 @@ if (import.meta.env.MODE === 'development' && slug === 'suspended') {
       }));
       const releases = uniqueProductReleases([release, ...history.flatMap((result) => result.status === 'fulfilled' ? [result.value] : [])])
         .filter(({ version, installers }) => version && installers.length);
-      const primary = release.installers.find(({ platform }) => platform === detected);
+      const primary = releases[0]?.installers.find(({ platform }) => platform === detected);
 
       stage.replaceChildren();
-      if (!release.installers.length) throw new Error('release unavailable');
+      if (!releases.length) throw new Error('release unavailable');
       if (!primary && labels.unknown) stage.append(add('p', labels.unknown, 'download-status'));
       if (primary) {
         const action = document.createElement('a');
