@@ -51,9 +51,9 @@ const specificationRows = launch.specifications[locale].filter(({ label }) => pr
       <p class="launch-tagline">{content.tagline}</p>
       <p class="lead">{content.description}</p>
       <div class="launch-actions">
+        {downloadProducts.some(({ slug }) => slug === product.slug) && <ReleaseAvailability slug={product.slug} name={product.name} locale={locale} variant="download" />}
         <a class="button product-cta" data-suspended-event="click_notify_suspended" href={hearHref}>{locale === 'ja' ? 'Suspendedを聴く' : 'Hear Suspended'}</a>
         {showNotify && <a class="text-link" data-suspended-event="click_notify_suspended" href="#release-notification">{releaseCta.button}</a>}
-        {downloadProducts.some(({ slug }) => slug === product.slug) && <ReleaseAvailability slug={product.slug} name={product.name} locale={locale} variant="download" />}
       </div>
     </div>
     {product.media.heroImage && <img class="product-hero-image suspended-hero-image" src={product.media.heroImage} alt={interfaceCopy.imageAlt} width="1200" height="1500" loading="eager" decoding="async" />}

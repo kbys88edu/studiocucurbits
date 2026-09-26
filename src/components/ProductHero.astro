@@ -24,6 +24,6 @@ const category = locale === 'ja' ? 'オーディオ・インストゥルメン�
   {editorial.shortDescription && <p class="lead">{editorial.shortDescription}</p>}
   {product.media.heroImage && <img class="product-hero-image" src={product.media.heroImage} alt="" width="2560" height="1440" loading="eager" decoding="async" />}
   <PriceBlock product={product} locale={locale} />
-  <ProductCta product={product} locale={locale} />
   {downloadProducts.some(({ slug }) => slug === product.slug) && <ReleaseAvailability slug={product.slug} name={product.name} locale={locale} variant="download" />}
+  <ProductCta product={product} locale={locale} />
 </section>

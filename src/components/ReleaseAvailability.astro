@@ -2,7 +2,7 @@
 import type { Locale } from '../lib/locale';
 
 interface Props { slug: string; name: string; locale: Locale; variant: 'status' | 'download'; }
-const { slug, name, locale, variant } = Astro.props;
+const { slug, locale, variant } = Astro.props;
 let stagingPlatforms: string[] = [];
 if (import.meta.env.MODE === 'development' && slug === 'suspended') {
   try {
@@ -18,7 +18,7 @@ const ja = locale === 'ja';
 
 {variant === 'status'
   ? <span data-release-availability={slug} data-staging-platforms={stagingPlatforms.join(',')}>{ja ? '近日公開' : 'Coming soon'}</span>
-  : <span data-release-download={slug} data-staging-platforms={stagingPlatforms.join(',')} data-href={`${locale === 'ja' ? '/ja' : ''}/downloads/${slug}/`} data-label={ja ? `${name}をダウンロード` : `Download ${name}`}></span>}
+  : <span data-release-download={slug} data-staging-platforms={stagingPlatforms.join(',')} data-href={`${locale === 'ja' ? '/ja' : ''}/downloads/${slug}/`} data-label={ja ? 'ダウンロード' : 'Download'}></span>}
 
 <script>
   import { currentReleaseUrl, readCurrent, readRelease, releaseManifestUrl, verifyManifestDigest } from '../lib/downloads';

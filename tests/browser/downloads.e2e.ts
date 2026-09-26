@@ -89,7 +89,7 @@ test('product availability follows approved downloads', async ({ page }) => {
   await page.goto(`${siteUrl}/products/`);
   await expect(page.locator('[data-release-availability="suspended"]')).toHaveText('macOS / Linux');
   await page.goto(`${siteUrl}/products/suspended/`);
-  await expect(page.getByRole('link', { name: 'Download Suspended' })).toHaveAttribute('href', '/downloads/suspended/');
+  await expect(page.getByRole('link', { name: 'Download', exact: true })).toHaveAttribute('href', '/downloads/suspended/');
 });
 
 test('products remain coming soon without an approved download', async ({ page }) => {
@@ -100,7 +100,7 @@ test('products remain coming soon without an approved download', async ({ page }
   await page.goto(`${siteUrl}/products/`);
   await expect(page.locator('[data-release-availability="suspended"]')).toHaveText('Coming soon');
   await page.goto(`${siteUrl}/products/suspended/`);
-  await expect(page.getByRole('link', { name: 'Download Suspended' })).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Download', exact: true })).toHaveCount(0);
 });
 
 test('every catalogue row derives its own availability from one shared release request', async ({ page }) => {
