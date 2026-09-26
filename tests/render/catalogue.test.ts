@@ -50,9 +50,9 @@ describe('Audio Instruments catalogue', () => {
     const html = renderedPage('/products');
     expect(html).toContain('data-release-availability="suspended"');
     expect(html).toContain('Coming soon');
-    expect(html).toContain('Collection in development');
-    expect(html).toContain('Physical modelling collection in development');
-    expect(html).toContain('Standalone material processor / Coming later');
+    for (const slug of ['traces', 'tendril', 'vitreous']) {
+      expect(html).toContain(`data-release-availability="${slug}"`);
+    }
     expect(html).not.toContain('href="/collections/traces/"');
   });
 

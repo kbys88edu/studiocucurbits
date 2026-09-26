@@ -103,6 +103,34 @@ test('products remain coming soon without an approved download', async ({ page }
   await expect(page.getByRole('link', { name: 'Download Suspended' })).toHaveCount(0);
 });
 
+test('every catalogue row derives its own availability from one shared release request', async ({ page }) => {
+  const versions = { suspended: '1.2.3', traces: '1.0.0', vitreous: '1.0.0' };
+  const catalogueManifest = { ...manifest, versions, assets: [
+    ...manifest.assets.filter(({ name }) => !name.endsWith('.exe')),
+    { ...manifest.assets[2], name: 'studio-cucurbits-traces-1-x64.exe', key: `releases/${digest}/assets/studio-cucurbits-traces-1-x64.exe` },
+    { ...manifest.assets[0], name: 'Studio-Cucurbits-vitreous-1.pkg', key: `releases/${digest}/assets/Studio-Cucurbits-vitreous-1.pkg` },
+  ] };
+  const cataloguePointer = { ...pointer, versions, manifestSha256: createHash('sha256').update(JSON.stringify(catalogueManifest)).digest('hex') };
+  let pointerRequests = 0;
+  let manifestRequests = 0;
+  await page.route('https://downloads.studiocucurbits.com/releases/current.json', (route: Route) => {
+    pointerRequests++;
+    return route.fulfill({ json: cataloguePointer });
+  });
+  await page.route(`https://downloads.studiocucurbits.com/releases/${digest}/manifest.json`, (route: Route) => {
+    manifestRequests++;
+    return route.fulfill({ json: catalogueManifest });
+  });
+  for (const locale of ['', '/ja']) {
+    await page.goto(`${siteUrl}${locale}/products/`);
+    await expect(page.locator('[data-release-availability]')).toHaveText([
+      'macOS / Linux', 'Windows', locale ? '近日公開' : 'Coming soon', 'macOS',
+    ]);
+  }
+  expect(pointerRequests).toBe(2);
+  expect(manifestRequests).toBe(2);
+});
+
 test('a broken historical manifest does not hide the current release', async ({ page }) => {
   await release(page, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)', true, true);
   await page.goto(`${siteUrl}/downloads/suspended/`);

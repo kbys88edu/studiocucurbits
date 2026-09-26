@@ -24,18 +24,22 @@ const ja = locale === 'ja';
   import { currentReleaseUrl, readCurrent, readRelease, releaseManifestUrl, verifyManifestDigest } from '../lib/downloads';
 
   const platformNames = { macos: 'macOS', windows: 'Windows', linux: 'Linux' } as const;
+  const approvedRelease = (async () => {
+    const pointerResponse = await fetch(currentReleaseUrl, { cache: 'no-store' });
+    if (!pointerResponse.ok) throw new Error('release unavailable');
+    const pointer = readCurrent(await pointerResponse.json());
+    const manifestResponse = await fetch(releaseManifestUrl(pointer));
+    if (!manifestResponse.ok) throw new Error('release unavailable');
+    const text = await manifestResponse.text();
+    await verifyManifestDigest(pointer, text);
+    return { pointer, manifest: JSON.parse(text) };
+  })();
   document.querySelectorAll<HTMLElement>('[data-release-availability], [data-release-download]').forEach(async (root) => {
     let platforms: string[] = [];
     const slug = root.dataset.releaseAvailability ?? root.dataset.releaseDownload!;
     try {
-      const pointerResponse = await fetch(currentReleaseUrl, { cache: 'no-store' });
-      if (!pointerResponse.ok) throw new Error('release unavailable');
-      const pointer = readCurrent(await pointerResponse.json());
-      const manifestResponse = await fetch(releaseManifestUrl(pointer));
-      if (!manifestResponse.ok) throw new Error('release unavailable');
-      const text = await manifestResponse.text();
-      await verifyManifestDigest(pointer, text);
-      platforms = [...new Set(readRelease(pointer, JSON.parse(text), slug).installers.map(({ platform }) => platform))];
+      const { pointer, manifest } = await approvedRelease;
+      platforms = [...new Set(readRelease(pointer, manifest, slug).installers.map(({ platform }) => platform))];
     } catch {
       platforms = root.dataset.stagingPlatforms?.split(',').filter(Boolean) ?? [];
     }

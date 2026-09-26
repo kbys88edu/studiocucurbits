@@ -10,19 +10,12 @@ const canonicalPath = locale === 'ja' ? '/ja/products/' : '/products/';
 const copy = locale === 'ja'
   ? { title: 'オーディオ・インストゥルメンツ | Studio Cucurbits.', description: 'Studio Cucurbits.のオーディオ・インストゥルメンツは、作曲家が設計した楽器とエフェクトです。', eyebrow: 'Studio Cucurbits / オーディオ・インストゥルメンツ', heading: 'オーディオ・インストゥルメンツ', lead: '作曲家が設計した楽器とエフェクト。', development: '公開状況', details: '製品、デモ、ベータ版は準備が整い次第お知らせします。', mailing: '今後の情報を受け取る' }
   : { title: 'PRODUCTS | Studio Cucurbits.', description: 'Artist-designed instruments and effects from Studio Cucurbits.', eyebrow: 'Studio Cucurbits / Products', heading: 'PRODUCTS', lead: 'Artist-designed instruments and effects.', development: 'Release status', details: 'Products, demonstrations, and beta access will be announced when they are ready.', mailing: 'Receive future announcements' };
-const statusRows = locale === 'ja'
-  ? [
-      { name: 'Suspended', status: null, href: localizedPath('/products/suspended/', locale), slug: 'suspended' },
-      { name: 'Traces bundle', status: 'コレクション準備中', href: null },
-      { name: 'Tendril bundle', status: 'フィジカル・モデリング・コレクション準備中', href: null },
-      { name: 'Vitreous', status: '素材プロセッサー / 後日公開', href: null },
-    ]
-  : [
-      { name: 'Suspended', status: null, href: localizedPath('/products/suspended/', locale), slug: 'suspended' },
-      { name: 'Traces bundle', status: 'Collection in development', href: null },
-      { name: 'Tendril bundle', status: 'Physical modelling collection in development', href: null },
-      { name: 'Vitreous', status: 'Standalone material processor / Coming later', href: null },
-    ];
+const statusRows = [
+  { name: 'Suspended', slug: 'suspended', href: localizedPath('/products/suspended/', locale) },
+  { name: 'Traces bundle', slug: 'traces', href: null },
+  { name: 'Tendril bundle', slug: 'tendril', href: null },
+  { name: 'Vitreous', slug: 'vitreous', href: null },
+];
 ---
 
 <BaseLayout
@@ -45,7 +38,7 @@ const statusRows = locale === 'ja'
     <h2 id="development-title">{copy.development}</h2>
     <p class="lead">{copy.details}</p>
     <div class="catalogue-status" aria-label={copy.development}>
-      {statusRows.map((row) => <div class="catalogue-status-row"><h3>{row.href ? <a href={row.href}>{row.name}</a> : row.name}</h3><p>{'slug' in row ? <ReleaseAvailability slug={row.slug!} name={row.name} locale={locale} variant="status" /> : row.status}</p></div>)}
+      {statusRows.map((row) => <div class="catalogue-status-row"><h3>{row.href ? <a href={row.href}>{row.name}</a> : row.name}</h3><p><ReleaseAvailability slug={row.slug} name={row.name} locale={locale} variant="status" /></p></div>)}
     </div>
     <div class="product-overview-newsletter">
       <p class="eyebrow">{copy.mailing}</p>
