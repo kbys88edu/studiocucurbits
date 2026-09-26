@@ -3,6 +3,7 @@ export const en = {
     studio: 'Home',
     work: 'Work',
     audioInstruments: 'Products',
+    downloads: 'Downloads',
     about: 'About',
     support: 'Support',
   },

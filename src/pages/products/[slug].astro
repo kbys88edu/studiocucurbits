@@ -3,6 +3,7 @@ import ProductDetails from '../../components/ProductDetails.astro';
 import ProductHero from '../../components/ProductHero.astro';
 import ProductLaunch from '../../components/ProductLaunch.astro';
 import RelatedProducts from '../../components/RelatedProducts.astro';
+import { downloadProducts } from '../../data/downloads';
 import { getProductBySlug, isVisibleProduct, products } from '../../data/products';
 import { getLocale } from '../../lib/locale';
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -22,6 +23,7 @@ const relatedProducts = product.relatedProductSlugs
   .filter((related): related is NonNullable<typeof related> => Boolean(related && isVisibleProduct(related)))
   .slice(0, 3);
 const editorial = product.editorial[locale].shortDescription ? product.editorial[locale] : product.editorial.en;
+const hasDownload = downloadProducts.some(({ slug }) => slug === product.slug);
 ---
 
 <BaseLayout
@@ -36,5 +38,6 @@ const editorial = product.editorial[locale].shortDescription ? product.editorial
     <ProductHero product={product} locale={locale} />
     <ProductDetails product={product} locale={locale} />
   </>}
+  {hasDownload && <p><a class="button" href={`/downloads/${product.slug}/`}>Download {product.name}</a></p>}
   <RelatedProducts products={relatedProducts} locale={locale} />
 </BaseLayout>

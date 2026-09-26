@@ -47,14 +47,14 @@ if (import.meta.env.MODE === 'development' && slug === 'suspended') {
     const japanese = root.dataset.locale === 'ja';
     const platforms = [
       ['macos', 'macOS', '/images/platforms/macos.svg'],
-      ['linux', 'Linux', '/images/platforms/linux.svg'],
       ['windows', 'Windows', '/images/platforms/windows.svg'],
+      ['linux', 'Linux', '/images/platforms/linux.svg'],
     ] as const;
     const installerName = (item: Installer) => {
-      if (item.platform === 'macos') return japanese ? `macOS ユニバーサル — ${item.format}インストーラー` : `macOS ${item.architecture} — ${item.format} installer`;
-      if (item.platform === 'windows') return japanese ? `Windows ${item.architecture} — ${item.format}インストーラー` : `Windows ${item.architecture} — ${item.format} installer`;
-      if (item.format === 'DEB') return japanese ? `Linux Debian/Ubuntu (${item.architecture}) — DEBパッケージ` : `Linux Debian/Ubuntu (${item.architecture}) — DEB package`;
-      return japanese ? `Linux ユニバーサル (${item.architecture}) — ${item.format}アーカイブ` : `Linux Universal (${item.architecture}) — ${item.format} archive`;
+      if (item.platform === 'macos') return `macOS ${item.architecture}`;
+      if (item.platform === 'windows') return `Windows ${item.architecture}`;
+      if (item.format === 'DEB') return `Linux Debian (${item.architecture})`;
+      return japanese ? `Linux ユニバーサルTarball (${item.architecture})` : `Linux Universal Tarball (${item.architecture})`;
     };
     const renderRelease = (release: ProductRelease) => {
       const section = document.createElement('section');
@@ -62,7 +62,7 @@ if (import.meta.env.MODE === 'development' && slug === 'suspended') {
       if (release.version) section.append(add('h3', `${labels.version} ${release.version}`, 'download-version'));
       const grid = add('div', '', 'download-platform-grid');
       for (const [platform, title, icon] of platforms) {
-        const installers = release.installers.filter((item) => item.platform === platform);
+        const installers = release.installers.filter((item) => item.platform === platform).sort((a, b) => Number(a.format.startsWith('TAR')) - Number(b.format.startsWith('TAR')));
         if (!installers.length) continue;
         const column = add('section', '', 'download-platform');
         const heading = add('h4', '', 'download-platform-heading');

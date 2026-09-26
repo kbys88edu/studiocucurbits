@@ -17,6 +17,7 @@ describe('global navigation', () => {
     expect(html).toContain('Products');
     expect(html).toContain('View Suspended');
     expect(html).toContain('href="/about/"');
+    expect(html).toContain('href="/downloads/"');
     expect(html).toContain('src="/images/brand/studio_cucurbits_logo_vector.svg"');
     expect(html).toContain('alt=""');
     expect(html).not.toContain('Buy now');

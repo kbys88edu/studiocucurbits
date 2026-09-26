@@ -41,10 +41,10 @@ test('macOS receives the approved macOS installer and retains Linux choice', asy
   await release(page, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)');
   await page.goto(`${siteUrl}/downloads/suspended/`);
   await expect(page.getByRole('link', { name: 'Download for macOS' })).toHaveAttribute('href', /\.pkg$/);
-  await expect(page.getByRole('link', { name: 'Linux Debian/Ubuntu (AMD64) — DEB package' }).first()).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Linux Debian (AMD64)' }).first()).toBeVisible();
   await expect(page.getByRole('heading', { name: 'All installers' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Windows' })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Windows x64 — EXE installer' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Windows x64' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Version 1.1.0' })).toBeVisible();
 });
 
@@ -52,7 +52,7 @@ test('Linux receives the approved Linux installer and retains macOS choice', asy
   await release(page, 'Mozilla/5.0 (X11; Linux x86_64)');
   await page.goto(`${siteUrl}/downloads/suspended/`);
   await expect(page.getByRole('link', { name: 'Download for Linux' })).toHaveAttribute('href', /\.deb$/);
-  await expect(page.getByRole('link', { name: 'macOS Universal — PKG installer' }).first()).toBeVisible();
+  await expect(page.getByRole('link', { name: 'macOS Universal' }).first()).toBeVisible();
 });
 
 test('unknown systems receive a neutral choice instead of an installer guess', async ({ page }) => {
@@ -102,9 +102,11 @@ test('development preview offers every private staging installer', async ({ page
   await page.route('https://downloads.studiocucurbits.com/releases/current.json', (route: Route) => route.fulfill({ status: 404 }));
   await page.goto(`${siteUrl}/downloads/suspended/`);
   await expect(page.getByRole('link', { name: 'Download staging build for Linux' })).toHaveAttribute('href', 'https://staging.example/Suspended.deb');
-  await expect(page.getByRole('link', { name: 'macOS Universal — PKG installer' }).first()).toHaveAttribute('href', 'https://staging.example/Suspended.pkg');
-  await expect(page.getByRole('link', { name: 'Linux Universal (AMD64) — TAR.ZST archive' })).toHaveAttribute('href', 'https://staging.example/Suspended.tar.zst');
-  await expect(page.getByRole('link', { name: 'Windows x64 — EXE installer' }).first()).toHaveAttribute('href', 'https://staging.example/Suspended.exe');
+  await expect(page.getByRole('link', { name: 'macOS Universal' }).first()).toHaveAttribute('href', 'https://staging.example/Suspended.pkg');
+  await expect(page.getByRole('link', { name: 'Linux Universal Tarball (AMD64)' })).toHaveAttribute('href', 'https://staging.example/Suspended.tar.zst');
+  await expect(page.getByRole('link', { name: 'Windows x64' }).first()).toHaveAttribute('href', 'https://staging.example/Suspended.exe');
+  await expect(page.locator('.download-release').first().getByRole('heading', { level: 4 }).allTextContents()).resolves.toEqual(['macOS', 'Windows', 'Linux']);
+  await expect(page.locator('.download-release').first().locator('.download-platform').last().getByRole('link').allTextContents()).resolves.toEqual(['Linux Debian (AMD64)', 'Linux Universal Tarball (AMD64)']);
   await expect(page.getByRole('heading', { name: 'Version 1.1.0' })).toBeVisible();
   await expect(page.locator('[data-download-stage]')).toHaveAttribute('aria-busy', 'false');
 });

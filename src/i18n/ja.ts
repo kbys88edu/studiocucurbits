@@ -3,6 +3,7 @@ export const ja = {
     studio: 'ホーム',
     work: '作品',
     audioInstruments: 'オーディオ・インストゥルメンツ',
+    downloads: 'ダウンロード',
     about: '概要',
     support: 'サポート',
   },
