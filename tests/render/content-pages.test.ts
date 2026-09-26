@@ -8,7 +8,7 @@ const root = fileURLToPath(new URL('../..', import.meta.url));
 function buildSite() {
   const command = process.platform === 'win32' ? 'cmd.exe' : 'npm';
   const args = process.platform === 'win32' ? ['/d', '/s', '/c', 'npm run build'] : ['run', 'build'];
-  execFileSync(command, args, { cwd: root, stdio: 'pipe' });
+  execFileSync(command, args, { cwd: root, stdio: 'pipe', env: { ...process.env, SUSPENDED_STAGING_INSTALLERS: '[{"name":"Suspended.deb","url":"https://staging.example/Suspended.deb"}]' } });
 }
 
 function renderedPage(path: string) {
@@ -23,6 +23,19 @@ describe('support, legal, and pre-launch routes', () => {
     for (const route of ['/support', '/downloads', '/license', '/privacy', '/terms', '/refund', '/business', '/coming-soon', '/beta', '/press', '/ja/support', '/ja/downloads', '/ja/license', '/ja/privacy', '/ja/terms', '/ja/refund', '/ja/business', '/ja/coming-soon', '/ja/beta', '/ja/press']) {
       expect(renderedPage(route)).not.toBe('');
     }
+  });
+
+  it('generates the download overview and product template in both locales', () => {
+    for (const route of ['/downloads', '/downloads/suspended', '/ja/downloads', '/ja/downloads/suspended']) {
+      expect(renderedPage(route), route).not.toBe('');
+    }
+
+    expect(renderedPage('/downloads')).toContain('/downloads/suspended/');
+    expect(renderedPage('/downloads')).toContain('/images/products/website/individual/traces_suspended.png');
+    expect(renderedPage('/downloads/suspended')).toContain('Download Suspended');
+    expect(renderedPage('/downloads/suspended')).toContain('Suspended interface artwork');
+    expect(renderedPage('/downloads/suspended')).not.toContain('staging.example');
+    expect(renderedPage('/ja/downloads/suspended')).toContain('Suspendedをダウンロード');
   });
 
   it('states final terms rather than a draft placeholder', () => {

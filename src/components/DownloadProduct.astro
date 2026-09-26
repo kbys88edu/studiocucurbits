@@ -1,0 +1,148 @@
+---
+import { currentReleaseUrl } from '../lib/downloads';
+
+interface Props { locale: 'en' | 'ja'; slug: string; name: string; image: string; imageAlt: string; }
+const { locale, slug, name, image, imageAlt } = Astro.props;
+const ja = locale === 'ja';
+let stagingInstallers: Array<{ name: string; url: string }> = [];
+if (import.meta.env.MODE === 'development' && slug === 'suspended') {
+  try {
+    const value = JSON.parse(import.meta.env.SUSPENDED_STAGING_INSTALLERS ?? '[]');
+    if (Array.isArray(value)) stagingInstallers = value.filter((item) => item && typeof item.name === 'string' && /^[\w.-]+$/.test(item.name) && /\.(pkg|deb|tar\.zst|exe|msi)$/.test(item.name) && item.name.toLowerCase().includes('suspended') && typeof item.url === 'string' && item.url.startsWith('https://'));
+  } catch {}
+}
+---
+
+<section class="download-product download-product-intro page-intro" data-download-product={slug} data-locale={locale} data-pointer={currentReleaseUrl} data-staging-installers={stagingInstallers.length ? JSON.stringify(stagingInstallers) : undefined} aria-labelledby="download-title">
+  <div>
+    <p class="eyebrow">{ja ? 'オーディオ・インストゥルメンツ' : 'Audio Instruments'}</p>
+    <h1 id="download-title">{ja ? `${name}をダウンロード` : `Download ${name}`}</h1>
+    <p class="lead">{ja ? 'デモとライセンス版は同じインストーラーを使用します。アカウントやライセンスは必要ありません。' : 'The demo and licensed version use the same installer. No account or licence is required.'}</p>
+  </div>
+  <img src={image} alt={imageAlt} width="1200" height="1500" />
+</section>
+
+<section class="download-stage" aria-live="polite" aria-busy="true" data-download-stage>
+  <p class="download-status">{ja ? '承認済みリリースを確認しています…' : 'Checking the approved release…'}</p>
+</section>
+
+<template data-download-copy data-primary-macos={ja ? 'macOS版をダウンロード' : 'Download for macOS'} data-primary-windows={ja ? 'Windows版をダウンロード' : 'Download for Windows'} data-primary-linux={ja ? 'Linux版をダウンロード' : 'Download for Linux'} data-staging-macos={ja ? 'macOS用ステージングビルドをダウンロード' : 'Download staging build for macOS'} data-staging-windows={ja ? 'Windows用ステージングビルドをダウンロード' : 'Download staging build for Windows'} data-staging-linux={ja ? 'Linux用ステージングビルドをダウンロード' : 'Download staging build for Linux'} data-alternatives={ja ? 'すべてのインストーラー' : 'All installers'} data-version={ja ? 'バージョン' : 'Version'} data-platform={ja ? 'プラットフォーム' : 'Platform'} data-architecture={ja ? 'アーキテクチャ' : 'Architecture'} data-size={ja ? 'ファイルサイズ' : 'File size'} data-integrity={ja ? 'SHA-256整合性' : 'SHA-256 integrity'} data-unavailable={ja ? `現在、承認済みの${name}インストーラーはありません。公開後にもう一度ご確認ください。` : `No approved ${name} installer is currently available. Check again after release.`} data-unknown={ja ? 'お使いのシステムを判別できませんでした。以下からインストーラーを選択してください。' : 'We could not identify your system. Choose an installer below.'}></template>
+
+<script>
+  import { detectPlatform, readCurrent, readRelease, releaseManifestUrl, uniqueProductReleases, verifyManifestDigest, type Installer, type ProductRelease } from '../lib/downloads';
+
+  const root = document.querySelector<HTMLElement>('[data-download-product]');
+  const stage = document.querySelector<HTMLElement>('[data-download-stage]');
+  const copy = document.querySelector<HTMLTemplateElement>('[data-download-copy]');
+
+  if (root && stage && copy) {
+    const labels = copy.dataset;
+    const add = (tag: string, text: string, className?: string) => {
+      const element = document.createElement(tag);
+      element.textContent = text;
+      if (className) element.className = className;
+      return element;
+    };
+    const detected = detectPlatform(navigator.userAgent);
+    const platforms = [
+      ['macos', 'macOS', '/images/platforms/macos.svg'],
+      ['linux', 'Linux', '/images/platforms/linux.svg'],
+      ['windows', 'Windows', '/images/platforms/windows.svg'],
+    ] as const;
+    const renderRelease = (release: ProductRelease) => {
+      const section = document.createElement('section');
+      section.className = 'download-release';
+      if (release.version) section.append(add('h3', `${labels.version} ${release.version}`, 'download-version'));
+      const grid = add('div', '', 'download-platform-grid');
+      for (const [platform, title, icon] of platforms) {
+        const installers = release.installers.filter((item) => item.platform === platform);
+        if (!installers.length) continue;
+        const column = add('section', '', 'download-platform');
+        const heading = add('h4', '', 'download-platform-heading');
+        const image = document.createElement('img');
+        image.src = icon;
+        image.alt = '';
+        heading.append(image, title);
+        column.append(heading);
+        for (const item of installers) {
+          const article = document.createElement('article');
+          const link = document.createElement('a');
+          link.href = item.url;
+          link.textContent = `${title} ${item.format}`;
+          article.append(link);
+          if (item.size && item.sha256) {
+            const facts = add('dl', '', 'download-facts');
+            for (const [label, value] of [[labels.platform, title], [labels.architecture, item.architecture], [labels.size, item.size], [labels.integrity, item.sha256]]) {
+              const row = document.createElement('div');
+              row.append(add('dt', label!), add('dd', value ?? ''));
+              facts.append(row);
+            }
+            article.append(facts);
+          }
+          column.append(article);
+        }
+        grid.append(column);
+      }
+      section.append(grid);
+      return section;
+    };
+
+    try {
+      const pointerResponse = await fetch(root.dataset.pointer!, { cache: 'no-store' });
+      if (!pointerResponse.ok) throw new Error('release unavailable');
+      const pointer = readCurrent(await pointerResponse.json());
+      const manifestResponse = await fetch(releaseManifestUrl(pointer));
+      if (!manifestResponse.ok) throw new Error('release unavailable');
+      const manifestText = await manifestResponse.text();
+      await verifyManifestDigest(pointer, manifestText);
+      const release = readRelease(pointer, JSON.parse(manifestText), root.dataset.downloadProduct!);
+      const history = await Promise.allSettled(pointer.history.map(async (entry) => {
+        const response = await fetch(releaseManifestUrl(entry));
+        if (!response.ok) throw new Error('release unavailable');
+        const text = await response.text();
+        await verifyManifestDigest(entry, text);
+        return readRelease(entry, JSON.parse(text), root.dataset.downloadProduct!);
+      }));
+      const releases = uniqueProductReleases([release, ...history.flatMap((result) => result.status === 'fulfilled' ? [result.value] : [])])
+        .filter(({ version, installers }) => version && installers.length);
+      const primary = release.installers.find(({ platform }) => platform === detected);
+
+      stage.replaceChildren();
+      if (!release.installers.length) throw new Error('release unavailable');
+      if (!primary && labels.unknown) stage.append(add('p', labels.unknown, 'download-status'));
+      if (primary) {
+        const action = document.createElement('a');
+        action.className = 'download-primary';
+        action.href = primary.url;
+        action.textContent = labels[`primary${primary.platform[0].toUpperCase()}${primary.platform.slice(1)}` as keyof DOMStringMap]!;
+        stage.append(action);
+      }
+      stage.append(add('h2', labels.alternatives!, 'download-alternatives-title'));
+      stage.append(...releases.map(renderRelease));
+    } catch {
+      const staging = JSON.parse(root.dataset.stagingInstallers ?? '[]') as Array<{ name: string; url: string }>;
+      if (staging.length) {
+        const installers: Installer[] = staging.map((item) => ({ ...item,
+          platform: item.name.endsWith('.pkg') ? 'macos' : item.name.endsWith('.exe') || item.name.endsWith('.msi') ? 'windows' : 'linux',
+          format: item.name.endsWith('.tar.zst') ? 'TAR.ZST' : item.name.split('.').pop()!.toUpperCase(),
+          architecture: /arm64|aarch64/i.test(item.name) ? 'ARM64' : item.name.endsWith('.pkg') ? 'Universal' : item.name.endsWith('.exe') || item.name.endsWith('.msi') ? 'x64' : 'x86-64', size: '', sha256: '' }));
+        const primary = detected === 'linux' ? installers.find(({ platform, format }) => platform === 'linux' && format === 'DEB') : installers.find(({ platform }) => platform === detected);
+        stage.replaceChildren();
+        if (!primary && labels.unknown) stage.append(add('p', labels.unknown, 'download-status'));
+        if (primary) {
+          const action = document.createElement('a');
+          action.className = 'download-primary';
+          action.href = primary.url;
+          action.textContent = labels[`staging${primary.platform[0].toUpperCase()}${primary.platform.slice(1)}` as keyof DOMStringMap]!;
+          stage.append(action);
+        }
+        stage.append(add('h2', labels.alternatives!, 'download-alternatives-title'));
+        stage.append(renderRelease({ version: null, installers }));
+      } else {
+        stage.replaceChildren(add('p', labels.unavailable!, 'download-status'));
+      }
+    } finally {
+      stage.setAttribute('aria-busy', 'false');
+    }
+  }
+</script>

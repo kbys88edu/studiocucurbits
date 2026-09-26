@@ -17,6 +17,12 @@ export default defineConfig({
     {
       command: 'npm run dev -- --host 127.0.0.1 --port 49284 --ignore-lock',
       url: 'http://127.0.0.1:49284/',
+      env: { SUSPENDED_STAGING_INSTALLERS: JSON.stringify([
+        { name: 'Studio-Cucurbits-suspended-1.pkg', url: 'https://staging.example/Suspended.pkg' },
+        { name: 'studio-cucurbits-suspended_1_amd64.deb', url: 'https://staging.example/Suspended.deb' },
+        { name: 'studio-cucurbits-suspended-1-1.tar.zst', url: 'https://staging.example/Suspended.tar.zst' },
+        { name: 'studio-cucurbits-suspended-1-x64.exe', url: 'https://staging.example/Suspended.exe' },
+      ]) },
       reuseExistingServer: !process.env.CI,
     },
   ],
