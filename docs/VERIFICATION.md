@@ -1,5 +1,28 @@
 # Release verification
 
+## OP191 close-out / API binding — 27 September 2026
+
+- Owner instructed completion of executable integration work and transfer of
+  genuinely blocked acceptance to follow-up #198. #197 confirms no remaining
+  blocker for the accepted production online/offline/reconciliation API; its
+  email recovery and installer work are separate.
+- Exact production API and website-origin CORS verified (health200, OPTIONS204).
+  Website build now binds all four EN/JA recovery/offline pages to that API;
+  exact data-base/CSP and continued absence of Buy actions/checkout verified.
+- A fresh run with the production variable exposed an environment-dependent
+  test: the unconfigured-API test inherited deployment configuration. Its fixture
+  now explicitly clears that variable. Full verify91pass/4existing skips,
+  50pages,0errors/warnings/2existing hints; licensing browser5/5. Production
+  output rebuilt after fixture browser tests. No policy/source-mirror change.
+- Deploy with LICENSING_API_BASE set to the accepted production endpoint; CI
+  checkout remains disabled. No backend PortalBaseUrl, IAM, grant/code or
+  fixture change. Browser form availability is not email-delivery acceptance.
+- Fresh ordinary SCProduction checks deny ses:GetAccount and
+  ses:GetEmailIdentity for test@fnab.xyz. Do not bypass that boundary. Inbox/link
+  confirmation, coordinated mail-link switch, approved live payment/refund and
+  public-download verification remain explicitly in #198/#197/#196. No claim
+  of full-release readiness or real production purchase acceptance is made.
+
 ## OP191 approved publication — 27 September 2026
 
 - Frederik Bous approved deployment after reviewing the local website and the

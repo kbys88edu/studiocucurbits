@@ -8,7 +8,7 @@ const root = fileURLToPath(new URL('../..', import.meta.url));
 function buildSite() {
   const command = process.platform === 'win32' ? 'cmd.exe' : 'npm';
   const args = process.platform === 'win32' ? ['/d', '/s', '/c', 'npm run build'] : ['run', 'build'];
-  execFileSync(command, args, { cwd: root, stdio: 'pipe', env: { ...process.env, SUSPENDED_STAGING_INSTALLERS: '[{"name":"Suspended.deb","url":"https://staging.example/Suspended.deb"}]' } });
+  execFileSync(command, args, { cwd: root, stdio: 'pipe', env: { ...process.env, LICENSING_API_BASE: '', SUSPENDED_STAGING_INSTALLERS: '[{"name":"Suspended.deb","url":"https://staging.example/Suspended.deb"}]' } });
 }
 
 function renderedPage(path: string) {
