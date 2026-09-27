@@ -5,15 +5,53 @@ import { localizedPath } from '../lib/locale';
 const { locale } = Astro.props as { locale: Locale };
 const ja = locale === 'ja';
 ---
-<div data-paddle-checkout data-paddle-token={suspendedCheckout.token}
+<section class="purchase-checkout" aria-labelledby="checkout-title" data-paddle-checkout data-paddle-token={suspendedCheckout.token}
   data-paddle-price={suspendedCheckout.priceId} data-paddle-sandbox={String(suspendedCheckout.sandbox)}
   data-paddle-success="https://www.studiocucurbits.com/downloads/suspended/"
   data-loading={ja ? '決済画面を開いています…' : 'Opening secure checkout…'}
   data-error={ja ? '決済画面を開けませんでした。もう一度お試しいただくか、サポートへご連絡ください。' : 'Checkout could not be opened. Please try again or contact support.'}
   data-payment-error={ja ? 'お支払いが完了しませんでした。決済画面をご確認ください。' : 'Payment did not complete. Check the payment details in checkout.'}>
-  <p data-checkout-status role="status" aria-live="polite"></p>
-  <noscript><p>{ja ? '決済にはJavaScriptを有効にしてください。' : 'Enable JavaScript to open secure checkout.'} <a href={localizedPath('/support/', locale)}>{ja ? 'サポート' : 'Contact support'}</a></p></noscript>
-</div>
+  <div class="checkout-summary">
+    {suspendedCheckout.sandbox && <p data-checkout-sandbox role="note">{ja ? 'サンドボックス — テスト購入専用。実際の支払いは発生しません。' : 'Sandbox — test purchases only. No real payment is taken.'}</p>}
+    <h1 id="checkout-title">{ja ? 'Suspendedを購入' : 'Purchase Suspended'}</h1>
+    <p class="lead">{ja ? 'グラニュラー・オーディオ・エフェクト' : 'Granular audio effect'}</p>
+    <p>{ja ? 'ライセンス1点。買い切り・自動更新なし。お一人で最大3台のコンピューターに認証できます。' : 'One licence. A one-time payment, with no subscription. For one person on up to three active computers.'}</p>
+    <dl class="checkout-totals" aria-live="polite" aria-atomic="true">
+      <div><dt>{ja ? '小計' : 'Subtotal'}</dt><dd data-checkout-subtotal>—</dd></div>
+      <div><dt>{ja ? '割引' : 'Discount'}</dt><dd data-checkout-discount>—</dd></div>
+      <div><dt>{ja ? '税' : 'Tax'}</dt><dd data-checkout-tax>—</dd></div>
+      <div><dt>{ja ? 'クレジット' : 'Credit'}</dt><dd data-checkout-credit>—</dd></div>
+      <div class="checkout-grand-total"><dt>{ja ? 'お支払い額' : 'Total due'}</dt><dd data-checkout-total>—</dd></div>
+    </dl>
+    <p>{ja ? '通貨と税額はPaddleが計算します。支払前に最終金額をご確認ください。' : 'Paddle calculates your currency and tax. Review the final total before paying.'}</p>
+    <p>{ja ? 'Paddleが販売・決済を処理します。支払い完了後はSuspendedのダウンロードページへ移動します。ライセンスの設定用リンクはメールで届きます。' : 'Paddle is the merchant of record and handles payment. After payment, you will go to the Suspended download page. Your licence setup link arrives by email.'}</p>
+    <p><a href={localizedPath('/refund/', locale)}>{ja ? '返金ポリシー' : 'Refund policy'}</a> · <a href={localizedPath('/license/', locale)}>{ja ? 'ライセンス条件' : 'Licence terms'}</a> · <a href={localizedPath('/privacy/', locale)}>{ja ? 'プライバシー' : 'Privacy'}</a></p>
+    <a href={localizedPath('/products/suspended/', locale)}>{ja ? 'Suspendedに戻る' : 'Back to Suspended'}</a>
+  </div>
+  <div class="checkout-payment">
+    <h2>{ja ? '安全な決済' : 'Secure checkout'}</h2>
+    <p data-checkout-status role="status" aria-live="polite"></p>
+    <button class="button" data-checkout-retry type="button" hidden>{ja ? 'もう一度試す' : 'Try checkout again'}</button>
+    <div class="paddle-checkout-frame"></div>
+    <noscript><p>{ja ? '決済にはJavaScriptを有効にしてください。' : 'Enable JavaScript to open secure checkout.'}</p></noscript>
+    <p><a href={localizedPath('/support/', locale)}>{ja ? 'サポート' : 'Contact support'}</a></p>
+  </div>
+</section>
+<style>
+  .purchase-checkout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(312px, 1fr); gap: clamp(2rem, 6vw, 6rem); padding-block: clamp(2rem, 6vw, 6rem); }
+  .checkout-summary { max-width: 38rem; }
+  h1 { margin: 0 0 1.5rem; font-size: clamp(2.6rem, 5.2vw, 6rem); line-height: .95; letter-spacing: -.045em; }
+  h2 { font-size: clamp(1.8rem, 3vw, 2.6rem); }
+  .checkout-payment { min-width: 0; }
+  .checkout-totals { border-block: 1px solid var(--ink); padding-block: .75rem; }
+  .checkout-totals > div { display: flex; justify-content: space-between; gap: 1rem; padding-block: .4rem; }
+  dd { margin: 0; text-align: right; }
+  .checkout-grand-total { border-top: 1px solid var(--rule); margin-top: .75rem; font-size: 1.5rem; font-weight: 500; }
+  button { font: inherit; cursor: pointer; border: 0; }
+  [hidden] { display: none; }
+  @media (max-width: 48rem) { .purchase-checkout { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 359px) { .paddle-checkout-frame { margin-inline: -1rem; } }
+</style>
 <script>
   import '../scripts/checkout';
 </script>

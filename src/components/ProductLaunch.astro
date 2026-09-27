@@ -8,7 +8,6 @@ import AudioComparison from './AudioComparison.astro';
 import NewsletterForm from './NewsletterForm.astro';
 import VideoSlot from './VideoSlot.astro';
 import ReleaseAvailability from './ReleaseAvailability.astro';
-import PaddleCheckout from './PaddleCheckout.astro';
 
 interface Props {
   product: Product;
@@ -25,7 +24,7 @@ const concept = launch.concept[locale];
 const interfaceCopy = launch.interface[locale];
 const notesPath = locale === 'ja' ? `/ja/products/${product.slug}/notes/` : `/products/${product.slug}/notes/`;
 const announcement = launch.releaseAnnouncement[locale];
-const { isReleased, canBuy, checkoutUrl, currency, introAmount, regularAmount, showIntroPrice, showRegularPrice, showNotify } = getLaunchRelease(launch, locale);
+const { isReleased, canBuy, currency, introAmount, regularAmount, showIntroPrice, showRegularPrice, showNotify } = getLaunchRelease(launch, locale);
 const statusLabel = isReleased
   ? (locale === 'ja' ? '販売中' : 'AVAILABLE')
   : 'PRE-RELEASE';
@@ -56,7 +55,7 @@ const purchasePath = localizedPath('/purchase/', locale);
       <p class="launch-tagline">{content.tagline}</p>
       <p class="lead">{content.description}</p>
       <div class="launch-actions">
-        {canBuy && <a class="button product-cta" data-suspended-event="click_suspended_buy" href={checkoutUrl}>{sandboxPreview ? (locale === 'ja' ? 'テスト購入' : 'Test purchase') : announcement.buy}</a>}
+        {canBuy && <a class="button product-cta" data-suspended-event="click_suspended_buy" href={purchasePath}>{sandboxPreview ? (locale === 'ja' ? 'テスト購入' : 'Test purchase') : announcement.buy}</a>}
         {downloadProducts.some(({ slug }) => slug === product.slug)
           ? <ReleaseAvailability slug={product.slug} name={product.name} locale={locale} variant="download" />
           : <a class="text-link" href={downloadsPath}>{locale === 'ja' ? 'ダウンロードを見る' : 'View downloads'}</a>}
@@ -140,7 +139,7 @@ const purchasePath = localizedPath('/purchase/', locale);
         )}
         <p class="launch-platforms">{product.supportedFormats.join(' / ')} — {product.supportedPlatforms.join(' / ')}</p>
         <p>{locale === 'ja' ? '基準価格は米ドルです。Paddleが対応する現地通貨で換算価格と適用税を表示します。支払前に最終金額をご確認ください。' : 'Base price in USD. Paddle shows the converted price in supported local currencies and any applicable tax. Check the final total before paying.'}</p>
-        <a class="button product-cta" data-suspended-event="click_suspended_buy" href={checkoutUrl}>{sandboxPreview ? (locale === 'ja' ? 'テスト購入' : 'Test purchase') : announcement.buy}</a>
+        <a class="button product-cta" data-suspended-event="click_suspended_buy" href={purchasePath}>{sandboxPreview ? (locale === 'ja' ? 'テスト購入' : 'Test purchase') : announcement.buy}</a>
         {showIntroPrice && <p>{announcement.introNote}</p>}
         <p>{locale === 'ja' ? 'お一人分のライセンスで、ご自身のコンピューター最大3台で利用できます。初期設定用リンクは、ライセンスアカウントに保持している最初の決済時のメールアドレスに届きます。' : 'One licence for one person, on up to three active computers. Initial setup uses the first checkout email retained for your licence account.'}</p>
       </>
@@ -150,8 +149,6 @@ const purchasePath = localizedPath('/purchase/', locale);
     <a class="text-link" data-suspended-event="open_suspended_support" href={supportPath}>{releaseCta.support}</a>
   </section>
 </section>
-
-{canBuy && <PaddleCheckout locale={locale} />}
 
 <script>
   import { trackEvent } from '../lib/analytics';

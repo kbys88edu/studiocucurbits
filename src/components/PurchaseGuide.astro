@@ -1,16 +1,21 @@
 ---
 import type { Locale } from '../lib/locale';
 import { localizedPath } from '../lib/locale';
+import { getProductBySlug } from '../data/products';
+import { getLaunchRelease } from '../lib/product';
+import PaddleCheckout from './PaddleCheckout.astro';
 const { locale } = Astro.props as { locale: Locale };
 const ja = locale === 'ja';
+const launch = getProductBySlug('suspended')!.launch!;
+const canBuy = getLaunchRelease(launch, locale).canBuy;
 ---
 
-<section class="page-intro" aria-labelledby="purchase-title">
+{canBuy ? <PaddleCheckout locale={locale} /> : <section class="page-intro" aria-labelledby="purchase-title">
   <p class="eyebrow">{ja ? 'ライセンス' : 'YOUR LICENCE'}</p>
   <h1 id="purchase-title">{ja ? 'ダウンロードからライセンス認証まで' : 'From download to activation'}</h1>
   <p class="lead">{ja ? 'インストーラーは公開されており、購入前にデモを試せます。ライセンスはPaddleで購入できます。' : 'Installers are public, so you can try the demo before buying. Purchase a licence through Paddle when you are ready.'}</p>
   <p>{ja ? 'このページは支払い完了の確認ではありません。お支払い状況はPaddleの確認画面と領収書でご確認ください。' : 'This page is guidance, not payment confirmation. Check Paddle’s confirmation and receipt for your payment status.'}</p>
-</section>
+</section>}
 <section class="section copy-block">
   <h2>{ja ? '1. インストールする' : '1. Install the plugin'}</h2>
   <p>{ja ? '公開済みのインストーラーはダウンロードページにあります。お使いの環境への対応をご確認ください。ダウンロードがまだ表示されない場合、その製品はまだ公開されていません。' : 'Published installers are on the downloads page. Check the supported systems before installing. If a download is not listed yet, that product has not been published.'}</p>

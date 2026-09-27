@@ -1,5 +1,41 @@
 # Release verification
 
+## OP191 inline branding and live signing — 27 September 2026
+
+- Supersedes the overlay implementation below. The owner confirmed that the
+  overlay renders in an ordinary browser, but its branding was missing. The
+  purchase routes now reuse the website logo, Inter Tight typography and grey
+  paper palette around Paddle's inline payment form. The product buttons link to
+  the matching EN/JA purchase page; quantity remains one and success still points
+  to `https://www.studiocucurbits.com/downloads/suspended/`.
+- Only provider-calculated currency and totals are read for the on-page summary;
+  Paddle.js amounts use major units, including zero-decimal JPY. Customer/payment
+  data is neither retained nor logged. Failed loads, malformed totals and a
+  stalled frame clear the quote and expose a localized retry. Existing release
+  gates also protect direct purchase-page visits with a configured live token.
+- TDD: the new browser test failed against the old overlay because Buy did not
+  navigate to the purchase page; after implementation the checkout suite passed
+  5/5. Coverage includes localized totals, product redirect settings, SDK failure
+  and retry, no JavaScript, stalled frames, invalid totals, EN/JA accessibility
+  and 320px layout. The external SDK is replaced in these tests; its payment form
+  and payment completion are not covered by that result.
+- Full `npm run verify`: 91 passed / 4 existing skips, 22 test files, 50 pages,
+  0 errors/warnings and 2 existing generated-sandbox hints. Independent review
+  found no critical or important issue. Licensing browser regressions passed 5/5;
+  all five bilingual SC-Docs mirrors remain exact. No dependency added.
+- Real inline preview reaches Paddle's frame, but the in-app browser still
+  cannot render the external checkout document. Ordinary-browser inline payment
+  and redirect acceptance remain required; prior owner confirmation covered the
+  overlay only. Sandbox preview: `http://localhost:49401/purchase/`.
+- Production signing proof at `2026-09-27T11:12:05.004Z`: the live Paddle
+  destination's secret signed an invalid `{}` envelope. Production returned 400;
+  the bad-signature control returned 401. Signature verification precedes envelope
+  decoding, so these probes cannot enqueue work or create receipts, grants or
+  email. No credential value was exposed, and no AWS permission changed.
+  This is key/path verification, not real Paddle notification delivery.
+- Live notification, purchase/refund, published installer and policy acceptance
+  remain open. No website publication, real payment or sales activation occurred.
+
 ## OP191 publication hand-off — 27 September 2026
 
 - The owner approved proceeding with the standard Paddle.js overlay. Replaced hosted-link configuration with environment-matched public client-side tokens and fixed Suspended price IDs. The official CDN loads on click; one-page checkout receives quantity one and the exact `/downloads/suspended/` success URL. The browser does not grant licences or persist payment/customer events.
