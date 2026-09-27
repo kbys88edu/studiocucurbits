@@ -12,7 +12,7 @@ function launchWith(release: Record<string, unknown>) {
       introPrice: { JPY: 2900, USD: 19 },
       regularPrice: { JPY: 4400, USD: 29 },
       currency: { en: 'USD', ja: 'JPY' },
-      checkoutUrl: { JPY: null, USD: null },
+      checkoutUrl: null,
       ...release,
     },
   } as never;
@@ -34,27 +34,27 @@ describe('launch release state', () => {
       releaseState: 'released',
       showPrice: true,
       showBuyButton: true,
-      checkoutUrl: { JPY: 'https://buy.stripe.com/jpy', USD: 'https://buy.stripe.com/usd' },
+      checkoutUrl: 'https://pay.paddle.io/hsc_test',
     }), 'en');
 
     expect(release.isReleased).toBe(true);
     expect(release.canBuy).toBe(true);
-    expect(release.checkoutUrl).toBe('https://buy.stripe.com/usd');
+    expect(release.checkoutUrl).toBe('https://pay.paddle.io/hsc_test');
     expect(release.introAmount).toBe(19);
     expect(release.regularAmount).toBe(29);
   });
 
-  it('selects the Japanese currency and checkout URL for the Japanese page', () => {
+  it('uses the same USD-base checkout on the Japanese page', () => {
     const release = getLaunchRelease(launchWith({
       releaseState: 'released',
       showPrice: true,
       showBuyButton: true,
-      checkoutUrl: { JPY: 'https://buy.stripe.com/jpy', USD: 'https://buy.stripe.com/usd' },
+      checkoutUrl: 'https://pay.paddle.io/hsc_test',
     }), 'ja');
 
-    expect(release.currency).toBe('JPY');
-    expect(release.checkoutUrl).toBe('https://buy.stripe.com/jpy');
-    expect(release.introAmount).toBe(2900);
+    expect(release.currency).toBe('USD');
+    expect(release.checkoutUrl).toBe('https://pay.paddle.io/hsc_test');
+    expect(release.introAmount).toBe(19);
   });
 
   it('refuses to show a buy button without a usable https checkout URL', () => {
@@ -62,7 +62,7 @@ describe('launch release state', () => {
       const release = getLaunchRelease(launchWith({
         releaseState: 'released',
         showBuyButton: true,
-        checkoutUrl: { JPY: url, USD: url },
+        checkoutUrl: url,
       }), 'en');
 
       expect(release.canBuy).toBe(false);
@@ -75,7 +75,7 @@ describe('launch release state', () => {
       releaseState: 'released',
       showBuyButton: true,
       showNewsletterCTA: true,
-      checkoutUrl: { JPY: 'https://buy.stripe.com/jpy', USD: 'https://buy.stripe.com/usd' },
+      checkoutUrl: 'https://pay.paddle.io/hsc_test',
     }), 'en');
 
     expect(release.canBuy).toBe(true);
@@ -87,7 +87,7 @@ describe('launch release state', () => {
       releaseState: 'released',
       showBuyButton: true,
       showNewsletterCTA: true,
-      checkoutUrl: { JPY: null, USD: null },
+      checkoutUrl: null,
     }), 'en');
 
     expect(release.canBuy).toBe(false);
@@ -99,7 +99,7 @@ describe('launch release state', () => {
       releaseState: 'released',
       showPrice: false,
       showBuyButton: true,
-      checkoutUrl: { JPY: 'https://buy.stripe.com/jpy', USD: 'https://buy.stripe.com/usd' },
+      checkoutUrl: 'https://pay.paddle.io/hsc_test',
     }), 'en');
 
     expect(release.canBuy).toBe(true);

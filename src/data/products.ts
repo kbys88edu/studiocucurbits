@@ -1,4 +1,8 @@
 import { MOCKUP_V } from './site';
+import { resolveCheckout } from '../lib/checkout';
+
+export const suspendedCheckout = resolveCheckout(import.meta.env.PADDLE_CLIENT_TOKEN,
+  import.meta.env.PADDLE_CHECKOUT_ENVIRONMENT, import.meta.env.MODE);
 
 export type ProductStatus =
   | 'hidden'
@@ -52,10 +56,11 @@ export interface ProductReleaseConfig {
   showPrice: boolean;
   showBuyButton: boolean;
   showNewsletterCTA: boolean;
-  introPrice: Record<Currency, number>;
-  regularPrice: Record<Currency, number>;
+  introPrice: Record<Currency, number | null>;
+  regularPrice: Record<Currency, number | null>;
   currency: Localized<Currency>;
-  checkoutUrl: Record<Currency, string | null>;
+  checkoutUrl: string | null;
+  sandboxPreview?: boolean;
   audioDemosEnabled: boolean;
   videoEnabled: boolean;
 }
@@ -219,8 +224,8 @@ export const products: Product[] = [
     media: { ...websiteMedia('traces_suspended', 'central_sc_suspended'), gallery: [], video: { status: 'in-production', poster: null, mp4: null, webm: null, captions: null } },
     supportedFormats: ['VST3'],
     supportedPlatforms: ['macOS', 'Linux'],
-    checkoutUrlJPY: import.meta.env.PADDLE_SUSPENDED_CHECKOUT_LINK_JPY?.trim() || null,
-    checkoutUrlUSD: import.meta.env.PADDLE_SUSPENDED_CHECKOUT_LINK_USD?.trim() || null,
+    checkoutUrlJPY: null,
+    checkoutUrlUSD: suspendedCheckout.url,
     demoUrl: import.meta.env.SUSPENDED_DEMO_URL?.trim() || null,
     manualUrl: import.meta.env.SUSPENDED_MANUAL_URL?.trim() || null,
     seo: {
@@ -234,16 +239,14 @@ export const products: Product[] = [
         releaseState: 'pre-release',
         version: null,
         releaseDate: null,
-        showPrice: false,
-        showBuyButton: false,
+        showPrice: suspendedCheckout.sandbox,
+        showBuyButton: suspendedCheckout.sandbox,
         showNewsletterCTA: true,
-        introPrice: { JPY: 2900, USD: 19 },
-        regularPrice: { JPY: 4400, USD: 29 },
-        currency: { en: 'USD', ja: 'JPY' },
-        checkoutUrl: {
-          JPY: import.meta.env.PADDLE_SUSPENDED_CHECKOUT_LINK_JPY?.trim() || null,
-          USD: import.meta.env.PADDLE_SUSPENDED_CHECKOUT_LINK_USD?.trim() || null,
-        },
+        introPrice: { JPY: null, USD: null },
+        regularPrice: { JPY: null, USD: 29 },
+        currency: { en: 'USD', ja: 'USD' },
+        checkoutUrl: suspendedCheckout.url,
+        sandboxPreview: suspendedCheckout.sandbox,
         audioDemosEnabled: true,
         videoEnabled: true,
       },

@@ -1,7 +1,7 @@
 ---
 import { products } from '../data/products';
 import type { Locale } from '../lib/locale';
-import { formatPrice } from '../lib/product';
+import { formatPrice, getLaunchRelease } from '../lib/product';
 
 const { locale } = Astro.props as { locale: Locale };
 const sellable = products.filter((p) => p.launch && p.status !== 'hidden');
@@ -11,7 +11,6 @@ const copy = locale === 'ja'
 const included = locale === 'ja'
   ? ['VST3プラグイン本体', 'ファクトリープリセット 8種', '同一メジャーバージョン内のアップデート', '1名分のライセンス', 'メールサポート']
   : ['The VST3 plugin', '8 factory presets', 'Updates within the major version', 'A licence for one person', 'Email support'];
-const currency = locale === 'ja' ? 'JPY' : 'USD';
 ---
 
 <section class="page-intro" aria-labelledby="pricing-title">
@@ -20,17 +19,23 @@ const currency = locale === 'ja' ? 'JPY' : 'USD';
   <p class="lead">{copy.intro}</p>
 </section>
 
-{sellable.map((product) => (
+{sellable.map((product) => {
+  const release = getLaunchRelease(product.launch!, locale);
+  return (
   <section class="section legal-section" aria-labelledby={`price-${product.slug}`}>
     <h2 id={`price-${product.slug}`}>SC {product.name}</h2>
     <p>{product.editorial[locale].shortDescription ?? product.editorial.en.shortDescription}</p>
-    <dl class="price launch-price">
-      <div><dt>{copy.intro_p}</dt><dd>{formatPrice(product.launch!.release.introPrice[currency], currency, locale)}</dd></div>
-      <div><dt>{copy.regular}</dt><dd>{formatPrice(product.launch!.release.regularPrice[currency], currency, locale)}</dd></div>
-    </dl>
+    {product.launch!.release.sandboxPreview && <p data-checkout-sandbox>{locale === 'ja' ? 'サンドボックス・プレビュー — テスト購入専用です。' : 'Sandbox preview — test purchases only.'}</p>}
+    {(release.showIntroPrice || release.showRegularPrice) ? <>
+      <dl class="price launch-price">
+        {release.showIntroPrice && <div><dt>{copy.intro_p}</dt><dd>{formatPrice(release.introAmount!, release.currency, locale)}</dd></div>}
+        {release.showRegularPrice && <div><dt>{copy.regular}</dt><dd>{formatPrice(release.regularAmount!, release.currency, locale)}</dd></div>}
+      </dl>
+      <p>{locale === 'ja' ? '基準価格は米ドルです。Paddleが対応する現地通貨で換算価格と適用税を表示します。支払前に最終金額をご確認ください。' : 'Base price in USD. Paddle shows the converted price in supported local currencies and any applicable tax. Check the final total before paying.'}</p>
+    </> : <p>{locale === 'ja' ? '販売開始時に価格をお知らせします。' : 'Pricing will be confirmed when sales open.'}</p>}
     <p class="launch-platforms">{product.supportedFormats.join(' / ')} — {product.supportedPlatforms.join(' / ')}</p>
     <h3>{copy.incl}</h3>
     <ul>{included.map((item) => <li>{item}</li>)}</ul>
     <p><a class="text-link" href={locale === 'ja' ? `/ja/products/${product.slug}/` : `/products/${product.slug}/`}>{copy.detail}</a></p>
   </section>
-))}
+); })}

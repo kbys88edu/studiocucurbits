@@ -11,8 +11,8 @@ function configuredUrl(value: string | null | undefined): string | null {
   return value?.trim() || null;
 }
 
-function checkoutUrlFor(product: Product, currency: Currency): string | null {
-  const value = configuredUrl(currency === 'JPY' ? product.checkoutUrlJPY : product.checkoutUrlUSD);
+function checkoutUrlFor(product: Product): string | null {
+  const value = configuredUrl(product.checkoutUrlUSD);
   if (!value) return null;
 
   try {
@@ -22,7 +22,7 @@ function checkoutUrlFor(product: Product, currency: Currency): string | null {
   }
 }
 
-export function getProductCta(product: Product, today: Date, currency: Currency = 'USD', newsletterPath = '/newsletter/'): ProductCta | null {
+export function getProductCta(product: Product, today: Date, _currency: Currency = 'USD', newsletterPath = '/newsletter/'): ProductCta | null {
   if (product.status === 'hidden' || product.status === 'discontinued') return null;
   if (product.status === 'announcement' || product.status === 'coming-soon') {
     return { label: 'notify', href: newsletterPath, disabled: false };
@@ -45,8 +45,8 @@ export function getProductCta(product: Product, today: Date, currency: Currency 
       : { label: 'notify', href: newsletterPath, disabled: false };
   }
 
-  const price = getDisplayPrice(product, today, currency);
-  const checkoutUrl = checkoutUrlFor(product, currency);
+  const price = getDisplayPrice(product, today, 'USD');
+  const checkoutUrl = checkoutUrlFor(product);
   return price && price.amount > 0 && checkoutUrl
     ? { label: price.kind === 'intro' ? 'buy-intro' : 'buy', href: checkoutUrl, disabled: false }
     : { label: 'notify', href: newsletterPath, disabled: false };
@@ -73,7 +73,7 @@ export function formatPrice(amount: number, currency: Currency, locale: Locale):
   return new Intl.NumberFormat(locale, {
     style: 'currency',
     currency,
-    currencyDisplay: 'narrowSymbol',
+    currencyDisplay: currency === 'USD' ? 'code' : 'narrowSymbol',
     // The marketing strategy quotes $19 / $29, not $19.00. Keep the minimum at
     // zero so whole amounts stay clean while a fractional price still renders.
     minimumFractionDigits: 0,
@@ -93,7 +93,7 @@ export interface LaunchRelease {
   showNotify: boolean;
 }
 
-function positiveAmount(value: number | undefined): number | null {
+function positiveAmount(value: number | null | undefined): number | null {
   return typeof value === 'number' && value > 0 ? value : null;
 }
 
@@ -105,13 +105,14 @@ function positiveAmount(value: number | undefined): number | null {
  * every notify affordance on the page, so a release cannot leave a stale
  * "Notify me" link next to a working buy button.
  */
-export function getLaunchRelease(launch: LaunchContent, locale: Locale): LaunchRelease {
-  const currency = launch.release.currency[locale];
-  const checkoutUrl = httpsUrl(launch.release.checkoutUrl[currency]);
+export function getLaunchRelease(launch: LaunchContent, _locale: Locale): LaunchRelease {
+  const currency = 'USD';
+  const checkoutUrl = httpsUrl(launch.release.checkoutUrl);
   const introAmount = positiveAmount(launch.release.introPrice[currency]);
   const regularAmount = positiveAmount(launch.release.regularPrice[currency]);
 
-  const canBuy = launch.release.showBuyButton && Boolean(checkoutUrl);
+  const canBuy = (launch.release.releaseState === 'released' || launch.release.sandboxPreview === true)
+    && launch.release.showBuyButton && Boolean(checkoutUrl);
 
   return {
     isReleased: launch.release.releaseState === 'released',

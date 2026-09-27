@@ -1,0 +1,29 @@
+---
+import type { Locale } from '../lib/locale';
+import { localizedPath } from '../lib/locale';
+const { locale } = Astro.props as { locale: Locale };
+const ja = locale === 'ja';
+---
+
+<section class="page-intro" aria-labelledby="purchase-title">
+  <p class="eyebrow">{ja ? 'ライセンス' : 'YOUR LICENCE'}</p>
+  <h1 id="purchase-title">{ja ? 'ダウンロードからライセンス認証まで' : 'From download to activation'}</h1>
+  <p class="lead">{ja ? 'インストーラーは公開されており、購入前にデモを試せます。ライセンスはPaddleで購入できます。' : 'Installers are public, so you can try the demo before buying. Purchase a licence through Paddle when you are ready.'}</p>
+  <p>{ja ? 'このページは支払い完了の確認ではありません。お支払い状況はPaddleの確認画面と領収書でご確認ください。' : 'This page is guidance, not payment confirmation. Check Paddle’s confirmation and receipt for your payment status.'}</p>
+</section>
+<section class="section copy-block">
+  <h2>{ja ? '1. インストールする' : '1. Install the plugin'}</h2>
+  <p>{ja ? '公開済みのインストーラーはダウンロードページにあります。お使いの環境への対応をご確認ください。ダウンロードがまだ表示されない場合、その製品はまだ公開されていません。' : 'Published installers are on the downloads page. Check the supported systems before installing. If a download is not listed yet, that product has not been published.'}</p>
+  <a class="button" href={localizedPath('/downloads/', locale)}>{ja ? 'ダウンロードを見る' : 'View downloads'}</a>
+</section>
+<section class="section copy-block">
+  <h2>{ja ? '2. メールの設定用リンクを開く' : '2. Open your setup email'}</h2>
+  <p>{ja ? '初回購入の完了後、ライセンスアカウントに保持している最初の決済時のメールアドレスに、初期設定用の使い捨てリンクが届きます。後日の決済でメールアドレスを変更しても、復旧先は自動的には変わりません。リンク先で確認すると認証コードが表示されます。ページを閉じる前にコードを保存してください。コードを公開したり、他の人に渡したりしないでください。' : 'After your first completed purchase, a one-time setup link is sent to the initial checkout email retained for your licence account. Changing the email at a later checkout does not automatically change your recovery address. Confirm the link to reveal your activation code. Save it before leaving the page, and do not publish or share it.'}</p>
+  <p>{ja ? 'メールが見つからない場合は、迷惑メールフォルダーをご確認ください。リンクの期限が切れた場合やコードを紛失した場合は、ライセンス復旧を利用してください。復旧先が分からない場合はサポートへご連絡ください。' : 'If the email is missing, check your spam folder. Use licence recovery if the link expires or you lose the code. Contact support if you cannot find the recovery route.'}</p>
+</section>
+<section class="section copy-block">
+  <h2>{ja ? '3. プラグインを認証する' : '3. Activate the plugin'}</h2>
+  <p>{ja ? 'プラグインのライセンス認証画面にコードを入力します。ライセンスはお一人につき、ご自身のコンピューター最大3台で利用できます。新しいコンピューターでも同じコードを使用し、必要に応じて以前のコンピューターを入れ替えられます。' : 'Enter the code in the plugin’s activation dialog. Your licence covers one person on up to three active computers. Use the same code on a new computer and replace an old computer when needed.'}</p>
+  <p><a class="text-link" href={localizedPath('/support/', locale)}>{ja ? 'インストールとライセンスのサポート' : 'Installation and licence support'}</a></p>
+  <p><a href={localizedPath('/license/', locale)}>{ja ? 'ライセンス条件' : 'Licence terms'}</a> · <a href={localizedPath('/refund/', locale)}>{ja ? '返金ポリシー' : 'Refund policy'}</a></p>
+</section>

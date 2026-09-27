@@ -23,7 +23,7 @@ Node 22 is the supported version — it is pinned in `.nvmrc`, read by CI throug
 Newer Node releases currently pass the full gate, but 22 is what the deployed
 build uses.
 
-`.env` is git-ignored. Do not commit real endpoints or payment links.
+`.env` is git-ignored. Never put Paddle API keys or webhook secrets in website configuration. Client-side tokens are public by design.
 
 Astro 7 starts `astro dev` as a background process when it detects an AI
 coding agent (Claude Code, Cursor and similar). Use `astro dev status`,
@@ -44,14 +44,47 @@ In CI the values come from GitHub repository variables and secrets, wired in
 | --- | --- | --- |
 | `ANALYTICS_PROVIDER`, `ANALYTICS_ID` | repository variables | Plausible tracking stays off |
 | `SUSPENDED_DEMO_URL`, `SUSPENDED_MANUAL_URL` | repository variables | Demo and manual links are omitted |
-| `PADDLE_SUSPENDED_CHECKOUT_LINK_JPY`, `..._USD` | repository secrets | Product CTA stays on the newsletter route |
+| `PADDLE_CLIENT_TOKEN` | repository variable; local sandbox environment | Product CTA stays on the newsletter route |
+| `PADDLE_CHECKOUT_ENVIRONMENT` | local environment; CI pins `disabled` | Purchasing stays disabled |
 
 Set them with:
 
 ```bash
 gh variable set ANALYTICS_ID --body "www.studiocucurbits.com"
-gh secret set PADDLE_SUSPENDED_CHECKOUT_LINK_JPY
+gh variable set PADDLE_CLIENT_TOKEN
 ```
+
+### Sandbox storefront preview
+
+Set `PADDLE_CHECKOUT_ENVIRONMENT=sandbox` and `PADDLE_CLIENT_TOKEN` to an existing
+public sandbox client-side token (`test_…`) in the local `.env`, then run
+`npm run build:sandbox` followed by `npm run preview:sandbox`.
+Both languages use the same USD-base price;
+Paddle displays the customer's final currency and applicable tax at checkout.
+This preview is labelled test-only and writes to `dist-sandbox/`, never the
+production deployment directory. On a purchase click, the site loads the
+official Paddle.js CDN script and opens the standard overlay. It passes one
+Suspended item, using the fixed environment-specific price in `src/lib/checkout.ts`;
+both Paddle prices also enforce minimum and maximum quantity of one.
+The overlay redirects successful purchases to
+`https://www.studiocucurbits.com/downloads/suspended/`, not the general downloads
+index. That route must be published with approved installers before end-to-end
+acceptance or live sales. No customer or payment event data is persisted by the
+site. Failed or stalled opening restores the purchase buttons for retry.
+When an agent shell triggers Astro's automatic background mode, set
+`ASTRO_PREVIEW_BACKGROUND=0` before starting the preview: Astro 7.2.4's background
+launcher drops the custom output directory. Verify the visible sandbox label.
+
+Production builds reject sandbox tokens. Live sales additionally require an
+approved catalogue release, approved public pricing, a live client-side token,
+and changing CI's explicit `disabled` setting to `live`. Keep those gates closed
+until production fulfilment/recovery acceptance, installers and final policies
+are ready. This integration does not depend on hosted-checkout eligibility.
+Paddle-side branding still needs verification: the available dashboard exposes
+a colour setting but no logo upload control. Do not claim the overlay logo is
+configured until it is visible in the actual checkout.
+`/purchase/` is general guidance, not payment confirmation or a
+recovery portal; a browser redirect never proves payment.
 
 ## Source basis
 

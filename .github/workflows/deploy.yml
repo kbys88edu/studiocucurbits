@@ -43,16 +43,17 @@ jobs:
     if: needs.release-check.outputs.changed == 'true'
     runs-on: ubuntu-latest
     env:
-      # Non-sensitive values live in repository variables; the pre-launch
-      # checkout links live in secrets. Every one of these is optional: an
+      # Non-sensitive values live in repository variables. Every one is optional: an
       # unset value is read as an empty string, which the site treats exactly
       # like "not configured" and renders the safe fallback instead.
       ANALYTICS_PROVIDER: ${{ vars.ANALYTICS_PROVIDER }}
+      LICENSING_API_BASE: ${{ vars.LICENSING_API_BASE }}
       ANALYTICS_ID: ${{ vars.ANALYTICS_ID }}
       SUSPENDED_DEMO_URL: ${{ vars.SUSPENDED_DEMO_URL }}
       SUSPENDED_MANUAL_URL: ${{ vars.SUSPENDED_MANUAL_URL }}
-      PADDLE_SUSPENDED_CHECKOUT_LINK_JPY: ${{ secrets.PADDLE_SUSPENDED_CHECKOUT_LINK_JPY }}
-      PADDLE_SUSPENDED_CHECKOUT_LINK_USD: ${{ secrets.PADDLE_SUSPENDED_CHECKOUT_LINK_USD }}
+      # Keep sales disabled until a separately approved production launch.
+      PADDLE_CHECKOUT_ENVIRONMENT: disabled
+      PADDLE_CLIENT_TOKEN: ${{ vars.PADDLE_CLIENT_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

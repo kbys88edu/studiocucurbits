@@ -16,8 +16,14 @@ The published catalogue is defined in `src/data/products.ts`. Edit that file bef
 
 ## Price and checkout
 
-- Set `publicPrice` only when the regular price is approved for publication. Supply both required currency amounts (`regularPriceJPY` / `regularPriceUSD`) and the corresponding non-empty checkout URLs.
-- For an introductory sale, use `status: 'intro-sale'`, the intro prices, and an ISO `introSaleEndDate`; verify the regular price is also configured for after the sale.
+Suspended uses the standard Paddle.js overlay, loaded only on a purchase click.
+Configure a public client-side token, never a server API key. The environment,
+build mode and token must match; the catalogue and CI sales gates remain separate.
+The success URL is the product download page and is not proof of payment.
+
+- Set `publicPrice` only when the regular price is approved for publication. Use one USD base price and one checkout for both languages; Paddle handles customer-currency presentation and tax. Do not create a separately priced Japanese checkout.
+- Suspended's launch page uses its `release` configuration. Keep `releaseState`, `showPrice`, `showBuyButton`, the USD price and the generic catalogue status/price consistent when approving a release. The sandbox preview is not a product release.
+- For an approved introductory sale, use `status: 'intro-sale'`, the USD intro price, and an ISO `introSaleEndDate`; verify the regular price is also configured for after the sale. No introductory offer is currently approved for Suspended.
 - Product and Offer structured data is emitted only for `available` products with a public positive USD price and a USD checkout URL. Do not add reviews, ratings, or availability claims unless factual.
 
 ## SEO and locales

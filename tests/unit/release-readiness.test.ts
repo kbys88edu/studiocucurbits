@@ -14,15 +14,15 @@ const released = launch.release.releaseState === 'released';
  */
 describe('SC Suspended release readiness', () => {
   it('quotes prices the way the strategy does', () => {
-    expect(formatPrice(19, 'USD', 'en')).toBe('$19');
-    expect(formatPrice(29, 'USD', 'en')).toBe('$29');
+    expect(formatPrice(19, 'USD', 'en')).toBe('USD\u00a019');
+    expect(formatPrice(29, 'USD', 'en')).toBe('USD\u00a029');
     expect(formatPrice(2900, 'JPY', 'ja')).toBe('￥2,900');
     expect(formatPrice(4400, 'JPY', 'ja')).toBe('￥4,400');
   });
 
-  it('carries the intro and regular prices the strategy specifies', () => {
-    expect(launch.release.introPrice).toEqual({ USD: 19, JPY: 2900 });
-    expect(launch.release.regularPrice).toEqual({ USD: 29, JPY: 4400 });
+  it('does not advertise an introductory discount or a second-currency price', () => {
+    expect(launch.release.introPrice).toEqual({ USD: null, JPY: null });
+    expect(launch.release.regularPrice).toEqual({ USD: 29, JPY: null });
   });
 
   it.runIf(released)('drops the alpha wording from platforms once released', () => {
@@ -40,13 +40,11 @@ describe('SC Suspended release readiness', () => {
     }
   });
 
-  it.runIf(released)('never offers a buy button without a checkout URL in both currencies', () => {
+  it.runIf(released)('never offers a buy button without the shared checkout URL', () => {
     if (!launch.release.showBuyButton) return;
-    for (const currency of ['JPY', 'USD'] as const) {
-      const url = launch.release.checkoutUrl[currency];
-      expect(url, `missing checkout URL for ${currency}`).toBeTruthy();
-      expect(new URL(url!).protocol).toBe('https:');
-    }
+    const url = launch.release.checkoutUrl;
+    expect(url, 'missing shared checkout URL').toBeTruthy();
+    expect(new URL(url!).protocol).toBe('https:');
   });
 
   it.runIf(released)('leaves the coming-soon status behind once released', () => {

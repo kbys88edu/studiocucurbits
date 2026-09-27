@@ -2,8 +2,9 @@ import { collections, isVisibleCollection, isVisibleProduct, products } from './
 import { downloadProducts } from './downloads';
 
 const staticRoutes = [
+  '/recovery/', '/offline/',
   '/', '/about/', '/work/', '/work/babel-trans-instrumentalism/', '/products/', '/support/', '/support/suspended/', '/downloads/', '/license/',
-  '/privacy/', '/terms/', '/refund/', '/business/', '/pricing/', '/coming-soon/', '/beta/', '/press/', '/newsletter/',
+  '/privacy/', '/terms/', '/refund/', '/business/', '/pricing/', '/purchase/', '/coming-soon/', '/beta/', '/press/', '/newsletter/',
 ];
 
 export const publicRoutePaths = [

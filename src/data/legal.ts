@@ -17,11 +17,11 @@ export interface LegalDocument {
 export type LegalSlug = 'privacy' | 'terms' | 'license' | 'refund' | 'business';
 
 /**
- * Draft legal copy. Every document is rendered with LegalDraftNotice until the
- * wording is reviewed and approved; see docs/CONTENT_GUIDE.md before removing
- * that notice. The privacy document describes the processors the site actually
- * uses today, so it must be updated whenever that stack changes.
+ * Proposed legal copy for review. The revision identifies this draft; it is not
+ * a publication or effective date. Update the SC-Docs mirrors from this source.
  */
+export const legalRevision = '2026-09-27';
+
 export const sellerDisclosure = {
   operator: 'Sachie Kobayashi (Studio Cucurbits.)',
   representative: 'Sachie Kobayashi / 小林 祥恵',
@@ -53,7 +53,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
           items: [
             'Newsletter: your email address, when you submit the subscription form.',
             'Analytics: aggregate page and interaction counts, with no cookie and no cross-site identifier.',
-            'Purchase: name, email and payment details, collected by Paddle as the seller of record and never by this site.',
+            'Purchase: Paddle collects your name, email and payment details as the Merchant of Record. It sends our licensing service the customer and purchase information described below.',
             'Licence: if you buy a licence, our activation service holds the records needed to activate it. They are listed below.',
           ],
         },
@@ -62,12 +62,14 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
           items: [
             'MailerLite — newsletter delivery. The subscription form posts directly to MailerLite.',
             'GitHub Pages — website hosting, which records standard server request logs.',
-            'Paddle.com Market Ltd — our reseller and Merchant of Record. Paddle takes the order, the payment details and the tax, and issues the receipt. Card details never reach this site.',
+            'Paddle.com Market Ltd — our reseller and Merchant of Record. Paddle takes the order, the payment details and the tax, and issues the receipt. Payment details are entered through Paddle checkout.',
+            'Amazon Web Services (AWS) — hosting for the activation service, its database and encrypted processing queues, and setup and recovery email delivery through Amazon SES. Access is restricted to service roles and authorized support and operations staff.',
           ],
           links: [
             { label: 'MailerLite privacy policy', href: 'https://www.mailerlite.com/legal/privacy-policy' },
             { label: 'GitHub privacy statement', href: 'https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement' },
             { label: 'Paddle privacy policy', href: 'https://www.paddle.com/legal/privacy' },
+            { label: 'AWS privacy notice', href: 'https://aws.amazon.com/privacy/' },
           ],
         },
         {
@@ -75,14 +77,13 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
           items: [
             'This site does not run advertising or cross-site tracking of its own.',
             'We do not sell or rent personal data.',
-            'We do not profile you or make automated decisions about you.',
+            'We do not use your licence data for advertising or profiling. Purchase, refund and chargeback notifications are processed automatically to update licence access.',
           ],
         },
         {
           heading: 'What we cannot speak for',
           paragraphs: [
-            'These statements cover what Studio Cucurbits. does. They do not cover what the providers above do with the data they receive. MailerLite, GitHub and Paddle are independent controllers of the data they collect, and each may set cookies, keep logs or track across sites under its own policy, which we neither control nor monitor.',
-            'If that matters to you, read their policies. They are linked above, and they, not this page, govern what happens to data once it reaches them.',
+            'These statements describe our use of the services above. Providers also describe their own handling of personal data, cookies and service logs in their policies, linked above. Those policies should be read alongside this notice.',
           ],
         },
         {
@@ -90,23 +91,34 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
           paragraphs: ['Buying a licence creates a record in our activation service. It holds:'],
           items: [
             'A customer identifier, which products you bought, and how many of your three computers are in use.',
+            'Your Paddle customer identifier and initial checkout email, retained as the setup and recovery email. The account is bound to that customer identifier; accounts are not merged because they share an email address. Later checkout email changes do not automatically change this binding or recovery email.',
+            'Paddle transaction and adjustment identifiers, the product price identifier, purchase, refund and chargeback status, and relevant timestamps, to keep licence access consistent with your purchase.',
             'A one-way hash of your licence code. The code itself is never stored, which is why we cannot read it back to you.',
             'For each activated computer: a device fingerprint, the name you choose for that computer, and the activation identifiers and times.',
             'Records of activation requests and their signed results, so a retry or a seat replacement cannot go wrong.',
-            'Your IP address is used during a request to limit abuse. The raw address is not stored or logged.',
+            'Your IP address is used during a request to limit abuse. The activation application does not store or log the raw address; hosting providers may handle request data under their own policies.',
+          ],
+        },
+        {
+          heading: 'Purchase notifications and setup',
+          paragraphs: [
+            'For initial licence setup after a confirmed purchase, we email a one-time setup link to the retained initial checkout email. Your activation code is shown once in your browser after you confirm a setup or recovery link; we do not email the code in plaintext.',
+            'The licence database and ordinary application logs do not retain payment-card details, billing addresses or tax details. Authenticated notifications from Paddle can contain personal data while they await processing or failure investigation in encrypted queues. They are not copied into the licence database or ordinary logs.',
           ],
         },
         {
           heading: 'Retention',
           paragraphs: [
-            'Newsletter addresses are kept until you unsubscribe. Purchase and receipt records are kept as long as tax and accounting rules require.',
-            'Licence records are kept for as long as you hold the licence. They are what makes activation work: without them we cannot activate a new computer for you, move a seat, or recognise the licence you paid for. Ask us to delete them and the licence stops being usable on any new computer.',
+            'Newsletter addresses are kept until you unsubscribe. Paddle retains payment and receipt records under its own policy and applicable tax and accounting requirements.',
+            'Licence records, including the Paddle account binding, retained email, purchase status, grants and revocations, are kept while the licence exists. They are what makes activation work: without them we cannot activate a new computer for you, move a seat, or recognize the licence you paid for. Ask us to delete them and the licence stops being usable on any new computer.',
+            'Paddle event-processing receipts and ordinary application logs have a 14-day retention period. Receipt expiry is set from creation; database expiry deletion is asynchronous and may occur later. Successfully processed notifications are deleted from the encrypted queue; failed notifications can remain in encrypted queues for up to 14 days.',
+            'Setup and recovery email jobs remain in the delivery queue for up to one day; failed jobs can remain in its encrypted failure queue for up to 14 days. Recovery links expire after 15 minutes; deletion of their database records is asynchronous.',
             'A licence already installed on a computer keeps working offline even after we delete our records. Removing the record prevents future activations; it does not reach into a machine and remove what is already there.',
           ],
         },
         {
           heading: 'Your requests',
-          paragraphs: ['You can ask for a copy of your data, ask for corrections, or ask for deletion. Every newsletter email also carries a one-click unsubscribe link.'],
+          paragraphs: ['You can ask for a copy of your data, ask for corrections, or ask for deletion through the contact below. We verify the request and explain any required retention or backup limitations. Requests concerning payment records may also need Paddle’s own process. Every newsletter email also carries a one-click unsubscribe link.'],
         },
         {
           heading: 'Contact',
@@ -125,7 +137,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
           items: [
             'ニュースレター：登録フォームを送信したときのメールアドレス。',
             'アクセス解析：Cookieおよびサイト横断の識別子を用いない、集計値としてのページ閲覧数と操作回数。',
-            '購入：氏名・メールアドレス・支払い情報。これらは販売者であるPaddleが取得し、本サイトが受け取ることはありません。',
+            '購入：Merchant of RecordであるPaddleが氏名・メールアドレス・支払い情報を取得します。Paddleは以下に記載する顧客情報と購入情報を当方のライセンスサービスに送信します。',
             'ライセンス：ライセンスをご購入いただいた場合、認証に必要な記録を当方の認証サービスが保持します。内容は以下に記載します。',
           ],
         },
@@ -134,12 +146,14 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
           items: [
             'MailerLite — ニュースレターの配信。登録フォームはMailerLiteへ直接送信されます。',
             'GitHub Pages — ウェブサイトのホスティング。標準的なサーバーリクエストログが記録されます。',
-            'Paddle.com Market Ltd — 当社の再販業者およびMerchant of Record。注文・支払い情報・税の取り扱いと領収書の発行を行います。カード情報が本サイトに渡ることはありません。',
+            'Paddle.com Market Ltd — 当社の再販業者およびMerchant of Record。注文・支払い情報・税の取り扱いと領収書の発行を行います。支払い情報はPaddleの決済画面で入力します。',
+            'Amazon Web Services（AWS）— 認証サービス、データベース、暗号化された処理キューのホスティング、およびAmazon SESによる初期設定・復旧メールの配信。アクセスはサービス用の権限と、許可されたサポート・運用担当者に制限します。',
           ],
           links: [
             { label: 'MailerLite privacy policy', href: 'https://www.mailerlite.com/legal/privacy-policy' },
             { label: 'GitHub privacy statement', href: 'https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement' },
             { label: 'Paddle privacy policy', href: 'https://www.paddle.com/legal/privacy' },
+            { label: 'AWS privacy notice', href: 'https://aws.amazon.com/privacy/' },
           ],
         },
         {
@@ -147,14 +161,13 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
           items: [
             '本サイト自身による広告目的の利用およびサイト横断のトラッキング。',
             '個人データの販売および貸与。',
-            'プロファイリングおよび自動的な決定。',
+            'ライセンス情報の広告・プロファイリングへの利用は行いません。購入・返金・チャージバックの通知は、ライセンスの利用権を更新するために自動処理します。',
           ],
         },
         {
           heading: '当方が保証できない範囲',
           paragraphs: [
-            '上記はStudio Cucurbits.が行うことについての記載であり、前述の各事業者が受け取ったデータをどう扱うかは含みません。MailerLite、GitHub、Paddleはそれぞれ独立した管理者であり、各社の方針に基づいてCookieの設定、ログの保存、サイト横断のトラッキングを行う場合があります。当方はこれを制御も監視もしていません。',
-            '気になる場合は各社の方針をご確認ください。リンクは上記に記載しています。データが各社に渡った後の取り扱いは、本ページではなく各社の方針が適用されます。',
+            '本記載は、当方による上記サービスの利用について説明するものです。各事業者は、個人データ、Cookie、サービスのログについての自社の取り扱いも、上記リンク先の方針で説明しています。本通知と併せてご確認ください。',
           ],
         },
         {
@@ -162,23 +175,34 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
           paragraphs: ['ライセンスをご購入いただくと、当方の認証サービスに記録が作成されます。内容は次のとおりです。'],
           items: [
             'お客様の識別子、購入された製品、3台のうち何台を使用中か。',
+            'Paddleの顧客識別子と、初期設定・復旧先として保持する最初の決済時のメールアドレス。アカウントはこの顧客識別子に紐付け、メールアドレスが同じでも統合しません。その後の決済時のメールアドレス変更によって、この紐付けや復旧先が自動的に変更されることはありません。',
+            'Paddleの取引・調整の識別子、製品価格の識別子、購入・返金・チャージバックの状態と関連する日時。ライセンスの利用権を購入状況と一致させるために使用します。',
             'ライセンスコードの一方向ハッシュ。コード自体は保存していないため、当方から読み出してお伝えすることはできません。',
             '認証した各コンピューターについて、デバイスの識別値、お客様が付けた名称、認証の識別子と日時。',
             '認証リクエストとその署名済み結果の記録。再試行や台数の入れ替えが破綻しないために必要です。',
-            'IPアドレスはリクエスト処理中に不正利用の制限にのみ使用します。生のアドレスは保存もログ記録もしていません。',
+            'IPアドレスはリクエスト処理中に不正利用を制限するために使用します。認証アプリケーションは生のアドレスを保存もログ記録もしません。ホスティング事業者は、自社の方針に従ってリクエストのデータを取り扱う場合があります。',
+          ],
+        },
+        {
+          heading: '購入通知と初期設定',
+          paragraphs: [
+            '購入の確認後、ライセンスの初期設定のため、保持している最初の決済時のメールアドレスに一度限りの初期設定リンクを送信します。認証コードは、初期設定または復旧リンクをブラウザーで確認した後に一度だけ表示します。コードを平文でメール送信することはありません。',
+            'ライセンス用データベースと通常のアプリケーションログには、カード情報、請求先住所、税務情報を保存しません。Paddleからの認証済み通知には個人データが含まれる場合があり、処理待ちや失敗の調査中は暗号化されたキューに保持します。通知本文をライセンス用データベースや通常のログにコピーすることはありません。',
           ],
         },
         {
           heading: '保存期間',
           paragraphs: [
-            'ニュースレターのアドレスは登録解除まで保存します。購入および領収の記録は、税務・会計上必要な期間保存します。',
-            'ライセンスの記録は、お客様がライセンスを保有される間保存します。これは認証そのものを成立させる記録であり、削除すると新しいコンピューターでの認証、台数の入れ替え、ご購入いただいたライセンスの確認ができなくなります。',
+            'ニュースレターのアドレスは登録解除まで保存します。Paddleは、自社の方針と適用される税務・会計上の要件に従って支払いと領収の記録を保持します。',
+            'Paddleとのアカウントの紐付け、保持するメールアドレス、購入状態、利用権の付与・失効を含むライセンス記録は、ライセンスが存在する間保存します。これは認証そのものを成立させる記録であり、削除すると新しいコンピューターでの認証、台数の入れ替え、ご購入いただいたライセンスの確認ができなくなります。',
+            'Paddleのイベント処理記録と通常のアプリケーションログの保存期間は14日です。処理記録の期限は作成時から設定します。データベースの期限切れ記録の削除は非同期のため、実際の削除が後になる場合があります。処理に成功した通知は暗号化されたキューから削除し、失敗した通知は暗号化されたキューに最大14日間残る場合があります。',
+            '初期設定・復旧メールの配信ジョブは配信キューに最大1日、失敗したジョブは暗号化された失敗用キューに最大14日間残る場合があります。復旧リンクは15分で期限切れになりますが、データベースの記録の削除は非同期です。',
             'すでにコンピューターにインストールされたライセンスは、当方が記録を削除した後もオフラインで動作し続けます。記録の削除は以後の認証を止めるものであり、お手元の端末から削除するものではありません。',
           ],
         },
         {
           heading: 'ご請求',
-          paragraphs: ['保有データの開示、訂正、削除をご請求いただけます。ニュースレターの各メールには登録解除リンクを記載しています。'],
+          paragraphs: ['以下の連絡先から、保有データの開示、訂正、削除をご請求いただけます。ご本人の請求であることを確認し、必要な保存やバックアップに関する制約をご説明します。支払い記録に関する請求には、Paddleの手続きも必要となる場合があります。ニュースレターの各メールには登録解除リンクを記載しています。'],
         },
         {
           heading: 'お問い合わせ',
@@ -191,7 +215,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
     en: {
       title: 'Terms',
       description: 'Terms for using this website and buying Studio Cucurbits. products.',
-      intro: 'These terms cover the use of this website and the purchase of products sold through it. Use of a purchased plugin is governed by the License.',
+      intro: 'These terms cover the use of this website and the purchase of products sold through it. Use of a purchased plugin is governed by the Licence.',
       sections: [
         {
           heading: 'The site',
@@ -199,11 +223,14 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: 'Orders',
-          paragraphs: ['Our order process is conducted by our online reseller Paddle.com. Paddle.com is the Merchant of Record for all our orders. Paddle provides all customer service enquiries and handles returns. A purchase is complete when Paddle confirms the payment and the download and licence details are issued. Prices are shown in the currency selected at checkout, and any tax due is calculated and charged by Paddle.'],
+          paragraphs: ['Our order process is conducted by our online reseller Paddle.com. Paddle.com is the Merchant of Record for all our orders. Paddle provides all customer service enquiries and handles returns. Licences are one-time purchases, with a base price in US dollars. Paddle automatically selects a checkout currency where available and shows the final price before payment, including any tax it calculates and charges. A purchase is complete when Paddle confirms the payment and the licence setup details are issued.'],
         },
         {
           heading: 'Delivery',
-          paragraphs: ['Products are delivered digitally. No physical item is shipped. If delivery does not arrive, contact support and it will be reissued.'],
+          paragraphs: [
+            'Products are delivered digitally. No physical item is shipped. Public downloads let you try the plugin in demo mode before buying; downloading does not grant a paid licence.',
+            'For initial licence setup after payment is confirmed, a one-time setup link is emailed to the initial checkout address retained for your licence account. Confirm the link in your browser to see your activation code once and use it to activate the plugin. The code is not emailed in plaintext. If the setup email does not arrive, contact support for help with delivery or recovery.',
+          ],
         },
         {
           heading: 'Compatibility',
@@ -234,11 +261,14 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: 'ご注文',
-          paragraphs: ['注文処理はオンライン再販業者であるPaddle.comが行います。Paddle.comは全ての注文におけるMerchant of Record（販売者）であり、カスタマーサービスと返品の対応もPaddleが行います。購入は、Paddleによる決済の確認と、ダウンロードおよびライセンス情報の発行をもって完了します。価格は決済時に選択された通貨で表示し、課税される場合の税額はPaddleが計算して請求します。'],
+          paragraphs: ['注文処理はオンライン再販業者であるPaddle.comが行います。Paddle.comは全ての注文におけるMerchant of Record（販売者）であり、カスタマーサービスと返品の対応もPaddleが行います。ライセンスは買い切りで、基本価格は米ドルです。Paddleは対応する決済通貨を自動的に選択し、計算・請求する税額を含む最終価格を支払い前に表示します。購入は、Paddleによる決済の確認とライセンスの初期設定情報の発行をもって完了します。'],
         },
         {
           heading: '提供方法',
-          paragraphs: ['製品はデジタルデータとして提供します。物理的な商品の発送はありません。提供が届かない場合は、サポートまでご連絡いただければ再発行します。'],
+          paragraphs: [
+            '製品はデジタルデータとして提供します。物理的な商品の発送はありません。公開ダウンロードにより、購入前にプラグインをデモモードでお試しいただけます。ダウンロードだけでは有料ライセンスは付与されません。',
+            '決済の確認後、ライセンスの初期設定のため、ライセンスアカウントに保持している最初の決済時のメールアドレスに一度限りの初期設定リンクを送信します。ブラウザーでリンクを確認すると認証コードが一度だけ表示され、このコードでプラグインを認証できます。コードを平文でメール送信することはありません。初期設定メールが届かない場合は、配信や復旧についてサポートまでご連絡ください。',
+          ],
         },
         {
           heading: '対応環境',
@@ -261,7 +291,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
   },
   license: {
     en: {
-      title: 'License',
+      title: 'Licence',
       description: 'What you may do with a Studio Cucurbits. plugin you have bought.',
       intro: 'Buying a product grants you a licence to use it. You do not acquire ownership of the software itself.',
       sections: [
@@ -292,7 +322,11 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: 'Ending the licence',
-          paragraphs: ['The licence ends if these conditions are broken. On a refund the licence ends and the plugin must be uninstalled.'],
+          paragraphs: [
+            'The licence ends if these conditions are broken. It also ends when a full refund is approved, including when cumulative approved refunds reach the full purchase price, or when a chargeback is approved. When the licence ends, the plugin must be uninstalled.',
+            'Partial refunds are offered only to apply a later discount. The licence remains active while cumulative approved refunds stay below the full purchase price. Pending or rejected refunds do not change access. Chargeback warnings and pending chargebacks do not change access.',
+            'An approved chargeback reversal restores access through a new licence grant; the previously revoked grant remains revoked.',
+          ],
         },
       ],
     },
@@ -328,7 +362,11 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: 'ライセンスの終了',
-          paragraphs: ['本条件に違反した場合、ライセンスは終了します。返金を受けた場合もライセンスは終了し、プラグインをアンインストールしていただきます。'],
+          paragraphs: [
+            '本条件に違反した場合、ライセンスは終了します。全額返金が承認された場合（承認済み返金の累計が購入代金の全額に達した場合を含みます）、またはチャージバックが承認された場合も終了します。ライセンスの終了時には、プラグインをアンインストールしていただきます。',
+            '一部返金は、後日実施される割引を適用する場合にのみ行います。承認済み返金の累計が購入代金の全額に達しない間、ライセンスは有効です。保留中または却下された返金では利用権は変わりません。チャージバックの警告や保留中のチャージバックでも利用権は変わりません。',
+            'チャージバックの取消しが承認された場合、新たなライセンスの付与により利用権を回復します。以前に失効した付与は、失効したままです。',
+          ],
         },
       ],
     },
@@ -353,8 +391,12 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
           paragraphs: [`If the problem is installation or compatibility, write to ${sellerDisclosure.email.support} first. Most of these are resolved quickly, and a working plugin is a better outcome than a refund. Asking first does not reduce your right to a refund inside the window.`],
         },
         {
-          heading: 'After the licence ends',
-          paragraphs: ['A refunded licence stops being valid. Please uninstall the plugin. Work you already produced with it remains yours.'],
+          heading: 'Refunds and licence access',
+          paragraphs: [
+            'An approved full refund ends the licence, including when cumulative approved refunds reach the full purchase price. Please uninstall the plugin when the licence ends. Work you already produced with it remains yours.',
+            'Partial refunds are offered only to apply a later discount. The licence remains active while cumulative approved refunds stay below the full purchase price. Pending or rejected refunds do not change access.',
+            'An approved chargeback ends the licence; a warning or pending chargeback does not. An approved chargeback reversal restores access through a new licence grant; the previously revoked grant remains revoked.',
+          ],
         },
         {
           heading: 'Limits',
@@ -381,8 +423,12 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
           paragraphs: [`インストールや対応環境の問題であれば、まず ${sellerDisclosure.email.support} へご連絡ください。多くは短時間で解決し、動作する製品をお使いいただけるほうが良い結果になります。先にご相談いただいても、期間内の返金を受ける権利は変わりません。`],
         },
         {
-          heading: 'ライセンスの終了',
-          paragraphs: ['返金されたライセンスは無効になります。プラグインはアンインストールしてください。すでに制作された作品はご自身のものです。'],
+          heading: '返金とライセンスの利用権',
+          paragraphs: [
+            '全額返金が承認された場合、ライセンスは終了します。承認済み返金の累計が購入代金の全額に達した場合も同様です。ライセンスが終了した場合は、プラグインをアンインストールしてください。すでに制作された作品はご自身のものです。',
+            '一部返金は、後日実施される割引を適用する場合にのみ行います。承認済み返金の累計が購入代金の全額に達しない間、ライセンスは有効です。保留中または却下された返金では利用権は変わりません。',
+            '承認されたチャージバックによりライセンスは終了しますが、警告や保留中のチャージバックでは終了しません。チャージバックの取消しが承認された場合、新たなライセンスの付与により利用権を回復します。以前に失効した付与は、失効したままです。',
+          ],
         },
         {
           heading: '制限',
@@ -410,7 +456,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: 'Price and additional costs',
-          paragraphs: ['Each product page shows the price for that product. Any consumption tax is applied at checkout. You are responsible for your own internet connection charges; there are no shipping or handling fees, because nothing is shipped.'],
+          paragraphs: ['Each product page shows the one-time licence price in US dollars. Paddle automatically selects a checkout currency where available and shows the final price, including any applicable tax, before payment. You are responsible for your own internet connection charges; there are no shipping or handling fees, because nothing is shipped.'],
         },
         {
           heading: 'Payment',
@@ -418,11 +464,11 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: 'Delivery',
-          paragraphs: ['Download and licence details are issued immediately after payment is confirmed. If they do not arrive, contact us and they will be reissued.'],
+          paragraphs: ['Public downloads are available to try in demo mode before purchase. For initial licence setup after payment is confirmed, a one-time setup link is emailed to the initial checkout address retained for your licence account. The activation code is shown once after you confirm the link in your browser; it is not emailed in plaintext. If the setup email does not arrive, contact us for help with delivery or recovery.'],
         },
         {
           heading: 'Returns and refunds',
-          paragraphs: ['A refund can be requested within 14 days of purchase, without giving a reason. The full conditions are on the Refunds page. Because products are delivered digitally, a refunded licence stops being valid and the plugin must be uninstalled.'],
+          paragraphs: ['A refund can be requested within 14 days of purchase, without giving a reason. The full conditions are on the Refunds page. An approved full refund, including cumulative approved refunds reaching the full purchase price, ends the licence and requires the plugin to be uninstalled. Partial refunds apply only to later discounts and keep the licence active while cumulative approved refunds remain below the full purchase price. Pending or rejected refunds do not change access.'],
         },
         {
           heading: 'Operating requirements',
@@ -448,7 +494,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: '販売価格・商品代金以外の必要料金',
-          paragraphs: ['販売価格は各製品ページに表示します。消費税が課される場合は決済時に加算されます。インターネット接続に必要な通信料はお客様のご負担となります。デジタル製品のため、送料および手数料はいただきません。'],
+          paragraphs: ['買い切りライセンスの販売価格は各製品ページに米ドルで表示します。Paddleは対応する決済通貨を自動的に選択し、適用される税額を含む最終価格を支払い前に表示します。インターネット接続に必要な通信料はお客様のご負担となります。デジタル製品のため、送料および手数料はいただきません。'],
         },
         {
           heading: '支払方法・支払時期',
@@ -456,11 +502,11 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: '商品の引渡時期',
-          paragraphs: ['決済の確認後、ダウンロードおよびライセンス情報を直ちに発行します。届かない場合はご連絡ください。再発行いたします。'],
+          paragraphs: ['ご購入前に公開ダウンロードをデモモードでお試しいただけます。決済の確認後、ライセンスの初期設定のため、ライセンスアカウントに保持している最初の決済時のメールアドレスに一度限りの初期設定リンクを送信します。ブラウザーでリンクを確認すると認証コードが一度だけ表示されます。コードを平文でメール送信することはありません。初期設定メールが届かない場合は、配信や復旧についてご連絡ください。'],
         },
         {
           heading: '返品・キャンセル（返品特約）',
-          paragraphs: ['ご購入から14日以内であれば、理由を問わず返金をご請求いただけます。詳細は返金ポリシーに記載しています。デジタル製品のため、返金されたライセンスは無効となり、プラグインはアンインストールしていただきます。'],
+          paragraphs: ['ご購入から14日以内であれば、理由を問わず返金をご請求いただけます。詳細は返金ポリシーに記載しています。全額返金が承認された場合（承認済み返金の累計が購入代金の全額に達した場合を含みます）、ライセンスは終了し、プラグインをアンインストールしていただきます。一部返金は後日の割引を適用する場合に限り、承認済み返金の累計が購入代金の全額に達しない間、ライセンスは有効です。保留中または却下された返金では利用権は変わりません。'],
         },
         {
           heading: '動作環境',

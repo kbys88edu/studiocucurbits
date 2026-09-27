@@ -1,0 +1,19 @@
+---
+import { suspendedCheckout } from '../data/products';
+import type { Locale } from '../lib/locale';
+import { localizedPath } from '../lib/locale';
+const { locale } = Astro.props as { locale: Locale };
+const ja = locale === 'ja';
+---
+<div data-paddle-checkout data-paddle-token={suspendedCheckout.token}
+  data-paddle-price={suspendedCheckout.priceId} data-paddle-sandbox={String(suspendedCheckout.sandbox)}
+  data-paddle-success="https://www.studiocucurbits.com/downloads/suspended/"
+  data-loading={ja ? '決済画面を開いています…' : 'Opening secure checkout…'}
+  data-error={ja ? '決済画面を開けませんでした。もう一度お試しいただくか、サポートへご連絡ください。' : 'Checkout could not be opened. Please try again or contact support.'}
+  data-payment-error={ja ? 'お支払いが完了しませんでした。決済画面をご確認ください。' : 'Payment did not complete. Check the payment details in checkout.'}>
+  <p data-checkout-status role="status" aria-live="polite"></p>
+  <noscript><p>{ja ? '決済にはJavaScriptを有効にしてください。' : 'Enable JavaScript to open secure checkout.'} <a href={localizedPath('/support/', locale)}>{ja ? 'サポート' : 'Contact support'}</a></p></noscript>
+</div>
+<script>
+  import '../scripts/checkout';
+</script>

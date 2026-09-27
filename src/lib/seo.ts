@@ -8,7 +8,7 @@ export function getProductOffer(product: Product) {
 
   try {
     const url = new URL(checkoutUrl);
-    if (url.protocol !== 'https:') return null;
+    if (url.protocol !== 'https:' || url.hostname === 'sandbox-pay.paddle.io') return null;
 
     return { '@type': 'Offer', price: product.regularPriceUSD, priceCurrency: 'USD', url: url.toString(), availability: 'https://schema.org/InStock' };
   } catch {

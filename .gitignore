@@ -1,6 +1,7 @@
 .worktrees/
 node_modules/
 dist/
+dist-sandbox/
 .astro/
 playwright-report/
 test-results/

@@ -1,5 +1,5 @@
 ---
-import { legalDocuments, type LegalSlug } from '../data/legal';
+import { legalDocuments, legalRevision, type LegalSlug } from '../data/legal';
 import type { Locale } from '../lib/locale';
 import { localizedPath } from '../lib/locale';
 
@@ -19,6 +19,7 @@ const related: Array<{ slug: LegalSlug; path: string }> = (['privacy', 'terms', 
   <p class="eyebrow">{locale === 'ja' ? '規定' : 'LEGAL'}</p>
   <h1 id="legal-title">{document.title}</h1>
   <p class="lead">{document.intro}</p>
+  <p>{locale === 'ja' ? '草案改訂日' : 'Draft revision'}: {legalRevision} — {locale === 'ja' ? '公開および商業方針の承認は未完了です。施行日ではありません。' : 'Publication and commercial approval pending. This is not an effective date.'}</p>
 </section>
 
 {document.sections.map((section, index) => (

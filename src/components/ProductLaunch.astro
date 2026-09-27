@@ -8,6 +8,7 @@ import AudioComparison from './AudioComparison.astro';
 import NewsletterForm from './NewsletterForm.astro';
 import VideoSlot from './VideoSlot.astro';
 import ReleaseAvailability from './ReleaseAvailability.astro';
+import PaddleCheckout from './PaddleCheckout.astro';
 
 interface Props {
   product: Product;
@@ -39,6 +40,9 @@ const primarySpecLabels = locale === 'ja'
   ? ['種別', '形式', 'チャンネル', '主な操作', 'プリセット', '対応環境']
   : ['Type', 'Format', 'Channels', 'Operations', 'Presets', 'Environment'];
 const specificationRows = launch.specifications[locale].filter(({ label }) => primarySpecLabels.includes(label));
+const sandboxPreview = launch.release.sandboxPreview === true;
+const downloadsPath = localizedPath('/downloads/', locale);
+const purchasePath = localizedPath('/purchase/', locale);
 ---
 
 <section class="suspended-launch" data-suspended-product data-release-state={launch.release.releaseState} aria-labelledby="product-title">
@@ -46,12 +50,16 @@ const specificationRows = launch.specifications[locale].filter(({ label }) => pr
     <div class="suspended-hero-copy">
       <p class="eyebrow">TRACES — {locale === 'ja' ? 'グラニュラー・オーディオ・エフェクト' : 'Granular Audio Effect'}</p>
       <p class="status-label">{statusLabel}</p>
+      {sandboxPreview && <p data-checkout-sandbox role="note">{locale === 'ja' ? 'サンドボックス・プレビュー — テスト購入専用です。実際の支払いは発生しません。' : 'Sandbox preview — test purchases only. No real payment is taken.'}</p>}
       <h1 id="product-title">SC SUSPENDED</h1>
       {isReleased && <p class="launch-release-message">{announcement.message}</p>}
       <p class="launch-tagline">{content.tagline}</p>
       <p class="lead">{content.description}</p>
       <div class="launch-actions">
-        {downloadProducts.some(({ slug }) => slug === product.slug) && <ReleaseAvailability slug={product.slug} name={product.name} locale={locale} variant="download" />}
+        {canBuy && <a class="button product-cta" data-suspended-event="click_suspended_buy" href={checkoutUrl}>{sandboxPreview ? (locale === 'ja' ? 'テスト購入' : 'Test purchase') : announcement.buy}</a>}
+        {downloadProducts.some(({ slug }) => slug === product.slug)
+          ? <ReleaseAvailability slug={product.slug} name={product.name} locale={locale} variant="download" />
+          : <a class="text-link" href={downloadsPath}>{locale === 'ja' ? 'ダウンロードを見る' : 'View downloads'}</a>}
         <a class="button product-cta" data-suspended-event="click_notify_suspended" href={hearHref}>{locale === 'ja' ? 'Suspendedを聴く' : 'Hear Suspended'}</a>
         {showNotify && <a class="text-link" data-suspended-event="click_notify_suspended" href="#release-notification">{releaseCta.button}</a>}
       </div>
@@ -120,7 +128,7 @@ const specificationRows = launch.specifications[locale].filter(({ label }) => pr
 
   <section id="release-notification" class="launch-section release-notification" aria-labelledby="release-notification-title">
     <p class="eyebrow">RELEASE</p>
-    <h2 id="release-notification-title">{canBuy ? announcement.message : releaseCta.title}</h2>
+    <h2 id="release-notification-title">{sandboxPreview ? (locale === 'ja' ? '購入の流れを試す' : 'Try the purchase flow') : canBuy ? announcement.message : releaseCta.title}</h2>
     {!canBuy && <p>{releaseCta.description}</p>}
     {canBuy && (
       <>
@@ -131,14 +139,19 @@ const specificationRows = launch.specifications[locale].filter(({ label }) => pr
           </dl>
         )}
         <p class="launch-platforms">{product.supportedFormats.join(' / ')} — {product.supportedPlatforms.join(' / ')}</p>
-        <a class="button product-cta" data-suspended-event="click_suspended_buy" href={checkoutUrl}>{announcement.buy}</a>
-        <p>{announcement.introNote}</p>
+        <p>{locale === 'ja' ? '基準価格は米ドルです。Paddleが対応する現地通貨で換算価格と適用税を表示します。支払前に最終金額をご確認ください。' : 'Base price in USD. Paddle shows the converted price in supported local currencies and any applicable tax. Check the final total before paying.'}</p>
+        <a class="button product-cta" data-suspended-event="click_suspended_buy" href={checkoutUrl}>{sandboxPreview ? (locale === 'ja' ? 'テスト購入' : 'Test purchase') : announcement.buy}</a>
+        {showIntroPrice && <p>{announcement.introNote}</p>}
+        <p>{locale === 'ja' ? 'お一人分のライセンスで、ご自身のコンピューター最大3台で利用できます。初期設定用リンクは、ライセンスアカウントに保持している最初の決済時のメールアドレスに届きます。' : 'One licence for one person, on up to three active computers. Initial setup uses the first checkout email retained for your licence account.'}</p>
       </>
     )}
+    <p><a class="text-link" href={purchasePath}>{locale === 'ja' ? 'ダウンロードとライセンス認証について' : 'How downloading and activation work'}</a></p>
     {showNotify && <NewsletterForm locale={locale} source="suspended_product_page" releaseState={launch.release.releaseState} />}
     <a class="text-link" data-suspended-event="open_suspended_support" href={supportPath}>{releaseCta.support}</a>
   </section>
 </section>
+
+{canBuy && <PaddleCheckout locale={locale} />}
 
 <script>
   import { trackEvent } from '../lib/analytics';

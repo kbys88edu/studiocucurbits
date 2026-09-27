@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { licensingBase } from '../lib/licensing';
+interface Props { mode: 'recovery' | 'offline'; locale?: 'en' | 'ja'; }
+const { mode, locale = 'en' } = Astro.props;
+const t = (en: string, ja: string) => locale === 'ja' ? ja : en;
+const prefix = locale === 'ja' ? '/ja' : '';
+const base = licensingBase(import.meta.env.LICENSING_API_BASE, import.meta.env.DEV);
+const title = mode === 'recovery' ? t('Recover your activation code', 'アクティベーションコードの再発行') : t('Activate your offline computer', 'オフラインのコンピューターを認証');
+const description = t('Manage your Studio Cucurbits licence securely.', 'Studio Cucurbitsのライセンスを安全に管理します。');
+---
+<BaseLayout title={`${title} | Studio Cucurbits.`} description={description} canonicalPath={`${prefix}/${mode}/`} locale={locale} breadcrumbLabel={title}>
+  <Fragment slot="head">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="robots" content="noindex" />
+    <!-- Astro emits its small navigation script inline. No third-party scripts or connections. -->
+    <meta http-equiv="Content-Security-Policy" content={`default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src ${base ? new URL(base).origin : "'none'"}; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'`} />
+  </Fragment>
+  <section class="page-intro">
+    <p class="eyebrow">{t('Licensing', 'ライセンス')}</p>
+    <h1>{title}</h1>
+    <nav aria-label={t('Licensing', 'ライセンス')}>
+      <a href={`${prefix}/recovery/`}>{t('Recover a code', 'コードの再発行')}</a> · <a href={`${prefix}/offline/`}>{t('Offline activation', 'オフライン認証')}</a>
+    </nav>
+  </section>
+  <section class="licensing section" data-licensing data-base={base} data-mode={mode}>
+    {!base ? <p>{t('Online licence services are not available here yet. Please contact', 'ライセンスサービスは現在準備中です。お問い合わせ：')} <a href="mailto:support@studiocucurbits.com">support@studiocucurbits.com</a>.</p> : <>
+      {mode === 'recovery' ? <>
+        <form id="recover" autocomplete="off">
+          <fieldset disabled><legend>{t('Request a recovery link', '再発行リンクをリクエスト')}</legend>
+            <p>{t('Enter the email address used for your purchase. Recovery creates a new code; existing product licences keep working.', '購入時のメールアドレスを入力してください。新しいコードを発行しても、既存の製品ライセンスは引き続き使用できます。')}</p>
+            <label for="recovery-email">{t('Account email address', 'アカウントのメールアドレス')}</label>
+            <input id="recovery-email" type="email" required maxlength="254" autocomplete="off" autocapitalize="off" spellcheck="false" />
+            <button class="button" type="submit">{t('Send recovery link', '再発行リンクを送信')}</button>
+          </fieldset>
+        </form>
+        <form id="recover-confirm" hidden>
+          <fieldset disabled><legend>{t('Confirm recovery', '再発行の確認')}</legend>
+            <p>{t('Opening this page has not changed your code. Confirm below to create a new code and invalidate the old one. The link expires after 15 minutes and can be used once.', 'このページを開いただけではコードは変更されません。下のボタンで新しいコードを発行すると、古いコードは無効になります。リンクの有効期限は15分で、1回のみ使用できます。')}</p>
+            <button class="button" type="submit">{t('Confirm recovery and create a new code', '確認して新しいコードを発行')}</button>
+          </fieldset>
+        </form>
+        <section id="new-code-result" hidden aria-labelledby="new-code-title">
+          <h2 id="new-code-title" tabindex="-1">{t('Your new activation code', '新しいアクティベーションコード')}</h2>
+          <p>{t('Copy this code to a safe place now. It is shown only once and disappears when you leave, reload or clear this page.', 'コードを安全な場所にコピーしてください。表示は1回のみです。このページを離れる、再読み込みする、またはクリアすると消えます。')}</p>
+          <label for="new-code">{t('New activation code', '新しいコード')}</label>
+          <input id="new-code" type="text" readonly autocomplete="off" spellcheck="false" />
+        </section>
+      </> : <>
+        <p>{t('Export a challenge from your plugin, bring it to this connected device, then transfer the response back to the original computer.', 'プラグインからチャレンジをエクスポートし、インターネットに接続したこの端末で読み込んでください。取得したレスポンスを元のコンピューターに戻します。')}</p>
+        <form id="import" autocomplete="off">
+          <fieldset id="inputs" disabled><legend>{t('1. Bring your challenge', '1. チャレンジを読み込む')}</legend>
+            <label for="file">{t('Challenge file (JSON or text, up to 65,536 bytes)', 'チャレンジファイル（JSONまたはテキスト、65,536バイトまで）')}</label>
+            <input id="file" type="file" accept=".json,.txt,application/json,text/plain" aria-describedby="file-note" />
+            <p id="file-note">{t('Choosing a file replaces the text below.', 'ファイルを選択すると下のテキストが置き換わります。')}</p>
+            <label for="challenge">{t('Or paste the challenge (JSON or SC-ACT1 text)', 'またはチャレンジを貼り付け（JSONまたはSC-ACT1テキスト）')}</label>
+            <textarea id="challenge" rows="5" maxlength="87390" required spellcheck="false" autocapitalize="off"></textarea>
+            <label for="code">{t('Customer activation code', 'アクティベーションコード')}</label>
+            <input id="code" type="password" required maxlength="43" pattern="[A-Za-z0-9_\-]{43}" autocomplete="off" autocapitalize="off" spellcheck="false" />
+            <p>{t('Your code stays in this page’s memory until activation completes or you clear the page.', 'コードは認証が完了するか、このページをクリアするまで、ページのメモリーにのみ保持されます。')}</p>
+            <button class="button" type="submit">{t('Request activation response', '認証レスポンスを取得')}</button>
+          </fieldset>
+        </form>
+        <form id="replacement" hidden>
+          <fieldset id="replacement-fields" disabled><legend>{t('2. Choose a computer to replace', '2. 認証を置き換えるコンピューターを選択')}</legend>
+            <p>{t('All seats for this plugin are occupied. Choose the computer whose activation you want to replace.', 'このプラグインの認証台数が上限に達しています。認証を置き換えるコンピューターを選択してください。')}</p>
+            <div id="seats"></div>
+            <label for="scope">{t('Replacement scope', '置き換えの範囲')}</label>
+            <select id="scope"><option value="product">{t('Replace this plugin', 'このプラグインのみ')}</option><option value="backing-account">{t('Replace all plugins from this account', 'このアカウントのすべてのプラグイン')}</option></select>
+            <label><input id="confirm" type="checkbox" required /> {t('I confirm that I want to replace the selected computer’s activation.', '選択したコンピューターの認証を置き換えることに同意します。')}</label>
+            <button class="button" type="submit">{t('Confirm replacement', '置き換えを確定')}</button>
+          </fieldset>
+        </form>
+        <section id="result" hidden aria-labelledby="result-title">
+          <h2 id="result-title" tabindex="-1">{t('Your response is ready', 'レスポンスを取得しました')}</h2>
+          <p>{t('Save this response or copy its text. Import it into the plugin on the computer that created the challenge. The plugin verifies its signature before installing the licence.', 'レスポンスを保存するか、テキストをコピーしてください。チャレンジを作成したコンピューターのプラグインに読み込みます。プラグインは署名を検証してからライセンスをインストールします。')}</p>
+          <p><a id="download" download="studio-cucurbits-activation.json">{t('Save response file', 'レスポンスファイルを保存')}</a></p>
+          <label for="response">{t('Response text (select and copy)', 'レスポンステキスト（選択してコピー）')}</label>
+          <textarea id="response" rows="6" readonly spellcheck="false"></textarea>
+        </section>
+      </>}
+      <p id="status" role="status" aria-live="polite"></p>
+      <p id="error" role="alert"></p>
+      <button id="clear" class="button" type="button">{t('Clear page and start again', 'ページをクリアして最初からやり直す')}</button>
+      <noscript><p>{t('JavaScript is required to use the activation service.', '認証サービスの利用にはJavaScriptが必要です。')}</p></noscript>
+    </>}
+  </section>
+</BaseLayout>
+<script src="../scripts/licensing/page.js"></script>
+<style>
+  .licensing { max-width: 50rem; }
+  fieldset { padding: 0; border: 0; min-width: 0; }
+  legend { font-size: clamp(1.5rem, 3vw, 2.5rem); margin-bottom: 1rem; }
+  label { display: block; margin-top: 1.25rem; }
+  input, textarea, select, button { font: inherit; }
+  input:not([type=checkbox]):not([type=radio]), textarea, select { width: 100%; max-width: 100%; padding: .75rem; margin-top: .5rem; border: 1px solid var(--ink); background: var(--paper-2); color: var(--ink); }
+  textarea { resize: vertical; }
+  textarea:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  button { border: 0; cursor: pointer; }
+  button:disabled { cursor: wait; opacity: .6; }
+  :global([data-licensing] #seats label) { padding: .75rem; border-bottom: 1px solid var(--rule); overflow-wrap: anywhere; }
+  input[type=checkbox], :global([data-licensing] input[type=radio]) { width: 1.2rem; height: 1.2rem; vertical-align: middle; }
+  [hidden] { display: none !important; }
+</style>

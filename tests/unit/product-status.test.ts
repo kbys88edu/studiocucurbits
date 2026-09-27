@@ -70,10 +70,10 @@ describe('status-driven CTAs', () => {
     expect(getProductCta(product, new Date('2026-08-16T00:00:00Z'))).toMatchObject({ label: 'buy' });
   });
 
-  it('uses the checkout URL configured for the selected currency', () => {
+  it('uses one USD-base checkout regardless of page currency', () => {
     const product = { status: 'available', publicPrice: true, regularPriceJPY: 4400, regularPriceUSD: 29, checkoutUrlJPY: 'https://example.com/jpy', checkoutUrlUSD: 'https://example.com/usd' } as Product;
 
-    expect(getProductCta(product, new Date(), 'JPY')).toMatchObject({ label: 'buy', href: 'https://example.com/jpy' });
+    expect(getProductCta(product, new Date(), 'JPY')).toMatchObject({ label: 'buy', href: 'https://example.com/usd' });
     expect(getProductCta(product, new Date(), 'USD')).toMatchObject({ label: 'buy', href: 'https://example.com/usd' });
   });
 

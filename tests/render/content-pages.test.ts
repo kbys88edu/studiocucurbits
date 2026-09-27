@@ -25,6 +25,17 @@ describe('support, legal, and pre-launch routes', () => {
     }
   });
 
+  it('publishes licence pages without working forms when no production API is configured', () => {
+    for (const route of ['/recovery', '/offline', '/ja/recovery', '/ja/offline']) {
+      const html = renderedPage(route);
+      expect(html).toContain('name="referrer" content="no-referrer"');
+      expect(html).toContain('support@studiocucurbits.com');
+      expect(html).not.toContain('id="recover"');
+      expect(html).not.toContain('id="import"');
+      expect(html).not.toContain('assets.mailerlite.com');
+    }
+  });
+
   it('generates the download overview and product template in both locales', () => {
     for (const route of ['/downloads', '/downloads/suspended', '/ja/downloads', '/ja/downloads/suspended']) {
       expect(renderedPage(route), route).not.toBe('');

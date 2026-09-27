@@ -9,10 +9,14 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "build:sandbox": "astro build --mode sandbox --outDir dist-sandbox",
     "preview": "astro preview",
+    "preview:sandbox": "astro preview --outDir dist-sandbox",
     "check": "astro check",
     "test": "vitest run --no-file-parallelism",
     "test:browser": "playwright test",
+    "test:licensing": "playwright test --config playwright.licensing.config.ts",
+    "test:checkout": "playwright test --config playwright.checkout.config.ts",
     "verify": "npm run check && npm test && npm run build"
   },
   "devDependencies": {

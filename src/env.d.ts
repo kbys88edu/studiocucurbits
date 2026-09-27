@@ -1,6 +1,7 @@
 /// <reference types="astro/client" />
 
 interface ImportMetaEnv {
+  readonly LICENSING_API_BASE?: string;
   // Read at build time by src/lib/analytics.ts. Plausible stays disabled
   // unless ANALYTICS_PROVIDER is exactly 'plausible' and ANALYTICS_ID is set.
   readonly ANALYTICS_PROVIDER?: string;
@@ -8,8 +9,8 @@ interface ImportMetaEnv {
 
   // Read at build time by src/data/products.ts. Unset means "no checkout /
   // no demo / no manual", and the page falls back to the newsletter CTA.
-  readonly PADDLE_SUSPENDED_CHECKOUT_LINK_JPY?: string;
-  readonly PADDLE_SUSPENDED_CHECKOUT_LINK_USD?: string;
+  readonly PADDLE_CLIENT_TOKEN?: string;
+  readonly PADDLE_CHECKOUT_ENVIRONMENT?: 'disabled' | 'sandbox' | 'live';
   readonly SUSPENDED_DEMO_URL?: string;
   readonly SUSPENDED_MANUAL_URL?: string;
 

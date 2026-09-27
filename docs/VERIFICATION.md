@@ -1,5 +1,48 @@
 # Release verification
 
+## OP191 publication hand-off — 27 September 2026
+
+- The owner approved proceeding with the standard Paddle.js overlay. Replaced hosted-link configuration with environment-matched public client-side tokens and fixed Suspended price IDs. The official CDN loads on click; one-page checkout receives quantity one and the exact `/downloads/suspended/` success URL. The browser does not grant licences or persist payment/customer events.
+- Fresh `npm run verify`: 91 passed / 4 existing skips in 22 files, 50 production pages, 0 errors/warnings and 2 existing generated-sandbox hints. Focused unit/render checks cover matching tokens and modes, disabled production catalogue and labelled sandbox previews excluded from offers in SEO.
+- `npm run test:checkout`: 4/4 browser checks pass with only the external SDK replaced, covering open/close/reuse, Japanese error and retry, no-JavaScript guidance, and a stalled iframe. The latter failed before the 15-second opening timeout fix and passed afterwards. Independent review found no remaining blocking code issue. `npm run test:licensing`: 5/5 regressions pass.
+- Real sandbox check: reused an existing public client token, loaded the official SDK and attempted checkout from both loopback and localhost. Paddle created an empty iframe and emitted no loaded/error event; no console warning/error explained it. The timeout closed the stalled frame, restored the button and focus, and showed the retry message. Actual overlay rendering, payment and redirect remain unverified; mocked browser tests are not provider acceptance. No payment or provider configuration change was made.
+- Follow-up isolation: a minimal standalone HTML example with the synchronously loaded official SDK and default checkout settings reproduces the same empty `about:blank` frame. A static iframe pointing to Paddle's public checkout document, without any token or SDK, is also empty in the in-app browser. A direct HTTP read returns 200 and the expected Paddle bootstrap HTML; its frame-ancestor policy is report-only. This narrows the failure to the embedded-browser/navigation boundary, not the storefront controller, but does not prove it works in an ordinary browser. Ordinary-browser sandbox acceptance remains required. Diagnostic fixtures are temporary local files, not website changes.
+- Fresh Paddle API reads verify both fixed prices are active, USD 2900 minor units, one-time, and minimum/maximum quantity 1. Production CI remains explicitly disabled. No new client token was created.
+- All five SC-Docs legal mirrors match both locales and source SHA-256 `705fa7213b3a2da40e344db8efe7a427771c890bac5261a2fc0e1092b621e40f`. No policy wording changed in this check. Website and SC-Docs `git diff --check` passed.
+- Read-only live Paddle domain lookup returned `studiocucurbits.com` as approved and Apple Pay verified. This is domain approval, not hosted-checkout eligibility or end-to-end payment acceptance.
+- The [standard overlay](https://developer.paddle.com/build/checkout/build-overlay-checkout/) avoids the separate hosted-checkout eligibility gate. Paddle documents branding, but the available sandbox dashboard exposes only brand colour and no logo upload control; an actual in-overlay logo is not configured or verified.
+
+### Remaining publication order
+
+1. Finish real-provider sandbox overlay verification and branding. The standard overlay choice and local implementation are complete. Keep one USD-base Suspended price, quantity one, and success redirect `https://www.studiocucurbits.com/downloads/suspended/`. Browser success never grants a licence; verified backend notifications do.
+2. Obtain approval of the draft commercial policies and confirm published contact routes/seller details through `SC-Docs/legal/README.md`. Record approval and effective date; remove draft labels only with that approval. Publish website wording and matching SC-Docs together before live fulfilment acceptance. Existing introductory-offer strategy is not a configured discount or permission to create a second currency price.
+3. #197 reports production CREATE_COMPLETE and health checks passing at `https://ycptr4aza4.execute-api.ap-northeast-1.amazonaws.com/production`. The owner then supplied successful atomic CONFIG/SIGNING bootstrap verification; remaining AWS acceptance stays with #197. No customer/payment/webhook/email operation occurred during bootstrap. Follow `docs/LICENSING.md` for publication/portal-switch order; unrestricted customer email remains gated on SES access. The webhook container was restored but remains empty, pending the genuine live destination secret.
+4. #195/#196 supply approved installers so the product download route exists. Do not publish a checkout whose success target is unavailable.
+5. Configure the selected live checkout and branding, populate the live webhook signing secret and verify its four event subscriptions. Rebuild and check the exact production output, both languages, policy parity, recovery/offline flows and absence of sandbox values. Obtain human publication and controlled-real-purchase approval.
+6. Run the controlled purchase, setup/download/activation, replay/repair and full-refund revocation acceptance; retain redacted evidence. Broad sales enablement remains a separate final gate, not an implication of passing local tests.
+
+## OP197 licensing integration into OP191 — 27 September 2026
+
+- Applied website commit `7e12f00` additively to `codex/op191-storefront`, preserving the uncommitted checkout and policy changes. Shared configuration/routes merged without conflicts; new files match the source commit.
+- Combined `npm run verify`: 22 test files, 91 passed / 4 existing skips; 50 production pages. Astro reported 0 errors, 0 warnings and 2 unused-variable hints in the existing generated `dist-sandbox` analytics bundle.
+- `npm run test:licensing`: all 5 browser checks passed using synthetic API responses, including confirmation, replacement retry, memory clearing, frame refusal, download and accessibility.
+- Rebuilt production output after the fixture browser build and checked that it contains no fixture API, working licence forms or sandbox checkout. All five bilingual policy mirrors remain exact; `git diff --check` passed.
+- Local integration only: no commit, push, publication, API setting change or live-sales activation. Backend `020512f` remains under #197; website/API cutover follows `docs/LICENSING.md`.
+
+## OP191 storefront preparation — 27 September 2026
+
+- Branch `codex/op191-storefront`, based on merged download-page commit `9e31e72`.
+- `npm run verify`: 0 errors/warnings/hints; 21 test files, 89 passed and 4 existing skips; production build generated 46 pages.
+- Render regression checks production with sandbox and live inputs (both remain closed), then a labelled sandbox build in an isolated temporary directory. Sandbox offers are excluded from SEO.
+- `npm run build:sandbox` generated a separate `dist-sandbox/`; production `dist/` contains no sandbox checkout URL.
+- Browser preview: English product page opens native Paddle sandbox checkout for Suspended, quantity 1, USD 29. No payment submitted in this storefront check. Japanese purchase guidance inspected at 390px, with no horizontal overflow.
+- Five EN/JA policy mirrors in SC-Docs match legal source SHA-256 `705fa7213b3a2da40e344db8efe7a427771c890bac5261a2fc0e1092b621e40f`. Revision 2026-09-27 remains Draft, not an effective publication date.
+- Independent source review completed; test-output isolation and retained-email wording findings corrected and re-reviewed.
+- No push, deployment or live-sales activation. Live hosted checkout eligibility requires Paddle approval; final policy approval, production fulfilment/recovery acceptance and approved installers remain launch gates.
+- Follow-up: Paddle sandbox hosted checkout's success redirect saved and read back as `https://www.studiocucurbits.com/downloads/suspended/`. No new payment was submitted to retest the redirect; the product download route still awaits approved installer publication. Current hosted-checkout/account settings expose no company-logo field; logo-capable overlay or site-owned inline checkout remains a separate integration choice.
+
+Earlier verification records follow.
+
 Verified on 2026-08-19 from the `feat/audio-instruments-site` worktree.
 
 ## SC Suspended pre-release overhaul
