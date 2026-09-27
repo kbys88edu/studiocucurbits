@@ -1,5 +1,23 @@
 # Release verification
 
+## OP191 approved publication — 27 September 2026
+
+- Frederik Bous approved deployment after reviewing the local website and the
+  product-specific purchase route. Policies are effective 27 September 2026;
+  the five bilingual SC-Docs mirrors match source SHA-256
+  `a0a9e20a3649a771bb3901b7479a654009c55ddc82774ee5e6a009a1a08da0c8`.
+- Fresh publication gate: `npm run verify` passed (91 tests, 4 existing skips,
+  50 pages, 0 errors/warnings, 2 existing generated-sandbox hints), checkout
+  browser 5/5 and licensing browser 5/5. Rebuilt production after fixture tests.
+- Direct inspection of both product/purchase locales confirms no Buy button,
+  checkout configuration or Paddle CDN. All ten policy pages show the effective
+  date. CI still pins checkout to `disabled`; the catalogue stays pre-release.
+- `LICENSING_API_BASE` is unset: published recovery/offline pages remain
+  support-only pending #197 acceptance. No backend, API variable, installer
+  promotion, payment or sales activation is part of this deployment.
+- Publication uses the existing main-branch GitHub Pages workflow. Deployment
+  result and live checks are recorded in #191 after that workflow finishes.
+
 ## OP191 inline branding and live signing — 27 September 2026
 
 - Supersedes the overlay implementation below. The owner confirmed that the
@@ -23,10 +41,13 @@
   0 errors/warnings and 2 existing generated-sandbox hints. Independent review
   found no critical or important issue. Licensing browser regressions passed 5/5;
   all five bilingual SC-Docs mirrors remain exact. No dependency added.
-- Real inline preview reaches Paddle's frame, but the in-app browser still
-  cannot render the external checkout document. Ordinary-browser inline payment
-  and redirect acceptance remain required; prior owner confirmation covered the
-  overlay only. Sandbox preview: `http://localhost:49401/purchase/`.
+- Real inline preview now renders Paddle's sandbox payment form in the in-app
+  browser, including its test-mode banner and matching provider-calculated USD
+  29.00 total. The owner reviewed the preview; no payment was attempted. Payment
+  and redirect acceptance remain required. At the owner's request, checkout now
+  uses `/purchase/suspended/` and `/ja/purchase/suspended/`; the same release gate
+  still withholds the checkout and Buy buttons from production. Sandbox preview:
+  `http://localhost:49401/purchase/suspended/`.
 - Production signing proof at `2026-09-27T11:12:05.004Z`: the live Paddle
   destination's secret signed an invalid `{}` envelope. Production returned 400;
   the bad-signature control returned 401. Signature verification precedes envelope

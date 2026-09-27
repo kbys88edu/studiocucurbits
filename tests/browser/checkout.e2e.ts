@@ -19,7 +19,7 @@ test('buy opens a branded inline page with localized totals and a product-specif
   await page.goto('/products/suspended/');
   expect(loads).toBe(0);
   await page.locator('[data-suspended-event="click_suspended_buy"]').first().click();
-  await expect(page).toHaveURL(/\/purchase\/$/);
+  await expect(page).toHaveURL(/\/purchase\/suspended\/$/);
   await expect(page.locator('.brand img')).toBeVisible();
   await expect(page.getByRole('heading', {name:'Purchase Suspended'})).toBeVisible();
   await expect(page.locator('[data-checkout-total]')).toHaveText('USD 31.90');
@@ -43,7 +43,7 @@ test('retries a failed SDK load in Japanese without exposing provider data', asy
   await page.route(sdk, route => route.abort());
   await page.goto('/ja/products/suspended/');
   await page.locator('[data-suspended-event="click_suspended_buy"]').first().click();
-  await expect(page).toHaveURL(/\/ja\/purchase\/$/);
+  await expect(page).toHaveURL(/\/ja\/purchase\/suspended\/$/);
   await expect(page.locator('[data-checkout-status]')).toContainText('決済画面を開けませんでした');
   await page.unroute(sdk);
   await page.route(sdk, route => route.fulfill({ contentType: 'application/javascript', body: fakeSdk }));
@@ -60,7 +60,7 @@ test('keeps guidance and support available with JavaScript disabled', async ({ b
   const page = await context.newPage();
   await page.goto('http://127.0.0.1:49398/products/suspended/');
   await page.locator('[data-suspended-event="click_suspended_buy"]').first().click();
-  await expect(page).toHaveURL(/\/purchase\/$/);
+  await expect(page).toHaveURL(/\/purchase\/suspended\/$/);
   await expect.poll(() => page.locator('[data-paddle-checkout]').innerText()).toContain('Enable JavaScript');
   await expect(page.getByRole('link', {name:'Contact support',exact:true}).first()).toBeVisible();
   await expect(page.getByRole('heading', {name:'3. Activate the plugin'})).toBeVisible();
@@ -71,7 +71,7 @@ test('stalled checkout can be retried without a stale total or duplicate SDK', a
   const stalledSdk = fakeSdk.replace("checkoutEvent({name:'checkout.loaded', data: {", "if(false) checkoutEvent({name:'checkout.loaded', data: {");
   await page.route(sdk, route => route.fulfill({contentType:'application/javascript',body:stalledSdk}));
   await page.clock.install();
-  await page.goto('/purchase/');
+  await page.goto('/purchase/suspended/');
   await expect.poll(() => page.evaluate(() => (window as any).calls?.length)).toBe(3);
   await page.clock.fastForward(20_000);
   await expect(page.locator('[data-checkout-status]')).toContainText('could not');
@@ -92,7 +92,7 @@ test('branded checkout remains accessible and fits narrow screens in both langua
   await page.route(sdk, route => route.fulfill({contentType:'application/javascript',body:fakeSdk}));
   for (const locale of ['', '/ja']) {
     await page.setViewportSize({width:1280,height:1000});
-    await page.goto(`${locale}/purchase/`);
+    await page.goto(`${locale}/purchase/suspended/`);
     await expect(page.locator('[data-checkout-total]')).not.toHaveText('—');
     expect((await new AxeBuilder({page}).include('[data-paddle-checkout]').analyze()).violations).toEqual([]);
     await page.screenshot({path:testInfo.outputPath(locale ? 'inline-ja-desktop.png' : 'inline-en-desktop.png')});

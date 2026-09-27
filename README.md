@@ -63,14 +63,15 @@ Both languages use the same USD-base price;
 Paddle displays the customer's final currency and applicable tax at checkout.
 This preview is labelled test-only and writes to `dist-sandbox/`, never the
 production deployment directory. On a purchase click, the site loads the
-official Paddle.js CDN script and opens the standard overlay. It passes one
+product-specific `/purchase/suspended/` page (also `/ja/purchase/suspended/`),
+which loads the official Paddle.js CDN script and opens the inline form. It passes one
 Suspended item, using the fixed environment-specific price in `src/lib/checkout.ts`;
 both Paddle prices also enforce minimum and maximum quantity of one.
-The overlay redirects successful purchases to
+The checkout redirects successful purchases to
 `https://www.studiocucurbits.com/downloads/suspended/`, not the general downloads
 index. That route must be published with approved installers before end-to-end
 acceptance or live sales. No customer or payment event data is persisted by the
-site. Failed or stalled opening restores the purchase buttons for retry.
+site. Failed or stalled opening clears the quote and presents a retry button.
 When an agent shell triggers Astro's automatic background mode, set
 `ASTRO_PREVIEW_BACKGROUND=0` before starting the preview: Astro 7.2.4's background
 launcher drops the custom output directory. Verify the visible sandbox label.
@@ -80,11 +81,11 @@ approved catalogue release, approved public pricing, a live client-side token,
 and changing CI's explicit `disabled` setting to `live`. Keep those gates closed
 until production fulfilment/recovery acceptance, installers and final policies
 are ready. This integration does not depend on hosted-checkout eligibility.
-Paddle-side branding still needs verification: the available dashboard exposes
-a colour setting but no logo upload control. Do not claim the overlay logo is
-configured until it is visible in the actual checkout.
-`/purchase/` is general guidance, not payment confirmation or a
-recovery portal; a browser redirect never proves payment.
+The inline page uses the website logo, typography and palette around Paddle's
+native payment controls. The actual sandbox form has been visually verified;
+payment and redirect acceptance are separate. The purchase page shows only
+download/activation guidance when sales are disabled. It is not payment
+confirmation or a recovery portal; a browser redirect never proves payment.
 
 ## Source basis
 

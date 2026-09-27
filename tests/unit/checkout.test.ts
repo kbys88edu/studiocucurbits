@@ -7,7 +7,7 @@ const live = `live_${'b'.repeat(27)}`;
 describe('checkout build boundary', () => {
   it('enables sandbox checkout only in an explicitly labelled sandbox build', () => {
     expect(resolveCheckout(sandbox, 'sandbox', 'sandbox')).toMatchObject({
-      url: 'https://www.studiocucurbits.com/purchase/', sandbox: true,
+      url: 'https://www.studiocucurbits.com/purchase/suspended/', sandbox: true,
       token: sandbox, priceId: 'pri_01m3eaewadnm7grc2armnnkbsr',
     });
     for (const mode of ['production', 'development', 'test']) {

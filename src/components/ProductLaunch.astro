@@ -41,7 +41,7 @@ const primarySpecLabels = locale === 'ja'
 const specificationRows = launch.specifications[locale].filter(({ label }) => primarySpecLabels.includes(label));
 const sandboxPreview = launch.release.sandboxPreview === true;
 const downloadsPath = localizedPath('/downloads/', locale);
-const purchasePath = localizedPath('/purchase/', locale);
+const purchasePath = localizedPath(`/purchase/${product.slug}/`, locale);
 ---
 
 <section class="suspended-launch" data-suspended-product data-release-state={launch.release.releaseState} aria-labelledby="product-title">

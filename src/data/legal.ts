@@ -17,8 +17,8 @@ export interface LegalDocument {
 export type LegalSlug = 'privacy' | 'terms' | 'license' | 'refund' | 'business';
 
 /**
- * Proposed legal copy for review. The revision identifies this draft; it is not
- * a publication or effective date. Update the SC-Docs mirrors from this source.
+ * Owner-approved legal copy, effective on the revision date below.
+ * Update the SC-Docs mirrors from this source when publishing changes.
  */
 export const legalRevision = '2026-09-27';
 
