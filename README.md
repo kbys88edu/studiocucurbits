@@ -67,11 +67,13 @@ product-specific `/purchase/suspended/` page (also `/ja/purchase/suspended/`),
 which loads the official Paddle.js CDN script and opens the inline form. It passes one
 Suspended item, using the fixed environment-specific price in `src/lib/checkout.ts`;
 both Paddle prices also enforce minimum and maximum quantity of one.
-The checkout redirects successful purchases to
-`https://www.studiocucurbits.com/downloads/suspended/`, not the general downloads
-index. That route must be published with approved installers before end-to-end
-acceptance or live sales. No customer or payment event data is persisted by the
-site. Failed or stalled opening clears the quote and presents a retry button.
+After a successful checkout, the buyer opens the same-language `/setup/` page
+in the same tab to generate an activation code once fulfilment is ready. A
+setup email provides a backup link. The download route still needs approved
+installers before end-to-end acceptance or live sales. The site keeps only the
+transaction ID and random setup secret in tab-local `sessionStorage`, without
+customer or card details. Failed or stalled opening clears the quote and
+presents a retry button.
 When an agent shell triggers Astro's automatic background mode, set
 `ASTRO_PREVIEW_BACKGROUND=0` before starting the preview: Astro 7.2.4's background
 launcher drops the custom output directory. Verify the visible sandbox label.

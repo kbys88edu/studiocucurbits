@@ -1,5 +1,21 @@
 # Release verification
 
+## Current OP198 checkout setup boundary — 28 September 2026
+
+- The checkout now targets same-language `/setup/` in the buyer's tab after
+  Paddle completion. The setup email is a backup; verified backend fulfilment
+  and an explicit customer action are required before code generation. A
+  redirect alone never grants a licence.
+- Publish EN/JA setup pages with the accepted production API configuration
+  before the service sends setup links. Deploy the reviewed setup API/IAM and
+  email switch before enabling the checkout redirect. Keep public Buy disabled
+  until controlled production purchase, email, activation and refund acceptance
+  passes. Approved installers remain required for the download path.
+- The OP191 entries below record the earlier download-page success target and
+  its then-current publication plan; they do not describe the current checkout.
+
+## Historical verification records
+
 ## OP191 close-out / API binding — 27 September 2026
 
 - Owner instructed completion of executable integration work and transfer of
@@ -93,7 +109,7 @@
 - Read-only live Paddle domain lookup returned `studiocucurbits.com` as approved and Apple Pay verified. This is domain approval, not hosted-checkout eligibility or end-to-end payment acceptance.
 - The [standard overlay](https://developer.paddle.com/build/checkout/build-overlay-checkout/) avoids the separate hosted-checkout eligibility gate. Paddle documents branding, but the available sandbox dashboard exposes only brand colour and no logo upload control; an actual in-overlay logo is not configured or verified.
 
-### Remaining publication order
+### Historical publication order (superseded by OP198)
 
 1. Finish real-provider sandbox overlay verification and branding. The standard overlay choice and local implementation are complete. Keep one USD-base Suspended price, quantity one, and success redirect `https://www.studiocucurbits.com/downloads/suspended/`. Browser success never grants a licence; verified backend notifications do.
 2. Obtain approval of the draft commercial policies and confirm published contact routes/seller details through `SC-Docs/legal/README.md`. Record approval and effective date; remove draft labels only with that approval. Publish website wording and matching SC-Docs together before live fulfilment acceptance. Existing introductory-offer strategy is not a configured discount or permission to create a second currency price.
