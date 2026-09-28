@@ -102,7 +102,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         {
           heading: 'Purchase notifications and setup',
           paragraphs: [
-            'For initial licence setup after a confirmed purchase, we email a one-time setup link to the retained initial checkout email. Your activation code is shown once in your browser after you confirm a setup or recovery link; we do not email the code in plaintext.',
+            'After a confirmed purchase, checkout offers secure licence setup in the same browser tab. We also email a one-time setup link to the retained initial checkout email as a backup. Your activation code is shown once in your browser after you confirm setup in the tab or use a setup or recovery link; we do not email the code in plaintext.',
             'The licence database and ordinary application logs do not retain payment-card details, billing addresses or tax details. Authenticated notifications from Paddle can contain personal data while they await processing or failure investigation in encrypted queues. They are not copied into the licence database or ordinary logs.',
           ],
         },
@@ -186,7 +186,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         {
           heading: '購入通知と初期設定',
           paragraphs: [
-            '購入の確認後、ライセンスの初期設定のため、保持している最初の決済時のメールアドレスに一度限りの初期設定リンクを送信します。認証コードは、初期設定または復旧リンクをブラウザーで確認した後に一度だけ表示します。コードを平文でメール送信することはありません。',
+            '購入の確認後、決済を行った同じブラウザーのタブで安全にライセンスを初期設定できます。予備として、保持している最初の決済時のメールアドレスにも一度限りの初期設定リンクを送信します。認証コードは、同じタブで初期設定を確定するか、初期設定または復旧リンクをブラウザーで確認した後に一度だけ表示します。コードを平文でメール送信することはありません。',
             'ライセンス用データベースと通常のアプリケーションログには、カード情報、請求先住所、税務情報を保存しません。Paddleからの認証済み通知には個人データが含まれる場合があり、処理待ちや失敗の調査中は暗号化されたキューに保持します。通知本文をライセンス用データベースや通常のログにコピーすることはありません。',
           ],
         },
@@ -229,7 +229,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
           heading: 'Delivery',
           paragraphs: [
             'Products are delivered digitally. No physical item is shipped. Public downloads let you try the plugin in demo mode before buying; downloading does not grant a paid licence.',
-            'For initial licence setup after payment is confirmed, a one-time setup link is emailed to the initial checkout address retained for your licence account. Confirm the link in your browser to see your activation code once and use it to activate the plugin. The code is not emailed in plaintext. If the setup email does not arrive, contact support for help with delivery or recovery.',
+            'After payment is confirmed, checkout offers secure initial licence setup in the same browser tab. We also email a one-time setup link to the initial checkout address retained for your licence account as a backup. Confirm setup in the tab or from the email to see your activation code once and use it to activate the plugin. The code is not emailed in plaintext. If you cannot use tab setup or the email does not arrive, contact support for help with delivery or recovery.',
           ],
         },
         {
@@ -267,7 +267,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
           heading: '提供方法',
           paragraphs: [
             '製品はデジタルデータとして提供します。物理的な商品の発送はありません。公開ダウンロードにより、購入前にプラグインをデモモードでお試しいただけます。ダウンロードだけでは有料ライセンスは付与されません。',
-            '決済の確認後、ライセンスの初期設定のため、ライセンスアカウントに保持している最初の決済時のメールアドレスに一度限りの初期設定リンクを送信します。ブラウザーでリンクを確認すると認証コードが一度だけ表示され、このコードでプラグインを認証できます。コードを平文でメール送信することはありません。初期設定メールが届かない場合は、配信や復旧についてサポートまでご連絡ください。',
+            '決済の確認後、決済を行った同じブラウザーのタブで安全にライセンスを初期設定できます。予備として、ライセンスアカウントに保持している最初の決済時のメールアドレスにも一度限りの初期設定リンクを送信します。同じタブで初期設定を確定するか、メールのリンクを確認すると認証コードが一度だけ表示され、このコードでプラグインを認証できます。コードを平文でメール送信することはありません。タブで初期設定できない場合や初期設定メールが届かない場合は、配信や復旧についてサポートまでご連絡ください。',
           ],
         },
         {
@@ -464,7 +464,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: 'Delivery',
-          paragraphs: ['Public downloads are available to try in demo mode before purchase. For initial licence setup after payment is confirmed, a one-time setup link is emailed to the initial checkout address retained for your licence account. The activation code is shown once after you confirm the link in your browser; it is not emailed in plaintext. If the setup email does not arrive, contact us for help with delivery or recovery.'],
+          paragraphs: ['Public downloads are available to try in demo mode before purchase. After payment is confirmed, checkout offers secure initial licence setup in the same browser tab. We also email a one-time setup link to the initial checkout address retained for your licence account as a backup. The activation code is shown once after you confirm setup in the tab or from the email; it is not emailed in plaintext. If you cannot use tab setup or the email does not arrive, contact us for help with delivery or recovery.'],
         },
         {
           heading: 'Returns and refunds',
@@ -502,7 +502,7 @@ export const legalDocuments: Record<LegalSlug, Localized<LegalDocument>> = {
         },
         {
           heading: '商品の引渡時期',
-          paragraphs: ['ご購入前に公開ダウンロードをデモモードでお試しいただけます。決済の確認後、ライセンスの初期設定のため、ライセンスアカウントに保持している最初の決済時のメールアドレスに一度限りの初期設定リンクを送信します。ブラウザーでリンクを確認すると認証コードが一度だけ表示されます。コードを平文でメール送信することはありません。初期設定メールが届かない場合は、配信や復旧についてご連絡ください。'],
+          paragraphs: ['ご購入前に公開ダウンロードをデモモードでお試しいただけます。決済の確認後、決済を行った同じブラウザーのタブで安全にライセンスを初期設定できます。予備として、ライセンスアカウントに保持している最初の決済時のメールアドレスにも一度限りの初期設定リンクを送信します。同じタブで初期設定を確定するか、メールのリンクを確認すると認証コードが一度だけ表示されます。コードを平文でメール送信することはありません。タブで初期設定できない場合や初期設定メールが届かない場合は、配信や復旧についてご連絡ください。'],
         },
         {
           heading: '返品・キャンセル（返品特約）',

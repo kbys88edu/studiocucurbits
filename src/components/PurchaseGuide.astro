@@ -15,6 +15,10 @@ const canBuy = getLaunchRelease(launch, locale).canBuy;
   <h1 id="purchase-title">{ja ? 'ダウンロードからライセンス認証まで' : 'From download to activation'}</h1>
   <p class="lead">{ja ? 'インストーラーは公開されており、購入前にデモを試せます。ライセンスはPaddleで購入できます。' : 'Installers are public, so you can try the demo before buying. Purchase a licence through Paddle when you are ready.'}</p>
   <p>{ja ? 'このページは支払い完了の確認ではありません。お支払い状況はPaddleの確認画面と領収書でご確認ください。' : 'This page is guidance, not payment confirmation. Check Paddle’s confirmation and receipt for your payment status.'}</p>
+  <p data-payment-link-guidance hidden role="alert">{ja ? 'この決済リンクはここでは開けません。新しい購入は開始されていません。サポートへご連絡ください。' : 'This payment link cannot be opened here. No new purchase was started. Please contact support.'}</p>
+  <script is:inline>
+    if (new URLSearchParams(location.search).has('_ptxn')) document.querySelector('[data-payment-link-guidance]')?.removeAttribute('hidden');
+  </script>
 </section>}
 <section class="section copy-block">
   <h2>{ja ? '1. インストールする' : '1. Install the plugin'}</h2>
@@ -22,9 +26,9 @@ const canBuy = getLaunchRelease(launch, locale).canBuy;
   <a class="button" href={localizedPath('/downloads/', locale)}>{ja ? 'ダウンロードを見る' : 'View downloads'}</a>
 </section>
 <section class="section copy-block">
-  <h2>{ja ? '2. メールの設定用リンクを開く' : '2. Open your setup email'}</h2>
-  <p>{ja ? '初回購入の完了後、ライセンスアカウントに保持している最初の決済時のメールアドレスに、初期設定用の使い捨てリンクが届きます。後日の決済でメールアドレスを変更しても、復旧先は自動的には変わりません。リンク先で確認すると認証コードが表示されます。ページを閉じる前にコードを保存してください。コードを公開したり、他の人に渡したりしないでください。' : 'After your first completed purchase, a one-time setup link is sent to the initial checkout email retained for your licence account. Changing the email at a later checkout does not automatically change your recovery address. Confirm the link to reveal your activation code. Save it before leaving the page, and do not publish or share it.'}</p>
-  <p>{ja ? 'メールが見つからない場合は、迷惑メールフォルダーをご確認ください。リンクの期限が切れた場合やコードを紛失した場合は、ライセンス復旧を利用してください。復旧先が分からない場合はサポートへご連絡ください。' : 'If the email is missing, check your spam folder. Use licence recovery if the link expires or you lose the code. Contact support if you cannot find the recovery route.'}</p>
+  <h2>{ja ? '2. このタブでライセンスを設定する' : '2. Set up your licence in this tab'}</h2>
+  <p>{ja ? '初回購入の決済後、このタブで認証コードを作成できます。決済の確認に少し時間がかかる場合があります。コードは1回のみ表示されるため、ページを閉じる前に保存し、他の人には渡さないでください。' : 'After your first purchase, this tab opens secure licence setup. Payment confirmation may take a moment. Generate your activation code there, save it before leaving, and do not share it.'}</p>
+  <p>{ja ? '初回購入時のメールアドレスにも設定用リンクが予備として届きます。タブを閉じた場合やコードを紛失した場合は、メールのリンクまたはライセンス復旧を利用してください。' : 'A setup link also arrives at your initial checkout email as a backup. If you lose this tab or code, use the email link or licence recovery.'}</p>
 </section>
 <section class="section copy-block">
   <h2>{ja ? '3. プラグインを認証する' : '3. Activate the plugin'}</h2>

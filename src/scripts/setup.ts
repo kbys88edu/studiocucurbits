@@ -177,6 +177,9 @@ if (root && window.top !== window.self) {
     proof = undefined;
     token = null;
   });
+  window.addEventListener('pageshow', event => {
+    if (event.persisted) location.reload();
+  });
 
   if (token) {
     if (!codePattern.test(token)) {

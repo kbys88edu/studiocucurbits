@@ -41,7 +41,7 @@ it('keeps sandbox checkout out of production and exposes only labelled sandbox p
     expect(product).not.toContain('data-paddle-token');
     expect(purchase).toContain(`data-paddle-token="${token}"`);
     expect(purchase).toContain('data-paddle-price="pri_01m3eaewadnm7grc2armnnkbsr"');
-    expect(purchase).toContain('data-paddle-success="https://www.studiocucurbits.com/downloads/suspended/"');
+    expect(purchase).toContain(`data-paddle-success="${locale}/setup/"`);
     expect(purchase).toContain('data-checkout-sandbox');
     expect(product).toContain('USD');
     expect(product).not.toContain('href="/downloads/suspended/"');
