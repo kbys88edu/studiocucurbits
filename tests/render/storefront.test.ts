@@ -9,13 +9,13 @@ const stagingApi = 'https://abcdefghij.execute-api.ap-northeast-1.amazonaws.com/
 const output = mkdtempSync(join(tmpdir(), 'op191-storefront-test-'));
 afterAll(() => rmSync(output, { recursive: true, force: true }));
 const page = (path: string) => readFileSync(join(output, path, 'index.html'), 'utf8');
-function build(mode: string, environment: string, url: string) {
+function build(mode: string, environment: string, url: string, controlled = false) {
   // Vitest exports MODE=test; Astro would otherwise inherit it over --mode.
   const { MODE: _testMode, ...env } = process.env;
   execFileSync('npm', ['run', 'build', '--', '--mode', mode, '--outDir', output], {
     cwd: new URL('../..', import.meta.url), stdio: 'pipe',
     env: { ...env, DOWNLOAD_RELEASE_SNAPSHOT: 'null', LICENSING_API_BASE: stagingApi, PADDLE_CHECKOUT_ENVIRONMENT: environment,
-      PADDLE_CLIENT_TOKEN: url },
+      PADDLE_CLIENT_TOKEN: url, CONTROLLED_LIVE_CHECKOUT: String(controlled) },
   });
 }
 
@@ -34,6 +34,13 @@ it('keeps sandbox checkout out of production and exposes only labelled sandbox p
   expect(page('/products/suspended')).not.toContain(`live_${'b'.repeat(27)}`);
   expect(page('/purchase/suspended')).not.toContain('data-paddle-token');
   expect(page('/ja/purchase/suspended')).not.toContain('data-paddle-token');
+  build('production', 'live', `live_${'b'.repeat(27)}`, true);
+  for (const locale of ['', '/ja']) {
+    expect(page(`${locale}/products/suspended`)).not.toContain('data-paddle-token');
+    expect(page(`${locale}/products/suspended`)).not.toContain('data-suspended-event="click_suspended_buy"');
+    expect(page(`${locale}/purchase/suspended`)).toContain(`data-paddle-token="live_${'b'.repeat(27)}"`);
+    expect(page(`${locale}/purchase/suspended`)).not.toContain('data-checkout-sandbox');
+  }
   build('sandbox', 'sandbox', token);
   expect(page('/setup')).toContain(`data-base="${stagingApi}"`);
   expect(page('/recovery')).toContain(`data-base="${stagingApi}"`);

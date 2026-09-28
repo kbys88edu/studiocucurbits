@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      controlled_live_checkout:
+        description: 'Temporarily enable the unlinked Suspended checkout for live acceptance'
+        type: boolean
+        default: false
   schedule:
     - cron: '7,22,37,52 * * * *'
 
@@ -51,8 +56,9 @@ jobs:
       ANALYTICS_ID: ${{ vars.ANALYTICS_ID }}
       SUSPENDED_DEMO_URL: ${{ vars.SUSPENDED_DEMO_URL }}
       SUSPENDED_MANUAL_URL: ${{ vars.SUSPENDED_MANUAL_URL }}
-      # Keep sales disabled until a separately approved production launch.
-      PADDLE_CHECKOUT_ENVIRONMENT: disabled
+      # Only a manual acceptance run can activate the unlinked checkout page.
+      PADDLE_CHECKOUT_ENVIRONMENT: ${{ github.event_name == 'workflow_dispatch' && inputs.controlled_live_checkout && 'live' || 'disabled' }}
+      CONTROLLED_LIVE_CHECKOUT: ${{ github.event_name == 'workflow_dispatch' && inputs.controlled_live_checkout && 'true' || 'false' }}
       PADDLE_CLIENT_TOKEN: ${{ vars.PADDLE_CLIENT_TOKEN }}
     steps:
       - uses: actions/checkout@v4

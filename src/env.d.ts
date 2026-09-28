@@ -11,6 +11,7 @@ interface ImportMetaEnv {
   // no demo / no manual", and the page falls back to the newsletter CTA.
   readonly PADDLE_CLIENT_TOKEN?: string;
   readonly PADDLE_CHECKOUT_ENVIRONMENT?: 'disabled' | 'sandbox' | 'live';
+  readonly CONTROLLED_LIVE_CHECKOUT?: 'true' | 'false';
   readonly SUSPENDED_DEMO_URL?: string;
   readonly SUSPENDED_MANUAL_URL?: string;
 
