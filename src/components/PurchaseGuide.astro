@@ -1,13 +1,17 @@
 ---
 import type { Locale } from '../lib/locale';
 import { localizedPath } from '../lib/locale';
-import { getProductBySlug } from '../data/products';
+import { getProductBySlug, suspendedCheckout } from '../data/products';
 import { getLaunchRelease } from '../lib/product';
 import PaddleCheckout from './PaddleCheckout.astro';
 const { locale } = Astro.props as { locale: Locale };
 const ja = locale === 'ja';
 const launch = getProductBySlug('suspended')!.launch!;
-const canBuy = getLaunchRelease(launch, locale).canBuy;
+const canBuy = getLaunchRelease(launch, locale).canBuy || (
+  import.meta.env.MODE === 'production' &&
+  import.meta.env.CONTROLLED_LIVE_CHECKOUT === 'true' &&
+  !suspendedCheckout.sandbox && Boolean(suspendedCheckout.token)
+);
 ---
 
 {canBuy ? <PaddleCheckout locale={locale} /> : <section class="page-intro" aria-labelledby="purchase-title">
