@@ -65,4 +65,13 @@ describe('SC Suspended sales routes', () => {
     expect(support).toContain('Reporting a bug');
     expect(support).not.toContain('C:\\Program Files\\Common Files\\VST3');
   });
+
+  it('publishes private setup routes in both languages without a payment SDK', () => {
+    for (const path of ['/setup', '/ja/setup']) {
+      const page = renderedPage(path);
+      expect(page).toContain('data-setup');
+      expect(page).not.toContain('cdn.paddle.com');
+      expect(page).not.toContain('data-paddle-token');
+    }
+  });
 });

@@ -1,6 +1,6 @@
 # Website licensing pages
 
-`/recovery/` and `/offline/` (also `/ja/…`) use the existing licensing API.
+`/setup/`, `/recovery/` and `/offline/` (also `/ja/…`) use the licensing API.
 The legal `/license/` page is unchanged. No payment SDK or customer database
 is added to this static site.
 
@@ -14,8 +14,14 @@ activation code, API credential or recovery token in this setting.
 
 Backend requirements: exact CORS origin `https://www.studiocucurbits.com`, POST,
 Content-Type, no cookies; `PortalBaseUrl=https://www.studiocucurbits.com`.
-Recovery/setup email links use `/recovery/#token=…`. Fragments avoid static-host
-request logs; the controller removes them and requires explicit confirmation.
+Setup email links use `/setup/#token=…`; customer-requested recovery links use
+`/recovery/#token=…`. Fragments avoid static-host request logs; both controllers
+remove them and require explicit confirmation. Once the separate checkout
+redirect is released, it will keep a random 32-byte proof in tab-local
+`sessionStorage` and pass only its SHA-256 digest to Paddle. `/setup/` sends
+the transaction ID and proof to the service for a
+bounded status check, then creates a code only after an explicit click. Its
+routes are noindex and absent from the sitemap.
 Changing language after opening a confirmation link discards it: reopen the
 email link to confirm. Codes, challenges and responses are held only in memory
 and cleared on page exit. No analytics/newsletter embeds belong on these pages.
