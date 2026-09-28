@@ -239,3 +239,15 @@ test('Japanese setup page is accessible and an embedded page refuses setup', asy
   });
   await expect(page.frameLocator('iframe').locator('[data-setup]')).toContainText('Open this page directly');
 });
+
+test('a Paddle payment link on the gated production purchase page gives guidance without opening checkout', async ({ page }) => {
+  let sdkLoads = 0;
+  await page.route('https://cdn.paddle.com/paddle/v2/paddle.js', route => {
+    sdkLoads++;
+    return route.abort();
+  });
+  await page.goto(`/purchase/suspended/?_ptxn=txn_${'a'.repeat(26)}`);
+  await expect(page.getByRole('alert')).toContainText('payment link');
+  await expect(page.getByRole('heading', { name: 'Purchase Suspended' })).toHaveCount(0);
+  expect(sdkLoads).toBe(0);
+});

@@ -3,11 +3,12 @@ import AxeBuilder from '@axe-core/playwright';
 
 const sdk = 'https://cdn.paddle.com/paddle/v2/paddle.js';
 // Fake only the external SDK. The page, routing, summary and retry logic are real.
-const fakeSdk = `window.calls = []; window.Paddle = {
+const fakeSdk = `window.calls = []; window.openCount = 0; window.Paddle = {
   Environment: {set: value => calls.push(['environment', value])},
   Initialize: options => { window.checkoutEvent = options.eventCallback; calls.push(['initialize', options.token]); },
   Checkout: {close: () => checkoutEvent({name:'checkout.closed'}), open: options => {
-    calls.push(['open', options]); checkoutEvent({name:'checkout.loaded', data: {
+    calls.push(['open', options]); window.openCount++;
+    checkoutEvent({name:'checkout.loaded', data: { transaction_id:'txn_' + 'a'.repeat(25) + window.openCount,
       currency_code:'USD', totals:{subtotal:29, tax:2.9, total:31.9, discount:0, credit:0, balance:31.9}
     }});
   }}
@@ -22,21 +23,69 @@ test('buy opens a branded inline page with localized totals and a product-specif
   await expect(page).toHaveURL(/\/purchase\/suspended\/$/);
   await expect(page.locator('.brand img')).toBeVisible();
   await expect(page.getByRole('heading', {name:'Purchase Suspended'})).toBeVisible();
+  await expect(page.getByRole('heading', {name:'2. Set up your licence in this tab'})).toBeVisible();
   await expect(page.locator('[data-checkout-total]')).toHaveText('USD 31.90');
-  await expect.poll(() => page.evaluate(() => (window as any).calls)).toEqual([
-    ['environment', 'sandbox'], ['initialize', `test_${'a'.repeat(27)}`],
-    ['open', { items: [{ priceId: 'pri_01m3eaewadnm7grc2armnnkbsr', quantity: 1 }],
-      settings: { displayMode: 'inline', variant: 'one-page', locale: 'en', theme: 'light',
-        frameTarget: 'paddle-checkout-frame', frameInitialHeight: 450,
-        frameStyle: 'width: 100%; min-width: 312px; background-color: transparent; border: none;',
-        successUrl: 'https://www.studiocucurbits.com/downloads/suspended/', showAddDiscounts: false } }],
-  ]);
+  const calls = await page.evaluate(() => (window as any).calls);
+  expect(calls.slice(0, 2)).toEqual([['environment', 'sandbox'], ['initialize', `test_${'a'.repeat(27)}`]]);
+  const options = calls[2][1];
+  expect(options.items).toEqual([{ priceId: 'pri_01m3eaewadnm7grc2armnnkbsr', quantity: 1 }]);
+  expect(options.settings).toMatchObject({ displayMode: 'inline', variant: 'one-page', locale: 'en',
+    successUrl: new URL('/setup/', page.url()).href });
+  expect(options.customData?.sc_setup_sha256_v1).toMatch(/^[a-f0-9]{64}$/);
+  const proof = await page.evaluate(async () => {
+    const secret = sessionStorage.getItem(`sc-setup-v1:txn_${'a'.repeat(25)}1`);
+    if (!secret) return null;
+    const bytes = Uint8Array.from(atob(secret.replaceAll('-', '+').replaceAll('_', '/') + '='), c => c.charCodeAt(0));
+    const digest = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)), b => b.toString(16).padStart(2, '0')).join('');
+    return { secret, length: bytes.length, digest, latest: sessionStorage.getItem('sc-setup-v1:latest') };
+  });
+  expect(proof?.length).toBe(32);
+  expect(proof?.latest).toBe(`txn_${'a'.repeat(25)}1`);
+  expect(proof?.digest).toBe(options.customData.sc_setup_sha256_v1);
+  expect(JSON.stringify(options)).not.toContain(proof!.secret);
   await page.evaluate(() => (window as any).checkoutEvent({name:'checkout.updated', data:{
     currency_code:'JPY', totals:{subtotal:4000,tax:400,total:4400,discount:0,credit:0,balance:4400}
   }}));
   await expect(page.locator('[data-checkout-total]')).toHaveText('JPY 4,400');
   await expect(page.getByRole('link', {name:'Refund policy',exact:true}).first()).toBeVisible();
   expect(loads).toBe(1);
+});
+
+test('failed checkout retry keeps separate tab-local proof and completion opens setup in this tab', async ({ page }) => {
+  await page.route(sdk, route => route.fulfill({ contentType: 'application/javascript', body: fakeSdk }));
+  await page.goto('/purchase/suspended/');
+  await expect(page.locator('[data-checkout-total]')).not.toHaveText('—');
+  const first = await page.evaluate(() => sessionStorage.getItem(`sc-setup-v1:txn_${'a'.repeat(25)}1`));
+  await page.evaluate(() => (window as any).checkoutEvent({name:'checkout.error'}));
+  await page.locator('[data-checkout-retry]').click();
+  await expect(page.locator('[data-checkout-total]')).not.toHaveText('—');
+  const second = await page.evaluate(() => sessionStorage.getItem(`sc-setup-v1:txn_${'a'.repeat(25)}2`));
+  expect(first).toMatch(/^[A-Za-z0-9_-]{43}$/);
+  expect(second).toMatch(/^[A-Za-z0-9_-]{43}$/);
+  expect(second).not.toBe(first);
+  await page.evaluate(() => (window as any).checkoutEvent({name:'checkout.completed',data:{transaction_id:`txn_${'a'.repeat(25)}2`}}));
+  await expect(page).toHaveURL(/\/setup\/$/);
+  expect(page.url()).not.toContain(second!);
+});
+
+test('Paddle payment links never open a second item-based checkout', async ({ page }) => {
+  let loads = 0;
+  await page.route(sdk, route => { loads++; return route.fulfill({ contentType: 'application/javascript', body: fakeSdk }); });
+  for (const value of [`txn_${'b'.repeat(26)}`, 'malformed']) {
+    await page.goto(`/purchase/suspended/?_ptxn=${value}`);
+    await expect(page.locator('[data-checkout-status]')).toContainText('payment link');
+    expect(await page.evaluate(() => (window as any).calls?.filter((call: any[]) => call[0] === 'open') ?? [])).toEqual([]);
+  }
+  expect(loads).toBe(0);
+});
+
+test('a new checkout cannot reuse a stale setup handoff when its loaded callback is lost', async ({ page }) => {
+  const stalledSdk = fakeSdk.replace("checkoutEvent({name:'checkout.loaded', data: {", "if(false) checkoutEvent({name:'checkout.loaded', data: {");
+  await page.route(sdk, route => route.fulfill({ contentType: 'application/javascript', body: stalledSdk }));
+  await page.addInitScript(() => sessionStorage.setItem('sc-setup-v1:latest', `txn_${'z'.repeat(26)}`));
+  await page.goto('/purchase/suspended/');
+  await expect.poll(() => page.evaluate(() => (window as any).calls?.some((call: any[]) => call[0] === 'open'))).toBe(true);
+  expect(await page.evaluate(() => sessionStorage.getItem('sc-setup-v1:latest'))).toBeNull();
 });
 
 test('retries a failed SDK load in Japanese without exposing provider data', async ({ page }) => {
@@ -49,6 +98,9 @@ test('retries a failed SDK load in Japanese without exposing provider data', asy
   await page.route(sdk, route => route.fulfill({ contentType: 'application/javascript', body: fakeSdk }));
   await page.locator('[data-checkout-retry]').click();
   await expect.poll(() => page.evaluate(() => (window as any).calls?.find((c: any[]) => c[0] === 'open')?.[1].settings.locale)).toBe('ja');
+  await page.evaluate(() => (window as any).checkoutEvent({ name: 'checkout.payment.failed' }));
+  await expect(page.locator('[data-checkout-status]')).toContainText('お支払いが完了しませんでした');
+  await expect(page.locator('[data-checkout-retry]')).toBeHidden();
   await page.evaluate(() => (window as any).checkoutEvent({ name: 'checkout.error', data: { secret: 'private-provider-error' } }));
   await expect(page.locator('[data-checkout-status]')).toContainText('決済画面を開けませんでした');
   await expect(page.locator('body')).not.toContainText('private-provider-error');
@@ -77,7 +129,7 @@ test('stalled checkout can be retried without a stale total or duplicate SDK', a
   await expect(page.locator('[data-checkout-status]')).toContainText('could not');
   await page.locator('[data-checkout-retry]').click();
   await expect.poll(() => page.evaluate(() => (window as any).calls.filter((c: any[]) => c[0] === 'open').length)).toBe(2);
-  await page.evaluate(() => (window as any).checkoutEvent({name:'checkout.loaded',data:{
+  await page.evaluate(() => (window as any).checkoutEvent({name:'checkout.loaded',data:{transaction_id:`txn_${'a'.repeat(25)}2`,
     currency_code:'USD',totals:{subtotal:29,tax:0,total:29,discount:0,credit:0,balance:29}
   }}));
   await page.clock.fastForward(20_000);
