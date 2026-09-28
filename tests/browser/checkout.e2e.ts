@@ -52,7 +52,9 @@ test('buy opens a branded inline page with localized totals and a product-specif
 });
 
 test('failed checkout retry keeps separate tab-local proof and completion opens setup in this tab', async ({ page }) => {
-  await page.route(sdk, route => route.fulfill({ contentType: 'application/javascript', body: fakeSdk }));
+  let loads = 0;
+  await page.route(sdk, route => route.fulfill({ contentType: 'application/javascript',
+    body: fakeSdk.replace('window.openCount = 0;', `window.openCount = ${loads++};`) }));
   await page.goto('/purchase/suspended/');
   await expect(page.locator('[data-checkout-total]')).not.toHaveText('—');
   const first = await page.evaluate(() => sessionStorage.getItem(`sc-setup-v1:txn_${'a'.repeat(25)}1`));
@@ -63,9 +65,33 @@ test('failed checkout retry keeps separate tab-local proof and completion opens 
   expect(first).toMatch(/^[A-Za-z0-9_-]{43}$/);
   expect(second).toMatch(/^[A-Za-z0-9_-]{43}$/);
   expect(second).not.toBe(first);
+  expect(loads).toBe(2);
   await page.evaluate(() => (window as any).checkoutEvent({name:'checkout.completed',data:{transaction_id:`txn_${'a'.repeat(25)}2`}}));
   await expect(page).toHaveURL(/\/setup\/$/);
   expect(page.url()).not.toContain(second!);
+});
+
+test('retry isolates a late loaded event from the previous checkout', async ({ page }) => {
+  let loads = 0;
+  const stalledSdk = fakeSdk.replace("checkoutEvent({name:'checkout.loaded', data: {", "if(false) checkoutEvent({name:'checkout.loaded', data: {")
+    + `window.emitLateA = () => checkoutEvent({name:'checkout.loaded', data:{transaction_id:'txn_${'a'.repeat(25)}1',
+      currency_code:'USD', totals:{subtotal:29,tax:2.9,total:31.9,discount:0,credit:0,balance:31.9}}});`;
+  await page.route(sdk, route => route.fulfill({ contentType: 'application/javascript',
+    body: ++loads === 1 ? stalledSdk : fakeSdk.replace('window.openCount = 0;', 'window.openCount = 1;') }));
+  await page.goto('/purchase/suspended/');
+  await expect.poll(() => page.evaluate(() => (window as any).openCount)).toBe(1);
+  await page.evaluate(() => (window as any).checkoutEvent({name:'checkout.error'}));
+  await page.locator('[data-checkout-retry]').click();
+  await expect.poll(() => page.evaluate(() => (window as any).openCount)).toBe(2);
+  await page.evaluate(() => {
+    if (!(window as any).emitLateA) return;
+    (window as any).emitLateA();
+    (window as any).checkoutEvent({name:'checkout.loaded', data:{transaction_id:`txn_${'a'.repeat(25)}2`,
+      currency_code:'USD', totals:{subtotal:29,tax:2.9,total:31.9,discount:0,credit:0,balance:31.9}}});
+  });
+  expect(loads).toBe(2);
+  expect(await page.evaluate(() => sessionStorage.getItem(`sc-setup-v1:txn_${'a'.repeat(25)}1`))).toBeNull();
+  expect(await page.evaluate(() => sessionStorage.getItem(`sc-setup-v1:txn_${'a'.repeat(25)}2`))).toMatch(/^[A-Za-z0-9_-]{43}$/);
 });
 
 test('Paddle payment links never open a second item-based checkout', async ({ page }) => {
@@ -121,18 +147,16 @@ test('keeps guidance and support available with JavaScript disabled', async ({ b
 
 test('stalled checkout can be retried without a stale total or duplicate SDK', async ({ page }) => {
   const stalledSdk = fakeSdk.replace("checkoutEvent({name:'checkout.loaded', data: {", "if(false) checkoutEvent({name:'checkout.loaded', data: {");
-  await page.route(sdk, route => route.fulfill({contentType:'application/javascript',body:stalledSdk}));
+  let loads = 0;
+  await page.route(sdk, route => route.fulfill({contentType:'application/javascript',body:++loads === 1 ? stalledSdk : fakeSdk}));
   await page.clock.install();
   await page.goto('/purchase/suspended/');
   await expect.poll(() => page.evaluate(() => (window as any).calls?.length)).toBe(3);
   await page.clock.fastForward(20_000);
   await expect(page.locator('[data-checkout-status]')).toContainText('could not');
   await page.locator('[data-checkout-retry]').click();
-  await expect.poll(() => page.evaluate(() => (window as any).calls.filter((c: any[]) => c[0] === 'open').length)).toBe(2);
-  await page.evaluate(() => (window as any).checkoutEvent({name:'checkout.loaded',data:{transaction_id:`txn_${'a'.repeat(25)}2`,
-    currency_code:'USD',totals:{subtotal:29,tax:0,total:29,discount:0,credit:0,balance:29}
-  }}));
-  await page.clock.fastForward(20_000);
+  await expect.poll(() => page.evaluate(() => (window as any).calls?.filter((c: any[]) => c[0] === 'open').length)).toBe(1);
+  expect(loads).toBe(2);
   await expect(page.locator('[data-checkout-status]')).toBeEmpty();
   await expect(page.locator('[data-checkout-retry]')).toBeHidden();
   await page.evaluate(() => (window as any).checkoutEvent({name:'checkout.updated',data:{currency_code:'not-currency',totals:{total:NaN}}}));

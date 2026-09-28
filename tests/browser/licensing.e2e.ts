@@ -144,6 +144,34 @@ test('setup waits for the webhook and only generates a code after an explicit cl
   await expect(page.locator('#setup-code')).toHaveValue('');
 });
 
+test('setup remains usable after returning with browser Back', async ({ page }) => {
+  await retainSetupProof(page);
+  await page.addInitScript(() => window.addEventListener('pageshow', event => {
+    if (event.persisted) sessionStorage.setItem('test:setup-bfcache', 'yes');
+  }));
+  let confirmations = 0;
+  await page.route(`${api}/v2/setup/status`, route => route.fulfill({ json: { status: 'ready' } }));
+  await page.route(`${api}/v2/setup/confirm`, route => {
+    confirmations++;
+    return route.fulfill({ json: { accountId, activationCode: code } });
+  });
+  await page.goto('/setup/');
+  await expect(page.locator('#setup-generate')).toBeVisible();
+  await page.goto('/about/');
+  await page.goBack();
+  await expect(page).toHaveURL(/\/setup\/$/);
+  // Headless Chromium can skip BFCache. Exercise its persisted events after real Back when it does.
+  if (await page.evaluate(() => sessionStorage.getItem('test:setup-bfcache')) !== 'yes') {
+    await page.evaluate(() => {
+      window.dispatchEvent(new PageTransitionEvent('pagehide', { persisted: true }));
+      window.dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true }));
+    });
+  }
+  await page.locator('#setup-generate').click();
+  await expect(page.locator('#setup-code')).toHaveValue(code);
+  expect(confirmations).toBe(1);
+});
+
 test('setup reports an existing account without exposing code rotation', async ({ page }) => {
   await retainSetupProof(page);
   await page.route(`${api}/v2/setup/status`, route => route.fulfill({ json: { status: 'existing' } }));

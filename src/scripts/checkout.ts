@@ -129,5 +129,5 @@ if (root) {
     } catch { fail(); }
   }
   if (new URLSearchParams(location.search).has('_ptxn')) status.textContent = config.paymentLinkError!;
-  else { retry.addEventListener('click', open); void open(); }
+  else { retry.addEventListener('click', () => location.reload()); void open(); }
 }
