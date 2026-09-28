@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { afterAll, expect, it } from 'vitest';
 
 const token = `test_${'a'.repeat(27)}`;
+const stagingApi = 'https://abcdefghij.execute-api.ap-northeast-1.amazonaws.com/staging';
 const output = mkdtempSync(join(tmpdir(), 'op191-storefront-test-'));
 afterAll(() => rmSync(output, { recursive: true, force: true }));
 const page = (path: string) => readFileSync(join(output, path, 'index.html'), 'utf8');
@@ -13,13 +14,14 @@ function build(mode: string, environment: string, url: string) {
   const { MODE: _testMode, ...env } = process.env;
   execFileSync('npm', ['run', 'build', '--', '--mode', mode, '--outDir', output], {
     cwd: new URL('../..', import.meta.url), stdio: 'pipe',
-    env: { ...env, DOWNLOAD_RELEASE_SNAPSHOT: 'null', PADDLE_CHECKOUT_ENVIRONMENT: environment,
+    env: { ...env, DOWNLOAD_RELEASE_SNAPSHOT: 'null', LICENSING_API_BASE: stagingApi, PADDLE_CHECKOUT_ENVIRONMENT: environment,
       PADDLE_CLIENT_TOKEN: url },
   });
 }
 
 it('keeps sandbox checkout out of production and exposes only labelled sandbox previews', () => {
   build('production', 'sandbox', token);
+  expect(page('/setup')).not.toContain(`data-base="${stagingApi}"`);
   for (const locale of ['', '/ja']) {
     expect(page(`${locale}/products/suspended`)).not.toContain('data-paddle-token');
     expect(page(`${locale}/products/suspended`)).not.toContain(token);
@@ -33,6 +35,8 @@ it('keeps sandbox checkout out of production and exposes only labelled sandbox p
   expect(page('/purchase/suspended')).not.toContain('data-paddle-token');
   expect(page('/ja/purchase/suspended')).not.toContain('data-paddle-token');
   build('sandbox', 'sandbox', token);
+  expect(page('/setup')).toContain(`data-base="${stagingApi}"`);
+  expect(page('/recovery')).toContain(`data-base="${stagingApi}"`);
   for (const locale of ['', '/ja']) {
     const product = page(`${locale}/products/suspended`);
     const purchase = page(`${locale}/purchase/suspended`);

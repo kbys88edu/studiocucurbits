@@ -4,7 +4,8 @@ import { licensingBase } from '../lib/licensing';
 const { locale = 'en' } = Astro.props as { locale?: 'en' | 'ja' };
 const t = (en: string, ja: string) => locale === 'ja' ? ja : en;
 const prefix = locale === 'ja' ? '/ja' : '';
-const base = licensingBase(import.meta.env.LICENSING_API_BASE, import.meta.env.DEV);
+const base = licensingBase(import.meta.env.LICENSING_API_BASE,
+  import.meta.env.MODE === 'development' || (import.meta.env.MODE === 'sandbox' && import.meta.env.PADDLE_CHECKOUT_ENVIRONMENT === 'sandbox'));
 const title = t('Set up your licence', 'ライセンスを設定する');
 ---
 <BaseLayout title={`${title} | Studio Cucurbits.`} description={t('Set up your Studio Cucurbits licence securely.', 'Studio Cucurbitsのライセンスを安全に設定します。')} canonicalPath={`${prefix}/setup/`} locale={locale} breadcrumbLabel={title}>
