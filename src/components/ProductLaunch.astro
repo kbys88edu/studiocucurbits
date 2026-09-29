@@ -46,19 +46,18 @@ const installers = staging.length ? staging.map(({ name, url }) => ({ name, url,
 
       <div class="shop-offers" aria-label={ja ? '購入オプション' : 'Purchase options'}>
         <table>
-          <thead><tr><th scope="col">{ja ? 'オファー' : 'Offer'}</th><th scope="col">{ja ? '価格' : 'Price'}</th><th scope="col">{ja ? '購入' : 'Buy'}</th></tr></thead>
           <tbody>{suspendedShopOffers.map((offer) => <tr>
             <th scope="row">{offer.name[locale]}</th>
             <td>{new Intl.NumberFormat(ja ? 'ja-JP' : 'en-US', { style: 'currency', currency: offer.price.currency, maximumFractionDigits: 0 }).format(offer.price.amountMinor / 100)}</td>
             <td>{suspendedCheckout.url && offer.paddlePriceId === suspendedCheckout.priceId
-              ? <a class="button shop-buy" href={purchasePage}>{suspendedCheckout.sandbox ? (ja ? 'テスト購入' : 'Test purchase') : (ja ? '購入する' : 'Buy now')}</a>
-              : <span class="button shop-buy shop-buy-disabled" aria-disabled="true">{ja ? 'テスト購入' : 'Test purchase'}</span>}</td>
+              ? <a class="button shop-buy" href={purchasePage}>BUY</a>
+              : <span class="button shop-buy shop-buy-disabled" aria-disabled="true">BUY</span>}</td>
           </tr>)}</tbody>
         </table>
       </div>
 
       <div class="shop-download">
-        <a class="download-primary" data-recommended-download href={downloadPage}>{ja ? 'インストーラーを選ぶ' : 'Choose an installer'}</a>
+        <a class="download-primary" data-recommended-download href={downloadPage}><span class="shop-download-label"><img data-download-icon alt="" hidden /><span data-download-text>{ja ? 'インストーラーを選ぶ' : 'Choose an installer'}</span></span></a>
         <a class="shop-download-all" href={downloadPage}>{ja ? 'すべてのインストーラーとバージョンを見る' : 'All installers and versions'} →</a>
       </div>
     </div>
@@ -76,14 +75,18 @@ const installers = staging.length ? staging.map(({ name, url }) => ({ name, url,
   import { detectPlatform } from '../lib/downloads';
   const root = document.querySelector<HTMLElement>('[data-suspended-product]');
   const action = root?.querySelector<HTMLAnchorElement>('[data-recommended-download]');
-  if (root && action) {
+  const icon = action?.querySelector<HTMLImageElement>('[data-download-icon]');
+  const label = action?.querySelector<HTMLElement>('[data-download-text]');
+  if (root && action && icon && label) {
     const installers = JSON.parse(root.dataset.installers ?? '[]') as Array<{ name: string; url: string; platform: string }>;
     const platform = detectPlatform(navigator.userAgent);
     const matching = installers.filter((item) => item.platform === platform);
     const recommended = matching.find((item) => platform !== 'linux' || item.name.endsWith('.deb')) ?? matching[0];
     if (recommended) {
       action.href = recommended.url;
-      action.textContent = document.documentElement.lang === 'ja'
+      icon.src = `/images/platforms/${platform}.svg`;
+      icon.hidden = false;
+      label.textContent = document.documentElement.lang === 'ja'
         ? `${platform === 'macos' ? 'macOS' : platform === 'windows' ? 'Windows' : 'Linux'}版をダウンロード`
         : `Download for ${platform === 'macos' ? 'macOS' : platform === 'windows' ? 'Windows' : 'Linux'}`;
     }

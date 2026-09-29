@@ -32,6 +32,10 @@ it('keeps drafts out of public output and renders the private sandbox offer', ()
     const purchase = page(`${locale}purchase/suspended`);
     expect(product).toContain(locale ? 'Suspended ライセンス' : 'Suspended licence');
     expect(product).toContain('$29');
+    expect(product).toContain(locale ? 'Traces バンドル' : 'Traces bundle');
+    expect(product).toContain('$99');
+    expect(product).not.toContain('<thead>');
+    expect(product).toContain('>BUY</');
     expect(product).toContain('data-recommended-download');
     expect(product).not.toContain('data-paddle-token');
     expect(purchase).toContain(`data-paddle-token="${token}"`);

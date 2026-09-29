@@ -208,19 +208,20 @@ h3 { margin: 0; font-size: 1.15rem; line-height: 1.2; letter-spacing: -.01em; }
 .suspended-hero { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(2rem, 7vw, 8rem); align-items: start; padding-block: clamp(2.5rem, 6vw, 6rem) clamp(4rem, 9vw, 8rem); }
 .suspended-hero-copy { max-width: 42rem; }
 .suspended-hero h1 { margin: .25rem 0 0; font-size: clamp(1rem, 1.3vw, 1.2rem); font-weight: 600; letter-spacing: .04em; }
-.launch-tagline { max-width: 12ch; margin: 1.75rem 0 1.25rem; font-size: clamp(2.8rem, 6.2vw, 7rem); font-weight: 500; line-height: .88; letter-spacing: -.06em; }
+.launch-tagline { max-width: 12ch; margin: 1.75rem 0 1.25rem; font-size: clamp(2.8rem, 6.2vw, 7rem); font-weight: 500; line-height: 1; letter-spacing: normal; }
 .suspended-hero-image { width: 100%; max-height: min(84vh, 62rem); margin: 0; object-fit: contain; object-position: top center; background: var(--paper); }
 .shop-offers { margin-top: clamp(2.5rem, 5vw, 4.5rem); }
-.shop-offers table { width: 100%; border-collapse: collapse; text-align: left; }
-.shop-offers thead { border-top: 1px solid var(--ink); color: var(--muted); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; }
+.shop-offers table { width: 100%; border-collapse: collapse; border-top: 1px solid var(--ink); text-align: left; }
 .shop-offers th, .shop-offers td { padding: .9rem .65rem .9rem 0; border-bottom: 1px solid var(--rule); vertical-align: middle; }
 .shop-offers tbody th { font-weight: 500; }
 .shop-offers tbody td:nth-child(2) { font-size: 1.35rem; white-space: nowrap; }
 .shop-offers td:last-child { padding-right: 0; text-align: right; }
-.shop-buy { display: inline-block; white-space: nowrap; }
+.shop-buy { display: inline-block; min-width: 5rem; text-align: center; white-space: nowrap; }
 .shop-buy-disabled { opacity: .45; cursor: default; }
 .shop-download { margin-top: .75rem; }
 .shop-download .download-primary { min-height: 5rem; padding: 1rem 1.25rem; font-size: clamp(1.25rem, 2.5vw, 2rem); }
+.shop-download-label { display: inline-flex; align-items: center; gap: .9rem; }
+.shop-download-label img[data-download-icon] { width: 2.25rem; height: 2.25rem; flex: none; object-fit: contain; padding: .3rem; background: var(--paper); border-radius: .2rem; }
 .shop-download-all { display: block; width: fit-content; margin-top: .65rem; color: var(--muted); font-size: .82rem; }
 .shop-description { max-width: 62rem; }
 .shop-description h2 { max-width: 18ch; margin: 3rem 0 1rem; font-size: clamp(2rem, 4vw, 4rem); line-height: 1; letter-spacing: -.05em; }
