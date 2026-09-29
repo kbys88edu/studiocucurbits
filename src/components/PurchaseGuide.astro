@@ -24,6 +24,7 @@ const canBuy = getLaunchRelease(launch, locale).canBuy || (
     if (new URLSearchParams(location.search).has('_ptxn')) document.querySelector('[data-payment-link-guidance]')?.removeAttribute('hidden');
   </script>
 </section>}
+{!canBuy && <>
 <section class="section copy-block">
   <h2>{ja ? '1. インストールする' : '1. Install the plugin'}</h2>
   <p>{ja ? '公開済みのインストーラーはダウンロードページにあります。お使いの環境への対応をご確認ください。ダウンロードがまだ表示されない場合、その製品はまだ公開されていません。' : 'Published installers are on the downloads page. Check the supported systems before installing. If a download is not listed yet, that product has not been published.'}</p>
@@ -40,3 +41,4 @@ const canBuy = getLaunchRelease(launch, locale).canBuy || (
   <p><a class="text-link" href={localizedPath('/support/', locale)}>{ja ? 'インストールとライセンスのサポート' : 'Installation and licence support'}</a></p>
   <p><a href={localizedPath('/license/', locale)}>{ja ? 'ライセンス条件' : 'Licence terms'}</a> · <a href={localizedPath('/refund/', locale)}>{ja ? '返金ポリシー' : 'Refund policy'}</a></p>
 </section>
+</>}

@@ -23,7 +23,7 @@ test('buy opens a branded inline page with localized totals and a product-specif
   await expect(page).toHaveURL(/\/purchase\/suspended\/$/);
   await expect(page.locator('.brand img')).toBeVisible();
   await expect(page.getByRole('heading', {name:'Cart'})).toBeVisible();
-  await expect(page.getByRole('heading', {name:'2. Set up your licence in this tab'})).toBeVisible();
+  await expect(page.getByRole('heading', {name:'AFTER PAYMENT'})).toBeVisible();
   await expect(page.locator('[data-checkout-total]')).toHaveText('USD 31.90');
   const calls = await page.evaluate(() => (window as any).calls);
   expect(calls.slice(0, 2)).toEqual([['environment', 'sandbox'], ['initialize', `test_${'a'.repeat(27)}`]]);
@@ -141,7 +141,7 @@ test('keeps guidance and support available with JavaScript disabled', async ({ b
   await expect(page).toHaveURL(/\/purchase\/suspended\/$/);
   await expect.poll(() => page.locator('[data-paddle-checkout]').innerText()).toContain('Enable JavaScript');
   await expect(page.getByRole('link', {name:'Contact support',exact:true}).first()).toBeVisible();
-  await expect(page.getByRole('heading', {name:'3. Activate the plugin'})).toBeVisible();
+  await expect(page.getByRole('heading', {name:'AFTER PAYMENT'})).toBeVisible();
   await context.close();
 });
 

@@ -72,6 +72,7 @@ it('keeps drafts out of public output and renders the private sandbox offer', ()
     for (const hook of ['data-checkout-subtotal', 'data-checkout-discount', 'data-checkout-tax', 'data-checkout-credit', 'data-checkout-total', 'data-checkout-status', 'data-checkout-retry', 'paddle-checkout-frame'])
       expect(purchase).toContain(hook);
     expect(purchase).toContain('/catalogue-media/suspended/box-art.png');
+    expect(purchase).not.toContain(locale ? '1. インストールする' : '1. Install the plugin');
   }
   const astroDir = join(output, '_astro');
   const bundleJs = readdirSync(astroDir)
