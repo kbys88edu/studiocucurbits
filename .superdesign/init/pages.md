@@ -1,16 +1,26 @@
-# Pages
+# Pages (dependency trees)
 
-## `/` Home
+## /products/suspended/ (and /ja/products/suspended/) — shop product page
+Entry: `src/pages/products/[slug].astro` → renders `ProductLaunch` when `product.launch` exists (Suspended does).
+- src/layouts/BaseLayout.astro
+  - src/components/Seo.astro
+  - src/components/Header.astro
+    - src/components/LanguageSwitch.astro
+  - src/components/Footer.astro
+- src/components/ProductLaunch.astro  (hero copy, offers table with BUY pills, download button, system-requirements table, box-art image, interface figure, optional video/audio, description, support link)
+  - src/data/shopCatalogue.ts (catalogue export: summary/description/media/offers/release)
+  - src/data/products.ts (launch.hero tagline/description, suspendedCheckout)
+  - src/lib/downloads.ts (detectPlatform)
+- src/components/RelatedProducts.astro
+  - src/components/ProductCard.astro
+- src/styles/global.css
 
-Entry: `index.html`
+## /products/ — shop index
+Entry: `src/pages/products/index.astro`
+- src/layouts/BaseLayout.astro (as above)
+- src/components/ProductCard.astro
+  - src/components/StatusLabel.astro
+- src/data/products.ts
 
-Dependencies:
-
-- `styles.css`
-- `script.js`
-- `assets/studio-cucurbits-logo.png`
-- `assets/bw_sachie_cucurbits.png`
-- `assets/bw_fred_cucurbits.png`
-- `assets/circle.jpeg`
-
-The page currently presents the studio statement, practice, people, services, AI position, work, process, and contact as anchored sections.
+## /purchase/suspended/ — checkout
+Entry: `src/pages/purchase/suspended.astro` → `PurchaseGuide.astro` → `PaddleCheckout.astro`

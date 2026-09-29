@@ -15,3 +15,4 @@ lighthouse.json
 .env
 .env.*
 !.env.example
+.superdesign/tmp/

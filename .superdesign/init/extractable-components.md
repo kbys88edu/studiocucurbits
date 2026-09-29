@@ -1,17 +1,15 @@
 # Extractable Components
 
-## Topbar
-
-- Source: `index.html`
+## SiteHeader
+- Source: `src/components/Header.astro` (+ `LanguageSwitch.astro`)
 - Category: layout
-- Description: Brand mark, section navigation, language toggle, and inquiry link.
-- Extractable props: active section, selected language, inquiry URL.
-- Hardcoded: Studio Cucurbits logo, navigation labels, border treatment.
+- Description: Dot-matrix logo left, primary nav (Home, Work, Products, Downloads, About, Support), EN / 日本語 switch right, 1px rule below.
+- Extractable props: activeItem (string, default "products"), locale (string, default "en")
+- Hardcoded: logo `/images/brand/studio_cucurbits_logo_vector.svg`, nav labels, CSS
 
-## Footer
-
-- Source: `index.html`
+## SiteFooter
+- Source: `src/components/Footer.astro`
 - Category: layout
-- Description: Compact studio and external links.
-- Extractable props: none.
-- Hardcoded: labels and visual treatment.
+- Description: "Studio Cucurbits." sign-off with accent line, contact/updates/pricing links, © line and legal links.
+- Extractable props: locale (string, default "en")
+- Hardcoded: labels, links, CSS

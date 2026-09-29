@@ -1,7 +1,62 @@
-# Routes
+# Routes (Astro file routing, src/pages; every route has a /ja/ twin)
 
-## `/`
+- `src/pages/about.astro`
+- `src/pages/beta.astro`
+- `src/pages/business.astro`
+- `src/pages/collections/[slug].astro`
+- `src/pages/collections/index.astro`
+- `src/pages/coming-soon.astro`
+- `src/pages/download-state.json.ts`
+- `src/pages/downloads.astro`
+- `src/pages/downloads/[slug].astro`
+- `src/pages/index.astro`
+- `src/pages/ja/about.astro`
+- `src/pages/ja/beta.astro`
+- `src/pages/ja/business.astro`
+- `src/pages/ja/collections/[slug].astro`
+- `src/pages/ja/collections/index.astro`
+- `src/pages/ja/coming-soon.astro`
+- `src/pages/ja/downloads.astro`
+- `src/pages/ja/downloads/[slug].astro`
+- `src/pages/ja/index.astro`
+- `src/pages/ja/license.astro`
+- `src/pages/ja/newsletter.astro`
+- `src/pages/ja/offline.astro`
+- `src/pages/ja/press.astro`
+- `src/pages/ja/pricing.astro`
+- `src/pages/ja/privacy.astro`
+- `src/pages/ja/products/[slug].astro`
+- `src/pages/ja/products/[slug]/notes.astro`
+- `src/pages/ja/products/[slug]/specifications.astro`
+- `src/pages/ja/products/index.astro`
+- `src/pages/ja/purchase/suspended.astro`
+- `src/pages/ja/recovery.astro`
+- `src/pages/ja/refund.astro`
+- `src/pages/ja/setup.astro`
+- `src/pages/ja/support.astro`
+- `src/pages/ja/support/[slug].astro`
+- `src/pages/ja/terms.astro`
+- `src/pages/ja/work.astro`
+- `src/pages/ja/work/babel-trans-instrumentalism.astro`
+- `src/pages/license.astro`
+- `src/pages/newsletter.astro`
+- `src/pages/offline.astro`
+- `src/pages/press.astro`
+- `src/pages/pricing.astro`
+- `src/pages/privacy.astro`
+- `src/pages/products/[slug].astro`
+- `src/pages/products/[slug]/notes.astro`
+- `src/pages/products/[slug]/specifications.astro`
+- `src/pages/products/index.astro`
+- `src/pages/purchase/suspended.astro`
+- `src/pages/recovery.astro`
+- `src/pages/refund.astro`
+- `src/pages/setup.astro`
+- `src/pages/sitemap-index.xml.ts`
+- `src/pages/support.astro`
+- `src/pages/support/[slug].astro`
+- `src/pages/terms.astro`
+- `src/pages/work.astro`
+- `src/pages/work/babel-trans-instrumentalism.astro`
 
-- Entry: `index.html`
-- Assets: `styles.css`, `script.js`, `assets/`
-- Type: static one-page studio site with in-page anchors.
+Key pages: `/` home; `/products/` shop index (currently Coming-soon list); `/products/suspended/` — Suspended shop page (`ProductLaunch.astro`, data from catalogue export via `src/data/shopCatalogue.ts`); `/purchase/suspended/` Paddle checkout; `/setup/` post-checkout licence setup; `/downloads/[slug]/` installers.

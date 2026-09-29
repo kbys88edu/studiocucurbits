@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "targets": {
+    "/products/suspended/": {
+      "targetKind": "existing-ui",
+      "projectId": "94f844c4-5596-49ba-b308-1fbda2a28bd0",
+      "baselineDraftId": "0957fdeb-00fd-45ee-b85b-729ed088d440",
+      "activeDraftId": "2e499908-fb6f-4883-923e-a857caec2d99",
+      "designSystemPath": ".superdesign/design-system.md",
+      "referenceIds": [
+        "c368896f-8d20-4621-a9e9-1dedd0fb93d1",
+        "public-images-brand-studio_cucurbits_logo_vector.svg",
+        "0a995106-dad2-459d-87c0-526537cfffe5",
+        "244bf887-4bca-4dcf-90cd-fb19f7687ce5",
+        "630b7b01-b5f7-4b16-a103-d0d9e1a8405e"
+      ],
+      "brandAssets": {
+        "logo": {
+          "assetKey": "public-images-brand-studio_cucurbits_logo_vector.svg",
+          "url": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/94f844c4-5596-49ba-b308-1fbda2a28bd0/brand-assets/public-images-brand-studio_cucurbits_logo_vector.svg/studio_cucurbits_logo_vector.svg",
+          "sourcePath": "public/images/brand/studio_cucurbits_logo_vector.svg"
+        }
+      },
+      "contentAssets": {
+        "boxArt": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/94f844c4-5596-49ba-b308-1fbda2a28bd0/content-assets/public-catalogue-media-suspended-box-art.png/box-art.png",
+        "interface": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/94f844c4-5596-49ba-b308-1fbda2a28bd0/content-assets/public-catalogue-media-suspended-interface.png/interface.png",
+        "interfaceOwner": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/94f844c4-5596-49ba-b308-1fbda2a28bd0/content-assets/suspended-interface-owner-20260929/interface-owner.webp"
+      },
+      "contextFiles": [
+        ".superdesign/design-system.md",
+        "src/styles/global.css",
+        "src/components/ProductLaunch.astro",
+        "src/components/Header.astro",
+        "src/components/LanguageSwitch.astro",
+        "src/components/Footer.astro",
+        "src/layouts/BaseLayout.astro"
+      ],
+      "fingerprints": {
+        ".superdesign/design-system.md": "83fc7c126dd38f7591534aafc5e6229ee2229111405e44eba44b10a72dc4a197",
+        "src/styles/global.css": "e734d0f53b1926a8e176044d85e8ce5f0d2fe4c5ad5ce344e180773456cbb0ed",
+        "src/components/ProductLaunch.astro": "4ba634fa705cc61782c5c307055f33c1739e63d1ca3e99c3e97650afcaf97fd4",
+        "src/components/Header.astro": "60bd6e78089f2a06fc89096c8d885853f196815e743bd4fe29fd94fe18b4f583",
+        "src/components/LanguageSwitch.astro": "e6994c07189eab9c5f748db2dd0540ad4e346032ce3ca0de5d3f497d03b445d9",
+        "src/components/Footer.astro": "1c3040c7fe963d675767deec787ee23f27218ddfa5500504319fe5459be63e31",
+        "src/layouts/BaseLayout.astro": "a19744addd46c53d838d254bed9b4db1f7d3db5d0330db60c08a1afe2d4ee126"
+      },
+      "components": [],
+      "drafts": {
+        "0957fdeb-00fd-45ee-b85b-729ed088d440": {
+          "title": "Current Suspended shop page (baseline)",
+          "visualDirection": "faithful reproduction",
+          "currentVersion": 2
+        },
+        "c0d1505f-7070-43c2-b58c-5d9cb86569a3": {
+          "title": "A Buy first",
+          "visualDirection": "price+BUY and download side by side above the fold; requirements collapsed",
+          "parentDraftId": "0957fdeb-00fd-45ee-b85b-729ed088d440",
+          "currentVersion": 3
+        },
+        "dcefa532-3e10-4779-9cee-8896f5c57020": {
+          "title": "B Sound first",
+          "visualDirection": "centred huge SUSPENDED, box art, interface; purchase in black band at end",
+          "parentDraftId": "0957fdeb-00fd-45ee-b85b-729ed088d440",
+          "currentVersion": 2
+        },
+        "2e499908-fb6f-4883-923e-a857caec2d99": {
+          "title": "C Catalogue sheet",
+          "visualDirection": "catalogue sheet; Buy licence full black band; demo as text link; no big price",
+          "parentDraftId": "0957fdeb-00fd-45ee-b85b-729ed088d440",
+          "currentVersion": 4
+        }
+      },
+      "updatedAt": "2026-09-29T08:45:29.868729+00:00",
+      "notes": "Owner supplied interface image 2026-09-29 (720x644 webp, preset Almost Motionless); shown at max 720px in A/B/C."
+    },
+    "/purchase/suspended/": {
+      "targetKind": "new-target",
+      "projectId": "94f844c4-5596-49ba-b308-1fbda2a28bd0",
+      "activeDraftId": "980dcf0d-6c62-44ff-8852-e62d149efff9",
+      "designSystemPath": ".superdesign/design-system.md",
+      "brandAssets": {
+        "logo": {
+          "assetKey": "public-images-brand-studio_cucurbits_logo_vector.svg",
+          "url": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/94f844c4-5596-49ba-b308-1fbda2a28bd0/brand-assets/public-images-brand-studio_cucurbits_logo_vector.svg/studio_cucurbits_logo_vector.svg",
+          "sourcePath": "public/images/brand/studio_cucurbits_logo_vector.svg"
+        }
+      },
+      "contextFiles": [
+        ".superdesign/design-system.md",
+        "src/styles/global.css",
+        "src/components/ProductLaunch.astro",
+        "src/components/Header.astro",
+        "src/components/LanguageSwitch.astro",
+        "src/components/Footer.astro",
+        "src/layouts/BaseLayout.astro"
+      ],
+      "fingerprints": {
+        ".superdesign/design-system.md": "83fc7c126dd38f7591534aafc5e6229ee2229111405e44eba44b10a72dc4a197",
+        "src/styles/global.css": "e734d0f53b1926a8e176044d85e8ce5f0d2fe4c5ad5ce344e180773456cbb0ed",
+        "src/components/ProductLaunch.astro": "4ba634fa705cc61782c5c307055f33c1739e63d1ca3e99c3e97650afcaf97fd4",
+        "src/components/Header.astro": "60bd6e78089f2a06fc89096c8d885853f196815e743bd4fe29fd94fe18b4f583",
+        "src/components/LanguageSwitch.astro": "e6994c07189eab9c5f748db2dd0540ad4e346032ce3ca0de5d3f497d03b445d9",
+        "src/components/Footer.astro": "1c3040c7fe963d675767deec787ee23f27218ddfa5500504319fe5459be63e31",
+        "src/layouts/BaseLayout.astro": "a19744addd46c53d838d254bed9b4db1f7d3db5d0330db60c08a1afe2d4ee126"
+      },
+      "components": [],
+      "drafts": {
+        "980dcf0d-6c62-44ff-8852-e62d149efff9": {
+          "title": "Cart \u2014 Suspended (checkout)",
+          "visualDirection": "hand-authored from C shell: numbered rows item/total/after payment + Paddle inline panel",
+          "parentDraftId": "2e499908-fb6f-4883-923e-a857caec2d99",
+          "currentVersion": 1
+        }
+      },
+      "updatedAt": "2026-09-29T08:56:18.538800+00:00"
+    },
+    "/ja/products/suspended/": {
+      "targetKind": "new-target",
+      "projectId": "94f844c4-5596-49ba-b308-1fbda2a28bd0",
+      "activeDraftId": "e38117e3-8989-431d-af6e-51f4e215b23f",
+      "drafts": {
+        "e38117e3-8989-431d-af6e-51f4e215b23f": {
+          "title": "\u5546\u54c1\u30da\u30fc\u30b8 \u65e5\u672c\u8a9e",
+          "parentDraftId": "2e499908-fb6f-4883-923e-a857caec2d99",
+          "currentVersion": 2
+        }
+      }
+    },
+    "/ja/purchase/suspended/": {
+      "targetKind": "new-target",
+      "projectId": "94f844c4-5596-49ba-b308-1fbda2a28bd0",
+      "activeDraftId": "f8adcb99-4b3a-474d-a349-af1b8537d909",
+      "drafts": {
+        "f8adcb99-4b3a-474d-a349-af1b8537d909": {
+          "title": "\u30ab\u30fc\u30c8 \u65e5\u672c\u8a9e",
+          "parentDraftId": "980dcf0d-6c62-44ff-8852-e62d149efff9",
+          "currentVersion": 3
+        }
+      }
+    }
+  }
+}
