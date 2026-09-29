@@ -2,7 +2,7 @@ export const ja = {
   navigation: {
     studio: 'ホーム',
     work: '作品',
-    audioInstruments: 'オーディオ・インストゥルメンツ',
+    audioInstruments: '製品',
     downloads: 'ダウンロード',
     about: '概要',
     support: 'サポート',

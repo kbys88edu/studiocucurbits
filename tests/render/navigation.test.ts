@@ -25,4 +25,11 @@ describe('global navigation', () => {
     expect(html).toContain('href="/ja/"');
     expect(html).toContain('aria-label="Language"');
   }, 30_000);
+
+  it('renders Japanese navigation with shortened product label', () => {
+    const jaHome = readFileSync(new URL('../../dist/ja/index.html', import.meta.url), 'utf8');
+
+    expect(jaHome).toContain('>製品<');
+    expect(jaHome).not.toContain('オーディオ・インストゥルメンツ');
+  });
 });
