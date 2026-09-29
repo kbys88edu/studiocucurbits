@@ -5,7 +5,8 @@ interface Props { mode: 'recovery' | 'offline'; locale?: 'en' | 'ja'; }
 const { mode, locale = 'en' } = Astro.props;
 const t = (en: string, ja: string) => locale === 'ja' ? ja : en;
 const prefix = locale === 'ja' ? '/ja' : '';
-const base = licensingBase(import.meta.env.LICENSING_API_BASE, import.meta.env.DEV);
+const base = licensingBase(import.meta.env.LICENSING_API_BASE,
+  import.meta.env.MODE === 'development' || (import.meta.env.MODE === 'sandbox' && import.meta.env.PADDLE_CHECKOUT_ENVIRONMENT === 'sandbox'));
 const title = mode === 'recovery' ? t('Recover your activation code', 'アクティベーションコードの再発行') : t('Activate your offline computer', 'オフラインのコンピューターを認証');
 const description = t('Manage your Studio Cucurbits licence securely.', 'Studio Cucurbitsのライセンスを安全に管理します。');
 ---

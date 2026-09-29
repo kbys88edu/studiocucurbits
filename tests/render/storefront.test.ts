@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { afterAll, expect, it } from 'vitest';
 
 const token = `test_${'a'.repeat(27)}`;
+const stagingApi = 'https://abcdefghij.execute-api.ap-northeast-1.amazonaws.com/staging';
 const output = mkdtempSync(join(tmpdir(), 'op201-shop-test-'));
 const fixture = fileURLToPath(new URL('../fixtures/site-preview.v1.json', import.meta.url));
 afterAll(() => rmSync(output, { recursive: true, force: true }));
@@ -15,18 +16,21 @@ function build(mode: string, catalogueFile: string) {
   const { MODE: _testMode, ...env } = process.env;
   execFileSync('npm', ['run', 'build', '--', '--mode', mode, '--outDir', output], {
     cwd: new URL('../..', import.meta.url), stdio: 'pipe',
-    env: { ...env, DOWNLOAD_RELEASE_SNAPSHOT: 'null', SITE_CATALOGUE_FILE: catalogueFile,
+    env: { ...env, DOWNLOAD_RELEASE_SNAPSHOT: 'null', SITE_CATALOGUE_FILE: catalogueFile, LICENSING_API_BASE: stagingApi,
       PADDLE_CHECKOUT_ENVIRONMENT: 'sandbox', PADDLE_CLIENT_TOKEN: token },
   });
 }
 
 it('keeps drafts out of public output and renders the private sandbox offer', () => {
   build('production', '');
+  expect(page('setup')).not.toContain(`data-base="${stagingApi}"`);
   expect(exists('products/suspended')).toBe(false);
   expect(page('purchase/suspended')).not.toContain('data-paddle-token');
   expect(() => build('production', fixture)).toThrow();
 
   build('sandbox', fixture);
+  expect(page('setup')).toContain(`data-base="${stagingApi}"`);
+  expect(page('recovery')).toContain(`data-base="${stagingApi}"`);
   for (const locale of ['', 'ja/']) {
     const product = page(`${locale}products/suspended`);
     const purchase = page(`${locale}purchase/suspended`);
@@ -49,5 +53,6 @@ it('keeps drafts out of public output and renders the private sandbox offer', ()
     expect(product).not.toContain('data-paddle-token');
     expect(purchase).toContain(`data-paddle-token="${token}"`);
     expect(purchase).toContain('data-paddle-price="pri_01m3eaewadnm7grc2armnnkbsr"');
+    expect(purchase).toContain(`data-paddle-success="${locale ? '/ja' : ''}/setup/"`);
   }
 }, 60_000);

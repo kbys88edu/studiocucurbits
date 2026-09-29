@@ -24,4 +24,13 @@ describe('draft shop routes', () => {
     expect(html).toContain('Hero_2560x1440.png');
     expect(html).not.toContain('href="/products/suspended/"');
   });
+
+  it('publishes private setup routes in both languages without a payment SDK', () => {
+    for (const path of ['/setup', '/ja/setup']) {
+      const page = renderedPage(path);
+      expect(page).toContain('data-setup');
+      expect(page).not.toContain('cdn.paddle.com');
+      expect(page).not.toContain('data-paddle-token');
+    }
+  });
 });

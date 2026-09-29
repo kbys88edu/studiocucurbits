@@ -1,9 +1,10 @@
 export {};
-type CheckoutEvent = { name?: string; data?: { currency_code?: unknown; totals?: Record<string, unknown> } };
+type CheckoutEvent = { name?: string; data?: { transaction_id?: unknown; currency_code?: unknown; totals?: Record<string, unknown> } };
 type PaddleClient = {
   Environment: { set(environment: 'sandbox'): void };
   Initialize(options: { token: string; eventCallback(event: CheckoutEvent): void }): void;
-  Checkout: { close(): void; open(options: { items: { priceId: string; quantity: number }[]; settings: {
+  Checkout: { close(): void; open(options: { items: { priceId: string; quantity: number }[];
+    customData: { sc_setup_sha256_v1: string }; settings: {
     displayMode: 'inline'; variant: 'one-page'; locale: string; successUrl: string; showAddDiscounts: false;
     theme: 'light'; frameTarget: string; frameInitialHeight: number; frameStyle: string;
   } }): void };
@@ -22,15 +23,19 @@ if (root) {
   let paddle: PaddleClient | undefined;
   let openingTimeout: ReturnType<typeof setTimeout> | undefined;
   let active = false;
+  let pendingSecret: string | undefined;
+  const transactionIdPattern = /^txn_[a-z0-9]{26}$/;
 
-  function fail() {
+  function fail(message = config.error!) {
     active = false;
     clearTimeout(openingTimeout);
+    pendingSecret = undefined;
+    try { sessionStorage.removeItem('sc-setup-v1:pending'); } catch { /* Storage may be unavailable. */ }
     // Close before displaying the error: close() may synchronously emit an event.
     try { paddle?.Checkout.close(); } catch { /* The retry remains available. */ }
     frame.replaceChildren();
     totals.forEach(total => { total.textContent = '—'; });
-    status.textContent = config.error!;
+    status.textContent = message;
     retry.hidden = false;
     retry.disabled = false;
   }
@@ -48,11 +53,32 @@ if (root) {
     // Read only totals/currency for display; never retain customer or payment data.
     if (event.name === 'checkout.loaded' || event.name === 'checkout.updated') {
       clearTimeout(openingTimeout);
-      try { updateTotals(event.data); status.textContent = ''; } catch { fail(); }
+      try { updateTotals(event.data); } catch { fail(); return; }
+      if (event.name === 'checkout.loaded') {
+        const id = event.data?.transaction_id;
+        if (typeof id !== 'string' || !transactionIdPattern.test(id) || !pendingSecret) { fail(); return; }
+        try {
+          sessionStorage.setItem(`sc-setup-v1:${id}`, pendingSecret);
+          sessionStorage.setItem('sc-setup-v1:latest', id);
+          sessionStorage.removeItem('sc-setup-v1:pending');
+          pendingSecret = undefined;
+        } catch { fail(config.storageError!); return; }
+      }
+      status.textContent = '';
     }
     if (event.name === 'checkout.closed' || event.name === 'checkout.error') fail();
-    if (event.name === 'checkout.payment.error') status.textContent = config.paymentError!;
-    // Paddle's successUrl redirects; only the backend webhook grants access.
+    if (event.name === 'checkout.payment.error' || event.name === 'checkout.payment.failed') status.textContent = config.paymentError!;
+    if (event.name === 'checkout.completed') {
+      const id = event.data?.transaction_id;
+      try {
+        if (typeof id !== 'string' || !transactionIdPattern.test(id)
+          || !sessionStorage.getItem(`sc-setup-v1:${id}`)) return;
+        sessionStorage.setItem('sc-setup-v1:latest', id);
+        active = false;
+        location.assign(new URL(config.paddleSuccess!, location.origin).href);
+      } catch { fail(config.storageError!); }
+    }
+    // The backend webhook alone grants access; this event only navigates.
   }
   function load() {
     if (client) return client;
@@ -82,16 +108,26 @@ if (root) {
     status.textContent = config.loading!;
     try {
       const api = await load();
+      let secret: string, digest: string;
+      try {
+        const bytes = crypto.getRandomValues(new Uint8Array(32));
+        secret = btoa(String.fromCharCode(...bytes)).replaceAll('+', '-').replaceAll('/', '_').replace(/=+$/, '');
+        digest = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)), b => b.toString(16).padStart(2, '0')).join('');
+        sessionStorage.removeItem('sc-setup-v1:latest');
+        sessionStorage.setItem('sc-setup-v1:pending', secret);
+        pendingSecret = secret;
+      } catch { fail(config.storageError!); return; }
       openingTimeout = setTimeout(fail, 15000);
       api.Checkout.open({
         items: [{ priceId: config.paddlePrice!, quantity: 1 }],
+        customData: { sc_setup_sha256_v1: digest },
         settings: { displayMode: 'inline', variant: 'one-page', locale: document.documentElement.lang, theme: 'light',
           frameTarget: 'paddle-checkout-frame', frameInitialHeight: 450,
           frameStyle: 'width: 100%; min-width: 312px; background-color: transparent; border: none;',
-          successUrl: config.paddleSuccess!, showAddDiscounts: false },
+          successUrl: new URL(config.paddleSuccess!, location.origin).href, showAddDiscounts: false },
       });
     } catch { fail(); }
   }
-  retry.addEventListener('click', open);
-  void open();
+  if (new URLSearchParams(location.search).has('_ptxn')) status.textContent = config.paymentLinkError!;
+  else { retry.addEventListener('click', () => location.reload()); void open(); }
 }

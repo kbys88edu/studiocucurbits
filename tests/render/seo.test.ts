@@ -80,7 +80,21 @@ describe('production SEO', () => {
       expect(sitemap).not.toContain(path);
     }
 
+    expect(sitemap).not.toContain('<loc>https://www.studiocucurbits.com/setup/</loc>');
+    expect(sitemap).not.toContain('<loc>https://www.studiocucurbits.com/ja/setup/</loc>');
+
     expect(builtFile('/robots.txt')).toContain('Sitemap: https://www.studiocucurbits.com/sitemap-index.xml');
+  });
+
+  it('keeps both setup pages unindexed with a strict licensing CSP and no referrer', () => {
+    for (const path of ['/setup', '/ja/setup']) {
+      const html = renderedPage(path);
+      expect(html).toContain('<meta name="robots" content="noindex"');
+      expect(html).toContain('<meta name="referrer" content="no-referrer"');
+      expect(html).toContain('http-equiv="Content-Security-Policy"');
+      expect(html).toContain("object-src 'none'");
+      expect(html).not.toContain('cdn.paddle.com');
+    }
   });
 
   it('localizes primary Japanese pages and links each published equivalent language version', () => {

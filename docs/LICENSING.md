@@ -1,6 +1,6 @@
 # Website licensing pages
 
-`/recovery/` and `/offline/` (also `/ja/…`) use the existing licensing API.
+`/setup/`, `/recovery/` and `/offline/` (also `/ja/…`) use the licensing API.
 The legal `/license/` page is unchanged. No payment SDK or customer database
 is added to this static site.
 
@@ -14,8 +14,13 @@ activation code, API credential or recovery token in this setting.
 
 Backend requirements: exact CORS origin `https://www.studiocucurbits.com`, POST,
 Content-Type, no cookies; `PortalBaseUrl=https://www.studiocucurbits.com`.
-Recovery/setup email links use `/recovery/#token=…`. Fragments avoid static-host
-request logs; the controller removes them and requires explicit confirmation.
+Setup email links use `/setup/#token=…`; customer-requested recovery links use
+`/recovery/#token=…`. Fragments avoid static-host request logs; both controllers
+remove them and require explicit confirmation. The checkout keeps a random
+32-byte proof in tab-local `sessionStorage` and passes only its SHA-256 digest
+to Paddle. `/setup/` sends the transaction ID and proof to the service for a
+bounded status check, then creates a code only after an explicit click. Its
+routes are noindex and absent from the sitemap.
 Changing language after opening a confirmation link discards it: reopen the
 email link to confirm. Codes, challenges and responses are held only in memory
 and cleared on page exit. No analytics/newsletter embeds belong on these pages.
@@ -45,7 +50,10 @@ the site with a fixture endpoint; rebuild with the real approved configuration
 before publication. Do not publish its generated `dist` as production.
 
 Publication and the backend parameter switch must be coordinated: publish the
-pages with the accepted API configuration first, verify all four URLs, then set
-`PortalBaseUrl` in the reviewed backend deployment. Keep the existing API-hosted
-portal available for old emails/rollback. A prepared implementation is not a
-live end-to-end delivery test or permission to enable sales.
+EN/JA setup, recovery and offline pages with the accepted API configuration
+first, then verify all six URLs. Deploy the reviewed setup API/IAM and switch
+`PortalBaseUrl` before enabling the checkout redirect to `/setup/`; the
+service must be able to send backup setup links to the published page. Keep
+the existing API-hosted portal available for old emails and rollback. A
+prepared implementation is not a live end-to-end delivery test or permission
+to enable sales.

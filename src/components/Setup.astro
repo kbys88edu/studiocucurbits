@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { licensingBase } from '../lib/licensing';
+const { locale = 'en' } = Astro.props as { locale?: 'en' | 'ja' };
+const t = (en: string, ja: string) => locale === 'ja' ? ja : en;
+const prefix = locale === 'ja' ? '/ja' : '';
+const base = licensingBase(import.meta.env.LICENSING_API_BASE,
+  import.meta.env.MODE === 'development' || (import.meta.env.MODE === 'sandbox' && import.meta.env.PADDLE_CHECKOUT_ENVIRONMENT === 'sandbox'));
+const title = t('Set up your licence', 'ライセンスを設定する');
+---
+<BaseLayout title={`${title} | Studio Cucurbits.`} description={t('Set up your Studio Cucurbits licence securely.', 'Studio Cucurbitsのライセンスを安全に設定します。')} canonicalPath={`${prefix}/setup/`} locale={locale} breadcrumbLabel={title}>
+  <Fragment slot="head">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="Content-Security-Policy" content={`default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src ${base ? new URL(base).origin : "'none'"}; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'`} />
+  </Fragment>
+  <section class="page-intro">
+    <p class="eyebrow">{t('Licensing', 'ライセンス')}</p>
+    <h1>{title}</h1>
+  </section>
+  <section class="setup section" data-setup data-base={base}>
+    {!base ? <p>{t('Online licence setup is not available here yet. Please contact', 'オンラインでのライセンス設定は現在利用できません。お問い合わせ：')} <a href="mailto:support@studiocucurbits.com">support@studiocucurbits.com</a>.</p> : <>
+      <p id="setup-status" role="status" aria-live="polite"></p>
+      <p id="setup-error" role="alert"></p>
+      <button id="setup-retry" class="button" type="button" hidden>{t('Check again', 'もう一度確認する')}</button>
+      <button id="setup-generate" class="button" type="button" hidden>{t('Generate activation code', 'アクティベーションコードを作成')}</button>
+      <button id="setup-confirm-email" class="button" type="button" hidden>{t('Confirm setup and create activation code', '設定を確認してアクティベーションコードを作成')}</button>
+      <section id="setup-result" hidden aria-labelledby="setup-result-title">
+        <h2 id="setup-result-title" tabindex="-1">{t('Your activation code', 'アクティベーションコード')}</h2>
+        <p>{t('Copy this code now and keep it safe. It is shown only once and disappears when you leave or reload this page.', 'このコードをコピーして安全に保管してください。表示は1回のみで、ページを離れるか再読み込みすると消えます。')}</p>
+        <label for="setup-code">{t('Activation code', 'アクティベーションコード')}</label>
+        <input id="setup-code" type="text" readonly autocomplete="off" spellcheck="false" />
+      </section>
+      <p id="setup-backup">{t('Lost this tab or waiting for fulfilment? Check your setup email. If its link has expired or you have lost your code, use', 'このタブを閉じた場合や購入処理を待っている場合は、設定用メールをご確認ください。リンクの期限が切れた場合やコードを紛失した場合は、')} <a href={`${prefix}/recovery/`}>{t('licence recovery', 'ライセンスの再発行')}</a>{t('.', 'をご利用ください。')}</p>
+      <noscript><p>{t('JavaScript is required to set up your licence.', 'ライセンスの設定にはJavaScriptが必要です。')}</p></noscript>
+    </>}
+  </section>
+</BaseLayout>
+<script>import '../scripts/setup';</script>
+<style>
+  .setup { max-width: 50rem; }
+  button, input { font: inherit; }
+  button { border: 0; cursor: pointer; margin: .5rem .5rem .5rem 0; }
+  button:disabled { cursor: wait; opacity: .6; }
+  label { display: block; margin-top: 1.25rem; }
+  input { width: 100%; max-width: 100%; padding: .75rem; margin-top: .5rem; border: 1px solid var(--ink); background: var(--paper-2); color: var(--ink); }
+  [hidden] { display: none !important; }
+</style>
