@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto';
 import { products, collections } from './products';
+import { suspendedShopVisible } from './shopCatalogue';
 import { currentReleaseUrl, readCurrent, readRelease, releaseManifestUrl, verifyManifestDigest } from '../lib/downloads';
 
 async function catalogue() {
@@ -44,7 +45,7 @@ export const downloadState = state;
 export const downloadProducts = [
   ...products.map((product) => ({ ...product, image: product.media.heroImage })),
   ...collections.map((collection) => ({ ...collection, image: collection.heroImage })),
-].filter(({ slug }) => slugs.has(slug)).map(({ slug, name, image, editorial }) => ({
+].filter(({ slug }) => slugs.has(slug) && (slug !== 'suspended' || suspendedShopVisible)).map(({ slug, name, image, editorial }) => ({
   slug, name, image: image ?? '',
   imageAlt: { en: `${name} interface artwork`, ja: `${name}のインターフェース・アートワーク` },
   summary: { en: editorial.en.shortDescription, ja: editorial.ja.shortDescription },

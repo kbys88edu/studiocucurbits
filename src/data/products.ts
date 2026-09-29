@@ -1,8 +1,9 @@
 import { MOCKUP_V } from './site';
 import { resolveCheckout } from '../lib/checkout';
+import { suspendedShopOffers, suspendedShopVisible } from './shopCatalogue';
 
 export const suspendedCheckout = resolveCheckout(import.meta.env.PADDLE_CLIENT_TOKEN,
-  import.meta.env.PADDLE_CHECKOUT_ENVIRONMENT, import.meta.env.MODE);
+  import.meta.env.PADDLE_CHECKOUT_ENVIRONMENT, import.meta.env.MODE, suspendedShopOffers[0]?.paddlePriceId);
 
 export type ProductStatus =
   | 'hidden'
@@ -593,7 +594,7 @@ export function getProductBySlug(slug: string): Product | undefined {
 }
 
 export function isVisibleProduct(product: Product): boolean {
-  return product.status !== 'hidden';
+  return product.status !== 'hidden' && (product.slug !== 'suspended' || suspendedShopVisible);
 }
 
 export function isVisibleCollection(collection: Collection): boolean {

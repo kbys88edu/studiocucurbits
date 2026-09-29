@@ -4,6 +4,7 @@ import ReleaseAvailability from '../../components/ReleaseAvailability.astro';
 import { MOCKUP_V } from '../../data/site';
 import { getLocale, localizedPath } from '../../lib/locale';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { suspendedShopVisible } from '../../data/shopCatalogue';
 
 const locale = getLocale(new URL(Astro.request.url));
 const canonicalPath = locale === 'ja' ? '/ja/products/' : '/products/';
@@ -11,7 +12,7 @@ const copy = locale === 'ja'
   ? { title: 'オーディオ・インストゥルメンツ | Studio Cucurbits.', description: 'Studio Cucurbits.のオーディオ・インストゥルメンツは、作曲家が設計した楽器とエフェクトです。', eyebrow: 'Studio Cucurbits / オーディオ・インストゥルメンツ', heading: 'オーディオ・インストゥルメンツ', lead: '作曲家が設計した楽器とエフェクト。', development: '公開状況', details: '製品、デモ、ベータ版は準備が整い次第お知らせします。', mailing: '今後の情報を受け取る' }
   : { title: 'PRODUCTS | Studio Cucurbits.', description: 'Artist-designed instruments and effects from Studio Cucurbits.', eyebrow: 'Studio Cucurbits / Products', heading: 'PRODUCTS', lead: 'Artist-designed instruments and effects.', development: 'Release status', details: 'Products, demonstrations, and beta access will be announced when they are ready.', mailing: 'Receive future announcements' };
 const statusRows = [
-  { name: 'Suspended', slug: 'suspended', href: localizedPath('/products/suspended/', locale) },
+  { name: 'Suspended', slug: 'suspended', href: suspendedShopVisible ? localizedPath('/products/suspended/', locale) : null },
   { name: 'Traces bundle', slug: 'traces', href: null },
   { name: 'Tendril bundle', slug: 'tendril', href: null },
   { name: 'Vitreous', slug: 'vitreous', href: null },

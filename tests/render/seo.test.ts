@@ -40,10 +40,8 @@ describe('production SEO', () => {
     }
   });
 
-  it('publishes SC Suspended while withholding other product and collection detail pages', () => {
-    expect(renderedPage('/products/suspended')).toContain('<title>SC Suspended — Granular Audio Effect | Studio Cucurbits.</title>');
-    expect(renderedPage('/products/suspended')).toContain('property="og:image"');
-    for (const path of ['/products/vitreous', '/collections/traces', '/collections/tendril']) {
+  it('withholds draft product and collection detail pages', () => {
+    for (const path of ['/products/suspended', '/products/vitreous', '/collections/traces', '/collections/tendril']) {
       expect(renderedPage(path)).toBe('');
     }
   });
@@ -75,7 +73,7 @@ describe('production SEO', () => {
     }
 
     for (const path of ['/products/suspended/', '/ja/products/suspended/']) {
-      expect(sitemap).toContain(`<loc>https://www.studiocucurbits.com${path}</loc>`);
+      expect(sitemap).not.toContain(`<loc>https://www.studiocucurbits.com${path}</loc>`);
     }
 
     for (const path of ['/collections/traces/', '/ja/collections/traces/', '/collections/tendril/']) {

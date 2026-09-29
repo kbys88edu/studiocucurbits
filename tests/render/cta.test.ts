@@ -18,9 +18,9 @@ function productPageExists(slug: string, locale = '') {
 describe('product calls to action', () => {
   beforeAll(buildSite, 30_000);
 
-  it('publishes a notification CTA before Stripe checkout is configured', () => {
-    expect(productPageExists('suspended')).toBe(true);
+  it('withholds draft product calls to action from the public build', () => {
+    expect(productPageExists('suspended')).toBe(false);
     expect(productPageExists('vitreous')).toBe(false);
-    expect(productPageExists('suspended', 'ja/')).toBe(true);
+    expect(productPageExists('suspended', 'ja/')).toBe(false);
   });
 }, 30_000);

@@ -17,11 +17,12 @@ function renderedPage(path: string) {
 }
 
 describe('Audio Instruments catalogue', () => {
-  it('publishes Suspended as the sole Audio Instruments product', () => {
+  it('shows Suspended as forthcoming without generating its draft product page', () => {
     buildSite();
 
     expect(renderedPage('')).toContain('Suspended');
     expect(renderedPage('/products')).toContain('Suspended');
+    expect(renderedPage('/products/suspended')).toBe('');
   });
 
   it('excludes deliberately hidden products from the public catalogue', () => {

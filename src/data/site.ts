@@ -1,3 +1,5 @@
+import { suspendedShopVisible } from './shopCatalogue';
+
 // Mockups are replaced under the same file names; Cloudflare tells browsers to keep images for 4 h,
 // so bump this on every mockup deploy.
 export const MOCKUP_V = '?v=2026091321';
@@ -44,7 +46,7 @@ export const latestItem: LatestItem = {
   title: 'Suspended',
   summary: 'Sound in suspension. A body still in motion.',
   summaryJa: '浮遊する音。動き続ける身体。',
-  href: '/products/suspended/',
+  href: suspendedShopVisible ? '/products/suspended/' : '/products/',
   status: 'coming-soon',
   image: `/images/products/website/individual/traces_suspended.png${MOCKUP_V}`,
 };

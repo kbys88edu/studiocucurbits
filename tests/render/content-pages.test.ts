@@ -36,21 +36,15 @@ describe('support, legal, and pre-launch routes', () => {
     }
   });
 
-  it('generates the download overview and product template in both locales', () => {
-    for (const route of ['/downloads', '/downloads/suspended', '/ja/downloads', '/ja/downloads/suspended']) {
+  it('generates the download overview without draft product downloads', () => {
+    for (const route of ['/downloads', '/ja/downloads']) {
       expect(renderedPage(route), route).not.toBe('');
     }
-
-    expect(renderedPage('/downloads')).toContain('/downloads/suspended/');
-    expect(renderedPage('/downloads')).toContain('/images/products/website/individual/traces_suspended.png');
-    expect(renderedPage('/downloads/suspended')).toContain('Download Suspended');
-    expect(renderedPage('/downloads/suspended')).toContain('Suspended interface artwork');
-    expect(renderedPage('/downloads/suspended')).not.toContain('staging.example');
-    expect(renderedPage('/ja/downloads/suspended')).toContain('Suspendedをダウンロード');
-    expect(renderedPage('/products/suspended')).toContain('data-release-download="suspended"');
-    expect(renderedPage('/products/suspended')).not.toContain('<a class="button" href="/downloads/suspended/"');
-    expect(renderedPage('/ja/products/suspended')).toContain('data-release-download="suspended"');
-    expect(renderedPage('/ja/products/suspended')).not.toContain('<a class="button" href="/ja/downloads/suspended/"');
+    expect(renderedPage('/downloads')).not.toContain('/downloads/suspended/');
+    expect(renderedPage('/downloads/suspended')).toBe('');
+    expect(renderedPage('/ja/downloads/suspended')).toBe('');
+    expect(renderedPage('/products/suspended')).toBe('');
+    expect(renderedPage('/ja/products/suspended')).toBe('');
   });
 
   it('states final terms rather than a draft placeholder', () => {
@@ -76,34 +70,12 @@ describe('support, legal, and pre-launch routes', () => {
   });
 }, 30_000);
 
-describe('artist note separation', () => {
+describe('draft artist notes', () => {
   beforeAll(buildSite, 30_000);
 
-  it('publishes the artist note in both locales', () => {
-    expect(renderedPage('/products/suspended/notes')).not.toBe('');
-    expect(renderedPage('/ja/products/suspended/notes')).not.toBe('');
-  });
-
-  it('keeps the development story off the product page and on the artist note', () => {
-    const product = renderedPage('/products/suspended');
-    const notes = renderedPage('/products/suspended/notes');
-
-    for (const story of ['Suspended is currently being prepared', 'The current build includes Freeze', 'IMPLEMENTED IN THE CURRENT BUILD']) {
-      expect(product).not.toContain(story);
-      expect(notes).toContain(story);
-    }
-
-    expect(product).toContain('Read the artist note');
-    expect(product).toContain('/products/suspended/notes/');
-  });
-
-  it('keeps the Japanese artist note localized and linked from the Japanese product page', () => {
-    const productJa = renderedPage('/ja/products/suspended');
-    const notesJa = renderedPage('/ja/products/suspended/notes');
-
-    expect(productJa).not.toContain('現在のビルドには、Freeze');
-    expect(notesJa).toContain('現在のビルドには、Freeze');
-    expect(productJa).toContain('/ja/products/suspended/notes/');
+  it('keeps notes out of the public build in both locales', () => {
+    expect(renderedPage('/products/suspended/notes')).toBe('');
+    expect(renderedPage('/ja/products/suspended/notes')).toBe('');
   });
 });
 

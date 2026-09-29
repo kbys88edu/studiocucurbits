@@ -34,20 +34,21 @@ describe('release-derived download routes', () => {
       expect(existsSync(page(`${locale}/downloads/index.html`))).toBe(true);
       expect(existsSync(page(`${locale}/downloads/suspended/index.html`))).toBe(false);
       expect(readFileSync(page(`${locale}/downloads/index.html`), 'utf8')).not.toContain('/downloads/suspended/');
-      expect(readFileSync(page(`${locale}/products/suspended/index.html`), 'utf8')).not.toContain('data-release-download=');
+      expect(existsSync(page(`${locale}/products/suspended/index.html`))).toBe(false);
     }
     expect(readFileSync(page('/sitemap-index.xml'), 'utf8')).not.toContain('/downloads/suspended/');
     expect(JSON.parse(readFileSync(page('/download-state.json'), 'utf8')).state).toBe('unpublished');
   }, 30_000);
 
-  it('automatically adds products and bundles while retaining earlier released products', () => {
+  it('adds approved downloads but keeps draft Suspended private even with release metadata', () => {
     build(releaseSnapshot(['vitreous', 'traces'], ['suspended']));
     for (const locale of ['', '/ja']) {
-      for (const slug of ['vitreous', 'traces', 'suspended']) {
+      for (const slug of ['vitreous', 'traces']) {
         expect(existsSync(page(`${locale}/downloads/${slug}/index.html`))).toBe(true);
         expect(readFileSync(page(`${locale}/downloads/index.html`), 'utf8')).toContain(`${locale}/downloads/${slug}/`);
         expect(readFileSync(page('/sitemap-index.xml'), 'utf8')).toContain(`${locale}/downloads/${slug}/`);
       }
+      expect(existsSync(page(`${locale}/downloads/suspended/index.html`))).toBe(false);
       expect(existsSync(page(`${locale}/downloads/tendril/index.html`))).toBe(false);
     }
   }, 30_000);

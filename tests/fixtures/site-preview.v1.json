@@ -1,0 +1,20 @@
+{
+  "schema": "studio.cucurbits.site-catalogue.v1",
+  "catalogueCommit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "environment": "sandbox",
+  "preview": true,
+  "products": [{
+    "id": "suspended", "slug": "suspended", "name": "Suspended", "visibility": "draft",
+    "summary": { "en": "A granular audio effect.", "ja": "グラニュラー・エフェクト。" },
+    "description": { "en": "A granular audio effect.\n\n## Hold a sound\n\nKeep it moving.", "ja": "グラニュラー・エフェクト。\n\n## 音を留める\n\n動きを保つ。" },
+    "media": { "hero": "/images/products/website/individual/traces_suspended.png", "videos": [], "audio": [] },
+    "release": null, "downloadPageUrl": "/downloads/suspended/", "offerIds": ["suspended"]
+  }],
+  "offers": [{
+    "id": "suspended", "skuId": "suspended", "visibility": "draft",
+    "name": { "en": "Suspended licence", "ja": "Suspended ライセンス" },
+    "productIds": ["suspended"],
+    "price": { "currency": "USD", "amountMinor": 2900 },
+    "paddlePriceId": "pri_01m3eaewadnm7grc2armnnkbsr"
+  }]
+}

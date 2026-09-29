@@ -1,5 +1,6 @@
 ---
 import { suspendedCheckout } from '../data/products';
+import { suspendedShopVisible } from '../data/shopCatalogue';
 import type { Locale } from '../lib/locale';
 import { localizedPath } from '../lib/locale';
 const { locale } = Astro.props as { locale: Locale };
@@ -7,7 +8,7 @@ const ja = locale === 'ja';
 ---
 <section class="purchase-checkout" aria-labelledby="checkout-title" data-paddle-checkout data-paddle-token={suspendedCheckout.token}
   data-paddle-price={suspendedCheckout.priceId} data-paddle-sandbox={String(suspendedCheckout.sandbox)}
-  data-paddle-success="https://www.studiocucurbits.com/downloads/suspended/"
+  data-paddle-success={new URL(localizedPath('/downloads/suspended/', locale), Astro.url).toString()}
   data-loading={ja ? '決済画面を開いています…' : 'Opening secure checkout…'}
   data-error={ja ? '決済画面を開けませんでした。もう一度お試しいただくか、サポートへご連絡ください。' : 'Checkout could not be opened. Please try again or contact support.'}
   data-payment-error={ja ? 'お支払いが完了しませんでした。決済画面をご確認ください。' : 'Payment did not complete. Check the payment details in checkout.'}>
@@ -26,7 +27,7 @@ const ja = locale === 'ja';
     <p>{ja ? '通貨と税額はPaddleが計算します。支払前に最終金額をご確認ください。' : 'Paddle calculates your currency and tax. Review the final total before paying.'}</p>
     <p>{ja ? 'Paddleが販売・決済を処理します。支払い完了後はSuspendedのダウンロードページへ移動します。ライセンスの設定用リンクはメールで届きます。' : 'Paddle is the merchant of record and handles payment. After payment, you will go to the Suspended download page. Your licence setup link arrives by email.'}</p>
     <p><a href={localizedPath('/refund/', locale)}>{ja ? '返金ポリシー' : 'Refund policy'}</a> · <a href={localizedPath('/license/', locale)}>{ja ? 'ライセンス条件' : 'Licence terms'}</a> · <a href={localizedPath('/privacy/', locale)}>{ja ? 'プライバシー' : 'Privacy'}</a></p>
-    <a href={localizedPath('/products/suspended/', locale)}>{ja ? 'Suspendedに戻る' : 'Back to Suspended'}</a>
+    <a href={localizedPath(suspendedShopVisible ? '/products/suspended/' : '/products/', locale)}>{ja ? 'Suspendedに戻る' : 'Back to Suspended'}</a>
   </div>
   <div class="checkout-payment">
     <h2>{ja ? '安全な決済' : 'Secure checkout'}</h2>
