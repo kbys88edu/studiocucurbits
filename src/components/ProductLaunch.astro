@@ -54,44 +54,63 @@ const price = (offer: typeof suspendedShopOffers[number]) => new Intl.NumberForm
 <section class="suspended-launch" data-suspended-product data-installers={JSON.stringify(installers)} aria-labelledby="product-title">
   <div class="suspended-hero">
     <div class="suspended-hero-copy">
-      <p class="eyebrow">TRACES — {ja ? 'グラニュラー・オーディオ・エフェクト' : 'Granular Audio Effect'}</p>
-      <h1 id="product-title">SC SUSPENDED</h1>
+      <p class="eyebrow">↘&#xFE0E;&nbsp;{ja ? 'グラニュラー・エフェクト' : 'GRANULAR AUDIO EFFECT'}</p>
+      <h1 id="product-title">SUSPENDED</h1>
       <p class="launch-tagline">{hero.tagline}</p>
       <p class="lead">{hero.description}</p>
+      {boxArt && <img class="shop-box-inline" src={boxArt} alt={ja ? 'Suspendedのパッケージ画像' : 'Suspended package artwork'} width="1200" height="1500" loading="eager" decoding="async" />}
 
-      <div class="shop-offers" aria-label={ja ? '購入オプション' : 'Purchase options'}>
-        <table>
-          <tbody>{suspendedShopOffers.map((offer) => <tr>
-            <th scope="row">{offer.name[locale]}</th>
-            <td>{suspendedCheckout.url && offer.paddlePriceId === suspendedCheckout.priceId
-              ? <a class="button shop-buy" href={purchasePage}>BUY <span>{price(offer)}</span></a>
-              : <span class="button shop-buy shop-buy-disabled" aria-disabled="true">BUY <span>{price(offer)}</span></span>}</td>
-          </tr>)}</tbody>
-        </table>
+      <div class="shop-sheet">
+        {suspendedShopOffers.length > 0 && <section class="shop-row" aria-labelledby="shop-licence-title">
+          <h2 id="shop-licence-title" class="shop-row-label">{ja ? 'ライセンス' : 'LICENCE'}</h2>
+          <div>{suspendedShopOffers.map((offer) => <div class="shop-offer">
+            <p class="shop-offer-name">{offer.name[locale]}</p>
+            <p class="shop-offer-terms">{ja ? '買い切り（サブスクリプションなし）・パソコン3台まで' : 'One-time payment · up to 3 computers'}</p>
+            {suspendedCheckout.url && offer.paddlePriceId === suspendedCheckout.priceId
+              ? <a class="shop-buy-band" href={purchasePage}>{ja ? '購入する' : 'Buy licence'} <span>{price(offer)}</span></a>
+              : <span class="shop-buy-band shop-buy-disabled" aria-disabled="true">{ja ? '購入する' : 'Buy licence'} <span>{price(offer)}</span></span>}
+          </div>)}</div>
+        </section>}
+
+        <section class="shop-row" aria-labelledby="shop-download-title">
+          <h2 id="shop-download-title" class="shop-row-label">{ja ? 'ダウンロード' : 'DOWNLOAD'}</h2>
+          <div>
+            <a class="shop-demo-link" data-recommended-download href={downloadPage}><img data-download-icon alt="" hidden /><span data-download-text>{ja ? 'インストーラーを選ぶ' : 'Choose an installer'}</span> ↓</a>
+            <p class="shop-note">{ja ? 'ライセンスを設定するまでは、数分おきに数秒間、音が途切れます。' : 'The demo mutes briefly every few minutes until a licence is activated.'}</p>
+            <a class="shop-download-all" href={downloadPage}>{ja ? 'ほかのOS・過去のバージョン' : 'All installers and versions'} →</a>
+          </div>
+        </section>
+
+        <section class="shop-row shop-requirements" aria-labelledby="shop-requirements-title">
+          <h2 id="shop-requirements-title" class="shop-row-label">{ja ? '動作環境' : 'SYSTEM REQUIREMENTS'}</h2>
+          <div>
+            <table><tbody>
+              <tr><th scope="row">{ja ? '対応OS' : 'Operating system'}</th><td>{operatingSystems.join(', ')}</td></tr>
+              <tr><th scope="row">{ja ? 'プラグイン形式' : 'Plug-in format'}</th><td>{formatLabel}</td></tr>
+              {shopProduct.release?.testedRequirements.map((claim) => <tr><th scope="row">{ja ? '動作確認' : 'Tested compatibility'}</th><td>{claim[locale]}</td></tr>)}
+            </tbody></table>
+            {!shopProduct.release && <p class="shop-note">{staging.length
+              ? (ja ? 'Linuxの対応ディストリビューションと、動作を確認したDAWは現在確認中です。' : 'Linux distribution compatibility and tested hosts are still being verified.')
+              : (ja ? 'OSの最低バージョンと動作を確認したDAWは、正式リリース前に掲載します。' : 'Minimum OS versions and tested hosts will be listed before public release.')}</p>}
+          </div>
+        </section>
+
+        <section class="shop-row shop-description" aria-labelledby="shop-about-title">
+          <h2 id="shop-about-title" class="shop-row-label">{ja ? '製品について' : 'ABOUT'}</h2>
+          <div>{descriptionBlocks.map((block) => block.heading ? <h3>{block.text}</h3> : <p>{block.text}</p>)}</div>
+        </section>
+
+        <section class="shop-row" aria-labelledby="shop-support-title">
+          <h2 id="shop-support-title" class="shop-row-label">{ja ? 'サポート' : 'SUPPORT'}</h2>
+          <p><a href={supportPage}>{ja ? 'インストールとサポート' : 'Setup and support'} →</a></p>
+        </section>
       </div>
-
-      <div class="shop-download">
-        <a class="download-primary" data-recommended-download href={downloadPage}><span class="shop-download-label"><img data-download-icon alt="" hidden /><span data-download-text>{ja ? 'インストーラーを選ぶ' : 'Choose an installer'}</span></span></a>
-        <a class="shop-download-all" href={downloadPage}>{ja ? 'すべてのインストーラーとバージョンを見る' : 'All installers and versions'} →</a>
-      </div>
-
-      <section class="shop-requirements" aria-labelledby="shop-requirements-title">
-        <h2 id="shop-requirements-title" class="eyebrow">{ja ? 'システム要件' : 'SYSTEM REQUIREMENTS'}</h2>
-        <table><tbody>
-          <tr><th scope="row">{ja ? '対応OS' : 'Operating system'}</th><td>{operatingSystems.join(', ')}</td></tr>
-          <tr><th scope="row">{ja ? 'プラグイン形式' : 'Plug-in format'}</th><td>{formatLabel}</td></tr>
-          {shopProduct.release?.testedRequirements.map((claim) => <tr><th scope="row">{ja ? '動作確認' : 'Tested compatibility'}</th><td>{claim[locale]}</td></tr>)}
-        </tbody></table>
-        {!shopProduct.release && <p>{staging.length
-          ? (ja ? 'Linuxの対応ディストリビューションと動作確認済みのホストは、現在検証中です。' : 'Linux distribution compatibility and tested hosts are still being verified.')
-          : (ja ? 'OSの最低バージョンと動作確認済みのホストは、正式リリース前に掲載します。' : 'Minimum OS versions and tested hosts will be listed before public release.')}</p>}
-      </section>
     </div>
-    {boxArt && <img class="product-hero-image suspended-hero-image" src={boxArt} alt={ja ? 'SC Suspendedのパッケージ画像' : 'SC Suspended package artwork'} width="1200" height="1500" loading="eager" decoding="async" />}
+    {boxArt && <img class="product-hero-image suspended-hero-image shop-box-aside" src={boxArt} alt="" width="1200" height="1500" loading="eager" decoding="async" />}
   </div>
 
   {shopProduct.media.interface && <figure class="shop-interface">
-    <img src={shopProduct.media.interface} alt={ja ? 'SC Suspendedのプラグイン画面' : 'SC Suspended plug-in interface'} width="860" height="860" loading="lazy" decoding="async" />
+    <img src={shopProduct.media.interface} alt={ja ? 'Suspendedのプラグイン画面' : 'Suspended plug-in interface'} width="720" height="644" loading="lazy" decoding="async" />
   </figure>}
 
   {videos.length > 0 && <section class="launch-section shop-demo" aria-label={ja ? '動画' : 'Videos'}>
@@ -109,12 +128,6 @@ const price = (offer: typeof suspendedShopOffers[number]) => new Intl.NumberForm
       <audio controls preload="none" src={demo.url} aria-label={demo.caption[locale] || demo.caption.en}></audio>
     </figure>)}</div>
   </section>}
-
-  <section class="launch-section shop-description" aria-label={ja ? '製品について' : 'About Suspended'}>
-    <p class="eyebrow">{ja ? '製品について' : 'ABOUT SUSPENDED'}</p>
-    {descriptionBlocks.map((block) => block.heading ? <h2>{block.text}</h2> : <p>{block.text}</p>)}
-  </section>
-  <p class="shop-support"><a href={supportPage}>{ja ? 'セットアップとサポート' : 'Setup and support'} →</a></p>
 </section>
 
 <script>
@@ -133,8 +146,8 @@ const price = (offer: typeof suspendedShopOffers[number]) => new Intl.NumberForm
       icon.src = `/images/platforms/${platform}.svg`;
       icon.hidden = false;
       label.textContent = document.documentElement.lang === 'ja'
-        ? `${platform === 'macos' ? 'macOS' : platform === 'windows' ? 'Windows' : 'Linux'}版をダウンロード`
-        : `Download for ${platform === 'macos' ? 'macOS' : platform === 'windows' ? 'Windows' : 'Linux'}`;
+        ? `無料デモ版をダウンロード（${platform === 'macos' ? 'macOS' : platform === 'windows' ? 'Windows' : 'Linux'}）`
+        : `Try the free demo — Download for ${platform === 'macos' ? 'macOS' : platform === 'windows' ? 'Windows' : 'Linux'}`;
     }
   }
 </script>

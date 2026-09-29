@@ -230,8 +230,8 @@ export const products: Product[] = [
     demoUrl: import.meta.env.SUSPENDED_DEMO_URL?.trim() || null,
     manualUrl: import.meta.env.SUSPENDED_MANUAL_URL?.trim() || null,
     seo: {
-      title: 'SC Suspended — Granular Audio Effect | Studio Cucurbits.',
-      description: 'SC Suspended captures incoming audio and holds it as a granular sound body, preserving motion and transformation within the frozen material.',
+      title: 'Suspended — Granular Audio Effect | Studio Cucurbits.',
+      description: 'Suspended captures incoming audio and holds it as a granular sound body, preserving motion and transformation within the frozen material.',
       image: `/images/products/website/individual/traces_suspended.png${MOCKUP_V}`,
       keywords: ['granular processor', 'audio effect', 'sound design'],
     },
@@ -258,8 +258,8 @@ export const products: Product[] = [
           concept: 'Freeze live input and hold it as a granular sound body whose internal motion continues over time.',
         },
         ja: {
-          tagline: '浮遊する音。動き続ける身体。',
-          description: '音の一瞬を捉え、その内側の動きを保ったまま留めます。',
+          tagline: '宙に留まる音。\n内側で動き続ける響き。',
+          description: '一瞬をつかまえる。',
           concept: 'ライブ入力をFreezeで保持し、粒状再生によって、静止した音の内部に動きを生み出します。',
         },
       },

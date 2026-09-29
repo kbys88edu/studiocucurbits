@@ -210,37 +210,35 @@ h3 { margin: 0; font-size: 1.15rem; line-height: 1.2; letter-spacing: -.01em; }
 .suspended-hero h1 { margin: .25rem 0 0; font-size: clamp(1rem, 1.3vw, 1.2rem); font-weight: 600; letter-spacing: .04em; }
 .launch-tagline { max-width: 12ch; margin: 1.75rem 0 1.25rem; font-size: clamp(2.8rem, 6.2vw, 7rem); font-weight: 500; line-height: 1; letter-spacing: normal; }
 .suspended-hero-image { width: 100%; max-height: min(84vh, 62rem); margin: 0; object-fit: contain; object-position: top center; background: var(--paper); }
-.shop-offers { margin-top: clamp(2.5rem, 5vw, 4.5rem); }
-.shop-offers table { width: 100%; border-collapse: collapse; border-top: 1px solid var(--ink); text-align: left; }
-.shop-offers th, .shop-offers td { padding: 1rem 0; border-bottom: 1px solid var(--rule); vertical-align: middle; }
-.shop-offers tbody th { font-size: clamp(1.2rem, 1.6vw, 1.5rem); font-weight: 500; }
-.shop-offers td { width: 1%; text-align: right; white-space: nowrap; }
-.shop-buy { display: inline-flex; gap: .75rem; justify-content: space-between; min-width: 8rem; margin: 0; font-size: 1rem; white-space: nowrap; }
-.shop-buy span { font-weight: 600; }
+.launch-tagline { white-space: pre-line; }
+:lang(ja) .launch-tagline { max-width: none; word-break: keep-all; }
+.shop-box-inline { display: none; }
+.shop-sheet { margin-top: clamp(2.5rem, 5vw, 4.5rem); border-top: 1px solid var(--ink); }
+.shop-row { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: .5rem 1rem; padding-block: clamp(1.25rem, 2.6vw, 2.25rem); border-bottom: 1px solid var(--rule); }
+.shop-row-label { margin: 0; font-size: .8125rem; font-weight: 500; line-height: 1.3; letter-spacing: .05em; text-transform: uppercase; }
+.shop-row p { margin: 0; }
+.shop-offer-name { font-size: clamp(1.2rem, 1.6vw, 1.5rem); font-weight: 500; }
+.shop-offer-terms, .shop-note { margin-top: .25rem !important; color: var(--muted); font-size: .875rem; }
+.shop-buy-band { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 5rem; margin-top: 1rem; padding: 1rem 1.25rem; background: var(--ink); color: var(--paper); font-size: clamp(1.25rem, 2.5vw, 2rem); font-weight: 500; line-height: 1; letter-spacing: -.045em; text-decoration: none; }
+.shop-buy-band span { margin-right: auto; }
+.shop-buy-band::after { content: '→'; }
 .shop-buy-disabled { opacity: .45; cursor: default; }
-.shop-download { margin-top: .75rem; }
-.shop-download .download-primary { min-height: 5rem; padding: 1rem 1.25rem; font-size: clamp(1.25rem, 2.5vw, 2rem); }
-.shop-download-label { display: inline-flex; align-items: center; gap: .9rem; }
-.shop-download-label img[data-download-icon] { width: 2.25rem; height: 2.25rem; flex: none; object-fit: contain; padding: .3rem; background: var(--paper); border-radius: .2rem; }
+.shop-demo-link { display: inline-flex; align-items: center; gap: .45rem; font-size: 1.125rem; font-weight: 500; }
+.shop-demo-link img[data-download-icon] { width: 1.2rem; height: 1.2rem; }
 .shop-download-all { display: block; width: fit-content; margin-top: .65rem; color: var(--muted); font-size: .82rem; }
-.shop-requirements { margin-top: clamp(2.5rem, 5vw, 4rem); }
-.shop-requirements h2 { margin-bottom: .75rem; }
-.shop-requirements table { width: 100%; border-collapse: collapse; border-top: 1px solid var(--ink); text-align: left; }
-.shop-requirements th, .shop-requirements td { padding: .8rem 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
-.shop-requirements th { font-weight: 500; }
+.shop-requirements table { width: 100%; border-collapse: collapse; text-align: left; }
+.shop-requirements th, .shop-requirements td { padding: .6rem 0; border-bottom: 1px solid var(--rule); vertical-align: top; font-weight: 450; }
 .shop-requirements td { text-align: right; }
-.shop-requirements p { margin: .75rem 0 0; color: var(--muted); font-size: .82rem; }
-.shop-interface { margin: 0 0 clamp(4rem, 9vw, 8rem); }
-.shop-interface img { width: min(100%, 82rem); margin-inline: auto; }
+.shop-description h3 { margin: 1.5rem 0 .5rem; font-size: clamp(1.4rem, 2.2vw, 2rem); font-weight: 500; line-height: 1.1; letter-spacing: -.03em; }
+.shop-description p { max-width: 62ch; }
+.shop-interface { margin: clamp(4rem, 9vw, 8rem) 0; }
+.shop-interface img { width: min(100%, 720px); margin-inline: auto; }
 .shop-demo { margin-bottom: clamp(4rem, 9vw, 8rem); }
 .shop-demo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr)); gap: 2rem; }
 .shop-demo figure { margin: 0; }
 .shop-demo video, .shop-demo audio { width: 100%; }
 .shop-demo figcaption { margin-block: .75rem; }
-.shop-description { max-width: 62rem; }
-.shop-description h2 { max-width: 18ch; margin: 3rem 0 1rem; font-size: clamp(2rem, 4vw, 4rem); line-height: 1; letter-spacing: -.05em; }
-.shop-description p:not(.eyebrow) { max-width: 66ch; font-size: clamp(1.1rem, 1.5vw, 1.35rem); line-height: 1.5; }
-.shop-support { padding-block: 2rem 5rem; }
+@media (min-width: 64rem) { .shop-box-aside { position: sticky; top: clamp(2rem, 5vw, 4rem); } }
 .launch-disclosure { padding-block: clamp(1rem, 2vw, 1.75rem); }
 .launch-summary { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; align-items: baseline; cursor: pointer; list-style: none; }
 .launch-summary .eyebrow { flex: 1 0 100%; margin: 0 0 .75rem; color: var(--muted); }
@@ -330,9 +328,9 @@ h3 { margin: 0; font-size: 1.15rem; line-height: 1.2; letter-spacing: -.01em; }
   .download-facts > div { grid-template-columns: 1fr; gap: .35rem; }
   .catalogue-status-row p { text-align: left; }
   .suspended-hero-image { max-height: none; }
-  .shop-offers th, .shop-offers td { padding-block: .75rem; }
-  .shop-offers tbody th { font-size: 1.1rem; }
-  .shop-buy { min-width: 7rem; gap: .5rem; padding: .65rem .8rem; font-size: .88rem; }
+  .shop-box-inline { display: block; width: 100%; max-height: 70vh; margin-top: 2rem; object-fit: contain; }
+  .shop-box-aside { display: none; }
+  .shop-row { grid-template-columns: 1fr; }
   .site-footer { grid-template-columns: 1fr; }
   .footer-links { justify-items: start; }
 }

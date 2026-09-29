@@ -46,7 +46,7 @@ it('stores the approved suspended launch content in one product record', () => {
   const launch = getProductBySlug('suspended')?.launch;
 
   expect(launch?.hero.en.tagline).toBe('Sound in suspension. A body still in motion.');
-  expect(launch?.hero.ja.tagline).toBe('浮遊する音。動き続ける身体。');
+  expect(launch?.hero.ja.tagline).toBe('宙に留まる音。\n内側で動き続ける響き。');
   expect(launch?.concept.en.title).toBe('Hold a sound without stopping its time.');
   expect(launch?.coreIdeas.ja.map(({ title }) => title)).toEqual(['保持', '動き', '解放']);
   expect(launch?.controls.parameters).toHaveLength(10);

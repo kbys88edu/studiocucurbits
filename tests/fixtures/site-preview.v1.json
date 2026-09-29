@@ -8,7 +8,7 @@
     "summary": { "en": "A granular audio effect.", "ja": "グラニュラー・エフェクト。" },
     "description": { "en": "A granular audio effect.\n\n## Hold a sound\n\nKeep it moving.", "ja": "グラニュラー・エフェクト。\n\n## 音を留める\n\n動きを保つ。" },
     "media": { "boxArt": "/catalogue-media/suspended/box-art.png", "interface": "/catalogue-media/suspended/interface.png", "videos": [{ "url": "https://example.test/demo.mp4", "caption": { "en": "Suspended demo", "ja": "Suspendedデモ" } }], "audio": [{ "url": "https://example.test/sample.mp3", "caption": { "en": "Sound sample", "ja": "サウンドサンプル" } }] },
-    "release": null, "downloadPageUrl": "/downloads/suspended/", "offerIds": ["suspended", "traces"]
+    "release": null, "downloadPageUrl": "/downloads/suspended/", "offerIds": ["suspended"]
   }],
   "offers": [{
     "id": "suspended", "skuId": "suspended", "visibility": "draft",
@@ -16,11 +16,5 @@
     "productIds": ["suspended"],
     "price": { "currency": "USD", "amountMinor": 2900 },
     "paddlePriceId": "pri_01m3eaewadnm7grc2armnnkbsr"
-  }, {
-    "id": "traces", "skuId": "traces", "visibility": "draft",
-    "name": { "en": "Traces bundle", "ja": "Traces バンドル" },
-    "productIds": ["palimpsest", "suspended", "refraction"],
-    "price": { "currency": "USD", "amountMinor": 9900 },
-    "paddlePriceId": null
   }]
 }
