@@ -32,7 +32,10 @@ it('keeps drafts out of public output and renders the private sandbox offer', ()
     const purchase = page(`${locale}purchase/suspended`);
     expect(product).toContain(locale ? 'Suspended ライセンス' : 'Suspended licence');
     expect(product).not.toContain('PRIVATE PREVIEW');
-    expect(product).toContain('/images/products/suspended-interface.png');
+    expect(product).toContain('/catalogue-media/suspended/box-art.png');
+    expect(product).toContain('/catalogue-media/suspended/interface.png');
+    expect(product).toContain('src="https://example.test/demo.mp4"');
+    expect(product).toContain('src="https://example.test/sample.mp3"');
     expect(product).toContain('$29');
     expect(product).toContain(locale ? 'Traces バンドル' : 'Traces bundle');
     expect(product).toContain('$99');

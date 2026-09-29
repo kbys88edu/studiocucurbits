@@ -7,8 +7,11 @@
   },
   "type": "module",
   "scripts": {
+    "predev": "node scripts/sync-catalogue-media.mjs",
     "dev": "astro dev",
+    "prebuild": "node scripts/sync-catalogue-media.mjs",
     "build": "astro build",
+    "prebuild:sandbox": "node scripts/sync-catalogue-media.mjs",
     "build:sandbox": "astro build --mode sandbox --outDir dist-sandbox",
     "preview": "astro preview",
     "preview:sandbox": "astro preview --outDir dist-sandbox",

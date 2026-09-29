@@ -1,9 +1,10 @@
 import { readFileSync } from 'node:fs';
 
 type Localized = { en: string; ja: string };
+type Demo = { url: string; caption: Localized };
 type CatalogueProduct = {
   id: string; slug: string; visibility: string; summary: Localized; description: Localized;
-  media: { hero: string | null; videos: unknown[]; audio: unknown[] };
+  media: { boxArt: string | null; interface: string | null; videos: Demo[]; audio: Demo[] };
   release: { installers: Array<{ url: string; os: string; architecture: string; format: string; pluginFormats?: string[]; minimumOsVersion?: string | null }>;
     testedRequirements: Array<{ en: string; ja: string }> } | null;
   downloadPageUrl: string; offerIds: string[];

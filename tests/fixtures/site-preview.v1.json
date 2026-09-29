@@ -7,7 +7,7 @@
     "id": "suspended", "slug": "suspended", "name": "Suspended", "visibility": "draft",
     "summary": { "en": "A granular audio effect.", "ja": "グラニュラー・エフェクト。" },
     "description": { "en": "A granular audio effect.\n\n## Hold a sound\n\nKeep it moving.", "ja": "グラニュラー・エフェクト。\n\n## 音を留める\n\n動きを保つ。" },
-    "media": { "hero": "/images/products/website/individual/traces_suspended.png", "videos": [], "audio": [] },
+    "media": { "boxArt": "/catalogue-media/suspended/box-art.png", "interface": "/catalogue-media/suspended/interface.png", "videos": [{ "url": "https://example.test/demo.mp4", "caption": { "en": "Suspended demo", "ja": "Suspendedデモ" } }], "audio": [{ "url": "https://example.test/sample.mp3", "caption": { "en": "Sound sample", "ja": "サウンドサンプル" } }] },
     "release": null, "downloadPageUrl": "/downloads/suspended/", "offerIds": ["suspended", "traces"]
   }],
   "offers": [{

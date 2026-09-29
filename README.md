@@ -61,7 +61,7 @@ public sandbox client-side token (`test_…`) in the local `.env`, then run
 `npm run build:sandbox` followed by `npm run preview:sandbox`.
 Both languages use the same USD-base price;
 Paddle displays the customer's final currency and applicable tax at checkout.
-This preview is labelled test-only and writes to `dist-sandbox/`, never the
+This preview writes to `dist-sandbox/`, never the
 production deployment directory. On a purchase click, the site loads the
 product-specific `/purchase/suspended/` page (also `/ja/purchase/suspended/`),
 which loads the official Paddle.js CDN script and opens the inline form. It passes one
@@ -74,7 +74,13 @@ acceptance or live sales. No customer or payment event data is persisted by the
 site. Failed or stalled opening clears the quote and presents a retry button.
 When an agent shell triggers Astro's automatic background mode, set
 `ASTRO_PREVIEW_BACKGROUND=0` before starting the preview: Astro 7.2.4's background
-launcher drops the custom output directory. Verify the visible sandbox label.
+launcher drops the custom output directory.
+
+Product media comes from the product catalogue. Set `PRODUCT_CATALOGUE_DIR` to its
+checkout when running `npm run dev`, `npm run build` or `npm run build:sandbox`;
+the build copies `products/<id>/media/*` to `public/catalogue-media/<id>/`.
+The catalogue export decides whether box artwork, the interface image, videos
+and audio samples appear on a product page.
 
 Production builds reject sandbox tokens. Live sales additionally require an
 approved catalogue release, approved public pricing, a live client-side token,

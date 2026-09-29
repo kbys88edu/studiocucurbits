@@ -11,6 +11,7 @@ const shopProduct = suspendedShopProduct;
 if (!shopProduct) return;
 
 const ja = locale === 'ja';
+const { boxArt, videos, audio } = shopProduct.media;
 const hero = product.launch!.hero[locale];
 const description = shopProduct.description[locale] || shopProduct.description.en;
 const descriptionBlocks = description.split(/\n\s*\n/).map((block) => ({
@@ -86,12 +87,28 @@ const price = (offer: typeof suspendedShopOffers[number]) => new Intl.NumberForm
           : (ja ? 'OSの最低バージョンと動作確認済みのホストは、正式リリース前に掲載します。' : 'Minimum OS versions and tested hosts will be listed before public release.')}</p>}
       </section>
     </div>
-    {shopProduct.media.hero && <img class="product-hero-image suspended-hero-image" src={shopProduct.media.hero} alt={ja ? 'SC Suspendedのパッケージ画像' : 'SC Suspended package artwork'} width="1200" height="1500" loading="eager" decoding="async" />}
+    {boxArt && <img class="product-hero-image suspended-hero-image" src={boxArt} alt={ja ? 'SC Suspendedのパッケージ画像' : 'SC Suspended package artwork'} width="1200" height="1500" loading="eager" decoding="async" />}
   </div>
 
-  <figure class="shop-interface">
-    <img src="/images/products/suspended-interface.png" alt={ja ? 'SC Suspendedのプラグイン画面' : 'SC Suspended plug-in interface'} width="860" height="860" loading="lazy" decoding="async" />
-  </figure>
+  {shopProduct.media.interface && <figure class="shop-interface">
+    <img src={shopProduct.media.interface} alt={ja ? 'SC Suspendedのプラグイン画面' : 'SC Suspended plug-in interface'} width="860" height="860" loading="lazy" decoding="async" />
+  </figure>}
+
+  {videos.length > 0 && <section class="launch-section shop-demo" aria-label={ja ? '動画' : 'Videos'}>
+    <p class="eyebrow">{ja ? '動画' : 'VIDEOS'}</p>
+    <div class="shop-demo-grid">{videos.map((demo) => <figure>
+      <video controls playsinline preload="none" src={demo.url} aria-label={demo.caption[locale] || demo.caption.en}></video>
+      <figcaption>{demo.caption[locale] || demo.caption.en}</figcaption>
+    </figure>)}</div>
+  </section>}
+
+  {audio.length > 0 && <section class="launch-section shop-demo" aria-label={ja ? 'サウンドサンプル' : 'Sound samples'}>
+    <p class="eyebrow">{ja ? 'サウンドサンプル' : 'SOUND SAMPLES'}</p>
+    <div class="shop-demo-grid">{audio.map((demo) => <figure>
+      <figcaption>{demo.caption[locale] || demo.caption.en}</figcaption>
+      <audio controls preload="none" src={demo.url} aria-label={demo.caption[locale] || demo.caption.en}></audio>
+    </figure>)}</div>
+  </section>}
 
   <section class="launch-section shop-description" aria-label={ja ? '製品について' : 'About Suspended'}>
     <p class="eyebrow">{ja ? '製品について' : 'ABOUT SUSPENDED'}</p>
