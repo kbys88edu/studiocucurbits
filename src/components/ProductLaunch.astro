@@ -76,7 +76,7 @@ const price = (offer: typeof suspendedShopOffers[number]) => new Intl.NumberForm
       <section class="shop-requirements" aria-labelledby="shop-requirements-title">
         <h2 id="shop-requirements-title" class="eyebrow">{ja ? 'システム要件' : 'SYSTEM REQUIREMENTS'}</h2>
         <table><tbody>
-          <tr><th scope="row">{ja ? '対応OS' : 'Operating system'}</th><td>{operatingSystems.join(' · ')}</td></tr>
+          <tr><th scope="row">{ja ? '対応OS' : 'Operating system'}</th><td>{operatingSystems.join(', ')}</td></tr>
           <tr><th scope="row">{ja ? 'プラグイン形式' : 'Plug-in format'}</th><td>{formatLabel}</td></tr>
           {shopProduct.release?.testedRequirements.map((claim) => <tr><th scope="row">{ja ? '動作確認' : 'Tested compatibility'}</th><td>{claim[locale]}</td></tr>)}
         </tbody></table>

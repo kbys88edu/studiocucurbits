@@ -38,6 +38,7 @@ it('keeps drafts out of public output and renders the private sandbox offer', ()
     expect(product).toContain('BUY <span>$29</span>');
     expect(product).toContain('BUY <span>$99</span>');
     expect(product).toContain(locale ? 'システム要件' : 'SYSTEM REQUIREMENTS');
+    expect(product).toContain('macOS, Linux');
     expect(product).toContain(locale ? 'VST3, AU（macOSのみ）' : 'VST3, AU (macOS only)');
     expect(product).toContain('data-recommended-download');
     expect(product).not.toContain('data-paddle-token');
