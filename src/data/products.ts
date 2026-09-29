@@ -223,7 +223,7 @@ export const products: Product[] = [
       },
     },
     media: { ...websiteMedia('traces_suspended', 'central_sc_suspended'), gallery: [], video: { status: 'in-production', poster: null, mp4: null, webm: null, captions: null } },
-    supportedFormats: ['VST3'],
+    supportedFormats: ['VST3', 'AU'],
     supportedPlatforms: ['macOS', 'Linux'],
     checkoutUrlJPY: null,
     checkoutUrlUSD: suspendedCheckout.url,
