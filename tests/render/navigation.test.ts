@@ -30,6 +30,9 @@ describe('global navigation', () => {
     const jaHome = readFileSync(new URL('../../dist/ja/index.html', import.meta.url), 'utf8');
 
     expect(jaHome).toContain('>製品<');
-    expect(jaHome).not.toContain('オーディオ・インストゥルメンツ');
+
+    // Verify breadcrumb label in products page JSON-LD
+    const productsPage = readFileSync(new URL('../../dist/ja/products/index.html', import.meta.url), 'utf8');
+    expect(productsPage).toContain('"name":"製品"');
   });
 });

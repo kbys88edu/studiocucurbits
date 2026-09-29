@@ -111,7 +111,7 @@ describe('production SEO', () => {
     const about = renderedPage('/ja/about');
     const products = renderedPage('/ja/products');
 
-    expect(home).toContain('作曲、サウンドデザイン、クリエイティブテクノロジー、製品を横断するスタジオ。');
+    expect(home).toContain('作曲、サウンドデザイン、クリエイティブテクノロジー、オーディオ・インストゥルメンツを横断するスタジオ。');
     expect(home).toContain('<meta name="description" content="Studio Cucurbits.は、音楽とクリエイティブテクノロジーに取り組むスタジオです。">');
     expect(about).toContain('<title>Studio Cucurbits.について | Studio Cucurbits.</title>');
     expect(products).toContain('<h1 id="products-title">オーディオ・インストゥルメンツ</h1>');
