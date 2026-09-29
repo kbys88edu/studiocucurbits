@@ -224,6 +224,7 @@ h3 { margin: 0; font-size: 1.15rem; line-height: 1.2; letter-spacing: -.01em; }
 .shop-buy-disabled { opacity: .45; cursor: default; }
 .shop-demo-link { display: inline-flex; align-items: center; gap: .45rem; font-size: 1.125rem; font-weight: 500; }
 .shop-demo-link img[data-download-icon] { width: 1.2rem; height: 1.2rem; }
+.shop-demo-link img[hidden] { display: none; }
 .shop-download-all { display: block; width: fit-content; margin-top: .65rem; color: var(--muted); font-size: .82rem; }
 .shop-requirements table { width: 100%; border-collapse: collapse; text-align: left; }
 .shop-requirements th, .shop-requirements td { padding: .6rem 0; border-bottom: 1px solid var(--rule); vertical-align: top; font-weight: 450; }

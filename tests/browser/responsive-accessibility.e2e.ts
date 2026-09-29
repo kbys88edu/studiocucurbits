@@ -96,6 +96,12 @@ test('shop pages: no horizontal scroll at 390px and Buy comes first in tab order
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
     const order = await page.$$eval('.shop-sheet a, .shop-sheet [aria-disabled]', (els) => els.map((e) => e.className));
     expect(order[0]).toContain('shop-buy-band');
+
+    // Check that the download icon, if present when hidden, is not visible
+    const hiddenIcon = page.locator('.shop-demo-link img[data-download-icon][hidden]');
+    if (await hiddenIcon.count() > 0) {
+      await expect(hiddenIcon).toBeHidden();
+    }
   }
 });
 
