@@ -51,6 +51,7 @@ it('keeps drafts out of public output and renders the private sandbox offer', ()
     expect(product).toContain(locale ? '購入する <span>$29</span>' : 'Buy licence <span>$29</span>');
     expect(product.match(/class="shop-buy-band/g)).toHaveLength(1);
     expect(product).not.toContain('download-primary');
+    expect(product).toContain(locale ? 'ライセンスを設定するまでは、数分おきに数秒間、音が途切れます。' : 'The demo mutes briefly every few minutes until a licence is activated.');
     expect(product).toContain(locale ? 'ほかのOS・過去のバージョン' : 'All installers and versions');
     expect(product).toContain(locale ? '動作環境' : 'SYSTEM REQUIREMENTS');
     expect(product).toContain('macOS, Linux');
