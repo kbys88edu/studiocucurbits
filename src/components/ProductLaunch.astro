@@ -2,7 +2,7 @@
 import type { Locale } from '../lib/locale';
 import type { Product } from '../data/products';
 import { suspendedCheckout } from '../data/products';
-import { suspendedShopOffers, suspendedShopProduct, shopPreview } from '../data/shopCatalogue';
+import { suspendedShopOffers, suspendedShopProduct } from '../data/shopCatalogue';
 import { localizedPath } from '../lib/locale';
 
 interface Props { product: Product; locale: Locale; }
@@ -54,7 +54,6 @@ const price = (offer: typeof suspendedShopOffers[number]) => new Intl.NumberForm
   <div class="suspended-hero">
     <div class="suspended-hero-copy">
       <p class="eyebrow">TRACES — {ja ? 'グラニュラー・オーディオ・エフェクト' : 'Granular Audio Effect'}</p>
-      {shopPreview && <p class="status-label" role="note">{ja ? 'プライベート・プレビュー · テスト購入のみ' : 'PRIVATE PREVIEW · TEST PURCHASES ONLY'}</p>}
       <h1 id="product-title">SC SUSPENDED</h1>
       <p class="launch-tagline">{hero.tagline}</p>
       <p class="lead">{hero.description}</p>
@@ -89,6 +88,10 @@ const price = (offer: typeof suspendedShopOffers[number]) => new Intl.NumberForm
     </div>
     {shopProduct.media.hero && <img class="product-hero-image suspended-hero-image" src={shopProduct.media.hero} alt={ja ? 'SC Suspendedのパッケージ画像' : 'SC Suspended package artwork'} width="1200" height="1500" loading="eager" decoding="async" />}
   </div>
+
+  <figure class="shop-interface">
+    <img src="/images/products/suspended-interface.png" alt={ja ? 'SC Suspendedのプラグイン画面' : 'SC Suspended plug-in interface'} width="860" height="860" loading="lazy" decoding="async" />
+  </figure>
 
   <section class="launch-section shop-description" aria-label={ja ? '製品について' : 'About Suspended'}>
     <p class="eyebrow">{ja ? '製品について' : 'ABOUT SUSPENDED'}</p>

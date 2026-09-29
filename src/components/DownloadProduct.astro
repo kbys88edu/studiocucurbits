@@ -26,7 +26,7 @@ if (import.meta.env.MODE === 'development' && slug === 'suspended') {
   <p class="download-status">{ja ? '承認済みリリースを確認しています…' : 'Checking the approved release…'}</p>
 </section>
 
-<template data-download-copy data-primary-macos={ja ? 'macOS版をダウンロード' : 'Download for macOS'} data-primary-windows={ja ? 'Windows版をダウンロード' : 'Download for Windows'} data-primary-linux={ja ? 'Linux版をダウンロード' : 'Download for Linux'} data-staging-macos={ja ? 'macOS用ステージングビルドをダウンロード' : 'Download staging build for macOS'} data-staging-windows={ja ? 'Windows用ステージングビルドをダウンロード' : 'Download staging build for Windows'} data-staging-linux={ja ? 'Linux用ステージングビルドをダウンロード' : 'Download staging build for Linux'} data-alternatives={ja ? 'すべてのインストーラー' : 'All installers'} data-version={ja ? 'バージョン' : 'Version'} data-platform={ja ? 'プラットフォーム' : 'Platform'} data-architecture={ja ? 'アーキテクチャ' : 'Architecture'} data-size={ja ? 'ファイルサイズ' : 'File size'} data-integrity={ja ? 'SHA-256整合性' : 'SHA-256 integrity'} data-unavailable={ja ? `現在、承認済みの${name}インストーラーはありません。公開後にもう一度ご確認ください。` : `No approved ${name} installer is currently available. Check again after release.`} data-unknown={ja ? 'お使いのシステムを判別できませんでした。以下からインストーラーを選択してください。' : 'We could not identify your system. Choose an installer below.'}></template>
+<template data-download-copy data-primary-macos={ja ? 'macOS版をダウンロード' : 'Download for macOS'} data-primary-windows={ja ? 'Windows版をダウンロード' : 'Download for Windows'} data-primary-linux={ja ? 'Linux版をダウンロード' : 'Download for Linux'} data-alternatives={ja ? 'すべてのインストーラー' : 'All installers'} data-version={ja ? 'バージョン' : 'Version'} data-platform={ja ? 'プラットフォーム' : 'Platform'} data-architecture={ja ? 'アーキテクチャ' : 'Architecture'} data-size={ja ? 'ファイルサイズ' : 'File size'} data-integrity={ja ? 'SHA-256整合性' : 'SHA-256 integrity'} data-unavailable={ja ? `現在、承認済みの${name}インストーラーはありません。公開後にもう一度ご確認ください。` : `No approved ${name} installer is currently available. Check again after release.`} data-unknown={ja ? 'お使いのシステムを判別できませんでした。以下からインストーラーを選択してください。' : 'We could not identify your system. Choose an installer below.'}></template>
 
 <script>
   import { detectPlatform, readCurrent, readRelease, releaseManifestUrl, uniqueProductReleases, verifyManifestDigest, type Installer, type ProductRelease } from '../lib/downloads';
@@ -142,7 +142,7 @@ if (import.meta.env.MODE === 'development' && slug === 'suspended') {
           const action = document.createElement('a');
           action.className = 'download-primary';
           action.href = primary.url;
-          action.textContent = labels[`staging${primary.platform[0].toUpperCase()}${primary.platform.slice(1)}` as keyof DOMStringMap]!;
+          action.textContent = labels[`primary${primary.platform[0].toUpperCase()}${primary.platform.slice(1)}` as keyof DOMStringMap]!;
           stage.append(action);
         }
         stage.append(add('h2', labels.alternatives!, 'download-alternatives-title'));

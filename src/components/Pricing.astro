@@ -25,7 +25,6 @@ const included = locale === 'ja'
   <section class="section legal-section" aria-labelledby={`price-${product.slug}`}>
     <h2 id={`price-${product.slug}`}>SC {product.name}</h2>
     <p>{product.editorial[locale].shortDescription ?? product.editorial.en.shortDescription}</p>
-    {product.launch!.release.sandboxPreview && <p data-checkout-sandbox>{locale === 'ja' ? 'サンドボックス・プレビュー — テスト購入専用です。' : 'Sandbox preview — test purchases only.'}</p>}
     {(release.showIntroPrice || release.showRegularPrice) ? <>
       <dl class="price launch-price">
         {release.showIntroPrice && <div><dt>{copy.intro_p}</dt><dd>{formatPrice(release.introAmount!, release.currency, locale)}</dd></div>}

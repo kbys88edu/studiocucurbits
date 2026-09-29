@@ -172,7 +172,7 @@ test('development preview offers every private staging installer', async ({ page
   await page.addInitScript(() => Object.defineProperty(navigator, 'userAgent', { value: 'Mozilla/5.0 (X11; Linux x86_64)' }));
   await page.route('https://downloads.studiocucurbits.com/releases/current.json', (route: Route) => route.fulfill({ status: 404 }));
   await page.goto(`${siteUrl}/downloads/suspended/`);
-  await expect(page.getByRole('link', { name: 'Download staging build for Linux' })).toHaveAttribute('href', 'https://staging.example/Suspended.deb');
+  await expect(page.getByRole('link', { name: 'Download for Linux' })).toHaveAttribute('href', 'https://staging.example/Suspended.deb');
   await expect(page.getByRole('link', { name: 'macOS Universal' }).first()).toHaveAttribute('href', 'https://staging.example/Suspended.pkg');
   await expect(page.getByRole('link', { name: 'Linux Universal Tarball (AMD64)' })).toHaveAttribute('href', 'https://staging.example/Suspended.tar.zst');
   await expect(page.getByRole('link', { name: 'Windows x64' }).first()).toHaveAttribute('href', 'https://staging.example/Suspended.exe');

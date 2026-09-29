@@ -230,6 +230,8 @@ h3 { margin: 0; font-size: 1.15rem; line-height: 1.2; letter-spacing: -.01em; }
 .shop-requirements th { font-weight: 500; }
 .shop-requirements td { text-align: right; }
 .shop-requirements p { margin: .75rem 0 0; color: var(--muted); font-size: .82rem; }
+.shop-interface { margin: 0 0 clamp(4rem, 9vw, 8rem); }
+.shop-interface img { width: min(100%, 82rem); margin-inline: auto; }
 .shop-description { max-width: 62rem; }
 .shop-description h2 { max-width: 18ch; margin: 3rem 0 1rem; font-size: clamp(2rem, 4vw, 4rem); line-height: 1; letter-spacing: -.05em; }
 .shop-description p:not(.eyebrow) { max-width: 66ch; font-size: clamp(1.1rem, 1.5vw, 1.35rem); line-height: 1.5; }

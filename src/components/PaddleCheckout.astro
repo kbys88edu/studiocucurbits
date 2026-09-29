@@ -13,7 +13,6 @@ const ja = locale === 'ja';
   data-error={ja ? '決済画面を開けませんでした。もう一度お試しいただくか、サポートへご連絡ください。' : 'Checkout could not be opened. Please try again or contact support.'}
   data-payment-error={ja ? 'お支払いが完了しませんでした。決済画面をご確認ください。' : 'Payment did not complete. Check the payment details in checkout.'}>
   <div class="checkout-summary">
-    {suspendedCheckout.sandbox && <p data-checkout-sandbox role="note">{ja ? 'サンドボックス — テスト購入専用。実際の支払いは発生しません。' : 'Sandbox — test purchases only. No real payment is taken.'}</p>}
     <h1 id="checkout-title">{ja ? 'Suspendedを購入' : 'Purchase Suspended'}</h1>
     <p class="lead">{ja ? 'グラニュラー・オーディオ・エフェクト' : 'Granular audio effect'}</p>
     <p>{ja ? 'ライセンス1点。買い切り・自動更新なし。お一人で最大3台のコンピューターに認証できます。' : 'One licence. A one-time payment, with no subscription. For one person on up to three active computers.'}</p>
