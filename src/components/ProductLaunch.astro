@@ -37,10 +37,12 @@ const platformName = (platform: string) => platform === 'macos' ? 'macOS' : plat
 const platforms = [...new Set(installers.length
   ? installers.map(({ platform }) => platform)
   : product.supportedPlatforms.map((platform) => platform === 'macOS' ? 'macos' : platform.toLowerCase()))];
+// ponytail: The inspected staging package declares macOS 13.0; public releases use installer metadata above.
 const operatingSystems = shopProduct.release
   ? [...new Set(shopProduct.release.installers.map(({ os, minimumOsVersion }) =>
       `${platformName(os)}${minimumOsVersion ? ` ${minimumOsVersion}+` : ''}`))]
-  : platforms.map(platformName);
+  : platforms.map((platform) => platform === 'macos' && staging.length
+      ? (ja ? 'macOS 13.0以降' : 'macOS 13.0 or later') : platformName(platform));
 const formats = [...new Set(shopProduct.release?.installers.flatMap(({ pluginFormats }) => pluginFormats ?? []) ?? product.supportedFormats)];
 const formatLabel = formats.map((format) => format === 'AU' ? (ja ? 'AU（macOSのみ）' : 'AU (macOS only)') : format).join(', ');
 const price = (offer: typeof suspendedShopOffers[number]) => new Intl.NumberFormat(ja ? 'ja-JP' : 'en-US', {
@@ -80,7 +82,9 @@ const price = (offer: typeof suspendedShopOffers[number]) => new Intl.NumberForm
           <tr><th scope="row">{ja ? 'プラグイン形式' : 'Plug-in format'}</th><td>{formatLabel}</td></tr>
           {shopProduct.release?.testedRequirements.map((claim) => <tr><th scope="row">{ja ? '動作確認' : 'Tested compatibility'}</th><td>{claim[locale]}</td></tr>)}
         </tbody></table>
-        {!shopProduct.release && <p>{ja ? 'OSの最低バージョンと動作確認済みのホストは、正式リリース前に掲載します。' : 'Minimum OS versions and tested hosts will be listed before public release.'}</p>}
+        {!shopProduct.release && <p>{staging.length
+          ? (ja ? 'Linuxの対応ディストリビューションと動作確認済みのホストは、現在検証中です。' : 'Linux distribution compatibility and tested hosts are still being verified.')
+          : (ja ? 'OSの最低バージョンと動作確認済みのホストは、正式リリース前に掲載します。' : 'Minimum OS versions and tested hosts will be listed before public release.')}</p>}
       </section>
     </div>
     {shopProduct.media.hero && <img class="product-hero-image suspended-hero-image" src={shopProduct.media.hero} alt={ja ? 'SC Suspendedのパッケージ画像' : 'SC Suspended package artwork'} width="1200" height="1500" loading="eager" decoding="async" />}
