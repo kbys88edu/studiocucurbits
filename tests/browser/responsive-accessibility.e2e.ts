@@ -82,7 +82,7 @@ for (const width of [360, 1440]) {
   });
 }
 
-test('Japanese SC Suspended page keeps the release copy localized', async ({ page }) => {
+test('Japanese Suspended page keeps the release copy localized', async ({ page }) => {
   await page.goto(`${siteUrl}/ja/products/suspended/`);
   await expect(page.getByRole('heading', { name: 'SUSPENDED', level: 1 })).toBeVisible();
   await expect(page.getByText('宙に留まる音。')).toBeVisible();

@@ -204,14 +204,13 @@ h3 { margin: 0; font-size: 1.15rem; line-height: 1.2; letter-spacing: -.01em; }
 .draft-notice { max-width: 48rem; padding: 1rem 1.25rem; border: 1px solid var(--ink); background: var(--paper-2); }
 .draft-notice p { margin: .5rem 0 0; }
 
-/* ---- SC Suspended launch page ------------------------------------------------------- */
+/* ---- Suspended launch page ------------------------------------------------------- */
 .suspended-hero { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(2rem, 7vw, 8rem); align-items: start; padding-block: clamp(2.5rem, 6vw, 6rem) clamp(4rem, 9vw, 8rem); }
 .suspended-hero-copy { max-width: 42rem; }
 .suspended-hero h1 { margin: .25rem 0 0; font-size: clamp(1rem, 1.3vw, 1.2rem); font-weight: 600; letter-spacing: .04em; }
-.launch-tagline { max-width: 12ch; margin: 1.75rem 0 1.25rem; font-size: clamp(2.8rem, 6.2vw, 7rem); font-weight: 500; line-height: 1; letter-spacing: normal; }
+.launch-tagline { max-width: 12ch; margin: 1.75rem 0 1.25rem; font-size: clamp(2.8rem, 6.2vw, 7rem); font-weight: 500; line-height: 1; letter-spacing: normal; white-space: pre-line; }
 .suspended-hero-image { width: 100%; max-height: min(84vh, 62rem); margin: 0; object-fit: contain; object-position: top center; background: var(--paper); }
-.launch-tagline { white-space: pre-line; }
-:lang(ja) .launch-tagline { max-width: none; word-break: keep-all; overflow-wrap: anywhere; }
+:lang(ja) .launch-tagline { max-width: none; font-size: clamp(1.75rem, 3.4vw, 3.6rem); word-break: auto-phrase; overflow-wrap: anywhere; }
 .shop-box-inline { display: none; }
 .shop-sheet { margin-top: clamp(2.5rem, 5vw, 4.5rem); border-top: 1px solid var(--ink); }
 .shop-row { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: .5rem 1rem; padding-block: clamp(1.25rem, 2.6vw, 2.25rem); border-bottom: 1px solid var(--rule); }

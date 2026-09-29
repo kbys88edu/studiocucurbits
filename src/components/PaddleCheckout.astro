@@ -63,7 +63,7 @@ const price = offer ? new Intl.NumberFormat(ja ? 'ja-JP' : 'en-US', { style: 'cu
 </section>
 <style>
   .purchase-checkout { padding-block: clamp(3rem, 7vw, 6rem); }
-  .checkout-summary { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(312px, .9fr); column-gap: clamp(2rem, 5vw, 6rem); }
+  .checkout-summary { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(312px, .9fr); grid-template-rows: repeat(5, auto) 1fr; column-gap: clamp(2rem, 5vw, 6rem); }
   .checkout-summary > .eyebrow, .checkout-summary > h1, .checkout-summary > .cart-links { grid-column: 1; }
   .checkout-summary > .shop-sheet { display: contents; }
   .shop-sheet > .shop-row { grid-column: 1; }
