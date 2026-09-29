@@ -1,10 +1,12 @@
 ---
 import { suspendedCheckout } from '../data/products';
-import { suspendedShopVisible } from '../data/shopCatalogue';
+import { suspendedShopOffers, suspendedShopProduct, suspendedShopVisible } from '../data/shopCatalogue';
 import type { Locale } from '../lib/locale';
 import { localizedPath } from '../lib/locale';
 const { locale } = Astro.props as { locale: Locale };
 const ja = locale === 'ja';
+const offer = suspendedShopOffers[0];
+const price = offer ? new Intl.NumberFormat(ja ? 'ja-JP' : 'en-US', { style: 'currency', currency: offer.price.currency, maximumFractionDigits: 0 }).format(offer.price.amountMinor / 100) : '';
 ---
 <section class="purchase-checkout" aria-labelledby="checkout-title" data-paddle-checkout data-paddle-token={suspendedCheckout.token}
   data-paddle-price={suspendedCheckout.priceId} data-paddle-sandbox={String(suspendedCheckout.sandbox)}
@@ -15,43 +17,76 @@ const ja = locale === 'ja';
   data-storage-error={ja ? 'このタブでは安全なライセンス設定を利用できません。ブラウザーの設定をご確認のうえ、もう一度お試しください。' : 'Secure licence setup is unavailable in this tab. Check your browser settings and try again.'}
   data-payment-link-error={ja ? 'この決済リンクはここでは開けません。新しい購入は開始されていません。サポートへご連絡ください。' : 'This payment link cannot be opened here. No new purchase was started. Please contact support.'}>
   <div class="checkout-summary">
-    <h1 id="checkout-title">{ja ? 'Suspendedを購入' : 'Purchase Suspended'}</h1>
-    <p class="lead">{ja ? 'グラニュラー・オーディオ・エフェクト' : 'Granular audio effect'}</p>
-    <p>{ja ? 'ライセンス1点。買い切り・自動更新なし。お一人で最大3台のコンピューターに認証できます。' : 'One licence. A one-time payment, with no subscription. For one person on up to three active computers.'}</p>
-    <dl class="checkout-totals" aria-live="polite" aria-atomic="true">
-      <div><dt>{ja ? '小計' : 'Subtotal'}</dt><dd data-checkout-subtotal>—</dd></div>
-      <div><dt>{ja ? '割引' : 'Discount'}</dt><dd data-checkout-discount>—</dd></div>
-      <div><dt>{ja ? '税' : 'Tax'}</dt><dd data-checkout-tax>—</dd></div>
-      <div><dt>{ja ? 'クレジット' : 'Credit'}</dt><dd data-checkout-credit>—</dd></div>
-      <div class="checkout-grand-total"><dt>{ja ? 'お支払い額' : 'Total due'}</dt><dd data-checkout-total>—</dd></div>
-    </dl>
-    <p>{ja ? '通貨と税額はPaddleが計算します。支払前に最終金額をご確認ください。' : 'Paddle calculates your currency and tax. Review the final total before paying.'}</p>
-    <p>{ja ? 'Paddleが販売・決済を処理します。支払い完了後は、このタブでライセンスを設定できます。メールの設定用リンクは予備として届きます。' : 'Paddle is the merchant of record and handles payment. After payment, set up your licence in this tab. A setup link also arrives by email as a backup.'}</p>
-    <p><a href={localizedPath('/refund/', locale)}>{ja ? '返金ポリシー' : 'Refund policy'}</a> · <a href={localizedPath('/license/', locale)}>{ja ? 'ライセンス条件' : 'Licence terms'}</a> · <a href={localizedPath('/privacy/', locale)}>{ja ? 'プライバシー' : 'Privacy'}</a></p>
-    <a href={localizedPath(suspendedShopVisible ? '/products/suspended/' : '/products/', locale)}>{ja ? 'Suspendedに戻る' : 'Back to Suspended'}</a>
-  </div>
-  <div class="checkout-payment">
-    <h2>{ja ? '安全な決済' : 'Secure checkout'}</h2>
-    <p data-checkout-status role="status" aria-live="polite"></p>
-    <button class="button" data-checkout-retry type="button" hidden>{ja ? 'もう一度試す' : 'Try checkout again'}</button>
-    <div class="paddle-checkout-frame"></div>
-    <noscript><p>{ja ? '決済にはJavaScriptを有効にしてください。' : 'Enable JavaScript to open secure checkout.'}</p></noscript>
-    <p><a href={localizedPath('/support/', locale)}>{ja ? 'サポート' : 'Contact support'}</a></p>
+    <p class="eyebrow">↘&#xFE0E;&nbsp;<span>{ja ? 'ショップ' : 'SHOP'}</span></p>
+    <h1 id="checkout-title">{ja ? 'カート' : 'Cart'}</h1>
+    <div class="shop-sheet">
+      <section class="shop-row" aria-labelledby="cart-item-title">
+        <h2 id="cart-item-title" class="shop-row-label">{ja ? '商品' : 'ITEM'}</h2>
+        <div class="cart-item">
+          {suspendedShopProduct?.media.boxArt && <img src={suspendedShopProduct.media.boxArt} alt="" width="96" height="120" />}
+          <div>
+            <p class="shop-offer-name">{offer?.name[locale] ?? (ja ? 'Suspended ライセンス' : 'Suspended licence')}</p>
+            <p class="shop-note">{ja ? 'グラニュラー・エフェクト' : 'Granular audio effect'}<br />{ja ? '買い切り（サブスクリプションなし）・パソコン3台まで' : 'One-time payment · up to 3 computers'}</p>
+            <p class="shop-note">{ja ? '数量 1' : 'Quantity 1'}</p>
+          </div>
+          <p class="cart-price">{price}</p>
+        </div>
+      </section>
+      <section class="shop-row" aria-labelledby="cart-total-title">
+        <h2 id="cart-total-title" class="shop-row-label">{ja ? '合計' : 'TOTAL'}</h2>
+        <div>
+          <dl class="checkout-totals" aria-live="polite" aria-atomic="true">
+            <div><dt>{ja ? '小計' : 'Subtotal'}</dt><dd data-checkout-subtotal>—</dd></div>
+            <div><dt>{ja ? '割引' : 'Discount'}</dt><dd data-checkout-discount>—</dd></div>
+            <div><dt>{ja ? '税' : 'Tax'}</dt><dd data-checkout-tax>{ja ? 'お支払い時に計算されます' : 'Calculated by Paddle'}</dd></div>
+            <div><dt>{ja ? 'クレジット' : 'Credit'}</dt><dd data-checkout-credit>—</dd></div>
+            <div class="checkout-grand-total"><dt>{ja ? 'お支払い総額' : 'Total due'}</dt><dd data-checkout-total>—</dd></div>
+          </dl>
+          <p class="shop-note">{ja ? '通貨と税額は、お住まいの地域に合わせて決済時に計算されます。お支払いの前に総額をご確認ください。' : 'Paddle calculates your currency and tax. Review the final total before paying.'}</p>
+        </div>
+      </section>
+      <div class="checkout-payment">
+        <h2 class="shop-row-label">{ja ? 'お支払い' : 'SECURE CHECKOUT'}</h2>
+        <p data-checkout-status role="status" aria-live="polite"></p>
+        <button class="button" data-checkout-retry type="button" hidden>{ja ? 'もう一度試す' : 'Try checkout again'}</button>
+        <div class="paddle-checkout-frame"></div>
+        <noscript><p>{ja ? '決済にはJavaScriptを有効にしてください。' : 'Enable JavaScript to open secure checkout.'}</p></noscript>
+        <p class="shop-note">{ja ? 'Paddleが販売・決済を処理します。' : 'Paddle is the merchant of record and handles payment.'} <a href={localizedPath('/support/', locale)}>{ja ? 'サポート' : 'Contact support'}</a></p>
+      </div>
+      <section class="shop-row" aria-labelledby="cart-after-title">
+        <h2 id="cart-after-title" class="shop-row-label">{ja ? 'お支払いのあと' : 'AFTER PAYMENT'}</h2>
+        <p>{ja ? 'お支払いが終わると、この画面のままライセンスを設定できます。設定用のリンクはメールでもお届けします。' : 'Set up your licence in this tab. A setup link also arrives by email as a backup.'}</p>
+      </section>
+    </div>
+    <p class="cart-links"><a href={localizedPath('/refund/', locale)}>{ja ? '返金ポリシー' : 'Refund policy'}</a><a href={localizedPath('/license/', locale)}>{ja ? 'ライセンス条件' : 'Licence terms'}</a><a href={localizedPath('/privacy/', locale)}>{ja ? 'プライバシー' : 'Privacy'}</a><a href={localizedPath(suspendedShopVisible ? '/products/suspended/' : '/products/', locale)}>← {ja ? 'Suspendedに戻る' : 'Back to Suspended'}</a></p>
   </div>
 </section>
 <style>
-  .purchase-checkout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(312px, 1fr); gap: clamp(2rem, 6vw, 6rem); padding-block: clamp(2rem, 6vw, 6rem); }
-  .checkout-summary { max-width: 38rem; }
-  h1 { margin: 0 0 1.5rem; font-size: clamp(2.6rem, 5.2vw, 6rem); line-height: .95; letter-spacing: -.045em; }
-  h2 { font-size: clamp(1.8rem, 3vw, 2.6rem); }
-  .checkout-payment { min-width: 0; }
-  .checkout-totals { border-block: 1px solid var(--ink); padding-block: .75rem; }
-  .checkout-totals > div { display: flex; justify-content: space-between; gap: 1rem; padding-block: .4rem; }
+  .purchase-checkout { padding-block: clamp(3rem, 7vw, 6rem); }
+  .checkout-summary { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(312px, .9fr); column-gap: clamp(2rem, 5vw, 6rem); }
+  .checkout-summary > .eyebrow, .checkout-summary > h1, .checkout-summary > .cart-links { grid-column: 1; }
+  .checkout-summary > .shop-sheet { display: contents; }
+  .shop-sheet > .shop-row { grid-column: 1; }
+  .shop-sheet > .shop-row:first-of-type { border-top: 1px solid var(--ink); }
+  .checkout-payment { grid-column: 2; grid-row: 1 / span 6; min-width: 0; }
+  h1 { margin: .5rem 0 2.5rem; font-size: clamp(3rem, 7vw, 6.5rem); font-weight: 500; line-height: .95; letter-spacing: -.045em; }
+  .cart-item { display: flex; gap: 1rem; align-items: center; }
+  .cart-item img { width: 5rem; height: auto; flex: none; }
+  .cart-item > div { flex: 1; }
+  .cart-price { font-size: 1.25rem; font-weight: 500; }
+  .checkout-totals { margin: 0; }
+  .checkout-totals > div { display: flex; justify-content: space-between; gap: 1rem; padding-block: .2rem; }
   dd { margin: 0; text-align: right; }
-  .checkout-grand-total { border-top: 1px solid var(--rule); margin-top: .75rem; font-size: 1.5rem; font-weight: 500; }
+  .checkout-grand-total { border-top: 1px solid var(--rule); margin-top: .75rem; padding-top: .75rem !important; font-size: 1.25rem; font-weight: 500; }
+  .cart-links { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; margin-top: 2rem; font-size: .875rem; }
   button { font: inherit; cursor: pointer; border: 0; }
   [hidden] { display: none; }
-  @media (max-width: 48rem) { .purchase-checkout { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 48rem) {
+    .checkout-summary { display: block; }
+    .checkout-summary > .shop-sheet { display: block; border-top: 1px solid var(--ink); }
+    .shop-sheet > .shop-row:first-of-type { border-top: 0; }
+    .checkout-payment { padding-block: 1.5rem; border-bottom: 1px solid var(--rule); }
+  }
   @media (max-width: 359px) { .paddle-checkout-frame { margin-inline: -1rem; } }
 </style>
 <script>

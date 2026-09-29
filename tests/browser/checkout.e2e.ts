@@ -22,7 +22,7 @@ test('buy opens a branded inline page with localized totals and a product-specif
   await page.locator('[data-suspended-event="click_suspended_buy"]').first().click();
   await expect(page).toHaveURL(/\/purchase\/suspended\/$/);
   await expect(page.locator('.brand img')).toBeVisible();
-  await expect(page.getByRole('heading', {name:'Purchase Suspended'})).toBeVisible();
+  await expect(page.getByRole('heading', {name:'Cart'})).toBeVisible();
   await expect(page.getByRole('heading', {name:'2. Set up your licence in this tab'})).toBeVisible();
   await expect(page.locator('[data-checkout-total]')).toHaveText('USD 31.90');
   const calls = await page.evaluate(() => (window as any).calls);

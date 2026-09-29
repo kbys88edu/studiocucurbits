@@ -276,6 +276,6 @@ test('a Paddle payment link on the gated production purchase page gives guidance
   });
   await page.goto(`/purchase/suspended/?_ptxn=txn_${'a'.repeat(26)}`);
   await expect(page.getByRole('alert')).toContainText('payment link');
-  await expect(page.getByRole('heading', { name: 'Purchase Suspended' })).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: 'Cart' })).toHaveCount(0);
   expect(sdkLoads).toBe(0);
 });

@@ -62,6 +62,16 @@ it('keeps drafts out of public output and renders the private sandbox offer', ()
     expect(purchase).toContain(`data-paddle-token="${token}"`);
     expect(purchase).toContain('data-paddle-price="pri_01m3eaewadnm7grc2armnnkbsr"');
     expect(purchase).toContain(`data-paddle-success="${locale ? '/ja' : ''}/setup/"`);
+    expect(purchase).toContain(locale ? '>カート<' : '>Cart<');
+    expect(purchase).toContain(locale ? '>ショップ<' : '>SHOP<');
+    expect(purchase).toContain(locale ? '>商品<' : '>ITEM<');
+    expect(purchase).toContain(locale ? 'お支払い総額' : 'Total due');
+    expect(purchase).toContain(locale ? '通貨と税額は、お住まいの地域に合わせて決済時に計算されます。お支払いの前に総額をご確認ください。' : 'Paddle calculates your currency and tax. Review the final total before paying.');
+    expect(purchase).toContain(locale ? 'お支払いのあと' : 'AFTER PAYMENT');
+    expect(purchase).toContain(locale ? 'お支払いが終わると、この画面のままライセンスを設定できます。設定用のリンクはメールでもお届けします。' : 'Set up your licence in this tab. A setup link also arrives by email as a backup.');
+    for (const hook of ['data-checkout-subtotal', 'data-checkout-discount', 'data-checkout-tax', 'data-checkout-credit', 'data-checkout-total', 'data-checkout-status', 'data-checkout-retry', 'paddle-checkout-frame'])
+      expect(purchase).toContain(hook);
+    expect(purchase).toContain('/catalogue-media/suspended/box-art.png');
   }
   const astroDir = join(output, '_astro');
   const bundleJs = readdirSync(astroDir)
