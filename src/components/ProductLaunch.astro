@@ -33,6 +33,15 @@ const installers = staging.length ? staging.map(({ name, url }) => ({ name, url,
 })) : (shopProduct.release?.installers ?? []).map(({ url, os, format }) => ({
   name: format, url, platform: /^mac/i.test(os) ? 'macos' : /^win/i.test(os) ? 'windows' : 'linux',
 }));
+const platformName = (platform: string) => platform === 'macos' ? 'macOS' : platform === 'windows' ? 'Windows' : 'Linux';
+const platforms = [...new Set(shopProduct.release
+  ? shopProduct.release.installers.map(({ os, minimumOsVersion }) =>
+      `${platformName(os)}${minimumOsVersion ? ` ${minimumOsVersion}+` : ''}`)
+  : installers.map(({ platform }) => platformName(platform)))];
+const formats = [...new Set(shopProduct.release?.installers.flatMap(({ pluginFormats }) => pluginFormats ?? []) ?? product.supportedFormats)];
+const price = (offer: typeof suspendedShopOffers[number]) => new Intl.NumberFormat(ja ? 'ja-JP' : 'en-US', {
+  style: 'currency', currency: offer.price.currency, maximumFractionDigits: 0,
+}).format(offer.price.amountMinor / 100);
 ---
 
 <section class="suspended-launch" data-suspended-product data-installers={JSON.stringify(installers)} aria-labelledby="product-title">
@@ -48,10 +57,9 @@ const installers = staging.length ? staging.map(({ name, url }) => ({ name, url,
         <table>
           <tbody>{suspendedShopOffers.map((offer) => <tr>
             <th scope="row">{offer.name[locale]}</th>
-            <td>{new Intl.NumberFormat(ja ? 'ja-JP' : 'en-US', { style: 'currency', currency: offer.price.currency, maximumFractionDigits: 0 }).format(offer.price.amountMinor / 100)}</td>
             <td>{suspendedCheckout.url && offer.paddlePriceId === suspendedCheckout.priceId
-              ? <a class="button shop-buy" href={purchasePage}>BUY</a>
-              : <span class="button shop-buy shop-buy-disabled" aria-disabled="true">BUY</span>}</td>
+              ? <a class="button shop-buy" href={purchasePage}>BUY <span>{price(offer)}</span></a>
+              : <span class="button shop-buy shop-buy-disabled" aria-disabled="true">BUY <span>{price(offer)}</span></span>}</td>
           </tr>)}</tbody>
         </table>
       </div>
@@ -60,6 +68,16 @@ const installers = staging.length ? staging.map(({ name, url }) => ({ name, url,
         <a class="download-primary" data-recommended-download href={downloadPage}><span class="shop-download-label"><img data-download-icon alt="" hidden /><span data-download-text>{ja ? 'インストーラーを選ぶ' : 'Choose an installer'}</span></span></a>
         <a class="shop-download-all" href={downloadPage}>{ja ? 'すべてのインストーラーとバージョンを見る' : 'All installers and versions'} →</a>
       </div>
+
+      <section class="shop-requirements" aria-labelledby="shop-requirements-title">
+        <h2 id="shop-requirements-title" class="eyebrow">{ja ? 'システム要件' : 'SYSTEM REQUIREMENTS'}</h2>
+        <table><tbody>
+          <tr><th scope="row">{ja ? '対応OS' : 'Operating system'}</th><td>{(platforms.length ? platforms : product.supportedPlatforms).join(' · ')}</td></tr>
+          <tr><th scope="row">{ja ? 'プラグイン形式' : 'Plug-in format'}</th><td>{(formats.length ? formats : product.supportedFormats).join(' · ')}</td></tr>
+          {shopProduct.release?.testedRequirements.map((claim) => <tr><th scope="row">{ja ? '動作確認' : 'Tested compatibility'}</th><td>{claim[locale]}</td></tr>)}
+        </tbody></table>
+        {!shopProduct.release && <p>{ja ? 'OSの最低バージョンと動作確認済みのホストは、正式リリース前に掲載します。' : 'Minimum OS versions and tested hosts will be listed before public release.'}</p>}
+      </section>
     </div>
     {shopProduct.media.hero && <img class="product-hero-image suspended-hero-image" src={shopProduct.media.hero} alt={ja ? 'SC Suspendedのパッケージ画像' : 'SC Suspended package artwork'} width="1200" height="1500" loading="eager" decoding="async" />}
   </div>

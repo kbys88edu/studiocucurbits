@@ -35,7 +35,10 @@ it('keeps drafts out of public output and renders the private sandbox offer', ()
     expect(product).toContain(locale ? 'Traces バンドル' : 'Traces bundle');
     expect(product).toContain('$99');
     expect(product).not.toContain('<thead>');
-    expect(product).toContain('>BUY</');
+    expect(product).toContain('BUY <span>$29</span>');
+    expect(product).toContain('BUY <span>$99</span>');
+    expect(product).toContain(locale ? 'システム要件' : 'SYSTEM REQUIREMENTS');
+    expect(product).toContain(locale ? '対応OS' : 'Operating system');
     expect(product).toContain('data-recommended-download');
     expect(product).not.toContain('data-paddle-token');
     expect(purchase).toContain(`data-paddle-token="${token}"`);
