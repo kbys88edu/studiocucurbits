@@ -67,7 +67,7 @@ const price = (offer: typeof suspendedShopOffers[number]) => new Intl.NumberForm
             <p class="shop-offer-name">{offer.name[locale]}</p>
             <p class="shop-offer-terms">{ja ? '買い切り（サブスクリプションなし）・パソコン3台まで' : 'One-time payment · up to 3 computers'}</p>
             {suspendedCheckout.url && offer.paddlePriceId === suspendedCheckout.priceId
-              ? <a class="shop-buy-band" href={purchasePage}>{ja ? '購入する' : 'Buy licence'} <span>{price(offer)}</span></a>
+              ? <a class="shop-buy-band" href={purchasePage} data-suspended-event="click_suspended_buy">{ja ? '購入する' : 'Buy licence'} <span>{price(offer)}</span></a>
               : <span class="shop-buy-band shop-buy-disabled" aria-disabled="true">{ja ? '購入する' : 'Buy licence'} <span>{price(offer)}</span></span>}
           </div>)}</div>
         </section>}

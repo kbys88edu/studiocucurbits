@@ -13,12 +13,14 @@ export default defineConfig({
     {
       command: 'npm run dev -- --config astro.playwright.config.mjs --host 127.0.0.1 --port 49283 --ignore-lock',
       url: 'http://127.0.0.1:49283/media-test/',
+      env: { ASTRO_DEV_BACKGROUND: '0' },
       reuseExistingServer: !process.env.CI,
     },
     {
       command: 'npm run dev -- --host 127.0.0.1 --port 49284 --ignore-lock',
       url: 'http://127.0.0.1:49284/',
-      env: { SUSPENDED_STAGING_INSTALLERS: JSON.stringify([
+      env: { ASTRO_DEV_BACKGROUND: '0', SITE_CATALOGUE_FILE: 'tests/fixtures/site-preview.v1.json',
+        SUSPENDED_STAGING_INSTALLERS: JSON.stringify([
         { name: 'Studio-Cucurbits-suspended-1.pkg', url: 'https://staging.example/Suspended.pkg', version: '1.2.3' },
         { name: 'studio-cucurbits-suspended_1_amd64.deb', url: 'https://staging.example/Suspended.deb', version: '1.2.3' },
         { name: 'studio-cucurbits-suspended-1-1.tar.zst', url: 'https://staging.example/Suspended.tar.zst', version: '1.2.3' },

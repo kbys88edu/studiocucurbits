@@ -73,8 +73,8 @@ for (const width of [360, 1440]) {
   test(`SC Suspended product page keeps its editorial order at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto(`${siteUrl}/products/suspended/`);
-    await expect(page.getByRole('heading', { name: 'SC SUSPENDED' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Hold a sound without stopping its time.' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'SUSPENDED', level: 1 })).toBeVisible();
+    await expect(page.getByText('Sound in suspension. A body still in motion.')).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
     expect(await page.locator('audio[autoplay], video[autoplay]').count()).toBe(0);
     await expect(page.getByText('Audio comparison in production')).toHaveCount(0);
@@ -84,6 +84,25 @@ for (const width of [360, 1440]) {
 
 test('Japanese SC Suspended page keeps the release copy localized', async ({ page }) => {
   await page.goto(`${siteUrl}/ja/products/suspended/`);
-  await expect(page.getByRole('heading', { name: '音を止めずに、その時間を留める。' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'SUSPENDED', level: 1 })).toBeVisible();
+  await expect(page.getByText('宙に留まる音。')).toBeVisible();
   await expect(page.getByText('Hear what stays in motion.')).toHaveCount(0);
 });
+
+test('shop pages: no horizontal scroll at 390px and Buy comes first in tab order', async ({ page }) => {
+  for (const path of ['/products/suspended/', '/ja/products/suspended/']) {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${siteUrl}${path}`);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+    const order = await page.$$eval('.shop-sheet a, .shop-sheet [aria-disabled]', (els) => els.map((e) => e.className));
+    expect(order[0]).toContain('shop-buy-band');
+  }
+});
+
+for (const path of ['/products/suspended/', '/ja/products/suspended/', '/purchase/suspended/', '/ja/purchase/suspended/']) {
+  test(`shop page has no serious or critical axe violations: ${path}`, async ({ page }) => {
+    await page.goto(`${siteUrl}${path}`);
+    const results = await new AxeBuilder({ page }).analyze();
+    expect(results.violations.filter(({ impact }) => impact === 'serious' || impact === 'critical')).toEqual([]);
+  });
+}

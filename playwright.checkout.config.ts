@@ -7,6 +7,6 @@ export default defineConfig({
     command: 'npm run dev -- --mode sandbox --host 127.0.0.1 --port 49398 --ignore-lock',
     url: 'http://127.0.0.1:49398/', reuseExistingServer: false,
     env: { ASTRO_DEV_BACKGROUND: '0', PADDLE_CHECKOUT_ENVIRONMENT: 'sandbox', PADDLE_CLIENT_TOKEN: `test_${'a'.repeat(27)}`,
-      DOWNLOAD_RELEASE_SNAPSHOT: 'null' },
+      DOWNLOAD_RELEASE_SNAPSHOT: 'null', SITE_CATALOGUE_FILE: 'tests/fixtures/site-preview.v1.json' },
   },
 });
